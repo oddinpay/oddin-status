@@ -72,15 +72,15 @@ var (
 	seed             = os.Getenv("NATS_SEED")
 	serverURL        = os.Getenv("NATS_URL")
 	userAgent        = os.Getenv("USER_AGENT")
-	probeManagerOnce sync.Once
+	convexClient     = convex.NewClient(os.Getenv("CONVEX_DB_URL"), nil)
 	monitorStartTime = time.Now().UTC().Truncate(24 * time.Hour)
+	probeManagerOnce sync.Once
 	hr               = HealthResponse{Down: "down", Up: "up", Warn: "warn"}
 	nc               *nats.Conn
 	err              error
 	wg               sync.WaitGroup
 	js               jetstream.JetStream
 	kv               jetstream.KeyValue
-	convexClient     = convex.NewClient(os.Getenv("CONVEX_DB_URL"), nil)
 
 	targetCache = struct {
 		sync.RWMutex
