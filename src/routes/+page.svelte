@@ -25,10 +25,7 @@
   const badge = "Last updated";
   let ready = $state(false);
 
-  onMount(() => {
-    ready = true;
-    probeMap = {};
-  });
+  onMount(() => (ready = true));
   const clock = timer();
   const TOTAL_DAYS = 90;
   const today = new Date();
@@ -87,6 +84,7 @@
         : ((existing as any)?.__order ?? Number.POSITIVE_INFINITY);
 
       const nextProbe = {
+        ...(existing ?? {}),
         ...probe,
         uptime90: sla?.uptime90,
         __order: order,
@@ -207,7 +205,7 @@
     const unique = new Map<string, ApiData>();
     for (const p of probes) {
       if (!p || !p.id) continue;
-      unique.set(String(p.id), p);
+      unique.set(String(p.name), p);
     }
     const uniqueProbes = Array.from(unique.values());
 
