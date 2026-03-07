@@ -111,12 +111,8 @@ var httpClient = &http.Client{
 
 var slaTrackers = struct {
 	sync.Mutex
-	m      map[string]*SlidingSLA
-	cancel map[string]context.CancelFunc
-}{
-	m:      make(map[string]*SlidingSLA),
-	cancel: make(map[string]context.CancelFunc),
-}
+	m map[string]*SlidingSLA
+}{m: make(map[string]*SlidingSLA)}
 
 func fetchTargets(ctx context.Context) []HttpRequest {
 
@@ -683,37 +679,17 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 			targets := targetCache.targets
 			targetCache.RUnlock()
 
-			activeNames := make(map[string]bool)
 			for _, t := range targets {
-				activeNames[t.Name] = true
-			}
+				slaTrackers.Lock()
+				_, isRunning := slaTrackers.m[t.Name]
+				slaTrackers.Unlock()
 
-			slaTrackers.Lock()
-			for name, cancelFunc := range slaTrackers.cancel {
-				if !activeNames[name] {
-					slog.Info("Target renamed or deleted, pruning worker", "name", name)
-					cancelFunc() 
-					delete(slaTrackers.m, name)
-					delete(slaTrackers.cancel, name)
-
-					globalHub.Lock()
-					delete(globalHub.cache, name)
-					globalHub.Unlock()
-				}
-			}
-
-			for _, t := range targets {
-				if _, isRunning := slaTrackers.m[t.Name]; !isRunning {
+				if !isRunning {
 					slog.Info("New target detected, starting worker", "name", t.Name)
-
-					wCtx, wCancel := context.WithCancel(ctx)
-					slaTrackers.cancel[t.Name] = wCancel
-
 					wg.Add(1)
-					go startProbeWorker(wCtx, wg, t)
+					go startProbeWorker(ctx, wg, t)
 				}
 			}
-			slaTrackers.Unlock()
 
 			select {
 			case <-ctx.Done():
