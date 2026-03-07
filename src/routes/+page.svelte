@@ -631,17 +631,8 @@
 
   const allProps = $props() as RoadmapProps & Record<string, unknown>;
 
-  const {
-    sections: inputSections,
-    data,
-    status,
-    features,
-    cover,
-    ..._
-  } = allProps;
-
-  const submitMonitors = $derived(data?.monitors);
-  const miniMonitors = $derived(data?.miniMonitors);
+  const submitMonitors = $derived(allProps.data?.monitors);
+  const miniMonitors = $derived(allProps.data?.miniMonitors);
 
   $effect(() => {
     console.log("Data prop:", submitMonitors);
