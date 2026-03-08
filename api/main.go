@@ -61,8 +61,8 @@ const (
 	HeaderAllowMethods = "Access-Control-Allow-Methods"
 	HeaderAllowHeaders = "Access-Control-Allow-Headers"
 
-	defaultTimeout = 8 * time.Second
-	minutes90d     = 90
+	defaultTimeout = 12 * time.Second
+	days90         = 90
 )
 
 // ----------- DB / CACHE CONNECTIONS -----------
@@ -496,7 +496,7 @@ func NewSlidingSLA(target float64) *SlidingSLA {
 	now := time.Now()
 	return &SlidingSLA{
 		Target:        target,
-		buckets:       make([]bucket, minutes90d),
+		buckets:       make([]bucket, days90),
 		currentMinute: now.Truncate(24 * time.Hour),
 		lastUpdate:    now,
 	}
@@ -514,21 +514,18 @@ func (s *SlidingSLA) rotateTo(now time.Time) {
 	if !minNow.After(s.currentMinute) {
 		return
 	}
-	steps := int(minNow.Sub(s.currentMinute) / 24 * time.Hour)
-	if steps > minutes90d {
+	days := int(minNow.Sub(s.currentMinute).Hours() / 24)
+
+	if days >= days90 {
 		for i := range s.buckets {
 			s.buckets[i] = bucket{}
 		}
 		s.idx = 0
-		s.currentMinute = minNow
-		return
-	}
-	for range steps {
-		s.idx++
-		if s.idx >= len(s.buckets) {
-			s.idx = 0
+	} else {
+		for i := 0; i < days; i++ {
+			s.idx = (s.idx + 1) % days90
+			s.buckets[s.idx] = bucket{}
 		}
-		s.buckets[s.idx] = bucket{}
 	}
 	s.currentMinute = minNow
 }
