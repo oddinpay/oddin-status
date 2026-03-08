@@ -802,11 +802,9 @@ func StatusHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set(HeaderContentType, ContentTypeJSON)
 
-	targetCache.RLock()
-	count := len(targetCache.targets)
-	targetCache.RUnlock()
+	monitors := fetchTargets(context.Background())	
 
-	hasMonitors := count > 0
+	hasMonitors := len(monitors) > 0
 
 	response := map[string]bool{
 		"monitors":     hasMonitors,
