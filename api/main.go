@@ -804,6 +804,7 @@ func StatusHandler(w http.ResponseWriter, r *http.Request) {
 
 	var hasMonitors bool
 	var miniMonitors bool
+
 	if len(fetchTargets(context.Background())) == 0 {
 		hasMonitors = false
 	} else {
