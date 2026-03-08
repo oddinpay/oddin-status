@@ -59,12 +59,7 @@
   const beepHost = env.PUBLIC_ODDIN_HOST;
   const json = source(`https://${beepHost}/v1/sse`).select("").json<ApiData>();
 
-  type Buffered = {
-    probe?: ApiData;
-    sla?: any;
-    index?: number;
-    deleted?: boolean;
-  };
+  type Buffered = { probe: ApiData; sla?: any; index?: number };
 
   const pending = new Map<string, Buffered>();
   let flushTimer: ReturnType<typeof setTimeout> | null = null;
@@ -83,17 +78,13 @@
 
     const nextMap: Record<string, ApiData> = { ...probeMap };
 
-    for (const [id, { probe, sla, index, deleted }] of pending) {
+    for (const [id, { probe, sla, index }] of pending) {
       const stringId = String(id);
-
-      if (deleted) {
-        delete nextMap[stringId];
-        continue;
-      }
 
       Object.keys(nextMap).forEach((key) => {
         const isSameOrder = nextMap[key].__order === index;
         const isOldId = key !== stringId;
+
         if (isSameOrder && isOldId) {
           delete nextMap[key];
         }
