@@ -807,11 +807,10 @@ func StatusHandler(w http.ResponseWriter, r *http.Request) {
 	targetCache.RUnlock()
 
 	hasMonitors := count > 0
-	miniMonitors := count >= 3
 
 	response := map[string]bool{
 		"monitors":     hasMonitors,
-		"miniMonitors": miniMonitors,
+		"miniMonitors": true,
 	}
 
 	respJSON, err := json.MarshalIndent(response, "", "  ")
