@@ -38,7 +38,6 @@
 			}
 			if (f.valid) {
 				await new Promise((r) => setTimeout(r, 500));
-				console.log('Form data:', f.data);
 				if (profileImageHandler.files?.length) {
 					const file = profileImageHandler.files[0];
 					const reader = new FileReader();
@@ -46,7 +45,6 @@
 						const result = reader.result;
 						if (typeof result === 'string') {
 							profileImageBase64 = result.split(',')[1];
-							console.log('base64 payload inside:', profileImageBase64);
 						}
 					};
 					reader.readAsDataURL(file);
@@ -204,7 +202,7 @@
 							>{#if $submitting}
 								<Loader2 class="size-4 animate-spin" />
 							{:else}
-								Save	
+								Save
 							{/if}
 						</Form.Button>
 					</form>

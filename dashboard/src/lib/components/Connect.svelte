@@ -11,7 +11,6 @@
 
 	function handleSubmit(event: Event) {
 		event.preventDefault();
-		console.log('API URL submitted:', apiUrl);
 	}
 
 	let status = $state('error');

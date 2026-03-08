@@ -29,7 +29,6 @@
 
 	function handleOnSubmit(e: Event) {
 		e.preventDefault();
-		console.log('Submitted form data:', { name, value, note: bioLimit.value });
 	}
 
 	const selected = $derived(incidents.find((i) => i.value === value));

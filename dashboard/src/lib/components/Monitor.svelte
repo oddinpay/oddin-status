@@ -32,7 +32,6 @@
 
 	function handleOnSubmit(e: Event) {
 		e.preventDefault();
-		console.log('Submitted form data:', { name, value, interval, url, host });
 	}
 
 	const triggerContent = $derived(

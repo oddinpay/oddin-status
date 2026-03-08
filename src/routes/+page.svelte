@@ -634,10 +634,8 @@
   const submitMonitors = $derived(allProps.data?.monitors);
   const miniMonitors = $derived(allProps.data?.miniMonitors);
 
-  $effect(() => {
-    console.log("Data prop:", submitMonitors);
-    console.log("Mini monitors prop:", miniMonitors);
-  });
+  // $effect(() => {
+  // });
 
   function setOverflow(_node: HTMLElement) {
     if (window.matchMedia && window.matchMedia("(min-width: 1279px)").matches) {
@@ -648,10 +646,7 @@
   let activeTab = $state("tab-1");
   let direction = $state<"right" | "left">("right");
 
-  $effect(() => {
-    console.log("Active tab is now:", activeTab);
-    console.log("Direction is now:", direction);
-  });
+  // $effect(() => {});
 
   const tabsOrder = ["tab-1", "tab-2"];
 
