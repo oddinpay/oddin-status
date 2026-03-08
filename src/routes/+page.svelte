@@ -1144,7 +1144,7 @@
                           <span
                             class={activeTab === t
                               ? "text-black font-semibold"
-                              : "text-gray-400 font-semibold"}>Live status</span
+                              : "text-gray-500 font-semibold"}>Live status</span
                           >
                         {:else if i === 1}
                           <span
