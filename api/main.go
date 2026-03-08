@@ -802,13 +802,14 @@ func StatusHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set(HeaderContentType, ContentTypeJSON)
 
-	monitors := fetchTargets(context.Background())	
+	monitors := fetchTargets(context.Background())
 
 	hasMonitors := len(monitors) > 0
+	miniMonitors := len(monitors) > 3
 
 	response := map[string]bool{
 		"monitors":     hasMonitors,
-		"miniMonitors": true,
+		"miniMonitors": miniMonitors,
 	}
 
 	respJSON, err := json.MarshalIndent(response, "", "  ")
