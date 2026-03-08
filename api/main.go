@@ -513,18 +513,21 @@ func (s *SlidingSLA) rotateTo(now time.Time) {
 	if !minNow.After(s.currentMinute) {
 		return
 	}
-	days := int(minNow.Sub(s.currentMinute).Hours() / 24)
-
-	if days >= days90 {
+	steps := int(minNow.Sub(s.currentMinute) / 24 * time.Hour)
+	if steps > days90 {
 		for i := range s.buckets {
 			s.buckets[i] = bucket{}
 		}
 		s.idx = 0
-	} else {
-		for i := 0; i < days; i++ {
-			s.idx = (s.idx + 1) % days90
-			s.buckets[s.idx] = bucket{}
+		s.currentMinute = minNow
+		return
+	}
+	for range steps {
+		s.idx++
+		if s.idx >= len(s.buckets) {
+			s.idx = 0
 		}
+		s.buckets[s.idx] = bucket{}
 	}
 	s.currentMinute = minNow
 }
