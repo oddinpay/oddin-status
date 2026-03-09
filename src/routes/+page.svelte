@@ -432,64 +432,64 @@
   }
 
   let incidents: Incident[] = [
-    {
-      title: "Elevated iDeal errors",
-      entries: [
-        {
-          time: "Sep 22, 2025 13:05 UTC",
-          status: Indicators.Investigating,
-          description:
-            "We are investigating reports of increased errors on iDeal payments.",
-        },
-        {
-          time: "Sep 22, 2025 20:14 UTC",
-          status: Indicators.Identified,
-          description:
-            "From 13:05–19:15 UTC, we saw elevated errors on iDeal payments. This is now resolved.",
-        },
-        {
-          time: "Sep 22, 2025 12:45 UTC",
-          status: Indicators.Inprogress,
-          description:
-            "We are investigating reports of increased errors on iDeal payments.",
-        },
-        {
-          time: "Sep 22, 2025 19:15 UTC",
-          status: Indicators.Resolved,
-          description:
-            "From 13:05–19:15 UTC, we saw elevated errors on iDeal payments. This is now resolved.",
-        },
-      ],
-    },
-    {
-      title: "Payment errors",
-      entries: [
-        {
-          time: "Sep 22, 2025 13:05 UTC",
-          status: Indicators.Investigating,
-          description:
-            "We are investigating reports of increased errors on iDeal payments.",
-        },
-        {
-          time: "Sep 22, 2025 12:45 UTC",
-          status: Indicators.Inprogress,
-          description:
-            "We are investigating reports of increased errors on iDeal payments.",
-        },
-        {
-          time: "Sep 22, 2025 13:05 UTC",
-          status: Indicators.Identified,
-          description:
-            "We are identifying reports of increased errors on iDeal payments.",
-        },
-        {
-          time: "Sep 22, 2025 20:14 UTC",
-          status: Indicators.Resolved,
-          description:
-            "From 13:05–19:15 UTC, we saw elevated errors on iDeal payments. This is now resolved.",
-        },
-      ],
-    },
+    // {
+    //   title: "Elevated iDeal errors",
+    //   entries: [
+    //     {
+    //       time: "Sep 22, 2025 13:05 UTC",
+    //       status: Indicators.Investigating,
+    //       description:
+    //         "We are investigating reports of increased errors on iDeal payments.",
+    //     },
+    //     {
+    //       time: "Sep 22, 2025 20:14 UTC",
+    //       status: Indicators.Identified,
+    //       description:
+    //         "From 13:05–19:15 UTC, we saw elevated errors on iDeal payments. This is now resolved.",
+    //     },
+    //     {
+    //       time: "Sep 22, 2025 12:45 UTC",
+    //       status: Indicators.Inprogress,
+    //       description:
+    //         "We are investigating reports of increased errors on iDeal payments.",
+    //     },
+    //     {
+    //       time: "Sep 22, 2025 19:15 UTC",
+    //       status: Indicators.Resolved,
+    //       description:
+    //         "From 13:05–19:15 UTC, we saw elevated errors on iDeal payments. This is now resolved.",
+    //     },
+    //   ],
+    // },
+    // {
+    //   title: "Payment errors",
+    //   entries: [
+    //     {
+    //       time: "Sep 22, 2025 13:05 UTC",
+    //       status: Indicators.Investigating,
+    //       description:
+    //         "We are investigating reports of increased errors on iDeal payments.",
+    //     },
+    //     {
+    //       time: "Sep 22, 2025 12:45 UTC",
+    //       status: Indicators.Inprogress,
+    //       description:
+    //         "We are investigating reports of increased errors on iDeal payments.",
+    //     },
+    //     {
+    //       time: "Sep 22, 2025 13:05 UTC",
+    //       status: Indicators.Identified,
+    //       description:
+    //         "We are identifying reports of increased errors on iDeal payments.",
+    //     },
+    //     {
+    //       time: "Sep 22, 2025 20:14 UTC",
+    //       status: Indicators.Resolved,
+    //       description:
+    //         "From 13:05–19:15 UTC, we saw elevated errors on iDeal payments. This is now resolved.",
+    //     },
+    //   ],
+    // },
   ];
 
   const statusPriority = new Map<Indicator, number>([
