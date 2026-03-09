@@ -108,7 +108,9 @@
     pending.clear();
 
     const sortedEntries = Object.entries(nextMap).sort(
-      ([, a], [, b]) => (a.__order ?? 999) - (b.__order ?? 999),
+      ([, a], [, b]) =>
+        (a.__order ?? Number.POSITIVE_INFINITY) -
+        (b.__order ?? Number.POSITIVE_INFINITY),
     );
 
     probeMap = Object.fromEntries(sortedEntries) as ProbeMap;
