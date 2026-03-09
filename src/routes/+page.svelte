@@ -130,7 +130,6 @@
   });
 
   type ProbeMap = Record<string, ApiData>;
-
   let probeMap = $state<ProbeMap>({});
 
   // const statusStore = localStore<StatusType[]>('status', []);
