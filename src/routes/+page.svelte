@@ -118,6 +118,22 @@
     const probe = msg?.payload?.probe;
     const sla = msg?.payload?.sla;
     const index = msg?.index;
+
+    // DELETE EVENT
+    if (msg?.deleted && probe?.name) {
+      const nextMap: Record<string, ApiData> = { ...probeMap };
+
+      Object.keys(nextMap).forEach((key) => {
+        if (nextMap[key].name === probe.name) {
+          delete nextMap[key];
+        }
+      });
+
+      probeMap = nextMap;
+      return;
+    }
+
+    // normal updates
     if (!probe?.id) return;
 
     pending.set(probe.id, { probe, sla, index });
