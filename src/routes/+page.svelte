@@ -2,7 +2,6 @@
   import { Button } from "$lib/components/ui/button/index.js";
   import Buttong from "$lib/components/Buttong.svelte";
   import Footer from "$lib/components/Footer.svelte";
-  import { writable } from "svelte/store";
   import {
     Tabs,
     TabsContent,
@@ -66,11 +65,6 @@
     index?: number;
   };
 
-  type ProbeMap = Record<string, ApiData>;
-
-  export const probeMapStore = writable<ProbeMap>({});
-
-  let probeMap: ProbeMap = {};
   const pending = new Map<string, Buffered>();
   let flushTimer: ReturnType<typeof setTimeout> | null = null;
   const FLUSH_DELAY = 50;
@@ -110,9 +104,6 @@
     );
 
     probeMap = Object.fromEntries(sortedEntries) as ProbeMap;
-
-    probeMapStore.set(probeMap);
-
     pending.clear();
   }
 
@@ -123,9 +114,11 @@
     if (!probe?.id) return;
 
     pending.set(probe.id, { probe, sla, index });
-
     scheduleFlush();
   });
+
+  type ProbeMap = Record<string, ApiData>;
+  let probeMap = $state<ProbeMap>({});
 
   // const statusStore = localStore<StatusType[]>('status', []);
 
