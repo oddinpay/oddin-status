@@ -59,11 +59,7 @@
   const beepHost = env.PUBLIC_ODDIN_HOST;
   const json = source(`https://${beepHost}/v1/sse`).select("").json<ApiData>();
 
-  type Buffered = {
-    probe: ApiData | null;
-    sla?: any;
-    index?: number;
-  };
+  type Buffered = { probe: ApiData; sla?: any; index?: number };
 
   const pending = new Map<string, Buffered>();
   let flushTimer: ReturnType<typeof setTimeout> | null = null;
@@ -78,38 +74,44 @@
   }
 
   function flushPending() {
-    if (pending.size === 0) return;
+    if (!pending.size) return;
 
-    const nextMap = { ...probeMap };
+    const nextMap: Record<string, ApiData> = { ...probeMap };
 
-    pending.forEach((update, id) => {
+    const activeIds = new Set<string>();
+
+    for (const [id, { probe, sla, index }] of pending) {
       const stringId = String(id);
+      activeIds.add(stringId);
 
-      if (update.probe === null) {
-        delete nextMap[stringId];
-      } else {
-        const existing = nextMap[stringId] || {};
+      const existing = nextMap[stringId];
 
-        const order = Number.isFinite(update.index)
-          ? update.index
-          : (existing.__order ?? Number.MAX_SAFE_INTEGER);
+      const order = Number.isFinite(index)
+        ? index
+        : ((existing as any)?.__order ?? Number.POSITIVE_INFINITY);
 
-        nextMap[stringId] = {
-          ...existing,
-          ...update.probe,
-          uptime90: update.sla?.uptime90 ?? existing.uptime90,
-          __order: order,
-        };
+      nextMap[stringId] = {
+        ...(existing ?? {}),
+        ...probe,
+        uptime90: sla?.uptime90 ?? existing?.uptime90,
+        __order: order,
+      };
+    }
+
+    Object.keys(nextMap).forEach((id) => {
+      if (!activeIds.has(id) && !pending.has(id)) {
+        delete nextMap[id];
       }
     });
 
     pending.clear();
 
-    const sorted = Object.entries(nextMap).sort(
-      ([, a], [, b]) => (a.__order ?? 999) - (b.__order ?? 999),
+    const sortedEntries = Object.entries(nextMap).sort(
+      ([, a], [, b]) =>
+        ((a as any).__order ?? 999) - ((b as any).__order ?? 999),
     );
 
-    probeMap = Object.fromEntries(sorted);
+    probeMap = Object.fromEntries(sortedEntries) as ProbeMap;
   }
 
   json.subscribe((msg: any) => {
