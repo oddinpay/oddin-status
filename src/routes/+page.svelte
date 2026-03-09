@@ -48,12 +48,12 @@
     name?: string;
     date?: string | Date;
     state?: string;
+    __order?: number;
     statuses: StatusEntry[];
     uptime15: string;
     uptime30: string;
     uptime60: string;
     uptime90: string;
-    __order?: number;
   }
 
   const beepHost = env.PUBLIC_ODDIN_HOST;
