@@ -80,20 +80,17 @@
 
     for (const [id, { probe, sla, index }] of pending) {
       const stringId = String(id);
-
-      Object.keys(nextMap).forEach((key) => {
-        const isSameOrder = nextMap[key].__order === index;
-        const isOldId = key !== stringId;
-
-        if (isSameOrder && isOldId) {
-          delete nextMap[key];
-        }
-      });
-
-      const existing = nextMap[stringId];
       const order = Number.isFinite(index)
         ? index
-        : ((existing as any)?.__order ?? Number.POSITIVE_INFINITY);
+        : ((nextMap[stringId] as any)?.__order ?? Number.POSITIVE_INFINITY);
+
+      for (const key of Object.keys(nextMap)) {
+        if (key !== stringId && (nextMap[key] as any).__order === order) {
+          delete nextMap[key];
+        }
+      }
+
+      const existing = nextMap[stringId];
 
       nextMap[stringId] = {
         ...(existing ?? {}),
