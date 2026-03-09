@@ -1441,7 +1441,7 @@
                       {:else if i === 1}
                         {#if incidents.length === 0 && maintenances.length === 0}
                           <p
-                            class="p-10 text-gray-600 text-center"
+                            class="p-10 text-black text-center"
                             style="font-size: 16px"
                           >
                             No historical incidents available.
