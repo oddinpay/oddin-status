@@ -60,14 +60,6 @@
   const beepHost = env.PUBLIC_ODDIN_HOST;
   const json = source(`https://${beepHost}/v1/sse`).select("").json<ApiData>();
 
-  type Buffered = {
-    probe: ApiData;
-    sla?: any;
-    index?: number;
-  };
-
-  const pending = new Map<string, Buffered>();
-
   json.subscribe((msg: any) => {
     const probe = msg?.payload?.probe;
     const sla = msg?.payload?.sla;
