@@ -62,53 +62,6 @@
   type Buffered = { probe: ApiData; sla?: any; index?: number };
 
   const pending = new Map<string, Buffered>();
-  let flushTimer: ReturnType<typeof setTimeout> | null = null;
-  const FLUSH_DELAY = 50;
-
-  function scheduleFlush() {
-    if (flushTimer) return;
-    flushTimer = setTimeout(() => {
-      flushTimer = null;
-      flushPending();
-    }, FLUSH_DELAY);
-  }
-
-  function flushPending() {
-    if (!pending.size) return;
-
-    const nextMap: Record<string, ApiData> = { ...probeMap };
-
-    for (const [id, { probe, sla, index }] of pending) {
-      const stringId = String(id);
-      const order = Number.isFinite(index)
-        ? index
-        : ((nextMap[stringId] as any)?.__order ?? Number.POSITIVE_INFINITY);
-
-      for (const key of Object.keys(nextMap)) {
-        if (key !== stringId && (nextMap[key] as any).__order === order) {
-          delete nextMap[key];
-        }
-      }
-
-      const existing = nextMap[stringId];
-
-      nextMap[stringId] = {
-        ...(existing ?? {}),
-        ...probe,
-        uptime90: sla?.uptime90 ?? (existing as any)?.uptime90,
-        __order: order,
-      };
-    }
-
-    pending.clear();
-
-    const sortedEntries = Object.entries(nextMap).sort(
-      ([, a], [, b]) =>
-        ((a as any).__order ?? 999) - ((b as any).__order ?? 999),
-    );
-
-    probeMap = Object.fromEntries(sortedEntries) as ProbeMap;
-  }
 
   json.subscribe((msg: any) => {
     const probe = msg?.payload?.probe;
@@ -117,8 +70,6 @@
     if (!probe?.id) return;
 
     pending.set(probe.id, { probe, sla, index });
-
-    scheduleFlush();
   });
 
   type ProbeMap = Record<string, ApiData>;
