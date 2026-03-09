@@ -81,6 +81,11 @@
     for (const [id, { probe, sla, index }] of pending) {
       const stringId = String(id);
 
+      if (probe.state === "deleted") {
+        delete nextMap[stringId];
+        continue;
+      }
+
       Object.keys(nextMap).forEach((key) => {
         const isSameOrder = nextMap[key].__order === index;
         const isOldId = key !== stringId;
@@ -119,20 +124,6 @@
     const sla = msg?.payload?.sla;
     const index = msg?.index;
     if (!probe?.id) return;
-
-    // DELETE
-    if (msg?.deleted && probe?.name) {
-      const nextMap: Record<string, ApiData> = { ...probeMap };
-
-      Object.keys(nextMap).forEach((key) => {
-        if (nextMap[key].name === probe.name) {
-          delete nextMap[key];
-        }
-      });
-
-      probeMap = nextMap;
-      return;
-    }
 
     pending.set(probe.id, { probe, sla, index });
 
