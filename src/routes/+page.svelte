@@ -81,11 +81,6 @@
     for (const [id, { probe, sla, index }] of pending) {
       const stringId = String(id);
 
-      if (probe.state === "deleted") {
-        delete nextMap[stringId];
-        continue;
-      }
-
       Object.keys(nextMap).forEach((key) => {
         const isSameOrder = nextMap[key].__order === index;
         const isOldId = key !== stringId;
@@ -123,10 +118,26 @@
     const probe = msg?.payload?.probe;
     const sla = msg?.payload?.sla;
     const index = msg?.index;
+
+    if (msg?.deleted && probe?.name) {
+      Object.keys(probeMap).forEach((key) => {
+        if (probeMap[key].name === probe.name) {
+          delete probeMap[key];
+        }
+      });
+
+      pending.forEach((_, key) => {
+        if (pending.get(key)?.probe.name === probe.name) {
+          pending.delete(key);
+        }
+      });
+
+      return;
+    }
+
     if (!probe?.id) return;
 
     pending.set(probe.id, { probe, sla, index });
-
     scheduleFlush();
   });
 
