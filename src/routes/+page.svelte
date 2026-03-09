@@ -215,7 +215,7 @@
     const unique = new Map<string, ApiData>();
     for (const p of probes) {
       if (!p || !p.id) continue;
-      unique.set(String(p.name), p);
+      unique.set(String(p.id), p);
     }
     const uniqueProbes = Array.from(unique.values());
 
@@ -270,7 +270,7 @@
 
     for (const p of probes) {
       if (!p) continue;
-      unique.set(String(p.name), p);
+      unique.set(String(p.id), p);
       let id = String((p as any).id ?? "");
       if (!id) continue;
     }
