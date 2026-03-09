@@ -78,14 +78,19 @@
 
     const nextMap: Record<string, ApiData> = { ...probeMap };
 
-    const activeIds = new Set<string>();
-
     for (const [id, { probe, sla, index }] of pending) {
       const stringId = String(id);
-      activeIds.add(stringId);
+
+      Object.keys(nextMap).forEach((key) => {
+        const isSameOrder = nextMap[key].__order === index;
+        const isOldId = key !== stringId;
+
+        if (isSameOrder && isOldId) {
+          delete nextMap[key];
+        }
+      });
 
       const existing = nextMap[stringId];
-
       const order = Number.isFinite(index)
         ? index
         : ((existing as any)?.__order ?? Number.POSITIVE_INFINITY);
@@ -93,16 +98,10 @@
       nextMap[stringId] = {
         ...(existing ?? {}),
         ...probe,
-        uptime90: sla?.uptime90 ?? existing?.uptime90,
+        uptime90: sla?.uptime90 ?? (existing as any)?.uptime90,
         __order: order,
       };
     }
-
-    Object.keys(nextMap).forEach((id) => {
-      if (!activeIds.has(id) && !pending.has(id)) {
-        delete nextMap[id];
-      }
-    });
 
     pending.clear();
 
@@ -215,7 +214,7 @@
     const unique = new Map<string, ApiData>();
     for (const p of probes) {
       if (!p || !p.id) continue;
-      unique.set(String(p.id), p);
+      unique.set(String(p.name), p);
     }
     const uniqueProbes = Array.from(unique.values());
 
@@ -270,7 +269,7 @@
 
     for (const p of probes) {
       if (!p) continue;
-      unique.set(String(p.id), p);
+      unique.set(String(p.name), p);
       let id = String((p as any).id ?? "");
       if (!id) continue;
     }
