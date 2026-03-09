@@ -91,17 +91,16 @@
 
     for (const [id, { probe, sla, index }] of pending) {
       const stringId = String(id);
-      const existing = nextMap[stringId] ?? {};
+      const existing = nextMap[stringId];
 
       const order = Number.isFinite(index)
         ? index
-        : (existing.__order ?? Number.POSITIVE_INFINITY);
+        : (existing?.__order ?? Number.POSITIVE_INFINITY);
 
       nextMap[stringId] = {
-        ...existing,
-        ...(probe.name !== undefined ? { name: probe.name } : {}),
-        ...(probe.state !== undefined ? { state: probe.state } : {}),
-        uptime90: sla?.uptime90 ?? existing.uptime90,
+        ...(existing ?? {}),
+        ...probe,
+        uptime90: sla?.uptime90 ?? existing?.uptime90,
         __order: order,
       };
     }
