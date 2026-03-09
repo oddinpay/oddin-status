@@ -87,7 +87,6 @@
     }
 
     probeMap = nextMap;
-
     pending.clear();
   }
 
