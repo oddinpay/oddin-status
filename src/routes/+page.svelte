@@ -65,9 +65,6 @@
   let flushTimer: ReturnType<typeof setTimeout> | null = null;
   const FLUSH_DELAY = 50;
 
-  const seenIdsInBatch = new Set<string>();
-  let batchStarted = false;
-
   function scheduleFlush() {
     if (flushTimer) return;
     flushTimer = setTimeout(() => {
@@ -81,22 +78,17 @@
 
     const nextMap: Record<string, ApiData> = { ...probeMap };
 
-    const orderToKey = new Map<number, string>();
-    for (const [key, val] of Object.entries(nextMap)) {
-      const o = (val as any).__order;
-      if (Number.isFinite(o)) orderToKey.set(o, key);
-    }
-
     for (const [id, { probe, sla, index }] of pending) {
       const stringId = String(id);
 
-      if (Number.isFinite(index)) {
-        const occupant = orderToKey.get(index!);
-        if (occupant && occupant !== stringId) {
-          delete nextMap[occupant];
-          orderToKey.delete(index!);
+      Object.keys(nextMap).forEach((key) => {
+        const isSameOrder = nextMap[key].__order === index;
+        const isOldId = key !== stringId;
+
+        if (isSameOrder && isOldId) {
+          delete nextMap[key];
         }
-      }
+      });
 
       const existing = nextMap[stringId];
       const order = Number.isFinite(index)
@@ -109,21 +101,9 @@
         uptime90: sla?.uptime90 ?? (existing as any)?.uptime90,
         __order: order,
       };
-
-      if (Number.isFinite(order)) orderToKey.set(order as number, stringId);
-    }
-
-    if (batchStarted) {
-      for (const key of Object.keys(nextMap)) {
-        if (!seenIdsInBatch.has(key)) {
-          delete nextMap[key];
-        }
-      }
     }
 
     pending.clear();
-    seenIdsInBatch.clear();
-    batchStarted = false;
 
     const sortedEntries = Object.entries(nextMap).sort(
       ([, a], [, b]) =>
@@ -139,12 +119,8 @@
     const index = msg?.index;
     if (!probe?.id) return;
 
-    const stringId = String(probe.id);
+    pending.set(probe.id, { probe, sla, index });
 
-    seenIdsInBatch.add(stringId);
-    batchStarted = true;
-
-    pending.set(stringId, { probe, sla, index });
     scheduleFlush();
   });
 
