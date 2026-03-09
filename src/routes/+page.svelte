@@ -62,9 +62,11 @@
   type Buffered = { probe: ApiData; sla?: any; index?: number };
 
   const pending = new Map<string, Buffered>();
-  const pendingDeletes = new Set<string>();
   let flushTimer: ReturnType<typeof setTimeout> | null = null;
   const FLUSH_DELAY = 50;
+
+  const seenIdsInBatch = new Set<string>();
+  let batchStarted = false;
 
   function scheduleFlush() {
     if (flushTimer) return;
@@ -75,14 +77,9 @@
   }
 
   function flushPending() {
-    if (!pending.size && !pendingDeletes.size) return;
+    if (!pending.size) return;
 
     const nextMap: Record<string, ApiData> = { ...probeMap };
-
-    for (const id of pendingDeletes) {
-      delete nextMap[id];
-    }
-    pendingDeletes.clear();
 
     const orderToKey = new Map<number, string>();
     for (const [key, val] of Object.entries(nextMap)) {
@@ -116,7 +113,17 @@
       if (Number.isFinite(order)) orderToKey.set(order as number, stringId);
     }
 
+    if (batchStarted) {
+      for (const key of Object.keys(nextMap)) {
+        if (!seenIdsInBatch.has(key)) {
+          delete nextMap[key];
+        }
+      }
+    }
+
     pending.clear();
+    seenIdsInBatch.clear();
+    batchStarted = false;
 
     const sortedEntries = Object.entries(nextMap).sort(
       ([, a], [, b]) =>
@@ -132,8 +139,12 @@
     const index = msg?.index;
     if (!probe?.id) return;
 
-    pending.set(probe.id, { probe, sla, index });
+    const stringId = String(probe.id);
 
+    seenIdsInBatch.add(stringId);
+    batchStarted = true;
+
+    pending.set(stringId, { probe, sla, index });
     scheduleFlush();
   });
 
