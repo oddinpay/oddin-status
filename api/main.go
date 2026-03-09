@@ -678,29 +678,6 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 			targetCache.RUnlock()
 
 			slaTrackers.Lock()
-			if len(targets) == 0 && len(slaTrackers.m) > 0 {
-				slog.Info("All targets removed from Convex. Clearing frontend.")
-
-				clearMap := make(map[string]StatusPayload)
-				for name := range slaTrackers.m {
-					if cancel, ok := probeCancels[name]; ok {
-						cancel()
-						delete(probeCancels, name)
-					}
-					clearMap[name] = StatusPayload{
-						Probe: ProbeResult{Id: "DELETED", Name: name},
-					}
-					kv.Delete(ctx, name)
-				}
-
-				slaTrackers.m = make(map[string]*SlidingSLA)
-				globalHub.Broadcast(clearMap)
-				slaTrackers.Unlock()
-				goto wait
-			}
-			slaTrackers.Unlock()
-
-			slaTrackers.Lock()
 			for name := range slaTrackers.m {
 				found := false
 				for _, t := range targets {
@@ -711,15 +688,20 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 				}
 
 				if !found {
-					slog.Info("Target deleted from Convex", "name", name)
+					slog.Info("Target deleted from Convex, stopping worker", "name", name)
+
 					if cancel, ok := probeCancels[name]; ok {
 						cancel()
 						delete(probeCancels, name)
 					}
+
 					delete(slaTrackers.m, name)
 					kv.Delete(ctx, name)
+
 					globalHub.Broadcast(map[string]StatusPayload{
-						name: {Probe: ProbeResult{Id: "DELETED", Name: name}},
+						name: {
+							Probe: ProbeResult{Id: "DELETED", Name: name},
+						},
 					})
 				}
 			}
@@ -731,15 +713,15 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 				slaTrackers.Unlock()
 
 				if !isRunning {
-					slog.Info("New target detected", "name", t.Name)
+					slog.Info("New target detected, starting worker", "name", t.Name)
 					probeCtx, cancel := context.WithCancel(ctx)
 					probeCancels[t.Name] = cancel
+
 					wg.Add(1)
 					go startProbeWorker(probeCtx, wg, t)
 				}
 			}
 
-		wait:
 			select {
 			case <-ctx.Done():
 				return
