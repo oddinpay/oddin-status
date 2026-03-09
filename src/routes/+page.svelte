@@ -76,43 +76,32 @@
   function flushPending() {
     if (pending.size === 0) return;
 
-    const nextMap: Record<string, any> = { ...probeMap };
+    // 1. Copy the current state
+    const nextMap = { ...probeMap };
 
-    const activeIds = new Set(Array.from(pending.keys()).map(String));
+    console.log("--- Starting Update ---");
 
-    console.log("--- Starting Flush ---");
-    console.log("Pending IDs to update:", Array.from(activeIds));
-
-    Object.keys(nextMap).forEach((existingId) => {
-      if (!activeIds.has(existingId)) {
-        console.log(`🗑️ Removing stale ID: ${existingId}`);
-        delete nextMap[existingId];
-      }
-    });
-
+    // 2. Process only the updates in 'pending'
     for (const [id, { probe, sla, index }] of pending) {
       const stringId = String(id);
 
-      Object.keys(nextMap).forEach((key) => {
-        if (nextMap[key].__order === index && key !== stringId) {
-          console.log(
-            `♻️ Replacing old ID ${key} at index ${index} with ${stringId}`,
-          );
-          delete nextMap[key];
-        }
-      });
-
+      // Get the existing data for this ID (if any)
       const existing = nextMap[stringId];
+
+      // 3. Update or Add the item
       nextMap[stringId] = {
         ...(existing ?? {}),
         ...probe,
         uptime90: sla?.uptime90 ?? existing?.uptime90,
+        // Use the new index, or keep the old order, or default to 999
         __order: Number.isFinite(index) ? index : (existing?.__order ?? 999),
       };
     }
 
+    // 4. Clear the queue
     pending.clear();
 
+    // 5. Sort the entire map by order and save
     const sortedEntries = Object.entries(nextMap).sort(
       ([, a], [, b]) => (a.__order ?? 999) - (b.__order ?? 999),
     );
@@ -120,7 +109,7 @@
     probeMap = Object.fromEntries(sortedEntries);
 
     console.log("Current Map IDs:", Object.keys(probeMap));
-    console.log("--- Flush Complete ---");
+    console.log("--- Update Complete ---");
   }
 
   json.subscribe((msg: any) => {
