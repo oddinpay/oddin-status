@@ -79,7 +79,7 @@
     const nextMap: Record<string, ApiData> = { ...probeMap };
 
     for (const [id, { probe, sla, index }] of pending) {
-      const stringId = String(id);
+      const stringId = String(probe.name);
 
       if (probe.id === "DELETED") {
         delete nextMap[stringId];
