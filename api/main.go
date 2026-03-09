@@ -690,15 +690,6 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 				if !found {
 					slog.Info("Target deleted from Convex, stopping worker", "name", name)
 
-					sendUpdateToConn(context.Background(), nil, map[string]StatusPayload{
-						name: {
-							Probe: ProbeResult{
-								Name:     name,
-								Protocol: "DELETED",
-							},
-						},
-					})
-
 					if cancel, ok := probeCancels[name]; ok {
 						cancel()
 						delete(probeCancels, name)
