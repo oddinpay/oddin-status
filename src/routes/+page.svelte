@@ -62,6 +62,7 @@
   type Buffered = { probe: ApiData; sla?: any; index?: number };
 
   const pending = new Map<string, Buffered>();
+  const pendingDeletes = new Set<string>(); // <-- add this
   let flushTimer: ReturnType<typeof setTimeout> | null = null;
   const FLUSH_DELAY = 50;
 
@@ -74,21 +75,34 @@
   }
 
   function flushPending() {
-    if (!pending.size) return;
+    if (!pending.size && !pendingDeletes.size) return;
 
     const nextMap: Record<string, ApiData> = { ...probeMap };
+
+    // First, apply explicit deletes
+    for (const id of pendingDeletes) {
+      delete nextMap[id];
+    }
+    pendingDeletes.clear();
+
+    // Build a reverse lookup: order -> current key
+    const orderToKey = new Map<number, string>();
+    for (const [key, val] of Object.entries(nextMap)) {
+      const o = (val as any).__order;
+      if (Number.isFinite(o)) orderToKey.set(o, key);
+    }
 
     for (const [id, { probe, sla, index }] of pending) {
       const stringId = String(id);
 
-      Object.keys(nextMap).forEach((key) => {
-        const isSameOrder = nextMap[key].__order === index;
-        const isOldId = key !== stringId;
-
-        if (isSameOrder && isOldId) {
-          delete nextMap[key];
+      // If a valid index is given, evict whatever currently holds that slot
+      if (Number.isFinite(index)) {
+        const occupant = orderToKey.get(index!);
+        if (occupant && occupant !== stringId) {
+          delete nextMap[occupant];
+          orderToKey.delete(index!);
         }
-      });
+      }
 
       const existing = nextMap[stringId];
       const order = Number.isFinite(index)
@@ -101,6 +115,8 @@
         uptime90: sla?.uptime90 ?? (existing as any)?.uptime90,
         __order: order,
       };
+
+      if (Number.isFinite(order)) orderToKey.set(order as number, stringId);
     }
 
     pending.clear();
