@@ -73,35 +73,31 @@
     }, FLUSH_DELAY);
   }
 
-  // 1. We'll use a Map to keep track of the last time we saw an ID
-  const lastSeenMap = new Map<string, number>();
-  const EXPIRATION_TIME = 5000; // 5 seconds (adjust as needed)
-
   function flushPending() {
-    if (pending.size === 0) {
-      // Even if no new data, we might need to cleanup old data
-      cleanupStaleProbes();
-      return;
-    }
+    if (pending.size === 0) return;
 
-    const now = Date.now();
     const nextMap: Record<string, any> = { ...probeMap };
 
-    console.log("--- Processing Updates ---");
+    const activeIds = new Set(Array.from(pending.keys()).map(String));
+
+    console.log("--- Starting Flush ---");
+    console.log("Pending IDs to update:", Array.from(activeIds));
+
+    Object.keys(nextMap).forEach((existingId) => {
+      if (!activeIds.has(existingId)) {
+        console.log(`🗑️ Removing stale ID: ${existingId}`);
+        delete nextMap[existingId];
+      }
+    });
 
     for (const [id, { probe, sla, index }] of pending) {
       const stringId = String(id);
 
-      // Update the "Last Seen" timestamp for this ID
-      lastSeenMap.set(stringId, now);
-
-      // Your existing logic to handle index/order changes
       Object.keys(nextMap).forEach((key) => {
         if (nextMap[key].__order === index && key !== stringId) {
           console.log(
             `♻️ Replacing old ID ${key} at index ${index} with ${stringId}`,
           );
-          lastSeenMap.delete(key);
           delete nextMap[key];
         }
       });
@@ -116,34 +112,15 @@
     }
 
     pending.clear();
-    cleanupStaleProbes(nextMap);
-  }
 
-  function cleanupStaleProbes(targetMap = probeMap) {
-    const now = Date.now();
-    let hasChanges = false;
+    const sortedEntries = Object.entries(nextMap).sort(
+      ([, a], [, b]) => (a.__order ?? 999) - (b.__order ?? 999),
+    );
 
-    Object.keys(targetMap).forEach((id) => {
-      const lastSeen = lastSeenMap.get(id) || 0;
+    probeMap = Object.fromEntries(sortedEntries);
 
-      // If the ID hasn't been updated in 5 seconds, delete it
-      if (now - lastSeen > EXPIRATION_TIME) {
-        console.log(
-          `🗑️ Auto-removing stale ID: ${id} (No update for ${EXPIRATION_TIME}ms)`,
-        );
-        delete targetMap[id];
-        lastSeenMap.delete(id);
-        hasChanges = true;
-      }
-    });
-
-    if (hasChanges || pending.size > 0) {
-      const sortedEntries = Object.entries(targetMap).sort(
-        ([, a], [, b]) => (a.__order ?? 999) - (b.__order ?? 999),
-      );
-      probeMap = Object.fromEntries(sortedEntries);
-      console.log("Updated Probe Count:", Object.keys(probeMap).length);
-    }
+    console.log("Current Map IDs:", Object.keys(probeMap));
+    console.log("--- Flush Complete ---");
   }
 
   json.subscribe((msg: any) => {
