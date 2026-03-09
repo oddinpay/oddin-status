@@ -60,6 +60,18 @@
   const beepHost = env.PUBLIC_ODDIN_HOST;
   const json = source(`https://${beepHost}/v1/sse`).select("").json<ApiData>();
 
+  type Buffered = {
+    probe: ApiData;
+    sla?: any;
+    index?: number;
+  };
+
+  type ProbeMap = Record<string, ApiData>;
+
+  let probeMap = $state<ProbeMap>({});
+
+  const pending = new Map<string, Buffered>();
+
   json.subscribe((msg: any) => {
     const probe = msg?.payload?.probe;
     const sla = msg?.payload?.sla;
@@ -68,28 +80,35 @@
     if (!probe?.id) return;
 
     const stringId = String(probe.id);
-    const existing = probeMap[stringId];
-    const order = Number.isFinite(index)
-      ? index
-      : (existing?.__order ?? Number.POSITIVE_INFINITY);
 
-    probeMap[stringId] = {
-      ...(existing ?? {}),
-      ...probe,
-      uptime90: sla?.uptime90 ?? existing?.uptime90,
-      __order: order,
-    };
+    pending.set(stringId, { probe, sla, index });
 
-    const sortedEntries = Object.entries(probeMap).sort(
-      ([, a], [, b]) =>
-        (a.__order ?? Number.POSITIVE_INFINITY) -
-        (b.__order ?? Number.POSITIVE_INFINITY),
+    const deletedIds: string[] = msg?.payload?.deletedIds ?? [];
+    for (const delId of deletedIds) {
+      pending.delete(String(delId));
+    }
+
+    const nextMap: ProbeMap = {};
+    for (const [id, { probe: p, sla: s, index: idx }] of pending) {
+      const existing = probeMap[id];
+      const order = Number.isFinite(idx)
+        ? idx
+        : (existing?.__order ?? Infinity);
+
+      nextMap[id] = {
+        ...(existing ?? {}),
+        ...p,
+        uptime90: s?.uptime90 ?? existing?.uptime90,
+        __order: order,
+      };
+    }
+
+    const sortedEntries = Object.entries(nextMap).sort(
+      ([, a], [, b]) => (a.__order ?? Infinity) - (b.__order ?? Infinity),
     );
+
     probeMap = Object.fromEntries(sortedEntries) as ProbeMap;
   });
-
-  type ProbeMap = Record<string, ApiData>;
-  let probeMap = $state<ProbeMap>({});
 
   // const statusStore = localStore<StatusType[]>('status', []);
 
