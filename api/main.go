@@ -668,39 +668,12 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 		ticker := time.NewTicker(30 * time.Second)
 		defer ticker.Stop()
 
-		probeCancels := make(map[string]context.CancelFunc)
-
 		for {
 			refreshCache(ctx)
 
 			targetCache.RLock()
 			targets := targetCache.targets
 			targetCache.RUnlock()
-
-			slaTrackers.Lock()
-			for name := range slaTrackers.m {
-				found := false
-				for _, t := range targets {
-					if t.Name == name {
-						found = true
-						break
-					}
-				}
-
-				if !found {
-					slog.Info("Target deleted from Convex, stopping worker", "name", name)
-
-					if cancel, ok := probeCancels[name]; ok {
-						cancel()
-						delete(probeCancels, name)
-					}
-
-					delete(slaTrackers.m, name)
-					kv.Delete(ctx, name)
-
-				}
-			}
-			slaTrackers.Unlock()
 
 			for _, t := range targets {
 				slaTrackers.Lock()
@@ -709,11 +682,8 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 
 				if !isRunning {
 					slog.Info("New target detected, starting worker", "name", t.Name)
-					probeCtx, cancel := context.WithCancel(ctx)
-					probeCancels[t.Name] = cancel
-
 					wg.Add(1)
-					go startProbeWorker(probeCtx, wg, t)
+					go startProbeWorker(ctx, wg, t)
 				}
 			}
 

@@ -59,11 +59,7 @@
   const beepHost = env.PUBLIC_ODDIN_HOST;
   const json = source(`https://${beepHost}/v1/sse`).select("").json<ApiData>();
 
-  type Buffered = {
-    probe: ApiData;
-    sla?: any;
-    index?: number;
-  };
+  type Buffered = { probe: ApiData; sla?: any; index?: number };
 
   const pending = new Map<string, Buffered>();
   let flushTimer: ReturnType<typeof setTimeout> | null = null;
@@ -121,7 +117,6 @@
     const probe = msg?.payload?.probe;
     const sla = msg?.payload?.sla;
     const index = msg?.index;
-
     if (!probe?.id) return;
 
     pending.set(probe.id, { probe, sla, index });
