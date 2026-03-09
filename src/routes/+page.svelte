@@ -53,7 +53,6 @@
     uptime30: string;
     uptime60: string;
     uptime90: string;
-    __order?: number;
   }
 
   const beepHost = env.PUBLIC_ODDIN_HOST;
