@@ -77,17 +77,16 @@
     if (!pending.size) return;
 
     const nextMap: Record<string, ApiData> = { ...probeMap };
+    const incomingIds = new Set<string>();
 
     for (const [id, { probe, sla, index }] of pending) {
       const stringId = String(id);
+      incomingIds.add(stringId);
 
       Object.keys(nextMap).forEach((key) => {
         const isSameOrder = nextMap[key].__order === index;
         const isOldId = key !== stringId;
-
-        if (isSameOrder && isOldId) {
-          delete nextMap[key];
-        }
+        if (isSameOrder && isOldId) delete nextMap[key];
       });
 
       const existing = nextMap[stringId];
@@ -103,6 +102,12 @@
       };
     }
 
+    Object.keys(nextMap).forEach((key) => {
+      if (!incomingIds.has(key)) {
+        delete nextMap[key];
+      }
+    });
+
     pending.clear();
 
     const sortedEntries = Object.entries(nextMap).sort(
@@ -113,6 +118,7 @@
     probeMap = Object.fromEntries(sortedEntries) as ProbeMap;
   }
 
+  // SSE subscription
   json.subscribe((msg: any) => {
     const probe = msg?.payload?.probe;
     const sla = msg?.payload?.sla;
@@ -120,12 +126,10 @@
     if (!probe?.id) return;
 
     pending.set(probe.id, { probe, sla, index });
-
     scheduleFlush();
   });
 
   type ProbeMap = Record<string, ApiData>;
-
   let probeMap = $state<ProbeMap>({});
 
   // const statusStore = localStore<StatusType[]>('status', []);
