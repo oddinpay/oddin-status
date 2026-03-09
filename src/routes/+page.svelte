@@ -76,7 +76,7 @@
   function flushPending() {
     if (!pending.size) return;
 
-    const nextMap: Record<string, ApiData> = { ...probeMap };
+    const nextMap: Record<string, ApiData> = {};
 
     for (const [id, { probe, sla, index }] of pending) {
       const stringId = String(id);
