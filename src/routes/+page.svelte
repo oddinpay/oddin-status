@@ -59,11 +59,17 @@
   const beepHost = env.PUBLIC_ODDIN_HOST;
   const json = source(`https://${beepHost}/v1/sse`).select("").json<ApiData>();
 
-  type Buffered = { probe: ApiData; sla?: any; index?: number };
+  type Buffered = {
+    probe: ApiData;
+    sla?: any;
+    index?: number;
+    timestamp: number;
+  };
 
   const pending = new Map<string, Buffered>();
   let flushTimer: ReturnType<typeof setTimeout> | null = null;
   const FLUSH_DELAY = 50;
+  const TTL_MS = 5000;
 
   function scheduleFlush() {
     if (flushTimer) return;
@@ -77,10 +83,18 @@
     if (!pending.size) return;
 
     const nextMap: Record<string, ApiData> = { ...probeMap };
+    const now = Date.now(); 
 
-    for (const [id, { probe, sla, index }] of pending) {
+    for (const [id, { probe, sla, index, timestamp }] of pending) {
+      // --- TTL CHECK ---
+      if (now - timestamp > TTL_MS) {
+        continue; // Skip this item because it's too old
+      }
+      // -----------------
+
       const stringId = String(id);
 
+      // Your existing logic to clean up old IDs with the same order
       Object.keys(nextMap).forEach((key) => {
         const isSameOrder = nextMap[key].__order === index;
         const isOldId = key !== stringId;
@@ -119,7 +133,7 @@
     const index = msg?.index;
     if (!probe?.id) return;
 
-    pending.set(probe.id, { probe, sla, index });
+    pending.set(probe.id, { probe, sla, index, timestamp: Date.now() });
 
     scheduleFlush();
   });
