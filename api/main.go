@@ -678,6 +678,36 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 			targetCache.RUnlock()
 
 			slaTrackers.Lock()
+
+			// --- THE "EMPTY DB" FIX ---
+			// If Convex is empty, but we still have active trackers in memory
+			if len(targets) == 0 && len(slaTrackers.m) > 0 {
+				slog.Info("Zero targets in DB. Clearing all workers and notifying frontend.")
+				clearPayload := make(map[string]StatusPayload)
+
+				for name := range slaTrackers.m {
+					// Stop the Go goroutine
+					if cancel, ok := probeCancels[name]; ok {
+						cancel()
+						delete(probeCancels, name)
+					}
+					// Mark as DELETED for the Svelte frontend
+					clearPayload[name] = StatusPayload{
+						Probe: ProbeResult{Id: "DELETED", Name: name},
+					}
+					// Wipe from NATS KV so it doesn't reappear on refresh
+					kv.Delete(ctx, name)
+				}
+
+				// Reset memory and broadcast the "Wipeout" map
+				slaTrackers.m = make(map[string]*SlidingSLA)
+				globalHub.Broadcast(clearPayload)
+
+				slaTrackers.Unlock()
+				goto wait // Skip the rest of the logic
+			}
+
+			// --- PARTIAL DELETE LOGIC (If some remain) ---
 			for name := range slaTrackers.m {
 				found := false
 				for _, t := range targets {
@@ -688,16 +718,15 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 				}
 
 				if !found {
-					slog.Info("Target deleted from Convex, stopping worker", "name", name)
-
+					slog.Info("Target deleted from Convex", "name", name)
 					if cancel, ok := probeCancels[name]; ok {
 						cancel()
 						delete(probeCancels, name)
 					}
-
 					delete(slaTrackers.m, name)
 					kv.Delete(ctx, name)
 
+					// Send single delete broadcast
 					globalHub.Broadcast(map[string]StatusPayload{
 						name: {
 							Probe: ProbeResult{Id: "DELETED", Name: name},
@@ -707,21 +736,22 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 			}
 			slaTrackers.Unlock()
 
+			// --- START NEW WORKERS ---
 			for _, t := range targets {
 				slaTrackers.Lock()
 				_, isRunning := slaTrackers.m[t.Name]
 				slaTrackers.Unlock()
 
 				if !isRunning {
-					slog.Info("New target detected, starting worker", "name", t.Name)
+					slog.Info("New target detected", "name", t.Name)
 					probeCtx, cancel := context.WithCancel(ctx)
 					probeCancels[t.Name] = cancel
-
 					wg.Add(1)
 					go startProbeWorker(probeCtx, wg, t)
 				}
 			}
 
+		wait:
 			select {
 			case <-ctx.Done():
 				return
