@@ -62,6 +62,36 @@
 
   type Buffered = { probe: ApiData; sla?: any; index?: number };
 
+  function flushPending() {
+    if (!pending.size) return;
+
+    const nextMap: Record<string, ApiData> = { ...probeMap };
+
+    for (const [id, { probe, sla, index }] of pending) {
+      const existing = nextMap[id];
+      const order = Number.isFinite(index)
+        ? index
+        : (existing?.__order ?? Number.POSITIVE_INFINITY);
+
+      nextMap[id] = {
+        ...(existing ?? {}),
+        ...probe,
+        uptime90: sla?.uptime90 ?? existing?.uptime90,
+        __order: order,
+      } as ApiData;
+    }
+
+    pending.clear();
+
+    const sortedEntries = Object.entries(nextMap).sort(
+      ([, a], [, b]) =>
+        (a.__order ?? Number.POSITIVE_INFINITY) -
+        (b.__order ?? Number.POSITIVE_INFINITY),
+    );
+
+    probeMap = Object.fromEntries(sortedEntries);
+  }
+
   json.subscribe((msg: any) => {
     const probe = msg?.payload?.probe;
     const sla = msg?.payload?.sla;
@@ -83,7 +113,9 @@
     }
 
     if (!probe?.id) return;
+
     pending.set(probe.id, { probe, sla, index });
+    flushPending();
   });
 
   type ProbeMap = Record<string, ApiData>;
