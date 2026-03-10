@@ -61,7 +61,12 @@
   const pending = new Map<string, Buffered>();
   const FLUSH_DELAY = 50;
 
-  type Buffered = { probe: ApiData; sla?: any; index?: number };
+  type Buffered = {
+    probe: ApiData;
+    sla?: any;
+    index?: number;
+    isDeleted: boolean;
+  };
   type ProbeMap = Record<string, ApiData>;
 
   let flushTimer: ReturnType<typeof setTimeout> | null = null;
@@ -80,7 +85,12 @@
 
     const nextMap: Record<string, ApiData> = { ...probeMap };
 
-    for (const [id, { probe, sla, index }] of pending) {
+    for (const [id, { probe, sla, index, isDeleted }] of pending) {
+      if (isDeleted) {
+        delete nextMap[id];
+        continue;
+      }
+
       const existing = nextMap[id];
       const order = Number.isFinite(index)
         ? index
@@ -110,22 +120,10 @@
     const sla = msg?.payload?.sla;
     const index = msg?.index;
     const targetId = probe?.id;
+    const isDeleted = probe?.action?.[0] === "deleted";
     if (!targetId) return;
 
-    const isDeleted = probe?.action?.[0] === "deleted";
-
-    if (isDeleted) {
-      for (const key in probeMap) {
-        if (probeMap[key].id === targetId) {
-          delete probeMap[key];
-        }
-      }
-
-      pending.delete(targetId);
-      return;
-    }
-
-    pending.set(targetId, { probe, sla, index });
+    pending.set(targetId, { probe, sla, index, isDeleted });
     scheduleFlush();
   });
 
