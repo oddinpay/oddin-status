@@ -141,6 +141,7 @@ func fetchTargets(ctx context.Context) []HttpRequest {
 	raw := []HttpRequest{}
 	for _, u := range statuses {
 		raw = append(raw, HttpRequest{
+			ID:       u.ID,
 			Name:     u.Name,
 			Protocol: u.Protocol,
 			Host:     u.Host,
