@@ -108,7 +108,7 @@
     const sla = msg?.payload?.sla;
     const index = msg?.index;
 
-    if (msg?.deleted && probe?.id) {
+    if (msg?.deleted) {
       Object.keys(probeMap).forEach((key) => {
         if (probeMap[key].id === probe.id) {
           delete probeMap[key];
