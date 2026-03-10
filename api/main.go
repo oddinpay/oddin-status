@@ -840,13 +840,17 @@ func Sse(w http.ResponseWriter, r *http.Request) {
 
 			for name, payload := range update {
 
-				idx := lookup[name]
+				idx, found := lookup[name]
 				out := map[string]any{
 					"index": idx,
 					"payload": map[string]any{
 						"probe": payload.Probe,
 						"sla":   payload.SLA,
 					},
+				}
+
+				if !found {
+					out["deleted"] = true
 				}
 
 				if err := conn.SendData(ctx, out); err != nil {
