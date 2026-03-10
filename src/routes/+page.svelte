@@ -63,14 +63,10 @@
 
   const pending = new Map<string, Buffered>();
   let flushTimer: ReturnType<typeof setTimeout> | null = null;
-  const FLUSH_DELAY = 50;
 
   function scheduleFlush() {
     if (flushTimer) return;
-    flushTimer = setTimeout(() => {
-      flushTimer = null;
-      flushPending();
-    }, FLUSH_DELAY);
+    flushPending();
   }
 
   function flushPending() {
