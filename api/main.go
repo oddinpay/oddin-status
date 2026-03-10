@@ -755,6 +755,10 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 					delete(slaTrackers.m, name)
 					delete(runningTargets, name)
 					kv.Delete(ctx, name)
+					err := kv.Purge(ctx, name)
+					if err != nil {
+						slog.Error("Failed to purge key from NATS", "name", name, "error", err)
+					}
 
 					targetCache.Lock()
 					delete(targetCache.lookup, name)
