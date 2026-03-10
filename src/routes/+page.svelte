@@ -67,7 +67,7 @@
   let flushTimer: ReturnType<typeof setTimeout> | null = null;
 
   const FLUSH_DELAY = 100;
-  const STALE_TIMEOUT = 30000;
+  const STALE_TIMEOUT = 50;
 
   function scheduleFlush() {
     if (flushTimer) return;
