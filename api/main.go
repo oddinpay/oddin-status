@@ -141,7 +141,6 @@ func fetchTargets(ctx context.Context) []HttpRequest {
 	raw := []HttpRequest{}
 	for _, u := range statuses {
 		raw = append(raw, HttpRequest{
-			ID:       u.ID,
 			Name:     u.Name,
 			Protocol: u.Protocol,
 			Host:     u.Host,
@@ -730,11 +729,11 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 			targets := targetCache.targets
 			targetCache.RUnlock()
 
+			// ------------------ Handle deleted / updated targets ------------------
 			slaTrackers.Lock()
 			for id, running := range runningTargets {
 				var found bool
 				var updated HttpRequest
-
 				for _, t := range targets {
 					if t.ID == id {
 						found = true
@@ -744,7 +743,7 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 				}
 
 				if !found {
-					slog.Info("Target deleted from Convex, stopping worker", "id", id, "name", running.Name)
+					slog.Info("Target deleted from Convex, stopping worker", "id", id)
 
 					if cancel, ok := probeCancels[id]; ok {
 						cancel()
@@ -752,18 +751,23 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 					}
 
 					globalHub.Broadcast(map[string]StatusPayload{
-						running.Name: {Probe: ProbeResult{Name: running.Name, State: []string{"deleted"}}},
+						id: {Probe: ProbeResult{Name: id, State: []string{"deleted"}}},
 					})
 
-					delete(slaTrackers.m, running.Name)
+					delete(slaTrackers.m, id)
 					delete(runningTargets, id)
 
-				} else if running.Host != updated.Host || running.Protocol != updated.Protocol || running.Interval != updated.Interval {
-					slog.Info("Target updated, restarting worker", "id", id, "name", updated.Name)
+					targetCache.Lock()
+					delete(targetCache.lookup, id)
+					targetCache.Unlock()
+
+				} else if running.Host != updated.Host || running.Protocol != updated.Protocol {
+					slog.Info("Target updated, restarting worker", "id", id, "oldHost", running.Host, "newHost", updated.Host)
 
 					if cancel, ok := probeCancels[id]; ok {
 						cancel()
 					}
+					delete(slaTrackers.m, id)
 
 					probeCtx, cancel := context.WithCancel(ctx)
 					probeCancels[id] = cancel
@@ -775,10 +779,10 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 			}
 			slaTrackers.Unlock()
 
+			// ------------------ Start new targets ------------------
 			for _, t := range targets {
 				if _, ok := runningTargets[t.ID]; !ok {
-					slog.Info("New target detected, starting worker", "id", t.ID, "name", t.Name)
-
+					slog.Info("New target detected, starting worker", "id", t.ID, "host", t.Host)
 					probeCtx, cancel := context.WithCancel(ctx)
 					probeCancels[t.ID] = cancel
 
@@ -791,7 +795,6 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 
 			select {
 			case <-ctx.Done():
-				slog.Info("Probe manager shutting down")
 				return
 			case <-ticker.C:
 				continue
@@ -849,10 +852,9 @@ func Sse(w http.ResponseWriter, r *http.Request) {
 			lookup := targetCache.lookup
 			targetCache.RUnlock()
 
-			for name, payload := range update {
+			for id, payload := range update {
 
-				idx, found := lookup[name]
-
+				idx, found := lookup[id]
 				out := map[string]any{
 					"index": idx,
 					"payload": map[string]any{
@@ -879,9 +881,9 @@ func sendUpdateToConn(ctx context.Context, conn *sse.Conn, update map[string]Sta
 	lookup := targetCache.lookup
 	targetCache.RUnlock()
 
-	for name, payload := range update {
+	for id, payload := range update {
 
-		idx, found := lookup[name]
+		idx, found := lookup[id]
 
 		out := map[string]any{
 			"index": idx,
