@@ -178,7 +178,6 @@ func refreshCache(ctx context.Context) {
 // -------------------- MODELS --------------------
 
 type HttpRequest struct {
-	ID       string        `json:"id,omitempty"`
 	Host     string        `json:"host,omitempty"`
 	Protocol string        `json:"protocol,omitempty"`
 	Interval time.Duration `json:"interval,omitempty"`
@@ -734,7 +733,7 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 				var found bool
 				var updated HttpRequest
 				for _, t := range targets {
-					if t.ID == name {
+					if t.Name == name {
 						found = true
 						updated = t
 						break
@@ -753,9 +752,9 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 						name: {Probe: ProbeResult{Name: name, State: []string{"deleted"}}},
 					})
 
-					// delete(slaTrackers.m, name)
-					// delete(runningTargets, name)
-					// kv.Delete(ctx, name)
+					delete(slaTrackers.m, name)
+					delete(runningTargets, name)
+					kv.Delete(ctx, name)
 
 					targetCache.Lock()
 					delete(targetCache.lookup, name)
@@ -781,15 +780,15 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 
 			// ------------------ Start new targets ------------------
 			for _, t := range targets {
-				if _, ok := runningTargets[t.ID]; !ok {
-					slog.Info("New target detected, starting worker", "name", t.ID)
+				if _, ok := runningTargets[t.Name]; !ok {
+					slog.Info("New target detected, starting worker", "name", t.Name)
 					probeCtx, cancel := context.WithCancel(ctx)
-					probeCancels[t.ID] = cancel
+					probeCancels[t.Name] = cancel
 
 					wg.Add(1)
 					go startProbeWorker(probeCtx, wg, t)
 
-					runningTargets[t.ID] = t
+					runningTargets[t.Name] = t
 				}
 			}
 
