@@ -850,7 +850,7 @@ func Sse(w http.ResponseWriter, r *http.Request) {
 
 			for name, payload := range update {
 
-				idx, found := lookup[name]
+				idx := lookup[name]
 
 				out := map[string]any{
 					"index": idx,
@@ -858,10 +858,6 @@ func Sse(w http.ResponseWriter, r *http.Request) {
 						"probe": payload.Probe,
 						"sla":   payload.SLA,
 					},
-				}
-
-				if !found {
-					out["deleted"] = true
 				}
 
 				if err := conn.SendData(ctx, out); err != nil {
@@ -880,7 +876,7 @@ func sendUpdateToConn(ctx context.Context, conn *sse.Conn, update map[string]Sta
 
 	for name, payload := range update {
 
-		idx, found := lookup[name]
+		idx := lookup[name]
 
 		out := map[string]any{
 			"index": idx,
@@ -888,10 +884,6 @@ func sendUpdateToConn(ctx context.Context, conn *sse.Conn, update map[string]Sta
 				"probe": payload.Probe,
 				"sla":   payload.SLA,
 			},
-		}
-
-		if !found {
-			out["deleted"] = true
 		}
 
 		if err := conn.SendData(ctx, out); err != nil {
