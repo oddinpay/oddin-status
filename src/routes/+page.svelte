@@ -59,7 +59,12 @@
   const beepHost = env.PUBLIC_ODDIN_HOST;
   const json = source(`https://${beepHost}/v1/sse`).select("").json<ApiData>();
 
-  type Buffered = { probe: ApiData; sla?: any; index?: number };
+  type Buffered = {
+    probe: ApiData;
+    sla?: any;
+    index?: number;
+    delete: boolean;
+  };
 
   const pending = new Map<string, Buffered>();
   let flushTimer: ReturnType<typeof setTimeout> | null = null;
@@ -78,7 +83,12 @@
 
     const nextMap: Record<string, ApiData> = { ...probeMap };
 
-    for (const [id, { probe, sla, index }] of pending) {
+    for (const [id, { probe, sla, index, delete: shouldDelete }] of pending) {
+      if (shouldDelete) {
+        delete nextMap[id];
+        continue;
+      }
+
       const existing = nextMap[id];
       const order = Number.isFinite(index)
         ? index
@@ -107,26 +117,11 @@
     const probe = msg?.payload?.probe;
     const sla = msg?.payload?.sla;
     const index = msg?.index;
-
-    if (msg?.deleted && probe?.id) {
-      Object.keys(probeMap).forEach((key) => {
-        if (probeMap[key].id === probe.id) {
-          delete probeMap[key];
-        }
-      });
-
-      pending.forEach((_, key) => {
-        if (pending.get(key)?.probe.id === probe.id) {
-          pending.delete(key);
-        }
-      });
-
-      return;
-    }
+    const shouldDelete = msg?.delete;
 
     if (!probe?.id) return;
 
-    pending.set(probe.id, { probe, sla, index });
+    pending.set(probe.id, { probe, sla, index, delete: shouldDelete });
     scheduleFlush();
   });
 
