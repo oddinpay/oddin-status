@@ -848,9 +848,9 @@ func Sse(w http.ResponseWriter, r *http.Request) {
 			lookup := targetCache.lookup
 			targetCache.RUnlock()
 
-			for name, payload := range update {
+			for id, payload := range update {
 
-				idx, found := lookup[name]
+				idx, found := lookup[id]
 
 				out := map[string]any{
 					"index": idx,
@@ -880,9 +880,9 @@ func sendUpdateToConn(ctx context.Context, conn *sse.Conn, update map[string]Sta
 	lookup := targetCache.lookup
 	targetCache.RUnlock()
 
-	for name, payload := range update {
+	for id, payload := range update {
 
-		idx, found := lookup[name]
+		idx, found := lookup[id]
 
 		out := map[string]any{
 			"index": idx,
