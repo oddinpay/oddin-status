@@ -745,6 +745,10 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 					delete(runningTargets, id)
 					kv.Delete(ctx, running.Name)
 
+					targetCache.Lock()
+					delete(targetCache.lookup, id)
+					targetCache.Unlock()
+
 				} else if running.Host != updated.Host || running.Protocol != updated.Protocol || running.Name != updated.Name {
 					if cancel, ok := probeCancels[id]; ok {
 						cancel()
