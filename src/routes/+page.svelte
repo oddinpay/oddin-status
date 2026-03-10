@@ -60,12 +60,10 @@
   const json = source(`https://${beepHost}/v1/sse`).select("").json<ApiData>();
 
   type Buffered = { probe: ApiData; sla?: any; index?: number };
-  type ProbeMap = Record<string, ApiData>;
-  let probeMap = $state<ProbeMap>({});
 
+  const pending = new Map<string, Buffered>();
   let flushTimer: ReturnType<typeof setTimeout> | null = null;
   const FLUSH_DELAY = 50;
-  const pending = new Map<string, Buffered>();
 
   function scheduleFlush() {
     if (flushTimer) return;
@@ -76,16 +74,15 @@
   }
 
   function flushPending() {
-    if (pending.size === 0) return;
+    if (!pending.size) return;
 
-    const nextMap = { ...probeMap };
+    const nextMap: Record<string, ApiData> = { ...probeMap };
 
     for (const [id, { probe, sla, index }] of pending) {
       const existing = nextMap[id];
-
       const order = Number.isFinite(index)
         ? index
-        : (existing?.__order ?? Number.MAX_SAFE_INTEGER);
+        : (existing?.__order ?? Number.POSITIVE_INFINITY);
 
       nextMap[id] = {
         ...(existing ?? {}),
@@ -97,27 +94,42 @@
 
     pending.clear();
 
-    probeMap = nextMap;
+    const sortedEntries = Object.entries(nextMap).sort(
+      ([, a], [, b]) =>
+        (a.__order ?? Number.POSITIVE_INFINITY) -
+        (b.__order ?? Number.POSITIVE_INFINITY),
+    );
+
+    probeMap = Object.fromEntries(sortedEntries);
   }
 
   json.subscribe((msg: any) => {
-    const { probe, sla } = msg?.payload || {};
+    const probe = msg?.payload?.probe;
+    const sla = msg?.payload?.sla;
+    const index = msg?.index;
     const targetId = probe?.id;
     if (!targetId) return;
 
     const isDeleted = probe?.state?.[0] === "deleted";
 
     if (isDeleted) {
-      const { [targetId]: _, ...remaining } = probeMap;
-      probeMap = remaining;
+      for (const key in probeMap) {
+        if (probeMap[key].id === targetId) {
+          delete probeMap[key];
+          break;
+        }
+      }
 
       pending.delete(targetId);
       return;
     }
 
-    pending.set(targetId, { probe, sla, index: msg?.index });
+    pending.set(targetId, { probe, sla, index });
     scheduleFlush();
   });
+
+  type ProbeMap = Record<string, ApiData>;
+  let probeMap = $state<ProbeMap>({});
 
   // const statusStore = localStore<StatusType[]>('status', []);
 
