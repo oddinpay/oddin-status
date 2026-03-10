@@ -61,7 +61,7 @@
   const pending = new Map<string, Buffered>();
 
   type Buffered = { probe: ApiData; sla?: any; index?: number };
-  type ProbeMap = Record<string, ApiData & { lastSeen: number }>; // Added lastSeen
+  type ProbeMap = Record<string, ApiData & { lastSeen: number }>;
 
   let probeMap = $state<ProbeMap>({});
   let flushTimer: ReturnType<typeof setTimeout> | null = null;
