@@ -117,7 +117,6 @@ func fetchTargets(ctx context.Context) []HttpRequest {
 	defer cancel()
 
 	type Status struct {
-		ID       string `json:"_id"`
 		Name     string `json:"name"`
 		Protocol string `json:"protocol"`
 		Host     string `json:"host"`
@@ -179,7 +178,6 @@ func refreshCache(ctx context.Context) {
 // -------------------- MODELS --------------------
 
 type HttpRequest struct {
-	ID       string        `json:"id"`
 	Host     string        `json:"host,omitempty"`
 	Protocol string        `json:"protocol,omitempty"`
 	Interval time.Duration `json:"interval,omitempty"`
@@ -731,11 +729,11 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 
 			// ------------------ Handle deleted / updated targets ------------------
 			slaTrackers.Lock()
-			for id, running := range runningTargets {
+			for name, running := range runningTargets {
 				var found bool
 				var updated HttpRequest
 				for _, t := range targets {
-					if t.ID == id {
+					if t.Name == name {
 						found = true
 						updated = t
 						break
@@ -743,53 +741,54 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 				}
 
 				if !found {
-					slog.Info("Target deleted from Convex, stopping worker", "id", id)
+					slog.Info("Target deleted from Convex, stopping worker", "name", name)
 
-					if cancel, ok := probeCancels[id]; ok {
+					if cancel, ok := probeCancels[name]; ok {
 						cancel()
-						delete(probeCancels, id)
+						delete(probeCancels, name)
 					}
 
 					globalHub.Broadcast(map[string]StatusPayload{
-						id: {Probe: ProbeResult{Name: id, State: []string{"deleted"}}},
+						name: {Probe: ProbeResult{Name: name, State: []string{"deleted"}}},
 					})
 
-					delete(slaTrackers.m, id)
-					delete(runningTargets, id)
+					delete(slaTrackers.m, name)
+					delete(runningTargets, name)
+					kv.Delete(ctx, name)
 
 					targetCache.Lock()
-					delete(targetCache.lookup, id)
+					delete(targetCache.lookup, name)
 					targetCache.Unlock()
 
 				} else if running.Host != updated.Host || running.Protocol != updated.Protocol {
-					slog.Info("Target updated, restarting worker", "id", id, "oldHost", running.Host, "newHost", updated.Host)
+					slog.Info("Target updated, restarting worker", "name", name, "oldHost", running.Host, "newHost", updated.Host)
 
-					if cancel, ok := probeCancels[id]; ok {
+					if cancel, ok := probeCancels[name]; ok {
 						cancel()
 					}
-					delete(slaTrackers.m, id)
+					delete(slaTrackers.m, name)
 
 					probeCtx, cancel := context.WithCancel(ctx)
-					probeCancels[id] = cancel
+					probeCancels[name] = cancel
 					wg.Add(1)
 					go startProbeWorker(probeCtx, wg, updated)
 
-					runningTargets[id] = updated
+					runningTargets[name] = updated
 				}
 			}
 			slaTrackers.Unlock()
 
 			// ------------------ Start new targets ------------------
 			for _, t := range targets {
-				if _, ok := runningTargets[t.ID]; !ok {
-					slog.Info("New target detected, starting worker", "id", t.ID, "host", t.Host)
+				if _, ok := runningTargets[t.Name]; !ok {
+					slog.Info("New target detected, starting worker", "name", t.Name)
 					probeCtx, cancel := context.WithCancel(ctx)
-					probeCancels[t.ID] = cancel
+					probeCancels[t.Name] = cancel
 
 					wg.Add(1)
 					go startProbeWorker(probeCtx, wg, t)
 
-					runningTargets[t.ID] = t
+					runningTargets[t.Name] = t
 				}
 			}
 
@@ -852,9 +851,10 @@ func Sse(w http.ResponseWriter, r *http.Request) {
 			lookup := targetCache.lookup
 			targetCache.RUnlock()
 
-			for id, payload := range update {
+			for name, payload := range update {
 
-				idx, found := lookup[id]
+				idx, found := lookup[name]
+
 				out := map[string]any{
 					"index": idx,
 					"payload": map[string]any{
@@ -881,9 +881,9 @@ func sendUpdateToConn(ctx context.Context, conn *sse.Conn, update map[string]Sta
 	lookup := targetCache.lookup
 	targetCache.RUnlock()
 
-	for id, payload := range update {
+	for name, payload := range update {
 
-		idx, found := lookup[id]
+		idx, found := lookup[name]
 
 		out := map[string]any{
 			"index": idx,
