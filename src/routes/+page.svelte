@@ -59,7 +59,7 @@
   const beepHost = env.PUBLIC_ODDIN_HOST;
   const json = source(`https://${beepHost}/v1/sse`).select("").json<ApiData>();
 
-  type Buffered = { probe: ApiData; sla?: any; index?: number };
+  type Buffered = { probe: ApiData | null; sla?: any; index?: number };
   type ProbeMap = Record<string, ApiData>;
 
   const pending = new Map<string, Buffered>();
@@ -81,8 +81,15 @@
 
     const nextMap: Record<string, ApiData> = { ...probeMap };
 
-    for (const [id, { probe, sla, index }] of pending) {
+    for (const [id, data] of pending) {
+      if (data.probe === null) {
+        delete nextMap[id];
+        continue;
+      }
+
+      const { probe, sla, index } = data;
       const existing = nextMap[id];
+
       const order = Number.isFinite(index)
         ? index
         : (existing?.__order ?? Number.POSITIVE_INFINITY);
@@ -108,24 +115,21 @@
 
   json.subscribe((msg: any) => {
     const probe = msg?.payload?.probe;
-    const sla = msg?.payload?.sla;
-    const index = msg?.index;
     const targetId = probe?.id;
     if (!targetId) return;
 
     const isDeleted = probe?.action?.[0] === "deleted";
 
     if (isDeleted) {
-      pending.delete(targetId);
-
-      const nextMap = { ...probeMap };
-      delete nextMap[targetId];
-
-      probeMap = nextMap;
-      return;
+      pending.set(targetId, { probe: null });
+    } else {
+      pending.set(targetId, {
+        probe,
+        sla: msg?.payload?.sla,
+        index: msg?.index,
+      });
     }
 
-    pending.set(targetId, { probe, sla, index });
     scheduleFlush();
   });
 
