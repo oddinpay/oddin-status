@@ -58,12 +58,14 @@
 
   const beepHost = env.PUBLIC_ODDIN_HOST;
   const json = source(`https://${beepHost}/v1/sse`).select("").json<ApiData>();
+  const pending = new Map<string, Buffered>();
+  const FLUSH_DELAY = 50;
 
   type Buffered = { probe: ApiData; sla?: any; index?: number };
+  type ProbeMap = Record<string, ApiData>;
 
-  const pending = new Map<string, Buffered>();
+  let probeMap = $state<ProbeMap>({});
   let flushTimer: ReturnType<typeof setTimeout> | null = null;
-  const FLUSH_DELAY = 50;
 
   function scheduleFlush() {
     if (flushTimer) return;
@@ -128,9 +130,6 @@
     pending.set(probe.id, { probe, sla, index });
     scheduleFlush();
   });
-
-  type ProbeMap = Record<string, ApiData>;
-  let probeMap = $state<ProbeMap>({});
 
   // const statusStore = localStore<StatusType[]>('status', []);
 
