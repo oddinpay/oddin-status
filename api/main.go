@@ -966,16 +966,30 @@ func publishToNATS(ctx context.Context, name string, payload *StatusPayload, s *
 		var revision uint64 = 0
 		var oldPayload StatusPayload
 
-		if getErr == nil {
+		if getErr == nil && entry != nil {
 			revision = entry.Revision()
 			gr, err := gzip.NewReader(bytes.NewReader(entry.Value()))
-			if err == nil {
-				decomp, _ := io.ReadAll(gr)
-				gr.Close()
 
-				var wrapped map[string]any
-				json.Unmarshal(decomp, &wrapped)
-				gr.Close()
+			if err != nil {
+				slog.Error("failed to create gzip reader", "error", err)
+			} else {
+				defer gr.Close()
+				decomp, err := io.ReadAll(gr)
+				if err != nil {
+					slog.Error("failed to read gzip data", "error", err)
+				} else {
+					var wrapped map[string]any
+					if err := json.Unmarshal(decomp, &wrapped); err != nil {
+						slog.Error("failed to unmarshal JSON", "error", err)
+					} else {
+						if payload, ok := wrapped["payload"].(map[string]any); ok {
+							payloadBytes, _ := json.Marshal(payload)
+							if err := json.Unmarshal(payloadBytes, &oldPayload); err != nil {
+								slog.Error("failed to parse payload to StatusPayload", "error", err)
+							}
+						}
+					}
+				}
 			}
 		}
 
