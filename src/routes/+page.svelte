@@ -58,19 +58,12 @@
 
   const beepHost = env.PUBLIC_ODDIN_HOST;
   const json = source(`https://${beepHost}/v1/sse`).select("").json<ApiData>();
+
+  type Buffered = { probe: ApiData; sla?: any; index?: number };
+
   const pending = new Map<string, Buffered>();
-  const FLUSH_DELAY = 50;
-
-  type Buffered = {
-    probe: ApiData;
-    sla?: any;
-    index?: number;
-    isDeleted: boolean;
-  };
-  type ProbeMap = Record<string, ApiData>;
-
   let flushTimer: ReturnType<typeof setTimeout> | null = null;
-  let probeMap = $state<ProbeMap>({});
+  const FLUSH_DELAY = 50;
 
   function scheduleFlush() {
     if (flushTimer) return;
@@ -85,30 +78,18 @@
 
     const nextMap: Record<string, ApiData> = { ...probeMap };
 
-    for (const [id, { probe, sla, index, isDeleted }] of pending) {
-      if (isDeleted) {
-        delete nextMap[id];
-      } else {
-        const existing = nextMap[id];
-        const order = Number.isFinite(index)
-          ? index
-          : (existing?.__order ?? Number.POSITIVE_INFINITY);
+    for (const [id, { probe, sla, index }] of pending) {
+      const existing = nextMap[id];
+      const order = Number.isFinite(index)
+        ? index
+        : (existing?.__order ?? Number.POSITIVE_INFINITY);
 
-        nextMap[id] = {
-          ...(existing ?? {}),
-          ...probe,
-          uptime90: sla?.uptime90 ?? existing?.uptime90,
-          __order: order,
-        } as ApiData;
-      }
-    }
-
-    const currentBatchIds = new Set(pending.keys());
-
-    for (const id in nextMap) {
-      if (!currentBatchIds.has(id)) {
-        delete nextMap[id];
-      }
+      nextMap[id] = {
+        ...(existing ?? {}),
+        ...probe,
+        uptime90: sla?.uptime90 ?? existing?.uptime90,
+        __order: order,
+      } as ApiData;
     }
 
     pending.clear();
@@ -126,13 +107,30 @@
     const probe = msg?.payload?.probe;
     const sla = msg?.payload?.sla;
     const index = msg?.index;
-    const targetId = probe?.id;
-    const isDeleted = probe?.action?.[0] === "deleted";
-    if (!targetId) return;
 
-    pending.set(targetId, { probe, sla, index, isDeleted });
+    if (msg?.deleted && probe?.id) {
+      const targetId = probe?.id;
+      if (!targetId) return;
+
+      for (const key in probeMap) {
+        if (probeMap[key].id === targetId) {
+          delete probeMap[key];
+        }
+      }
+
+      pending.delete(targetId);
+
+      return;
+    }
+
+    if (!probe?.id) return;
+
+    pending.set(probe.id, { probe, sla, index });
     scheduleFlush();
   });
+
+  type ProbeMap = Record<string, ApiData>;
+  let probeMap = $state<ProbeMap>({});
 
   // const statusStore = localStore<StatusType[]>('status', []);
 
