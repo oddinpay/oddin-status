@@ -738,28 +738,19 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 
 				if !found {
 					slog.Info("Target deleted from Convex, stopping worker", "name", id)
-
 					if cancel, ok := probeCancels[id]; ok {
 						cancel()
 						delete(probeCancels, id)
 					}
 
-					if err := kv.Delete(ctx, running.Name); err != nil {
-						slog.Error("Failed to delete KV", "name", running.Name, "error", err)
-					}
+					done := make(chan struct{})
 
-					for {
-						val, err := kv.Get(ctx, running.Name)
-						if err != nil {
-							slog.Error("KV get error", "name", running.Name, "error", err)
-						}
+					go func() {
+						kv.Delete(ctx, running.Name)
+						close(done)
+					}()
 
-						if val == nil || len(val.Value()) == 0 {
-							break
-						}
-
-						time.Sleep(50 * time.Millisecond)
-					}
+					<-done
 
 					globalHub.Broadcast(map[string]StatusPayload{
 						id: {Probe: ProbeResult{Id: id, Action: []string{"deleted"}}},
