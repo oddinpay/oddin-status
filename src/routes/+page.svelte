@@ -84,13 +84,8 @@
         ? index
         : (existing?.__order ?? Number.POSITIVE_INFINITY);
 
-      for (const key in nextMap) {
-        if (key !== id && nextMap[key].id === probe.id) {
-          delete nextMap[key];
-        }
-      }
-
       nextMap[id] = {
+        ...(existing ?? {}),
         ...probe,
         uptime90: sla?.uptime90 ?? existing?.uptime90,
         __order: order,
