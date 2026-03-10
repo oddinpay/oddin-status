@@ -199,6 +199,7 @@ type ProbeResult struct {
 	Name        string   `json:"name,omitempty"`
 	Protocol    string   `json:"protocol,omitempty"`
 	State       []string `json:"state,omitempty"`
+	Action      []string `json:"action,omitempty"`
 	Description string   `json:"description,omitempty"`
 	Date        []string `json:"date,omitempty"`
 	Timestamp   string   `json:"timestamp,omitempty"`
@@ -743,7 +744,7 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 					}
 
 					globalHub.Broadcast(map[string]StatusPayload{
-						id: {Probe: ProbeResult{Id: id, State: []string{"deleted"}}},
+						id: {Probe: ProbeResult{Name: running.Name, Id: id, Action: []string{"deleted"}}},
 					})
 
 					delete(slaTrackers.m, id)
@@ -757,7 +758,7 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 					}
 
 					globalHub.Broadcast(map[string]StatusPayload{
-						id: {Probe: ProbeResult{Id: id, State: []string{"updated"}}},
+						id: {Probe: ProbeResult{Name: updated.Name, Id: id, Action: []string{"updated"}}},
 					})
 
 					probeCtx, cancel := context.WithCancel(ctx)

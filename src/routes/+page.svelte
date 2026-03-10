@@ -110,7 +110,7 @@
     const targetId = probe?.id;
     if (!targetId) return;
 
-    const isDeleted = probe?.state?.[0] === "deleted";
+    const isDeleted = probe?.action?.[0] === "deleted";
 
     if (isDeleted) {
       for (const key in probeMap) {
