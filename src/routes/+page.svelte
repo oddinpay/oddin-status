@@ -57,14 +57,15 @@
   }
 
   type Buffered = { probe: ApiData; sla?: any; index?: number };
-  type ProbeMap = Record<string, ApiData>;
 
   const beepHost = env.PUBLIC_ODDIN_HOST;
   const json = source(`https://${beepHost}/v1/sse`).select("").json<ApiData>();
+
   const pending = new Map<string, Buffered>();
+  let flushTimer: ReturnType<typeof setTimeout> | null = null;
   const FLUSH_DELAY = 50;
 
-  let flushTimer: ReturnType<typeof setTimeout> | null = null;
+  type ProbeMap = Record<string, ApiData>;
   let probeMap = $state<ProbeMap>({});
 
   function scheduleFlush() {
@@ -76,14 +77,15 @@
   }
 
   function flushPending() {
-    if (!pending.size) return;
+    if (pending.size === 0) return;
 
-    const nextMap: Record<string, ApiData> = { ...probeMap };
+    const nextMap: ProbeMap = { ...probeMap };
 
     for (const [id, { probe, sla, index }] of pending) {
       const existing = nextMap[id];
+
       const order = Number.isFinite(index)
-        ? index
+        ? (index as number)
         : (existing?.__order ?? Number.POSITIVE_INFINITY);
 
       nextMap[id] = {
@@ -97,9 +99,7 @@
     pending.clear();
 
     const sortedEntries = Object.entries(nextMap).sort(
-      ([, a], [, b]) =>
-        (a.__order ?? Number.POSITIVE_INFINITY) -
-        (b.__order ?? Number.POSITIVE_INFINITY),
+      ([, a], [, b]) => (a.__order ?? Infinity) - (b.__order ?? Infinity),
     );
 
     probeMap = Object.fromEntries(sortedEntries);
@@ -109,25 +109,21 @@
     const probe = msg?.payload?.probe;
     const sla = msg?.payload?.sla;
     const index = msg?.index;
+    const targetId = probe?.id;
 
-    if (msg?.deleted && probe?.id) {
-      const targetId = probe?.id;
-      if (!targetId) return;
+    if (!targetId) return;
 
-      for (const key in probeMap) {
-        if (probeMap[key].id === targetId) {
-          delete probeMap[key];
-        }
+    if (msg?.deleted) {
+      if (probeMap[targetId]) {
+        const updatedMap = { ...probeMap };
+        delete updatedMap[targetId];
+        probeMap = updatedMap;
       }
-
       pending.delete(targetId);
-
       return;
     }
 
-    if (!probe?.id) return;
-
-    pending.set(probe.id, { probe, sla, index });
+    pending.set(targetId, { probe, sla, index });
     scheduleFlush();
   });
 
