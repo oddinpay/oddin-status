@@ -744,10 +744,6 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 					delete(runningTargets, name)
 					kv.Delete(ctx, name)
 
-					globalHub.Lock()
-					delete(globalHub.cache, name)
-					globalHub.Unlock()
-
 					globalHub.Broadcast(map[string]StatusPayload{
 						name: {Probe: ProbeResult{Name: name, State: []string{"deleted"}}},
 					})
