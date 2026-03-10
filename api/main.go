@@ -736,7 +736,7 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 					}
 				}
 
-				if found {
+				if !found {
 					slog.Info("Target deleted from Convex, stopping worker", "name", id)
 					if cancel, ok := probeCancels[id]; ok {
 						cancel()
