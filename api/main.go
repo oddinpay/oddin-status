@@ -179,7 +179,7 @@ func refreshCache(ctx context.Context) {
 // -------------------- MODELS --------------------
 
 type HttpRequest struct {
-	ID       string        `json:"id"`
+	ID       string        `json:"_id"`
 	Host     string        `json:"host,omitempty"`
 	Protocol string        `json:"protocol,omitempty"`
 	Interval time.Duration `json:"interval,omitempty"`
