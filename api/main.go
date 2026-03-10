@@ -715,6 +715,7 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 		probeCancels := make(map[string]context.CancelFunc)
 
 		for {
+			refreshCache(ctx)
 
 			targetCache.RLock()
 			targets := targetCache.targets
@@ -841,6 +842,7 @@ func Sse(w http.ResponseWriter, r *http.Request) {
 			for name, payload := range update {
 
 				idx, found := lookup[name]
+
 				out := map[string]any{
 					"index": idx,
 					"payload": map[string]any{
@@ -1237,7 +1239,6 @@ func main() {
 		}
 	}
 
-	refreshCache(ctx)
 	startProbeManager(ctx, &wg)
 
 	mux := http.NewServeMux()
