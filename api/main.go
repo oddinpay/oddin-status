@@ -178,6 +178,7 @@ func refreshCache(ctx context.Context) {
 // -------------------- MODELS --------------------
 
 type HttpRequest struct {
+	ID       string        `json:"id,omitempty"`
 	Host     string        `json:"host,omitempty"`
 	Protocol string        `json:"protocol,omitempty"`
 	Interval time.Duration `json:"interval,omitempty"`
@@ -722,18 +723,16 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 
 		for {
 			refreshCache(ctx)
-
 			targetCache.RLock()
 			targets := targetCache.targets
 			targetCache.RUnlock()
 
-			// ------------------ Handle deleted / updated targets ------------------
 			slaTrackers.Lock()
-			for name, running := range runningTargets {
-				var found bool
+			for id, running := range runningTargets {
 				var updated HttpRequest
+				var found bool
 				for _, t := range targets {
-					if t.Name == name {
+					if t.ID == id {
 						found = true
 						updated = t
 						break
@@ -741,54 +740,37 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 				}
 
 				if !found {
-					slog.Info("Target deleted from Convex, stopping worker", "name", name)
-
-					if cancel, ok := probeCancels[name]; ok {
+					if cancel, ok := probeCancels[id]; ok {
 						cancel()
-						delete(probeCancels, name)
+						delete(probeCancels, id)
 					}
-
-					globalHub.Broadcast(map[string]StatusPayload{
-						name: {Probe: ProbeResult{Name: name, State: []string{"deleted"}}},
-					})
-
-					// delete(slaTrackers.m, name)
-					// delete(runningTargets, name)
-					// kv.Delete(ctx, name)
-
-					targetCache.Lock()
-					delete(targetCache.lookup, name)
-					targetCache.Unlock()
-
-				} else if running.Host != updated.Host || running.Protocol != updated.Protocol {
-					slog.Info("Target updated, restarting worker", "name", name, "oldHost", running.Host, "newHost", updated.Host)
-
-					if cancel, ok := probeCancels[name]; ok {
+					delete(slaTrackers.m, id)
+					delete(runningTargets, id)
+					kv.Delete(ctx, running.Name)
+				} else if running.Host != updated.Host || running.Protocol != updated.Protocol || running.Name != updated.Name {
+					if cancel, ok := probeCancels[id]; ok {
 						cancel()
 					}
-					delete(slaTrackers.m, name)
 
 					probeCtx, cancel := context.WithCancel(ctx)
-					probeCancels[name] = cancel
+					probeCancels[id] = cancel
 					wg.Add(1)
 					go startProbeWorker(probeCtx, wg, updated)
 
-					runningTargets[name] = updated
+					runningTargets[id] = updated
 				}
 			}
 			slaTrackers.Unlock()
 
-			// ------------------ Start new targets ------------------
 			for _, t := range targets {
-				if _, ok := runningTargets[t.Name]; !ok {
-					slog.Info("New target detected, starting worker", "name", t.Name)
+				if _, ok := runningTargets[t.ID]; !ok {
 					probeCtx, cancel := context.WithCancel(ctx)
-					probeCancels[t.Name] = cancel
+					probeCancels[t.ID] = cancel
 
 					wg.Add(1)
 					go startProbeWorker(probeCtx, wg, t)
 
-					runningTargets[t.Name] = t
+					runningTargets[t.ID] = t
 				}
 			}
 
@@ -796,7 +778,6 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 			case <-ctx.Done():
 				return
 			case <-ticker.C:
-				continue
 			}
 		}
 	}()

@@ -109,17 +109,16 @@
     const index = msg?.index;
 
     if (msg?.deleted) {
-      Object.keys(probeMap).forEach((key) => {
-        if (probeMap[key].id === probe.id) {
+      const targetId = probe?.id;
+      if (!targetId) return;
+
+      for (const key in probeMap) {
+        if (probeMap[key].id === targetId) {
           delete probeMap[key];
         }
-      });
+      }
 
-      pending.forEach((_, key) => {
-        if (pending.get(key)?.probe.id === probe.id) {
-          pending.delete(key);
-        }
-      });
+      pending.delete(targetId);
 
       return;
     }
