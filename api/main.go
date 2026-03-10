@@ -9,7 +9,6 @@ import (
 	"io"
 	"log"
 	"log/slog"
-	"maps"
 	"net"
 	"net/http"
 	"os"
@@ -738,6 +737,11 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 
 				if !found {
 					slog.Info("Target deleted from Convex, stopping worker", "name", id)
+
+					globalHub.Lock()
+					delete(globalHub.cache, id)
+					globalHub.Unlock()
+
 					if cancel, ok := probeCancels[id]; ok {
 						cancel()
 						delete(probeCancels, id)
@@ -796,10 +800,8 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 // -------------------- SSE HANDLER --------------------
 
 func Sse(w http.ResponseWriter, r *http.Request) {
-
 	ctx := r.Context()
 
-	// SSE headers
 	w.Header().Set(HeaderAllowOrigin, "*")
 	w.Header().Set(HeaderCacheControl, "no-cache")
 	w.Header().Set(HeaderConnection, "keep-alive")
@@ -817,9 +819,16 @@ func Sse(w http.ResponseWriter, r *http.Request) {
 	globalHub.Lock()
 	globalHub.clients[clientChan] = struct{}{}
 
-	initialData := make(map[string]StatusPayload)
-	maps.Copy(initialData, globalHub.cache)
+	targetCache.RLock()
+	lookup := targetCache.lookup
+	targetCache.RUnlock()
 
+	initialData := make(map[string]StatusPayload)
+	for name, payload := range globalHub.cache {
+		if _, exists := lookup[name]; exists {
+			initialData[name] = payload
+		}
+	}
 	globalHub.Unlock()
 
 	if len(initialData) > 0 {
@@ -837,14 +846,12 @@ func Sse(w http.ResponseWriter, r *http.Request) {
 		case <-ctx.Done():
 			return
 		case update := <-clientChan:
-
 			targetCache.RLock()
-			lookup := targetCache.lookup
+			currentLookup := targetCache.lookup
 			targetCache.RUnlock()
 
 			for name, payload := range update {
-
-				idx, found := lookup[name]
+				idx, found := currentLookup[name]
 
 				out := map[string]any{
 					"index": idx,
