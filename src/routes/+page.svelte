@@ -58,68 +58,48 @@
 
   const beepHost = env.PUBLIC_ODDIN_HOST;
   const json = source(`https://${beepHost}/v1/sse`).select("").json<ApiData>();
-  const pending = new Map<string, Buffered>();
-
-  type Buffered = { probe: ApiData; sla?: any; index?: number };
-
-  function flushPending() {
-    if (!pending.size) return;
-
-    const nextMap: Record<string, ApiData> = { ...probeMap };
-
-    for (const [id, { probe, sla, index }] of pending) {
-      const existing = nextMap[id];
-      const order = Number.isFinite(index)
-        ? index
-        : (existing?.__order ?? Number.POSITIVE_INFINITY);
-
-      nextMap[id] = {
-        ...(existing ?? {}),
-        ...probe,
-        uptime90: sla?.uptime90 ?? existing?.uptime90,
-        __order: order,
-      } as ApiData;
-    }
-
-    pending.clear();
-
-    const sortedEntries = Object.entries(nextMap).sort(
-      ([, a], [, b]) =>
-        (a.__order ?? Number.POSITIVE_INFINITY) -
-        (b.__order ?? Number.POSITIVE_INFINITY),
-    );
-
-    probeMap = Object.fromEntries(sortedEntries);
-  }
-
-  json.subscribe((msg: any) => {
-    const probe = msg?.payload?.probe;
-    const sla = msg?.payload?.sla;
-    const index = msg?.index;
-
-    if (msg?.deleted && probe?.id) {
-      const targetId = probe?.id;
-      if (!targetId) return;
-
-      for (const key in probeMap) {
-        if (probeMap[key].id === targetId) {
-          delete probeMap[key];
-        }
-      }
-
-      pending.delete(targetId);
-
-      return;
-    }
-
-    if (!probe?.id) return;
-
-    pending.set(probe.id, { probe, sla, index });
-    flushPending();
-  });
 
   type ProbeMap = Record<string, ApiData>;
   let probeMap = $state<ProbeMap>({});
+
+  function updateProbe(id: string, probe: ApiData, sla?: any, index?: number) {
+    const existing = probeMap[id];
+
+    const order = Number.isFinite(index)
+      ? index!
+      : (existing?.__order ?? Number.POSITIVE_INFINITY);
+
+    probeMap[id] = {
+      ...(existing ?? {}),
+      ...probe,
+      uptime90: sla?.uptime90 ?? existing?.uptime90,
+      __order: order,
+    } as ApiData;
+
+    sortProbeMap();
+  }
+
+  function sortProbeMap() {
+    const sorted = Object.entries(probeMap).sort(
+      ([, a], [, b]) => (a.__order ?? Infinity) - (b.__order ?? Infinity),
+    );
+    probeMap = Object.fromEntries(sorted);
+  }
+
+  json.subscribe((msg: any) => {
+    const { payload, index, deleted } = msg;
+    const probe = payload?.probe;
+    const id = probe?.id;
+
+    if (!id) return;
+
+    if (deleted) {
+      delete probeMap[id];
+      return;
+    }
+
+    updateProbe(id, probe, payload?.sla, index);
+  });
 
   // const statusStore = localStore<StatusType[]>('status', []);
 
