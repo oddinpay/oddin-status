@@ -117,6 +117,7 @@ func fetchTargets(ctx context.Context) []HttpRequest {
 	defer cancel()
 
 	type Status struct {
+		ID       string `json:"_id,omitempty"`
 		Name     string `json:"name"`
 		Protocol string `json:"protocol"`
 		Host     string `json:"host"`
@@ -740,7 +741,7 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 						break
 					}
 				}
-				
+
 				if running.Name != updated.Name || running.Host != updated.Host || running.Protocol != updated.Protocol {
 
 					slog.Info("Target updated, restarting worker", "name", name, "oldHost", running.Host, "newHost", updated.Name)
