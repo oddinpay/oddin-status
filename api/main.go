@@ -752,9 +752,9 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 						name: {Probe: ProbeResult{Name: name, State: []string{"deleted"}}},
 					})
 
-					delete(slaTrackers.m, name)
-					delete(runningTargets, name)
-					kv.Delete(ctx, name)
+					// delete(slaTrackers.m, name)
+					// delete(runningTargets, name)
+					// kv.Delete(ctx, name)
 
 					targetCache.Lock()
 					delete(targetCache.lookup, name)
