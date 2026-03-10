@@ -748,6 +748,16 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 					delete(globalHub.cache, name)
 					globalHub.Unlock()
 
+					targetCache.Lock()
+					delete(targetCache.lookup, name)
+					for i := 0; i < len(targetCache.targets); i++ {
+						if targetCache.targets[i].Name == name {
+							targetCache.targets = append(targetCache.targets[:i], targetCache.targets[i+1:]...)
+							break
+						}
+					}
+					targetCache.Unlock()
+
 					globalHub.Broadcast(map[string]StatusPayload{
 						name: {Probe: ProbeResult{Name: name, State: []string{"deleted"}}},
 					})
