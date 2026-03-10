@@ -107,25 +107,25 @@
     const probe = msg?.payload?.probe;
     const sla = msg?.payload?.sla;
     const index = msg?.index;
+    const targetId = probe?.id;
 
-    if (probe.state === "deleted" && probe?.id) {
-      const targetId = probe?.id;
-      if (!targetId) return;
+    if (!targetId) return;
 
+    const isDeleted = probe?.state?.[0] === "deleted";
+
+    if (isDeleted) {
       for (const key in probeMap) {
         if (probeMap[key].id === targetId) {
           delete probeMap[key];
+          break;
         }
       }
 
       pending.delete(targetId);
-
       return;
     }
 
-    if (!probe?.id) return;
-
-    pending.set(probe.id, { probe, sla, index });
+    pending.set(targetId, { probe, sla, index });
     scheduleFlush();
   });
 
