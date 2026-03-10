@@ -744,6 +744,7 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 					delete(slaTrackers.m, id)
 					delete(runningTargets, id)
 					kv.Delete(ctx, running.Name)
+
 				} else if running.Host != updated.Host || running.Protocol != updated.Protocol || running.Name != updated.Name {
 					if cancel, ok := probeCancels[id]; ok {
 						cancel()
@@ -755,6 +756,7 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 					go startProbeWorker(probeCtx, wg, updated)
 
 					runningTargets[id] = updated
+
 				}
 			}
 			slaTrackers.Unlock()
