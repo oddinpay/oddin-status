@@ -760,8 +760,8 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 					delete(targetCache.lookup, name)
 					targetCache.Unlock()
 
-				} else if running.Name != updated.Name || running.Host != updated.Host || running.Protocol != updated.Protocol {
-					slog.Info("Target updated, restarting worker", "name", name, "oldHost", running.Host, "newHost", updated.Name)
+				} else if running.Host != updated.Host || running.Protocol != updated.Protocol {
+					slog.Info("Target updated, restarting worker", "name", name, "oldHost", running.Host, "newHost", updated.Host)
 
 					if cancel, ok := probeCancels[name]; ok {
 						cancel()
