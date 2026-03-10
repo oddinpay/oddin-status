@@ -116,14 +116,12 @@
     const isDeleted = probe?.action?.[0] === "deleted";
 
     if (isDeleted) {
-      for (const key in probeMap) {
-        if (probeMap[key].id === targetId) {
-          delete probeMap[key];
-          break;
-        }
-      }
-
       pending.delete(targetId);
+
+      const nextMap = { ...probeMap };
+      delete nextMap[targetId];
+
+      probeMap = nextMap;
       return;
     }
 
