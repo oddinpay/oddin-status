@@ -752,7 +752,6 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 					kv.Delete(ctx, id)
 
 				} else if running.Host != updated.Host || running.Protocol != updated.Protocol || running.Name != updated.Name {
-
 					slog.Info("Target updated, restarting worker", "name", id)
 					if cancel, ok := probeCancels[id]; ok {
 						cancel()
