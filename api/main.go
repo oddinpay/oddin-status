@@ -715,7 +715,6 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 		probeCancels := make(map[string]context.CancelFunc)
 
 		for {
-			refreshCache(ctx)
 
 			targetCache.RLock()
 			targets := targetCache.targets
@@ -743,10 +742,6 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 					delete(slaTrackers.m, name)
 					delete(runningTargets, name)
 					kv.Delete(ctx, name)
-
-					globalHub.Lock()
-					delete(globalHub.cache, name)
-					globalHub.Unlock()
 
 					globalHub.Broadcast(map[string]StatusPayload{
 						name: {Probe: ProbeResult{Name: name, State: []string{"deleted"}}},
@@ -845,17 +840,13 @@ func Sse(w http.ResponseWriter, r *http.Request) {
 
 			for name, payload := range update {
 
-				idx, found := lookup[name]
+				idx := lookup[name]
 				out := map[string]any{
 					"index": idx,
 					"payload": map[string]any{
 						"probe": payload.Probe,
 						"sla":   payload.SLA,
 					},
-				}
-
-				if !found {
-					out["deleted"] = true
 				}
 
 				if err := conn.SendData(ctx, out); err != nil {
@@ -874,7 +865,7 @@ func sendUpdateToConn(ctx context.Context, conn *sse.Conn, update map[string]Sta
 
 	for name, payload := range update {
 
-		idx, found := lookup[name]
+		idx := lookup[name]
 
 		out := map[string]any{
 			"index": idx,
@@ -882,10 +873,6 @@ func sendUpdateToConn(ctx context.Context, conn *sse.Conn, update map[string]Sta
 				"probe": payload.Probe,
 				"sla":   payload.SLA,
 			},
-		}
-
-		if !found {
-			out["deleted"] = true
 		}
 
 		if err := conn.SendData(ctx, out); err != nil {
@@ -1242,6 +1229,7 @@ func main() {
 		}
 	}
 
+	refreshCache(ctx)
 	startProbeManager(ctx, &wg)
 
 	mux := http.NewServeMux()
