@@ -65,23 +65,31 @@
   json.subscribe((msg: any) => {
     const probe = msg?.payload?.probe;
     const sla = msg?.payload?.sla;
+    const index = msg?.index;
 
     if (!probe?.id) return;
 
-    if (msg?.deleted) {
+    if (probe.action?.[0] === "deleted") {
       delete probeMap[probe.id];
       probeMap = { ...probeMap };
       return;
     }
 
-    probeMap = {
+    const next: ProbeMap = {
       ...probeMap,
       [probe.id]: {
         ...(probeMap[probe.id] ?? {}),
         ...probe,
         uptime90: sla?.uptime90 ?? probeMap[probe.id]?.uptime90,
+        __order: index ?? probeMap[probe.id]?.__order ?? Infinity,
       },
     };
+
+    probeMap = Object.fromEntries(
+      Object.entries(next).sort(
+        ([, a], [, b]) => (a.__order ?? Infinity) - (b.__order ?? Infinity),
+      ),
+    ) as ProbeMap;
   });
 
   function coerceStatus(s?: StatusType): StatusType {
