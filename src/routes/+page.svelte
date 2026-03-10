@@ -56,14 +56,14 @@
     uptime90: string;
   }
 
-  const beepHost = env.PUBLIC_ODDIN_HOST;
-  const json = source(`https://${beepHost}/v1/sse`).select("").json<ApiData>();
-
   type Buffered = { probe: ApiData; sla?: any; index?: number };
   type ProbeMap = Record<string, ApiData>;
 
+  const beepHost = env.PUBLIC_ODDIN_HOST;
+  const json = source(`https://${beepHost}/v1/sse`).select("").json<ApiData>();
   const pending = new Map<string, Buffered>();
   const FLUSH_DELAY = 50;
+
   let flushTimer: ReturnType<typeof setTimeout> | null = null;
   let probeMap = $state<ProbeMap>({});
 
