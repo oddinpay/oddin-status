@@ -59,12 +59,7 @@
   const beepHost = env.PUBLIC_ODDIN_HOST;
   const json = source(`https://${beepHost}/v1/sse`).select("").json<ApiData>();
 
-  type Buffered = {
-    probe: ApiData;
-    sla?: any;
-    index?: number;
-    delete: boolean;
-  };
+  type Buffered = { probe: ApiData; sla?: any; index?: number };
 
   const pending = new Map<string, Buffered>();
   let flushTimer: ReturnType<typeof setTimeout> | null = null;
@@ -81,47 +76,43 @@
   function flushPending() {
     if (!pending.size) return;
 
-    const nextMap: Record<string, ApiData> = { ...probeMap };
+    const nextMap: Record<string, ApiData> = { ...(probeMap as ProbeMap) };
 
-    for (const [id, { probe, sla, index, delete: shouldDelete }] of pending) {
-      if (shouldDelete) {
-        delete nextMap[id];
-        continue;
-      }
-
+    for (const [id, { probe, sla, index }] of pending) {
       const existing = nextMap[id];
       const order = Number.isFinite(index)
         ? index
-        : (existing?.__order ?? Number.POSITIVE_INFINITY);
+        : ((existing as any)?.__order ?? Number.POSITIVE_INFINITY);
 
-      nextMap[id] = {
+      const nextProbe = {
         ...(existing ?? {}),
         ...probe,
-        uptime90: sla?.uptime90 ?? existing?.uptime90,
+        uptime90: sla?.uptime90,
         __order: order,
-      } as ApiData;
+      };
+
+      nextMap[id] = nextProbe;
     }
 
     pending.clear();
 
     const sortedEntries = Object.entries(nextMap).sort(
       ([, a], [, b]) =>
-        (a.__order ?? Number.POSITIVE_INFINITY) -
-        (b.__order ?? Number.POSITIVE_INFINITY),
+        ((a as any).__order ?? Number.POSITIVE_INFINITY) -
+        ((b as any).__order ?? Number.POSITIVE_INFINITY),
     );
 
-    probeMap = Object.fromEntries(sortedEntries);
+    probeMap = Object.fromEntries(sortedEntries) as ProbeMap;
   }
 
   json.subscribe((msg: any) => {
     const probe = msg?.payload?.probe;
     const sla = msg?.payload?.sla;
     const index = msg?.index;
-    const shouldDelete = msg?.delete;
-
     if (!probe?.id) return;
 
-    pending.set(probe.id, { probe, sla, index, delete: shouldDelete });
+    pending.set(probe.id, { probe, sla, index });
+
     scheduleFlush();
   });
 
