@@ -606,7 +606,6 @@ func (s *SlidingSLA) Snapshot() map[string]any {
 
 	if total <= 0 {
 		return map[string]any{
-			"id":                 "",
 			"sla_target":         "99.999%",
 			"uptime90":           "99.999%",
 			"up_time_seconds":    formatDurationFull(0),
@@ -628,7 +627,6 @@ func (s *SlidingSLA) Snapshot() map[string]any {
 	up := total - down
 
 	return map[string]any{
-		"id":                 "",
 		"sla_target":         "99.999%",
 		"uptime90":           uptimeStr,
 		"up_time_seconds":    formatDurationFull(up),
