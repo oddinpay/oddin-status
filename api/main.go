@@ -857,6 +857,11 @@ func Sse(w http.ResponseWriter, r *http.Request) {
 			for name, payload := range update {
 				idx := currentLookup[name]
 
+				payload.Probe.Id = ""
+				if payload.SLA != nil {
+					payload.SLA["id"] = ""
+				}
+
 				out := map[string]any{
 					"index": idx,
 					"payload": map[string]any{
