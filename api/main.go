@@ -1,6 +1,7 @@
 package main
 
 import (
+	"maps"
 	"bytes"
 	"compress/gzip"
 	"context"
@@ -15,6 +16,7 @@ import (
 	"os/signal"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"syscall"
 	"time"
 
@@ -306,21 +308,50 @@ func getRecentDates() []string {
 // -------------------- BROADCAST HUB --------------------
 
 type Hub struct {
-	sync.RWMutex
-	clients map[chan map[string]StatusPayload]struct{}
+	clients atomic.Value
 	cache   map[string]StatusPayload
+	mu      sync.RWMutex
 }
 
-var globalHub = &Hub{
-	clients: make(map[chan map[string]StatusPayload]struct{}),
-	cache:   make(map[string]StatusPayload),
+func NewHub() *Hub {
+	h := &Hub{
+		cache: make(map[string]StatusPayload),
+	}
+	h.clients.Store([]chan map[string]StatusPayload{})
+	return h
+}
+
+var globalHub = NewHub()
+
+func (h *Hub) AddClient(ch chan map[string]StatusPayload) {
+	old := h.clients.Load().([]chan map[string]StatusPayload)
+
+	newClients := make([]chan map[string]StatusPayload, len(old)+1)
+	copy(newClients, old)
+	newClients[len(old)] = ch
+
+	h.clients.Store(newClients)
+}
+
+func (h *Hub) RemoveClient(ch chan map[string]StatusPayload) {
+	old := h.clients.Load().([]chan map[string]StatusPayload)
+
+	newClients := make([]chan map[string]StatusPayload, 0, len(old)-1)
+
+	for _, c := range old {
+		if c != ch {
+			newClients = append(newClients, c)
+		}
+	}
+
+	h.clients.Store(newClients)
 }
 
 func (h *Hub) Broadcast(update map[string]StatusPayload) {
-	h.Lock()
-	defer h.Unlock()
 
+	h.mu.Lock()
 	for id, payload := range update {
+
 		if len(payload.Probe.Action) > 0 && payload.Probe.Action[0] == "deleted" {
 			delete(h.cache, id)
 		} else {
@@ -328,9 +359,12 @@ func (h *Hub) Broadcast(update map[string]StatusPayload) {
 		}
 	}
 
-	for clientChan := range h.clients {
+	h.mu.Unlock()
+	clients := h.clients.Load().([]chan map[string]StatusPayload)
+
+	for _, ch := range clients {
 		select {
-		case clientChan <- update:
+		case ch <- update:
 		default:
 		}
 	}
@@ -799,8 +833,6 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 	}()
 }
 
-// -------------------- SSE HANDLER --------------------
-
 func hydrateSnapshotFromKV(ctx context.Context) {
 	keys, err := kv.Keys(ctx)
 	if err != nil {
@@ -809,9 +841,8 @@ func hydrateSnapshotFromKV(ctx context.Context) {
 	}
 
 	for _, key := range keys {
-
 		entry, err := kv.Get(ctx, key)
-		if err != nil {
+		if err != nil || entry == nil {
 			continue
 		}
 
@@ -828,23 +859,28 @@ func hydrateSnapshotFromKV(ctx context.Context) {
 		gr.Close()
 
 		payload := StatusPayload{}
-
 		if p, ok := wrapped["payload"].(map[string]any); ok {
 			b, _ := json.Marshal(p)
 			json.Unmarshal(b, &payload)
 		}
 
-		globalHub.Lock()
+		globalHub.mu.Lock()
 		globalHub.cache[key] = payload
-		globalHub.Unlock()
+		globalHub.mu.Unlock()
 	}
 
 	slog.Info("SSE snapshot cache hydrated", "items", len(globalHub.cache))
 }
 
-func Sse(w http.ResponseWriter, r *http.Request) {
-	ctx := r.Context()
+// -------------------- SSE HANDLER --------------------
 
+func Sse(w http.ResponseWriter, r *http.Request) {
+	if r.Method != MethodGet {
+		http.Error(w, "Method not allowed", StatusMethodNotAllowed)
+		return
+	}
+
+	ctx := r.Context()
 	w.Header().Set(HeaderAllowOrigin, "*")
 	w.Header().Set(HeaderCacheControl, "no-cache")
 	w.Header().Set(HeaderConnection, "keep-alive")
@@ -858,87 +894,47 @@ func Sse(w http.ResponseWriter, r *http.Request) {
 	defer conn.Close()
 
 	clientChan := make(chan map[string]StatusPayload, 200)
-
-	globalHub.Lock()
-	globalHub.clients[clientChan] = struct{}{}
-	globalHub.Unlock()
+	globalHub.AddClient(clientChan)
+	defer globalHub.RemoveClient(clientChan)
 
 	targetCache.RLock()
-	lookup := targetCache.lookup
+	lookup := make(map[string]int, len(targetCache.lookup))
+	maps.Copy(lookup, targetCache.lookup)
 	targetCache.RUnlock()
 
 	initialData := make(map[string]StatusPayload)
-
-	globalHub.RLock()
+	globalHub.mu.RLock()
 	for name, payload := range globalHub.cache {
 		if _, exists := lookup[name]; exists {
 			initialData[name] = payload
 		}
 	}
-	globalHub.RUnlock()
+	globalHub.mu.RUnlock()
 
 	if len(initialData) > 0 {
-		sendUpdateToConn(ctx, conn, initialData)
+		_ = sendUpdateToConn(ctx, conn, initialData, lookup)
 	}
-
-	defer func() {
-		globalHub.Lock()
-		delete(globalHub.clients, clientChan)
-		globalHub.Unlock()
-	}()
 
 	for {
 		select {
 		case <-ctx.Done():
 			return
-
 		case update := <-clientChan:
-
-			targetCache.RLock()
-			currentLookup := targetCache.lookup
-			targetCache.RUnlock()
-
-			for name, payload := range update {
-
-				idx, ok := currentLookup[name]
-				if !ok {
-					continue
-				}
-
-				payload.Probe.Id = ""
-				delete(payload.SLA, "id")
-
-				out := map[string]any{
-					"index": idx,
-					"payload": map[string]any{
-						"probe": payload.Probe,
-						"sla":   payload.SLA,
-					},
-				}
-
-				if err := conn.SendData(ctx, out); err != nil {
-					return
-				}
-			}
+			_ = sendUpdateToConn(ctx, conn, update, lookup)
 		}
 	}
 }
 
-func sendUpdateToConn(ctx context.Context, conn *sse.Conn, update map[string]StatusPayload) error {
-
-	targetCache.RLock()
-	lookup := targetCache.lookup
-	targetCache.RUnlock()
-
+func sendUpdateToConn(ctx context.Context, conn *sse.Conn, update map[string]StatusPayload, lookup map[string]int) error {
 	for name, payload := range update {
+		idx := -1
+		if i, ok := lookup[name]; ok {
+			idx = i
+		}
 
-		idx := lookup[name]
 		out := map[string]any{
-			"index": idx,
-			"payload": map[string]any{
-				"probe": payload.Probe,
-				"sla":   payload.SLA,
-			},
+			"index":   idx,
+			"payload": map[string]any{"probe": payload.Probe, "sla": payload.SLA},
 		}
 
 		if err := conn.SendData(ctx, out); err != nil {
