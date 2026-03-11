@@ -67,23 +67,23 @@
     const sla = msg?.payload?.sla;
     const index = msg?.index;
 
-    if (!probe?.id) return;
+    if (!probe?.name) return;
 
-    const id = probe.id.trim();
+    const key = probe.name.trim();
 
     if (probe.action?.[0] === "deleted") {
-      const { [id]: _, ...rest } = probeMap;
+      const { [key]: _, ...rest } = probeMap;
       probeMap = rest;
       return;
     }
 
     const next: ProbeMap = {
       ...probeMap,
-      [id]: {
-        ...(probeMap[id] ?? {}),
+      [key]: {
+        ...(probeMap[key] ?? {}),
         ...probe,
-        uptime90: sla?.uptime90 ?? probeMap[id]?.uptime90,
-        __order: index ?? probeMap[id]?.__order ?? Infinity,
+        uptime90: sla?.uptime90 ?? probeMap[key]?.uptime90,
+        __order: index ?? probeMap[key]?.__order ?? Infinity,
       },
     };
 
