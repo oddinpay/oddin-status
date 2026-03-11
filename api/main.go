@@ -820,22 +820,7 @@ func Sse(w http.ResponseWriter, r *http.Request) {
 
 	globalHub.Lock()
 	globalHub.clients[clientChan] = struct{}{}
-
-	targetCache.RLock()
-	lookup := targetCache.lookup
-	targetCache.RUnlock()
-
-	initialData := make(map[string]StatusPayload)
-	for name, payload := range globalHub.cache {
-		if _, exists := lookup[name]; exists {
-			initialData[name] = payload
-		}
-	}
 	globalHub.Unlock()
-
-	if len(initialData) > 0 {
-		sendUpdateToConn(ctx, conn, initialData)
-	}
 
 	defer func() {
 		globalHub.Lock()
@@ -847,6 +832,7 @@ func Sse(w http.ResponseWriter, r *http.Request) {
 		select {
 		case <-ctx.Done():
 			return
+
 		case update := <-clientChan:
 			targetCache.RLock()
 			currentLookup := targetCache.lookup
@@ -883,7 +869,6 @@ func sendUpdateToConn(ctx context.Context, conn *sse.Conn, update map[string]Sta
 	for name, payload := range update {
 
 		idx := lookup[name]
-
 		out := map[string]any{
 			"index": idx,
 			"payload": map[string]any{
