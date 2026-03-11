@@ -62,6 +62,12 @@
   type ProbeMap = Record<string, ApiData>;
   let probeMap = $state<ProbeMap>({});
 
+  let sortedProbes = $derived(
+    Object.values(probeMap).sort((a, b) =>
+      (a.name ?? "").localeCompare(b.name ?? ""),
+    ),
+  );
+
   json.subscribe((msg: any) => {
     const probe = msg?.payload?.probe;
     const sla = msg?.payload?.sla;
@@ -162,7 +168,7 @@
   }
 
   let mockData = $derived.by(() => {
-    const probes = Object.values(probeMap) as ApiData[];
+    const probes = sortedProbes;
 
     const unique = new Map<string, ApiData>();
     for (const p of probes) {
@@ -217,7 +223,7 @@
       string,
       { title: string; description: string; status: string }
     >();
-    const probes = Object.values(probeMap) as any[];
+    const probes = sortedProbes;
     const unique = new Map<string, any>();
 
     for (const p of probes) {
