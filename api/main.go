@@ -321,7 +321,7 @@ func (h *Hub) Broadcast(update map[string]StatusPayload) {
 	defer h.Unlock()
 
 	for id, payload := range update {
-		if len(payload.Probe.State) > 0 && payload.Probe.State[0] == "deleted" {
+		if len(payload.Probe.Action) > 0 && payload.Probe.Action[0] == "deleted" {
 			delete(h.cache, id)
 		} else {
 			h.cache[id] = payload
@@ -801,6 +801,47 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 
 // -------------------- SSE HANDLER --------------------
 
+func hydrateSnapshotFromKV(ctx context.Context) {
+	keys, err := kv.Keys(ctx)
+	if err != nil {
+		slog.Error("failed to list KV keys", "error", err)
+		return
+	}
+
+	for _, key := range keys {
+
+		entry, err := kv.Get(ctx, key)
+		if err != nil {
+			continue
+		}
+
+		gr, err := gzip.NewReader(bytes.NewReader(entry.Value()))
+		if err != nil {
+			continue
+		}
+
+		var wrapped map[string]any
+		if err := json.NewDecoder(gr).Decode(&wrapped); err != nil {
+			gr.Close()
+			continue
+		}
+		gr.Close()
+
+		payload := StatusPayload{}
+
+		if p, ok := wrapped["payload"].(map[string]any); ok {
+			b, _ := json.Marshal(p)
+			json.Unmarshal(b, &payload)
+		}
+
+		globalHub.Lock()
+		globalHub.cache[key] = payload
+		globalHub.Unlock()
+	}
+
+	slog.Info("SSE snapshot cache hydrated", "items", len(globalHub.cache))
+}
+
 func Sse(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
@@ -820,18 +861,21 @@ func Sse(w http.ResponseWriter, r *http.Request) {
 
 	globalHub.Lock()
 	globalHub.clients[clientChan] = struct{}{}
+	globalHub.Unlock()
 
 	targetCache.RLock()
 	lookup := targetCache.lookup
 	targetCache.RUnlock()
 
 	initialData := make(map[string]StatusPayload)
+
+	globalHub.RLock()
 	for name, payload := range globalHub.cache {
 		if _, exists := lookup[name]; exists {
 			initialData[name] = payload
 		}
 	}
-	globalHub.Unlock()
+	globalHub.RUnlock()
 
 	if len(initialData) > 0 {
 		sendUpdateToConn(ctx, conn, initialData)
@@ -847,13 +891,19 @@ func Sse(w http.ResponseWriter, r *http.Request) {
 		select {
 		case <-ctx.Done():
 			return
+
 		case update := <-clientChan:
+
 			targetCache.RLock()
 			currentLookup := targetCache.lookup
 			targetCache.RUnlock()
 
 			for name, payload := range update {
-				idx := currentLookup[name]
+
+				idx, ok := currentLookup[name]
+				if !ok {
+					continue
+				}
 
 				payload.Probe.Id = ""
 				delete(payload.SLA, "id")
@@ -1246,6 +1296,7 @@ func main() {
 		}
 	}
 
+	hydrateSnapshotFromKV(ctx)
 	startProbeManager(ctx, &wg)
 
 	mux := http.NewServeMux()
