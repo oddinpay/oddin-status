@@ -894,6 +894,9 @@ func Sse(w http.ResponseWriter, r *http.Request) {
 	globalHub.AddClient(clientChan)
 	defer globalHub.RemoveClient(clientChan)
 
+	heartbeat := time.NewTicker(25 * time.Second)
+	defer heartbeat.Stop()
+
 	targetCache.RLock()
 	lookup := make(map[string]int, len(targetCache.lookup))
 	maps.Copy(lookup, targetCache.lookup)
@@ -918,6 +921,8 @@ func Sse(w http.ResponseWriter, r *http.Request) {
 			return
 		case update := <-clientChan:
 			_ = sendUpdateToConn(ctx, conn, update, lookup)
+		case <-heartbeat.C:
+			_ = conn.SendComment(ctx, "keep-alive")
 		}
 	}
 }
