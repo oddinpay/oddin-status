@@ -57,57 +57,39 @@
 
   const oddinHost = env.PUBLIC_ODDIN_HOST;
   let unsubscribe: (() => void) | undefined;
-  const RECONNECT_DELAY = 3000;
-  let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
 
-  function startSSE() {
+  onMount(() => {
     if (!browser) return;
-
-    unsubscribe?.();
-    unsubscribe = undefined;
 
     const json = source(`https://${oddinHost}/v1/sse`)
       .select("")
       .json<ApiData>();
 
-    unsubscribe = json.subscribe({
-      next(msg: any) {
-        const probe = msg?.payload?.probe;
-        const sla = msg?.payload?.sla;
-        const index = msg?.index;
+    unsubscribe = json.subscribe((msg: any) => {
+      const probe = msg?.payload?.probe;
+      const sla = msg?.payload?.sla;
+      const index = msg?.index;
 
-        if (!probe?.id) return;
+      if (!probe?.id) return;
 
-        const id = probe.id;
+      const id = probe.id;
 
-        if (probe.action?.[0] === "deleted") {
-          delete probeMap[id];
-          return;
-        }
+      if (probe.action?.[0] === "deleted") {
+        delete probeMap[id];
+        return;
+      }
 
-        probeMap[id] = {
-          ...(probeMap[id] ?? {}),
-          ...probe,
-          uptime90: sla?.uptime90 ?? probeMap[id]?.uptime90,
-          __order: index ?? probeMap[id]?.__order ?? Infinity,
-        };
-      },
-      error(err: string | Error) {
-        console.error("SSE error:", err);
-        reconnectTimer = setTimeout(() => startSSE(), RECONNECT_DELAY);
-      },
-      complete() {
-        console.log("SSE closed by server");
-        reconnectTimer = setTimeout(() => startSSE(), RECONNECT_DELAY);
-      },
-    } as any);
-  }
-
-  onMount(() => startSSE());
+      probeMap[id] = {
+        ...(probeMap[id] ?? {}),
+        ...probe,
+        uptime90: sla?.uptime90 ?? probeMap[id]?.uptime90,
+        __order: index ?? probeMap[id]?.__order ?? Infinity,
+      };
+    });
+  });
 
   onDestroy(() => {
     unsubscribe?.();
-    if (reconnectTimer) clearTimeout(reconnectTimer);
   });
 
   type ProbeMap = Record<string, ApiData>;
