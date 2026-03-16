@@ -68,56 +68,49 @@
 			</TabsList>
 			<div class="grid w-full grid-cols-1 gap-4 overflow-y-auto px-10 pb-20 md:grid-cols-2">
 				<div
-					class="relative col-span-1 rounded-lg border border-border bg-zinc-900 p-8 md:col-span-2 md:min-h-[480px] md:overflow-y-hidden"
+					class="relative col-span-1 rounded-lg border border-border bg-zinc-900 p-8 md:col-span-2 md:min-h-120 md:overflow-y-hidden"
 				>
-					<TabsContent value="tab-4" class="h-auto min-h-[300px]">
-						<Tabs value="tab-4" class=" items-center">
+					<TabsContent value="tab-4" class="h-auto min-h-75">
+						<Tabs value="tab-5" class=" items-center">
 							<TabsList
 								class="h-auto gap-2 rounded-full border-b border-border bg-zinc-800 px-10 py-2 text-zinc-400"
 							>
 								<TabsTrigger
-									value="tab-4"
-									class="relative cursor-pointer after:absolute  after:inset-x-0 after:bottom-0 after:-mb-1 after:h-0.5  hover:text-white hover:after:bg-white data-[state=active]:bg-transparent data-[state=active]:text-white data-[state=active]:shadow-none data-[state=active]:after:bg-white data-[state=active]:hover:text-white"
-								>
-									Schedule
-								</TabsTrigger>
-								<TabsTrigger
 									value="tab-5"
 									class="relative cursor-pointer after:absolute  after:inset-x-0 after:bottom-0 after:-mb-1 after:h-0.5  hover:text-white hover:after:bg-white data-[state=active]:bg-transparent data-[state=active]:text-white data-[state=active]:shadow-none data-[state=active]:after:bg-white data-[state=active]:hover:text-white"
 								>
-									Active
+									Overview	
 								</TabsTrigger>
 								<TabsTrigger
 									value="tab-6"
 									class="relative cursor-pointer after:absolute  after:inset-x-0 after:bottom-0 after:-mb-1 after:h-0.5  hover:text-white hover:after:bg-white data-[state=active]:bg-transparent data-[state=active]:text-white data-[state=active]:shadow-none data-[state=active]:after:bg-white data-[state=active]:hover:text-white"
 								>
-									Completed
+									Schedule
 								</TabsTrigger>
 							</TabsList>
 							<TabsContent value="tab-4">
-								<Schedules />
 							</TabsContent>
 							<TabsContent value="tab-5">
 								<NotSchedules />
 							</TabsContent>
 							<TabsContent value="tab-6">
-								<NotSchedules />
+								<Schedules />
 							</TabsContent>
 						</Tabs>
 					</TabsContent>
 				</div>
 				<div
-					class="min-h-[250px] rounded-lg border border-border bg-zinc-900 p-8 md:overflow-y-hidden"
+					class="min-h-62.5 rounded-lg border border-border bg-zinc-900 p-8 md:overflow-y-hidden"
 				>
-					<TabsContent value="tab-4" class="h-auto min-h-[150px]">
+					<TabsContent value="tab-4" class="h-auto min-h-37.5">
 						<p class="text-base font-semibold text-zinc-200">Ongoing Maintenance</p>
 					</TabsContent>
 				</div>
 
 				<div
-					class="min-h-[250px] rounded-lg border border-border bg-zinc-900 p-8 md:overflow-y-hidden"
+					class="min-h-62.5 rounded-lg border border-border bg-zinc-900 p-8 md:overflow-y-hidden"
 				>
-					<TabsContent value="tab-4" class="h-auto min-h-[150px]">
+					<TabsContent value="tab-4" class="h-auto min-h-37.5">
 						<p class="text-base font-semibold text-zinc-200">Upcoming Schedules</p>
 					</TabsContent>
 				</div>

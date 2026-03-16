@@ -77,7 +77,7 @@
 		<div class="flex gap-2">
 			<Dialog.Root bind:open>
 				<Dialog.Trigger class={cn('cursor-pointer', buttonVariants({ variant: 'outline' }))}
-					>Create Status Page</Dialog.Trigger
+					>Create page</Dialog.Trigger
 				>
 				<Dialog.Content class="bg-zinc-900">
 					<div class="flex flex-col items-center gap-2">
