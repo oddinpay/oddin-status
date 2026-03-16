@@ -58,14 +58,14 @@
 		</Empty.Media>
 		<Empty.Title class=" text-gray-200">Let’s Get Started</Empty.Title>
 		<Empty.Description class="text-gray-400">
-			Get started by creating an Incident, and you’ll see real-time updates.
+			Start by changing the incident status. You can also add notes to the incident.
 		</Empty.Description>
 	</Empty.Header>
 	<Empty.Content>
 		<div class="flex gap-2">
 			<Dialog.Root>
 				<Dialog.Trigger class={cn('cursor-pointer', buttonVariants({ variant: 'outline' }))}
-					>Create Incident</Dialog.Trigger
+					>Update incident</Dialog.Trigger
 				>
 				<Dialog.Content class="bg-zinc-900">
 					<div class="flex flex-col items-center gap-2">
@@ -77,9 +77,9 @@
 						</div>
 
 						<Dialog.Header>
-							<Dialog.Title class=" text-gray-300 sm:text-center">Create New Incident</Dialog.Title>
+							<Dialog.Title class=" text-gray-300 sm:text-center">Update Incident</Dialog.Title>
 							<Dialog.Description class="text-gray-400 sm:text-center">
-								Set up and publish your incident.
+								Modify your incident details.
 							</Dialog.Description>
 						</Dialog.Header>
 					</div>
@@ -111,11 +111,11 @@
 										{/if}
 									</Select.Trigger>
 									<Select.Content
-										class="bg-zinc-800  text-white [&_*[data-select-item]]:ps-2 [&_*[data-select-item]]:pe-8 [&_*[data-select-item]>span]:start-auto [&_*[data-select-item]>span]:end-2 [&_*[data-select-item]>span]:flex [&_*[data-select-item]>span]:items-center [&_*[data-select-item]>span]:gap-2 [&_*[data-select-item]>span>svg]:shrink-0"
+										class="bg-zinc-800  text-white [&_*[data-select-item]]:ps-2 [&_*[data-select-item]]:pe-8 [&_*[data-select-item]>span]:start-auto [&_*[data-select-item]>span]:inset-e-2 [&_*[data-select-item]>span]:flex [&_*[data-select-item]>span]:items-center [&_*[data-select-item]>span]:gap-2 [&_*[data-select-item]>span>svg]:shrink-0"
 									>
 										{#each incidents as item (item.value)}
 											<Select.Item
-												class="cursor-pointer data-[highlighted]:bg-zinc-700 data-[highlighted]:text-white [&_svg:not([class*='text-'])]:text-gray-300"
+												class="cursor-pointer data-highlighted:bg-zinc-700 data-highlighted:text-white [&_svg:not([class*='text-'])]:text-gray-300"
 												value={item.value}
 											>
 												{@render status(item)}
