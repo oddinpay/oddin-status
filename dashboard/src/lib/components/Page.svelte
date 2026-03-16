@@ -46,17 +46,17 @@
 	
 	$effect(() => {
  		if (profileImageHandler.files?.length) {
-        const file = profileImageHandler.files[0];
-        const reader = new FileReader();
-        reader.onload = () => {
-			const result = reader.result;
-            if (typeof result === 'string') {
-                $formData.image = result.split(',')[1]; 
-				profileImageBase64 = result.split(',')[1];
-				console.log('Base64 Image String:', profileImageBase64);
-            }
-        };
-        reader.readAsDataURL(file);
+        	const file = profileImageHandler.files[0];
+       		const reader = new FileReader();
+       	    reader.onload = () => {
+				const result = reader.result;
+            	if (typeof result === 'string') {
+             	   $formData.image = result.split(',')[1]; 
+				   profileImageBase64 = result.split(',')[1];
+				   console.log('Base64 Image String:', profileImageBase64);
+      		    }
+        	};
+        	reader.readAsDataURL(file);
     } else {
 		profileImageBase64 = null;
     }
