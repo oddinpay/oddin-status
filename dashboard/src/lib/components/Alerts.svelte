@@ -192,7 +192,7 @@
 							</div>
 						</div>
 						<Button class="mt-2 w-full cursor-pointer" type="submit" variant="outline"
-							>Save</Button
+							>Create</Button
 						>
 					</form>
 				</Dialog.Content>
