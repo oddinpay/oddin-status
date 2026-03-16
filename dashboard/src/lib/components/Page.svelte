@@ -1,21 +1,18 @@
 <script lang="ts">
-	import { defaults, superForm } from 'sveltekit-superforms';
+	import {  superForm } from 'sveltekit-superforms';
 	import { zod4 } from 'sveltekit-superforms/adapters';
 	import { Toaster, toast } from 'svelte-sonner';
 	import * as Form from '$lib/components/ui/form/index.js';
 	import { formSchema } from '$lib/types/form';
-
 	import Button, { buttonVariants } from '$lib/components/ui/button.svelte';
 	import Input from '$lib/components/ui/input.svelte';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import { cn } from '$lib/utils';
-
+	import { page } from "$app/state";
 	import * as Empty from '$lib/components/ui/empty/index.js';
 	import IconFileOrientation from '@tabler/icons-svelte/icons/file-orientation';
 	import ArrowUpRightIcon from '@lucide/svelte/icons/arrow-up-right';
-
 	import { useImageUpload } from '$lib/hooks/use-image-upload.svelte';
-
 	import ImagePlus from '@lucide/svelte/icons/image-plus';
 	import Loader2 from '@lucide/svelte/icons/loader-2';
 
@@ -24,15 +21,16 @@
 	});
 
 	let profileImageBase64: string | null = null;
-
 	let open = $state(false);
 
-	const form = superForm(defaults(zod4(formSchema)), {
+	const form = superForm(page.data.form,{
+		resetForm: true,
 		validators: zod4(formSchema),
-		SPA: true,
+		onSubmit: async () => {
+    	  await new Promise((resolve) => setTimeout(resolve, 800));
+    	},
 		onUpdate: async ({ form: f }) => {
 			if (f.valid) {
-				await new Promise((r) => setTimeout(r, 500));
 				open = false;
 				toast.success(`You submitted ${JSON.stringify(f.data, null, 2)}`);
 			} else {

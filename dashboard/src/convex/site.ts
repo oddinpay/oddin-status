@@ -10,6 +10,6 @@ export const get = query({
 			throw new Error('Unauthorized');
 		}
 		const site = await ctx.db.query('site').collect();
-		return site.map((site) => ({ ...site, assigner: 'oddin' }));
+		return site.map((site) => ({ ...site }));
 	}
 });
