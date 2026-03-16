@@ -31,26 +31,8 @@
 		validators: zod4(formSchema),
 		SPA: true,
 		onUpdate: async ({ form: f }) => {
-			const logoValue = f.data.navbar?.trim() ?? '';
-
-			if (!logoValue) {
-				return;
-			}
 			if (f.valid) {
 				await new Promise((r) => setTimeout(r, 500));
-				if (profileImageHandler.files?.length) {
-					const file = profileImageHandler.files[0];
-					const reader = new FileReader();
-					reader.onload = () => {
-						const result = reader.result;
-						if (typeof result === 'string') {
-							profileImageBase64 = result.split(',')[1];
-						}
-					};
-					reader.readAsDataURL(file);
-				} else {
-					profileImageBase64 = null;
-				}
 				open = false;
 				toast.success(`You submitted ${JSON.stringify(f.data, null, 2)}`);
 			} else {
@@ -61,6 +43,24 @@
 	});
 
 	const { form: formData, submitting, enhance } = form;
+	
+	$effect(() => {
+ 		if (profileImageHandler.files?.length) {
+        const file = profileImageHandler.files[0];
+        const reader = new FileReader();
+        reader.onload = () => {
+			const result = reader.result;
+            if (typeof result === 'string') {
+                $formData.image = result.split(',')[1]; 
+				profileImageBase64 = result.split(',')[1];
+				console.log('Base64 Image String:', profileImageBase64);
+            }
+        };
+        reader.readAsDataURL(file);
+    } else {
+		profileImageBase64 = null;
+    }
+});
 </script>
 
 <Toaster closeButton position="top-center" />

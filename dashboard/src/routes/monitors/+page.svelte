@@ -71,9 +71,9 @@
 
 			<div class="grid w-full grid-cols-1 gap-4 overflow-y-auto px-10 pb-20 md:grid-cols-2">
 				<div
-					class="relative col-span-1 rounded-lg border border-border bg-zinc-900 p-8 md:col-span-2 md:min-h-[480px] md:overflow-y-hidden"
+					class="relative col-span-1 rounded-lg border border-border bg-zinc-900 p-8 md:col-span-2 md:min-h-120 md:overflow-y-hidden"
 				>
-					<TabsContent value="tab-1" class="h-auto min-h-[300px]">
+					<TabsContent value="tab-1" class="h-auto min-h-75">
 						<Tabs value="tab-1" class=" items-center">
 							<TabsList
 								class="h-auto gap-2 rounded-full border-b border-border bg-zinc-800 px-10 py-2 text-zinc-400"
@@ -101,9 +101,9 @@
 					</TabsContent>
 				</div>
 				<div
-					class="min-h-[250px] rounded-lg border border-border bg-zinc-900 p-8 md:overflow-y-hidden"
+					class="min-h-62.5 rounded-lg border border-border bg-zinc-900 p-8 md:overflow-y-hidden"
 				>
-					<TabsContent value="tab-1" class="h-auto min-h-[150px]">
+					<TabsContent value="tab-1" class="h-auto min-h-37.5">
 						<p class="text-base font-semibold text-zinc-200">Up</p>
 						<Gauge
 							colors={{ primary: 'stroke-green-600', secondary: 'stroke-green-200' }}
@@ -116,9 +116,9 @@
 				</div>
 
 				<div
-					class="min-h-[250px] rounded-lg border border-border bg-zinc-900 p-8 md:overflow-y-hidden"
+					class="min-h-62.5 rounded-lg border border-border bg-zinc-900 p-8 md:overflow-y-hidden"
 				>
-					<TabsContent value="tab-1" class="h-auto min-h-[150px]">
+					<TabsContent value="tab-1" class="h-auto min-h-37.5">
 						<p class="text-base font-semibold text-zinc-200">Down</p>
 						<Gauge
 							colors={{ primary: 'stroke-red-700', secondary: 'stroke-red-200' }}
