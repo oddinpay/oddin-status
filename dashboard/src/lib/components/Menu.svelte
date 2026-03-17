@@ -20,7 +20,7 @@
   >
     <MoreHorizontal />
   </DropdownMenu.Trigger>
-  <DropdownMenu.Content class="w-40 " align="end">
+  <DropdownMenu.Content class="w-40" align="end">
     <DropdownMenu.Group>
       <DropdownMenu.Item
         class="cursor-pointer"
