@@ -16,20 +16,24 @@
 <DropdownMenu.Root>
   <DropdownMenu.Trigger
     class={buttonVariants({ variant: "outline", size: "icon-sm" }) +
-      " cursor-pointer text-white hover:text-gray-300 bg-zinc-800 border-zinc-600 hover:bg-zinc-700"}
+      " cursor-pointer text-white hover:text-gray-300 bg-zinc-800 border-zinc-600 hover:bg-zinc-900"}
   >
     <MoreHorizontal />
   </DropdownMenu.Trigger>
-  <DropdownMenu.Content class="w-40" align="end">
-    <DropdownMenu.Label>File Actions</DropdownMenu.Label>
+  <DropdownMenu.Content class="w-40 " align="end">
     <DropdownMenu.Group>
-      <DropdownMenu.Item onSelect={() => (showNewDialog = true)}>
-        New File...
+      <DropdownMenu.Item
+        class="cursor-pointer"
+        onSelect={() => (showNewDialog = true)}
+      >
+        Edit
       </DropdownMenu.Item>
-      <DropdownMenu.Item onSelect={() => (showShareDialog = true)}>
-        Share...
+      <DropdownMenu.Item
+        class="cursor-pointer"
+        onSelect={() => (showShareDialog = true)}
+      >
+        Visit
       </DropdownMenu.Item>
-      <DropdownMenu.Item disabled>Download</DropdownMenu.Item>
     </DropdownMenu.Group>
   </DropdownMenu.Content>
 </DropdownMenu.Root>
