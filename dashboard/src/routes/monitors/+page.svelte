@@ -18,60 +18,60 @@
 
 		<Tabs
 			value={currentTab}
-			class="flex max-h-[calc(100dvh-3rem)]  w-full flex-col gap-8 md:flex-row"
+			class="flex max-h-[calc(100dvh-3rem)]  w-full flex-col gap-8 900:flex-row"
 		>
 			<TabsList
-				class="sticky top-6 flex w-80 flex-col gap-2 self-start bg-transparent p-4 max-[770px]:top-0 max-[770px]:z-50 max-[770px]:w-full max-[770px]:flex-row max-[770px]:justify-around max-[770px]:bg-black/80 max-[770px]:backdrop-blur-md"
+				class="sticky top-6 flex w-80 flex-col gap-2 self-start bg-transparent p-4 max-[900px]:top-0 max-[900px]:z-50 max-[900px]:w-full max-[900px]:flex-row max-[900px]:justify-around max-[900px]:bg-black/80 max-[900px]:backdrop-blur-md"
 			>
 				<TabsTrigger
 					value="tab-0"
 					onclick={() => goto('/')}
-					class="flex w-full cursor-pointer items-center justify-start gap-3 rounded-md py-4 text-2xl font-bold text-white transition data-[state=active]:bg-transparent data-[state=active]:text-white data-[state=inactive]:text-zinc-400 data-[state=inactive]:hover:bg-zinc-800 data-[state=inactive]:hover:text-white max-[770px]:justify-center max-[770px]:p-2 xl:px-6 xl:text-3xl"
+					class="flex w-full cursor-pointer items-center justify-start gap-3 rounded-md py-4 text-2xl font-bold text-white transition data-[state=active]:bg-transparent data-[state=active]:text-white data-[state=inactive]:text-zinc-400 data-[state=inactive]:hover:bg-zinc-800 data-[state=inactive]:hover:text-white max-[900px]:justify-center max-[900px]:p-2 xl:px-6 xl:text-3xl"
 				>
 					<House class="h-8 w-8" />
-					<span class="max-[770px]:hidden">Home</span>
+					<span class="max-[900px]:hidden">Home</span>
 				</TabsTrigger>
 
 				<TabsTrigger
 					value="tab-1"
 					onclick={() => goto('/monitors')}
-					class="flex w-full cursor-pointer items-center justify-start gap-3 rounded-md py-4 text-2xl font-bold text-white transition data-[state=active]:bg-transparent data-[state=active]:text-white data-[state=inactive]:text-zinc-400 data-[state=inactive]:hover:bg-zinc-800 data-[state=inactive]:hover:text-white max-[770px]:justify-center max-[770px]:p-2 xl:px-6 xl:text-3xl"
+					class="flex w-full cursor-pointer items-center justify-start gap-3 rounded-md py-4 text-2xl font-bold text-white transition data-[state=active]:bg-transparent data-[state=active]:text-white data-[state=inactive]:text-zinc-400 data-[state=inactive]:hover:bg-zinc-800 data-[state=inactive]:hover:text-white max-[900px]:justify-center max-[900px]:p-2 xl:px-6 xl:text-3xl"
 				>
 					<SquareActivity class="h-8 w-8" />
-					<span class="max-[770px]:hidden">Monitors</span>
+					<span class="max-[900px]:hidden">Monitors</span>
 				</TabsTrigger>
 
 				<TabsTrigger
 					value="tab-2"
 					onclick={() => goto('/incidents')}
-					class="flex w-full cursor-pointer items-center justify-start gap-3 rounded-md py-4 text-2xl font-bold text-white transition data-[state=active]:bg-transparent data-[state=active]:text-white data-[state=inactive]:text-zinc-400 data-[state=inactive]:hover:bg-zinc-800 data-[state=inactive]:hover:text-white max-[770px]:justify-center max-[770px]:p-2 xl:px-6 xl:text-3xl"
+					class="flex w-full cursor-pointer items-center justify-start gap-3 rounded-md py-4 text-2xl font-bold text-white transition data-[state=active]:bg-transparent data-[state=active]:text-white data-[state=inactive]:text-zinc-400 data-[state=inactive]:hover:bg-zinc-800 data-[state=inactive]:hover:text-white max-[900px]:justify-center max-[900px]:p-2 xl:px-6 xl:text-3xl"
 				>
 					<ShieldAlert class="h-8 w-8" />
-					<span class="max-[770px]:hidden">Incidents</span>
+					<span class="max-[900px]:hidden">Incidents</span>
 				</TabsTrigger>
 
 				<TabsTrigger
 					value="tab-3"
 					onclick={() => goto('/alerts')}
-					class="flex w-full cursor-pointer items-center justify-start gap-3 rounded-md py-4 text-2xl font-bold text-white transition data-[state=active]:bg-transparent data-[state=active]:text-white data-[state=inactive]:text-zinc-400 data-[state=inactive]:hover:bg-zinc-800 data-[state=inactive]:hover:text-white max-[770px]:justify-center max-[770px]:p-2 xl:px-6 xl:text-3xl"
+					class="flex w-full cursor-pointer items-center justify-start gap-3 rounded-md py-4 text-2xl font-bold text-white transition data-[state=active]:bg-transparent data-[state=active]:text-white data-[state=inactive]:text-zinc-400 data-[state=inactive]:hover:bg-zinc-800 data-[state=inactive]:hover:text-white max-[900px]:justify-center max-[900px]:p-2 xl:px-6 xl:text-3xl"
 				>
 					<Siren class="h-8 w-8" />
-					<span class="max-[770px]:hidden">Alerts</span>
+					<span class="max-[900px]:hidden">Alerts</span>
 				</TabsTrigger>
 
 				<TabsTrigger
 					value="tab-4"
 					onclick={() => goto('/schedules')}
-					class="flex w-full cursor-pointer items-center justify-start gap-3 rounded-md py-4 text-2xl font-bold text-white transition data-[state=active]:bg-transparent data-[state=active]:text-white data-[state=inactive]:text-zinc-400 data-[state=inactive]:hover:bg-zinc-800 data-[state=inactive]:hover:text-white max-[770px]:justify-center max-[770px]:p-2 xl:px-6 xl:text-3xl"
+					class="flex w-full cursor-pointer items-center justify-start gap-3 rounded-md py-4 text-2xl font-bold text-white transition data-[state=active]:bg-transparent data-[state=active]:text-white data-[state=inactive]:text-zinc-400 data-[state=inactive]:hover:bg-zinc-800 data-[state=inactive]:hover:text-white max-[900px]:justify-center max-[900px]:p-2 xl:px-6 xl:text-3xl"
 				>
 					<CalendarCheck class="h-8 w-8" />
-					<span class="max-[770px]:hidden">Schedules</span>
+					<span class="max-[900px]:hidden">Schedules</span>
 				</TabsTrigger>
 			</TabsList>
 
-			<div class="grid w-full grid-cols-1 gap-4 overflow-y-auto px-10 pb-20 md:grid-cols-2">
+			<div class="grid w-full grid-cols-1 gap-4 overflow-y-auto px-10 pb-20 900:grid-cols-2">
 				<div
-					class="relative col-span-1 rounded-lg border border-border bg-zinc-900 p-8 md:col-span-2 md:min-h-120 md:overflow-y-hidden"
+					class="relative col-span-1 rounded-lg border border-border bg-zinc-900 p-8 900:col-span-2 900:min-h-120 900:overflow-y-hidden"
 				>
 					<TabsContent value="tab-1" class="h-auto min-h-75">
 						<Tabs value="tab-1" class=" items-center">
@@ -101,7 +101,7 @@
 					</TabsContent>
 				</div>
 				<div
-					class="min-h-62.5 rounded-lg border border-border bg-zinc-900 p-8 md:overflow-y-hidden"
+					class="min-h-62.5 rounded-lg border border-border bg-zinc-900 p-8 900:overflow-y-hidden"
 				>
 					<TabsContent value="tab-1" class="h-auto min-h-37.5">
 						<p class="text-base font-semibold text-zinc-200">Up</p>
@@ -116,7 +116,7 @@
 				</div>
 
 				<div
-					class="min-h-62.5 rounded-lg border border-border bg-zinc-900 p-8 md:overflow-y-hidden"
+					class="min-h-62.5 rounded-lg border border-border bg-zinc-900 p-8 900:overflow-y-hidden"
 				>
 					<TabsContent value="tab-1" class="h-auto min-h-37.5">
 						<p class="text-base font-semibold text-zinc-200">Down</p>
