@@ -117,7 +117,6 @@
                       />
                     {/snippet}
                   </Form.Control>
-                  <!-- <Form.Description>This is your public display name.</Form.Description> -->
                   <Form.FieldErrors />
                 </Form.Field>
               </div>
@@ -138,7 +137,6 @@
                       />
                     {/snippet}
                   </Form.Control>
-                  <!-- <Form.Description>This is your public display name.</Form.Description> -->
                   <Form.FieldErrors />
                 </Form.Field>
               </div>
@@ -159,7 +157,6 @@
                       />
                     {/snippet}
                   </Form.Control>
-                  <!-- <Form.Description>This is your public display name.</Form.Description> -->
                   <Form.FieldErrors />
                 </Form.Field>
               </div>
@@ -180,7 +177,6 @@
                       />
                     {/snippet}
                   </Form.Control>
-                  <!-- <Form.Description>This is your public display name.</Form.Description> -->
                   <Form.FieldErrors />
                 </Form.Field>
               </div>
@@ -201,7 +197,6 @@
                       />
                     {/snippet}
                   </Form.Control>
-                  <!-- <Form.Description>This is your public display name.</Form.Description> -->
                   <Form.FieldErrors />
                 </Form.Field>
               </div>
