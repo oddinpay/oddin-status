@@ -6,7 +6,13 @@
 	import { Gauge } from '$lib/components/ui/gauge';
 	import Page from '$lib/components/Page.svelte';
 	import NotPage from '$lib/components/NotPage.svelte';
+	import * as Item from "$lib/components/ui/item/index.js";
+ 	import { Button } from "$lib/components/ui/button/index.js";
+	import BadgeCheckIcon from "@lucide/svelte/icons/badge-check";
+	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
+	
 	let currentTab = 'tab-0';
+
 </script>
 
 <div class="flex min-h-screen items-start justify-center overflow-hidden bg-black">
@@ -91,7 +97,9 @@
 								</TabsTrigger>
 							</TabsList>
 							<TabsContent value="tab-1">
-								<NotPage />
+								<!-- <NotPage /> -->
+
+
 							</TabsContent>
 							<TabsContent value="tab-2">
 								<Page />
