@@ -10,6 +10,6 @@
   },
   "devDependencies": {
     "cross-env": "^10.1.0",
-    "wrangler": "^4.63.0"
+    "wrangler": "^4.75.0"
   }
 }
