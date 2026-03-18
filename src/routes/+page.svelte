@@ -61,11 +61,9 @@
   onMount(() => {
     if (!browser) return;
 
-    const json = source(`https://${oddinHost}/v1/sse`)
-      .select("")
-      .json<ApiData>();
+    const json = source(`https://${oddinHost}/v1/sse`).select("").json<any>();
 
-    unsubscribe = json.subscribe((msg: any) => {
+    unsubscribe = json.subscribe((msg) => {
       const probe = msg?.payload?.probe;
       const sla = msg?.payload?.sla;
       const index = msg?.index;
@@ -80,9 +78,9 @@
       }
 
       probeMap[id] = {
-        ...(probeMap[id] ?? {}),
+        ...probeMap[id],
         ...probe,
-        uptime90: sla?.uptime90 ?? probeMap[id]?.uptime90,
+        uptime90: sla?.uptime90 ?? probeMap[id]?.uptime90 ?? "100.000%",
         __order: index ?? probeMap[id]?.__order ?? Infinity,
       };
     });
@@ -155,7 +153,8 @@
   function parseDate(dateString: string | Date): Date {
     if (dateString instanceof Date) return dateString;
     if (typeof dateString !== "string") return new Date(String(dateString));
-    const parts = dateString.split("/");
+    const dateOnly = dateString.split(" ")[0];
+    const parts = dateOnly.split("/");
     if (parts.length !== 3) return new Date(dateString);
     const [day, month, year] = parts;
     return new Date(`${year}-${month}-${day}`);
