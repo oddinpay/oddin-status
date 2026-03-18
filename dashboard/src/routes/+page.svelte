@@ -17,18 +17,23 @@
   import { Gauge } from "$lib/components/ui/gauge";
   import Page from "$lib/components/Page.svelte";
   import NotPage from "$lib/components/NotPage.svelte";
-  import * as Item from "$lib/components/ui/item/index.js";
-  import { Button } from "$lib/components/ui/button/index.js";
-  import BadgeCheckIcon from "@lucide/svelte/icons/badge-check";
-  import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
   import Card from "$lib/components/Card.svelte";
   import { useQuery } from "convex-svelte";
   import { api } from "../convex/_generated/api";
   import { Spinner } from "$lib/components/ui/spinner/index.js";
+  import { env } from "$env/dynamic/public";
 
   let currentTab = "tab-0";
   const query = useQuery(api.site.get);
   let siteLive = $state(false);
+
+  const apiKey = env.PUBLIC_API_KEY || "";
+
+  const querymonitors = useQuery(api.status.get, {
+    apiKey: apiKey,
+  });
+
+  const totalCount = querymonitors?.data?.length ?? 0;
 
   $effect(() => {
     if (query.data && query.data.length > 0) {
@@ -160,7 +165,7 @@
               class="text-white"
               show_value
               size="lg"
-              value={100}
+              value={totalCount}
             />
           </TabsContent>
         </div>
