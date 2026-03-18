@@ -13,6 +13,11 @@
   import { browser } from "$app/environment";
   import timer from "$lib/timer";
   import { env } from "$env/dynamic/public";
+  import { useQuery } from "convex-svelte";
+  import { api } from "../convex/_generated/api";
+
+  let currentTab = "tab-0";
+  const query = useQuery(api.site.get);
 
   let signin = "https://oddinpay.com/signin";
   let signup = "https://oddinpay.com/signup";
@@ -1493,8 +1498,10 @@
 {/if}
 
 <svelte:head>
-  <title>{title}</title>
-  <meta name="description" content={description} />
+  {#each query.data as site}
+    <title>{site.title}</title>
+    <meta name="description" content={site.description} />
+  {/each}
 
   <style>
     #navToggle {

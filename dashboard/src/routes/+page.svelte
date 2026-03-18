@@ -24,7 +24,6 @@
   import Card from "$lib/components/Card.svelte";
   import { useQuery } from "convex-svelte";
   import { api } from "../convex/_generated/api";
-  import { env } from "$env/dynamic/public";
 
   let currentTab = "tab-0";
   const query = useQuery(api.site.get);
