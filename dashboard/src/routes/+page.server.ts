@@ -3,6 +3,7 @@ import { formSchema, formUpdate } from "$lib/types/form";
 import { fail, type Actions } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 import { superValidate, message } from "sveltekit-superforms";
+import { env } from "$env/dynamic/private";
 
 export const load: PageServerLoad = async (event) => {
   const form = await superValidate(event, zod4(formSchema));
