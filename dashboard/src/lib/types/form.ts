@@ -19,11 +19,11 @@ export const formUpdate = z.object({
     .optional()
     .or(z.literal("")),
 
-  navbar: z
+  textLogo: z
     .string()
     .trim()
-    .min(2, "Navbar must be at least 2 characters long")
-    .max(50, "Navbar must not exceed 50 characters")
+    .min(2, "Text Logo must be at least 2 characters long")
+    .max(50, "Text Logo must not exceed 50 characters")
     .optional(),
 
   signup: z
@@ -58,11 +58,11 @@ export const formSchema = z.object({
     .min(2, "Description must be at least 2 characters long")
     .max(100, "Description must not exceed 100 characters"),
 
-  navbar: z
+  textLogo: z
     .string()
     .trim()
-    .min(2, "Navbar must be at least 2 characters long")
-    .max(50, "Navbar must not exceed 50 characters")
+    .min(2, "Text Logo must be at least 2 characters long")
+    .max(50, "Text Logo must not exceed 50 characters")
     .optional(),
 
   signup: z
