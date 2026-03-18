@@ -381,12 +381,12 @@ func probeHTTP(re HttpRequest) ProbeResult {
 
 	url := fmt.Sprintf("%s://%s", re.Protocol, re.Host)
 
-	maxRetries := 5
+	maxRetries := 3
 
 	if userAgent == "" {
 		userAgent = "OddinStatus/1.0"
 	}
-	
+
 	for attempt := 1; attempt <= maxRetries; attempt++ {
 
 		ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
@@ -453,7 +453,7 @@ func probeHTTP(re HttpRequest) ProbeResult {
 }
 
 func probeTCP(req HttpRequest) ProbeResult {
-	maxRetries := 5
+	maxRetries := 3
 
 	for attempt := 1; attempt <= maxRetries; attempt++ {
 		conn, err := net.DialTimeout("tcp", req.Host, defaultTimeout)
@@ -523,7 +523,7 @@ func probeTCP(req HttpRequest) ProbeResult {
 }
 
 func probeDNS(req HttpRequest) ProbeResult {
-	maxRetries := 5
+	maxRetries := 3
 
 	if net.ParseIP(req.Host) != nil {
 		return ProbeResult{
@@ -875,49 +875,6 @@ func hydrateSnapshotFromKV(ctx context.Context) {
 
 // -------------------- SSE HANDLER --------------------
 
-type UnboundedChan[T any] struct {
-	InCh  chan T
-	OutCh chan T
-}
-
-func NewUnboundedChan[T any]() *UnboundedChan[T] {
-	uc := &UnboundedChan[T]{
-		InCh:  make(chan T),
-		OutCh: make(chan T),
-	}
-
-	go func() {
-		queue := []T{}
-		var outCh chan T
-		var next T
-		for {
-			if len(queue) > 0 {
-				outCh = uc.OutCh
-				next = queue[0]
-			} else {
-				outCh = nil
-			}
-
-			select {
-			case v, ok := <-uc.InCh:
-				if !ok {
-					close(uc.OutCh)
-					return
-				}
-				queue = append(queue, v)
-			case outCh <- next:
-				queue = queue[1:]
-			}
-		}
-	}()
-
-	return uc
-}
-
-func (uc *UnboundedChan[T]) Close() {
-	close(uc.InCh)
-}
-
 func Sse(w http.ResponseWriter, r *http.Request) {
 
 	ctx := r.Context()
@@ -933,15 +890,9 @@ func Sse(w http.ResponseWriter, r *http.Request) {
 	}
 	defer conn.Close()
 
-	uc := NewUnboundedChan[map[string]StatusPayload]()
-
-	clientChan := uc.OutCh
+	clientChan := make(chan map[string]StatusPayload, 200)
 	globalHub.AddClient(clientChan)
 	defer globalHub.RemoveClient(clientChan)
-	defer uc.Close()
-
-	heartbeat := time.NewTicker(25 * time.Second)
-	defer heartbeat.Stop()
 
 	targetCache.RLock()
 	lookup := make(map[string]int, len(targetCache.lookup))
@@ -967,8 +918,6 @@ func Sse(w http.ResponseWriter, r *http.Request) {
 			return
 		case update := <-clientChan:
 			_ = sendUpdateToConn(ctx, conn, update, lookup)
-		case <-heartbeat.C:
-			_ = conn.SendComment(ctx, "keep-alive")
 		}
 	}
 }
@@ -1044,11 +993,11 @@ func publishToNATS(ctx context.Context, name string, payload *StatusPayload, s *
 	now := time.Now().UTC()
 
 	// 2-minute block
-	intervalBlock := (now.Minute() / 1) * 1
-	todayUTC := fmt.Sprintf("%s %02d:%02d", now.Format("02/01/2006"), now.Hour(), intervalBlock)
+	// intervalBlock := (now.Minute() / 1) * 1
+	// todayUTC := fmt.Sprintf("%s %02d:%02d", now.Format("02/01/2006"), now.Hour(), intervalBlock)
 
 	// Daily block
-	// todayUTC := now.Format("02/01/2006")
+	todayUTC := now.Format("02/01/2006")
 
 	currentStatus := hr.Warn
 	if len(payload.Probe.State) > 0 {
