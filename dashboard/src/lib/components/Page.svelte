@@ -33,7 +33,7 @@
     onUpdate: async ({ form: f }) => {
       if (f.valid) {
         open = false;
-        toast.success(`You submitted ${JSON.stringify(f.data, null, 2)}`);
+        toast.success("Status page created successfully!");
       } else {
         open = false;
         toast.error("Something went wrong. Please try again.");
