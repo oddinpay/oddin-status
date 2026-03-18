@@ -9,7 +9,7 @@
     TabsTrigger,
   } from "$lib/components/ui/tabs";
   import { source } from "sveltekit-sse";
-  import { onMount } from "svelte";
+  import { onMount, onDestroy } from "svelte";
   import { browser } from "$app/environment";
   import timer from "$lib/timer";
   import { env } from "$env/dynamic/public";
@@ -21,9 +21,8 @@
   let title = "Status • Oddinpay";
   let description =
     "Real-time and historical data on OddinPay system performance.";
-
-  const badge = "Last updated";
   let ready = $state(false);
+  const badge = "Last updated";
 
   onMount(() => (ready = true));
   const clock = timer();
@@ -56,43 +55,51 @@
     uptime90: string;
   }
 
-  const beepHost = env.PUBLIC_ODDIN_HOST;
-  const json = source(`https://${beepHost}/v1/sse`).select("").json<ApiData>();
+  const oddinHost = env.PUBLIC_ODDIN_HOST;
+  let unsubscribe: (() => void) | undefined;
 
-  type ProbeMap = Record<string, ApiData>;
-  let probeMap = $state<ProbeMap>({});
+  onMount(() => {
+    if (!browser) return;
 
-  json.subscribe((msg: any) => {
-    const probe = msg?.payload?.probe;
-    const sla = msg?.payload?.sla;
-    const index = msg?.index;
+    const json = source(`https://${oddinHost}/v1/sse`)
+      .select("")
+      .json<ApiData>();
 
-    if (!probe?.id) return;
+    unsubscribe = json.subscribe((msg: any) => {
+      const probe = msg?.payload?.probe;
+      const sla = msg?.payload?.sla;
+      const index = msg?.index;
 
-    const id = probe.id;
+      if (!probe?.id) return;
 
-    if (probe.action?.[0] === "deleted") {
-      const { [id]: _, ...rest } = probeMap;
-      probeMap = rest;
-      return;
-    }
+      const id = probe.id;
 
-    const next: ProbeMap = {
-      ...probeMap,
-      [id]: {
+      if (probe.action?.[0] === "deleted") {
+        delete probeMap[id];
+        return;
+      }
+
+      probeMap[id] = {
         ...(probeMap[id] ?? {}),
         ...probe,
         uptime90: sla?.uptime90 ?? probeMap[id]?.uptime90,
         __order: index ?? probeMap[id]?.__order ?? Infinity,
-      },
-    };
-
-    probeMap = Object.fromEntries(
-      Object.entries(next).sort(
-        ([, a], [, b]) => (a.__order ?? Infinity) - (b.__order ?? Infinity),
-      ),
-    ) as ProbeMap;
+      };
+    });
   });
+
+  onDestroy(() => {
+    unsubscribe?.();
+  });
+
+  type ProbeMap = Record<string, ApiData>;
+  let probeMap = $state<ProbeMap>({});
+
+  let sortedProbes = $derived(
+    Object.values(probeMap).sort((a, b) =>
+      (a.name ?? "").localeCompare(b.name ?? ""),
+    ),
+  );
 
   function coerceStatus(s?: StatusType): StatusType {
     return s === "up" || s === "down" || s === "warn" ? s : "warn";
@@ -173,7 +180,7 @@
   }
 
   let mockData = $derived.by(() => {
-    const probes = Object.values(probeMap) as ApiData[];
+    const probes = sortedProbes;
 
     const unique = new Map<string, ApiData>();
     for (const p of probes) {
@@ -228,7 +235,7 @@
       string,
       { title: string; description: string; status: string }
     >();
-    const probes = Object.values(probeMap) as any[];
+    const probes = sortedProbes;
     const unique = new Map<string, any>();
 
     for (const p of probes) {
