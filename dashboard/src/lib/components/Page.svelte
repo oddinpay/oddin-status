@@ -143,7 +143,7 @@
               </div>
 
               <div class="space-y-2">
-                <Form.Field {form} name="navbar">
+                <Form.Field {form} name="textLogo">
                   <Form.Control>
                     {#snippet children({ props })}
                       <Form.Label class="font-bold text-gray-300"
@@ -154,7 +154,7 @@
                         placeholder="Oddin Status"
                         type="text"
                         {...props}
-                        bind:value={$formData.navbar}
+                        bind:value={$formData.textLogo}
                       />
                     {/snippet}
                   </Form.Control>
