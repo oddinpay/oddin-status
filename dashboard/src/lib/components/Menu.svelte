@@ -31,7 +31,7 @@
   let profileImageBase64: string | null = null;
 
   const form = superForm(page.data.form, {
-    id:"update-status-page",
+    id: "update-status-page",
     resetForm: true,
     validators: zod4(formUpdate),
     onSubmit: async () => {
