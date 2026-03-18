@@ -27,13 +27,7 @@
   const query = useQuery(api.site.get);
   let siteLive = $state(false);
 
-  const apiKey = env.PUBLIC_API_KEY || "";
-
-  const querymonitors = useQuery(api.status.get, {
-    apiKey: apiKey,
-  });
-
-  const totalCount = querymonitors?.data?.length ?? 0;
+  const totalCount = 1;
 
   $effect(() => {
     if (query.data && query.data.length > 0) {
