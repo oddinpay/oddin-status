@@ -860,7 +860,7 @@
         <div class="oddin-status hover:opacity-50">
           <a href={slug} target="_blank" rel="noopener noreferrer">
             {#if query.isLoading}
-              <Skeleton class="h-8 w-40 bg-gray-300 rounded-md" />
+              <Skeleton class="h-8 w-30 bg-gray-300 rounded-md" />
             {:else}
               {#each query.data as site}
                 {site.textLogo}
