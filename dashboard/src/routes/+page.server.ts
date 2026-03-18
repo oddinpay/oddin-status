@@ -35,21 +35,20 @@ export const actions: Actions = {
       throw new Error("API_KEY environment variable is not set");
     }
 
-    // await convex.mutation(api.site.post, {
-    //   apiKey,
-    //   title: form.data.title ?? "",
-    //   description: form.data.description ?? "",
-    //   textLogo: form.data.textLogo ?? "",
-    //   signupUrl: form.data.signupUrl ?? "",
-    //   signinUrl: form.data.signinUrl ?? "",
-    // });
+    const result = await convex.mutation(api.site.post, {
+      apiKey,
+      title: form.data.title ?? "",
+      description: form.data.description ?? "",
+      textLogo: form.data.textLogo ?? "",
+      signupUrl: form.data.signup ?? "",
+      signinUrl: form.data.signin ?? "",
+    });
 
-    return { form };
+    return { form, message: message(form, "Site created successfully!") };
   },
 
   update: async (e) => {
     const form = await superValidate(e, zod4(formUpdate));
-
     if (!form.valid) return fail(400, { form });
 
     return { form };
