@@ -23,8 +23,8 @@
   import { Spinner } from "$lib/components/ui/spinner/index.js";
   import { env } from "$env/dynamic/public";
 
-  let baseUrl = env.PUBLIC_BASE_URL
-    ? env.PUBLIC_BASE_URL
+  let baseUrl = env.PUBLIC_PAGE_URL
+    ? env.PUBLIC_PAGE_URL
     : "https://status.oddinpay.com";
   let currentTab = "tab-0";
   const query = useQuery(api.site.get);
