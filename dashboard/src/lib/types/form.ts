@@ -1,8 +1,8 @@
 import { z } from "zod/v4";
 
 export const formUpdate = z.object({
+  id: z.string(),
   image: z.string().trim().optional(),
-
   title: z
     .string()
     .trim()
@@ -45,7 +45,6 @@ export const formUpdate = z.object({
 
 export const formSchema = z.object({
   image: z.string().trim().optional(),
-
   title: z
     .string()
     .trim()

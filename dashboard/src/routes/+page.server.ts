@@ -50,6 +50,17 @@ export const actions: Actions = {
     const form = await superValidate(e, zod4(formUpdate));
     if (!form.valid) return fail(400, { form });
 
+    const convex = getConvexClient();
+    await convex.mutation(api.site.patch, {
+      id: form.data.id as any,
+      title: form.data.title,
+      image: form.data.image,
+      description: form.data.description,
+      textLogo: form.data.textLogo,
+      signupUrl: form.data.signup,
+      signinUrl: form.data.signin,
+    });
+
     return { form };
   },
 };

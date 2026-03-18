@@ -21,20 +21,20 @@ export const post = mutation({
     if (args.apiKey !== process.env.API_KEY) {
       throw new Error("Unauthorized");
     }
-    const page = await ctx.db.insert("site", {
+    await ctx.db.insert("site", {
       title: args.title,
       description: args.description,
       textLogo: args.textLogo,
       signupUrl: args.signupUrl,
       signinUrl: args.signinUrl,
     });
-    return page ? true : false;
   },
 });
 
 export const patch = mutation({
   args: {
     id: v.id("site"),
+    image: v.optional(v.string()),
     title: v.optional(v.string()),
     description: v.optional(v.string()),
     textLogo: v.optional(v.string()),
