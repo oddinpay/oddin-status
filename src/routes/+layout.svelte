@@ -8,6 +8,7 @@
   import { setupConvex } from "convex-svelte";
 
   let { children } = $props();
+
   setupConvex(env.PUBLIC_CONVEX_URL);
 
   const canonicalUrl = $derived(
