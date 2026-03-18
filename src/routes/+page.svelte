@@ -1396,12 +1396,12 @@
                                           class="flex flex-col text-left leading-tight"
                                         >
                                           <span
-                                            class="text-base font-semibold text-[var(--inactive-service)]"
+                                            class="text-base font-semibold text-(--inactive-service)"
                                           >
                                             {maintenance.service}
                                           </span>
                                           <time
-                                            class="text-base text-[var(--inactive)]"
+                                            class="text-base text-(--inactive)"
                                           >
                                             {entry.time}
                                           </time>
@@ -1475,7 +1475,7 @@
               </div>
             </div>
           </article>
-          <div aria-hidden="true" class="h-[150px]"></div>
+          <div aria-hidden="true" class="h-37.5"></div>
         </div>
       </main>
 
@@ -1490,7 +1490,7 @@
         >
           <span
             id="toc-rail"
-            class="pointer-events-none absolute left-5 w-[2px] bg-gradient-to-b from-black/5 via-black/5 to-black/5"
+            class="pointer-events-none absolute left-5 w-0.5 bg-linear-to-b from-black/5 via-black/5 to-black/5"
           ></span>
           <ul id="toc-list" class="relative pl-7 space-y-2"></ul>
         </div>
