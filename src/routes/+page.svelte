@@ -9,7 +9,7 @@
     TabsTrigger,
   } from "$lib/components/ui/tabs";
   import { source } from "sveltekit-sse";
-  import { onMount, onDestroy } from "svelte";
+  import { onMount } from "svelte";
   import { browser } from "$app/environment";
   import timer from "$lib/timer";
   import { env } from "$env/dynamic/public";
@@ -21,8 +21,9 @@
   let title = "Status • Oddinpay";
   let description =
     "Real-time and historical data on OddinPay system performance.";
-  let ready = $state(false);
+
   const badge = "Last updated";
+  let ready = $state(false);
 
   onMount(() => (ready = true));
   const clock = timer();
@@ -55,42 +56,8 @@
     uptime90: string;
   }
 
-  const oddinHost = env.PUBLIC_ODDIN_HOST;
-  let unsubscribe: (() => void) | undefined;
-
-  onMount(() => {
-    if (!browser) return;
-
-    const json = source(`https://${oddinHost}/v1/sse`)
-      .select("")
-      .json<ApiData>();
-
-    unsubscribe = json.subscribe((msg: any) => {
-      const probe = msg?.payload?.probe;
-      const sla = msg?.payload?.sla;
-      const index = msg?.index;
-
-      if (!probe?.id) return;
-
-      const id = probe.id;
-
-      if (probe.action?.[0] === "deleted") {
-        delete probeMap[id];
-        return;
-      }
-
-      probeMap[id] = {
-        ...(probeMap[id] ?? {}),
-        ...probe,
-        uptime90: sla?.uptime90 ?? probeMap[id]?.uptime90,
-        __order: index ?? probeMap[id]?.__order ?? Infinity,
-      };
-    });
-  });
-
-  onDestroy(() => {
-    unsubscribe?.();
-  });
+  const beepHost = env.PUBLIC_ODDIN_HOST;
+  const json = source(`https://${beepHost}/v1/sse`).select("").json<ApiData>();
 
   type ProbeMap = Record<string, ApiData>;
   let probeMap = $state<ProbeMap>({});
@@ -100,6 +67,27 @@
       (a.name ?? "").localeCompare(b.name ?? ""),
     ),
   );
+
+  json.subscribe((msg: any) => {
+    const probe = msg?.payload?.probe;
+    const sla = msg?.payload?.sla;
+    const index = msg?.index;
+
+    if (!probe?.id) return;
+    const id = probe.id;
+
+    if (probe.action?.[0] === "deleted") {
+      delete probeMap[id];
+      return;
+    }
+
+    probeMap[id] = {
+      ...(probeMap[id] ?? {}),
+      ...probe,
+      uptime90: sla?.uptime90 ?? probeMap[id]?.uptime90,
+      __order: index ?? probeMap[id]?.__order ?? Infinity,
+    };
+  });
 
   function coerceStatus(s?: StatusType): StatusType {
     return s === "up" || s === "down" || s === "warn" ? s : "warn";
