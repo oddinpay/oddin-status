@@ -9,7 +9,8 @@
 
 <div class="flex w-full items-center justify-center">
   <Item.Root
-    class="bg-zinc-800 border-zinc-700 nokia:w-80 ipse:w-60 sm:w-100 overflow-hidden"
+    id="card"
+    class="bg-zinc-800 max-w-md border-zinc-700 nokia:w-80 ipse:w-60 sm:w-100 overflow-hidden"
     variant="outline"
   >
     <Item.Media variant="icon">
@@ -28,3 +29,13 @@
     </Item.Actions>
   </Item.Root>
 </div>
+
+<svelte:head>
+  <style>
+    @media (min-width: 220px) and (max-width: 350px) {
+      #card {
+        width: 200px;
+      }
+    }
+  </style>
+</svelte:head>
