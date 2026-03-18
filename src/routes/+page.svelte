@@ -858,7 +858,13 @@
 
         <div class="oddin-status hover:opacity-50">
           <a href={slug} target="_blank" rel="noopener noreferrer">
-            {logo}
+            {#if query.isLoading}
+              loading...
+            {:else}
+              {#each query.data as site}
+                {site.textLogo}
+              {/each}
+            {/if}
           </a>
         </div>
 
