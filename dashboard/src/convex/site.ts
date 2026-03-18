@@ -31,3 +31,23 @@ export const post = mutation({
     return page ? true : false;
   },
 });
+
+export const patch = mutation({
+  args: {
+    id: v.id("site"),
+    title: v.optional(v.string()),
+    description: v.optional(v.string()),
+    textLogo: v.optional(v.string()),
+    signupUrl: v.optional(v.string()),
+    signinUrl: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    const { id, ...rest } = args;
+
+    const existing = await ctx.db.get(id);
+    if (!existing) {
+      throw new Error("Site not found");
+    }
+    await ctx.db.patch(id, rest);
+  },
+});
