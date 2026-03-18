@@ -32,6 +32,30 @@ export const post = mutation({
       name: args.name,
       protocol: args.protocol,
     });
-    return true;
+    return monitor ? true : false;
+  },
+});
+
+export const site = mutation({
+  args: {
+    apiKey: v.string(),
+    title: v.string(),
+    description: v.string(),
+    textLogo: v.string(),
+    signupUrl: v.string(),
+    signinUrl: v.string(),
+  },
+  handler: async (ctx, args) => {
+    if (args.apiKey !== process.env.API_KEY) {
+      throw new Error("Unauthorized");
+    }
+    const page = await ctx.db.insert("site", {
+      title: args.title,
+      description: args.description,
+      textLogo: args.textLogo,
+      signupUrl: args.signupUrl,
+      signinUrl: args.signinUrl,
+    });
+    return page ? true : false;
   },
 });
