@@ -1,8 +1,7 @@
 <script lang="ts">
   import * as Item from "$lib/components/ui/item/index.js";
-  import { Button } from "$lib/components/ui/button/index.js";
   import ShieldAlertIcon from "@lucide/svelte/icons/shield-alert";
-  import Menu from "./Menu.svelte";
+  import Menu from "$lib/components/Menu.svelte";
 </script>
 
 <div class="flex w-full max-w-lg flex-col gap-6">

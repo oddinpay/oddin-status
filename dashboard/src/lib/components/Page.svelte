@@ -24,6 +24,7 @@
   let open = $state(false);
 
   const form = superForm(page.data.form, {
+    id: "create-status-page",
     resetForm: true,
     validators: zod4(formSchema),
     onSubmit: async () => {
@@ -202,6 +203,7 @@
               </div>
             </div>
             <Form.Button
+              formaction="?/create"
               class="mt-2 w-full cursor-pointer "
               type="submit"
               variant="outline"

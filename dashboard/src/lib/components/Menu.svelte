@@ -31,6 +31,7 @@
   let profileImageBase64: string | null = null;
 
   const form = superForm(page.data.form, {
+    id:"update-status-page",
     resetForm: true,
     validators: zod4(formSchema),
     onSubmit: async () => {
@@ -217,6 +218,7 @@
         </div>
       </div>
       <Form.Button
+        formaction="?/update"
         class="mt-2 w-full cursor-pointer "
         type="submit"
         variant="outline"
