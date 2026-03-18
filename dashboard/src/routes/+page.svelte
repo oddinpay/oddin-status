@@ -24,6 +24,7 @@
   import Card from "$lib/components/Card.svelte";
 
   let currentTab = "tab-0";
+  let siteLive = $state(false);
 </script>
 
 <div
@@ -115,8 +116,13 @@
                 class="flex items-center justify-center min-h-50"
                 value="tab-1"
               >
-                <!-- <NotPage /> -->
-                <Card title="Security Alert" description="New login detected from unknown device." />
+                <NotPage />
+                {#if siteLive}
+                  <Card
+                    title="Security Alert"
+                    description="New login detected from unknown device."
+                  />
+                {/if}
               </TabsContent>
 
               <TabsContent value="tab-2">
