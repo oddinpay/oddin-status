@@ -153,8 +153,7 @@
   function parseDate(dateString: string | Date): Date {
     if (dateString instanceof Date) return dateString;
     if (typeof dateString !== "string") return new Date(String(dateString));
-    const dateOnly = dateString.split(" ")[0];
-    const parts = dateOnly.split("/");
+    const parts = dateString.split("/");
     if (parts.length !== 3) return new Date(dateString);
     const [day, month, year] = parts;
     return new Date(`${year}-${month}-${day}`);
