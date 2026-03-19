@@ -38,27 +38,7 @@ export const post = mutation({
       protocol: args.protocol,
     });
 
-    const doc = await ctx.db.get(monitorId);
-    if (doc) await monitorAggregate.insert(ctx, doc);
-
     return monitorId;
-  },
-});
-
-export const remove = mutation({
-  args: {
-    apiKey: v.string(),
-    id: v.id("status"),
-  },
-  handler: async (ctx, args) => {
-    if (args.apiKey !== process.env.API_KEY) throw new Error("Unauthorized");
-
-    const oldDoc = await ctx.db.get(args.id);
-    if (oldDoc) {
-      await ctx.db.delete(args.id);
-      await monitorAggregate.delete(ctx, oldDoc);
-    }
-    return true;
   },
 });
 
