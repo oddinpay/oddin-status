@@ -58,7 +58,7 @@ export const backfill = mutation({
       try {
         await monitorAggregate.insert(ctx, doc);
       } catch (e) {
-        console.error("Sync error:", doc._id);
+        return `Error syncing monitor ${doc._id}: ${e}`;
       }
     }
     return `Synced ${existing.length} monitors.`;
