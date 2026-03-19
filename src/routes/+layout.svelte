@@ -1,6 +1,6 @@
 <script lang="ts">
   import "../app.css";
-  import favicon from "$lib/assets/favicon.svg";
+  // import favicon from "$lib/assets/favicon.svg";
   import "@fontsource-variable/inter";
   import { page } from "$app/state";
   import "default-passive-events";
@@ -27,7 +27,7 @@
 </script>
 
 <svelte:head>
-  <link rel="icon" href={favicon} />
+  <link rel="icon" href="" />
 
   <!-- Canonical URL -->
   <link rel="canonical" href={canonicalUrl} />
