@@ -30,9 +30,17 @@
   const query = useQuery(api.site.get);
   let siteLive = $state(false);
 
-  const totalCount = 1;
+  const monitorCount = useQuery(api.status.count, {});
+
+  let totalCount = $state(0);
 
   $effect(() => {
+    if (monitorCount.data !== undefined) {
+      totalCount = monitorCount.data;
+    } else {
+      console.log("Monitor count is undefined");
+    }
+
     if (query.data && query.data.length > 0) {
       siteLive = true;
     } else {
