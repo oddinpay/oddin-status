@@ -279,7 +279,7 @@
       string,
       { title: string; description: string; status: string }
     >();
-    for (const m of [...apiMonitors]) {
+    for (const m of apiMonitors) {
       merged.set(m.title, m);
     }
 
