@@ -22,6 +22,13 @@ export const post = mutation({
     if (args.apiKey !== process.env.API_KEY) {
       throw new Error("Unauthorized");
     }
+
+    const existing = await ctx.db.query("site").first();
+
+    if (existing !== null) {
+      throw new Error("A site already exists.");
+    }
+
     await ctx.db.insert("site", {
       title: args.title,
       description: args.description,
