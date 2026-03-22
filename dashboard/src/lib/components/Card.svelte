@@ -24,7 +24,7 @@
       </Item.Description>
     </Item.Content>
 
-    <Item.Actions>
+    <Item.Actions class="shrink-0 -mr-2 -mt-1">
       <Menu />
     </Item.Actions>
   </Item.Root>
@@ -32,7 +32,7 @@
 
 <svelte:head>
   <style>
-    @media (min-width: 220px) and (max-width: 350px) {
+    @media (min-width: 220px) and (max-width: 330px) {
       #card {
         width: 200px;
       }
