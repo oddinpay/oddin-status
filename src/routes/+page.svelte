@@ -872,15 +872,29 @@
         </div>
 
         <div id="themeBtn" class="ml-auto"></div>
-        <Button
-          id="change"
-          onclick={() => window.open(signin, "_blank")}
-          class="text-black hidden stm:block cursor-pointer hover:text-green-700"
-          variant="ghost"
-        >
-          Sign in
-        </Button>
-        <Buttong url={signup} />
+        {#if query.isLoading}
+          <Button
+            id="change"
+            onclick={() => window.open(signin, "_blank")}
+            class="text-black hidden stm:block cursor-pointer hover:text-green-700"
+            variant="ghost"
+          >
+            Sign in
+          </Button>
+          <Buttong url={signup} />
+        {:else if query.data}
+          {#each query.data as site}
+            <Button
+              id="change"
+              onclick={() => window.open(site.signinUrl, "_blank")}
+              class="text-black hidden stm:block cursor-pointer hover:text-green-700"
+              variant="ghost"
+            >
+              Sign in
+            </Button>
+            <Buttong url={site.signupUrl} />
+          {/each}
+        {/if}
       </div>
     </header>
     <div id="navBackdrop" class="hidden fixed inset-0 bg-black/40 z-40"></div>
