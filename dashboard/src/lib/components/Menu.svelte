@@ -20,6 +20,11 @@
   import { useImageUpload } from "$lib/hooks/use-image-upload.svelte";
   import ImagePlus from "@lucide/svelte/icons/image-plus";
   import Loader2 from "@lucide/svelte/icons/loader-2";
+  import {
+    ConfirmDeleteDialog,
+    confirmDelete,
+  } from "$lib/components/ui/confirm-delete-dialog";
+  import { sleep } from "$lib/sleep";
 
   import { useQuery } from "convex-svelte";
   import { api } from "../../convex/_generated/api";
@@ -74,29 +79,6 @@
     }
   });
 </script>
-
-<DropdownMenu.Root>
-  <DropdownMenu.Trigger
-    class={buttonVariants({ variant: "outline", size: "icon-sm" }) +
-      " cursor-pointer text-white hover:text-gray-300 bg-zinc-800 border-zinc-600 hover:bg-zinc-900"}
-  >
-    <MoreHorizontal />
-  </DropdownMenu.Trigger>
-  <DropdownMenu.Content class="w-40" align="end">
-    <DropdownMenu.Group>
-      <DropdownMenu.Item class="cursor-pointer" onSelect={() => (open = true)}>
-        Edit
-      </DropdownMenu.Item>
-
-      <DropdownMenu.Item
-        class="cursor-pointer"
-        onSelect={() => (showShareDialog = true)}
-      >
-        Delete
-      </DropdownMenu.Item>
-    </DropdownMenu.Group>
-  </DropdownMenu.Content>
-</DropdownMenu.Root>
 
 <Dialog.Root bind:open>
   <Dialog.Content class="bg-zinc-900">
@@ -271,41 +253,46 @@
   </Dialog.Content>
 </Dialog.Root>
 
-<Dialog.Root bind:open={showShareDialog}>
-  <Dialog.Content class="sm:max-w-106.25">
-    <Dialog.Header>
-      <Dialog.Title>Share File</Dialog.Title>
-      <Dialog.Description>
-        Anyone with the link will be able to view this file.
-      </Dialog.Description>
-    </Dialog.Header>
-    <Field.Group class="py-3">
-      <Field.Field>
-        <Label for="email">Email Address</Label>
-        <Input
-          id="email"
-          name="email"
-          type="email"
-          placeholder="shadcn@vercel.com"
-        />
-      </Field.Field>
-      <Field.Field>
-        <Field.Label for="message">Message (Optional)</Field.Label>
-        <Textarea
-          id="message"
-          name="message"
-          placeholder="Check out this file"
-        />
-      </Field.Field>
-    </Field.Group>
-    <Dialog.Footer>
-      <Dialog.Close class={buttonVariants({ variant: "outline" })}
-        >Cancel</Dialog.Close
+<DropdownMenu.Root>
+  <DropdownMenu.Trigger
+    class={buttonVariants({ variant: "outline", size: "icon-sm" }) +
+      " cursor-pointer text-white hover:text-gray-300 bg-zinc-800 border-zinc-600 hover:bg-zinc-900"}
+  >
+    <MoreHorizontal />
+  </DropdownMenu.Trigger>
+  <DropdownMenu.Content class="w-40" align="end">
+    <DropdownMenu.Group>
+      <DropdownMenu.Item
+        class="cursor-pointer text-black data-highlighted:bg-zinc-200"
+        onSelect={() => (open = true)}
       >
-      <Button type="submit">Send Invite</Button>
-    </Dialog.Footer>
-  </Dialog.Content>
-</Dialog.Root>
+        Edit
+      </DropdownMenu.Item>
+
+      <DropdownMenu.Item
+        class="cursor-pointer text-red-400 data-highlighted:bg-red-100 data-highlighted:text-red-400"
+        onSelect={() => {
+          confirmDelete({
+            title: "Delete Status Page",
+            description:
+              "Are you sure you want to delete this item? This action cannot be undone.",
+            input: {
+              confirmationText: "Please",
+            },
+            onConfirm: async () => {
+              await sleep(500);
+              toast.success("Deleted!");
+            },
+          });
+        }}
+      >
+        Delete
+      </DropdownMenu.Item>
+    </DropdownMenu.Group>
+  </DropdownMenu.Content>
+</DropdownMenu.Root>
+
+<ConfirmDeleteDialog />
 
 {#snippet Avatar()}
   <label class="mt-10 cursor-pointer px-6" aria-label="Upload profile picture">
