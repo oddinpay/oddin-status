@@ -81,7 +81,7 @@
 </script>
 
 <AlertDialog.Root bind:open={dialogState.open}>
-  <AlertDialog.Content>
+  <AlertDialog.Content class="bg-zinc-900 border-zinc-800">
     <form
       method="POST"
       onsubmit={(e) => {
@@ -91,10 +91,10 @@
       class="flex flex-col gap-4"
     >
       <AlertDialog.Header>
-        <AlertDialog.Title>
+        <AlertDialog.Title class="text-red-400">
           {dialogState.options?.title}
         </AlertDialog.Title>
-        <AlertDialog.Description>
+        <AlertDialog.Description class="text-gray-400">
           {dialogState.options?.description}
         </AlertDialog.Description>
       </AlertDialog.Header>
