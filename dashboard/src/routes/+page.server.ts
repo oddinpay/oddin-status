@@ -69,4 +69,8 @@ export const actions: Actions = {
 
     return { form };
   },
+
+  delete: async (e) => {
+    console.log("delete action called");
+  },
 };

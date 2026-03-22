@@ -40,7 +40,6 @@
   });
 
   let profileImageBase64: string | null = null;
-
   const form = superForm(page.data.form, {
     id: "update-status-page",
     resetForm: true,
@@ -60,7 +59,6 @@
   });
 
   const { form: formData, submitting, enhance } = form;
-
   $effect(() => {
     if (profileImageHandler.files?.length) {
       const file = profileImageHandler.files[0];
@@ -280,7 +278,16 @@
               confirmationText: "please",
             },
             onConfirm: async () => {
-              await sleep(500);
+              const formData = new FormData();
+              if (query.data && query.data.length > 0) {
+                formData.append("_id", query.data[0]._id);
+              }
+
+              formData.append("confirmation", "please");
+              const response = await fetch("?/delete", {
+                method: "POST",
+                body: formData,
+              });
               toast.success("Deleted!");
             },
           });
@@ -292,7 +299,7 @@
   </DropdownMenu.Content>
 </DropdownMenu.Root>
 
-<ConfirmDeleteDialog  />
+<ConfirmDeleteDialog />
 
 {#snippet Avatar()}
   <label class="mt-10 cursor-pointer px-6" aria-label="Upload profile picture">

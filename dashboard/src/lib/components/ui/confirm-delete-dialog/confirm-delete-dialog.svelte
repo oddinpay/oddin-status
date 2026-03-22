@@ -70,7 +70,6 @@
       options.onConfirm();
       return;
     }
-
     dialogState.newConfirmation(options);
   }
 </script>
@@ -104,7 +103,6 @@
           placeholder={`Enter \"${dialogState.options.input.confirmationText}\" to confirm.`}
           onkeydown={(e) => {
             if (e.key === "Enter") {
-              // for some reason without this the form will submit and the dialog will close immediately
               e.preventDefault();
               dialogState.confirm();
             }
