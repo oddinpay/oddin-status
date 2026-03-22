@@ -11,7 +11,11 @@
 import type * as site from "../site.js";
 import type * as status from "../status.js";
 
-import type { ApiFromModules, FilterApi, FunctionReference } from "convex/server";
+import type {
+  ApiFromModules,
+  FilterApi,
+  FunctionReference,
+} from "convex/server";
 
 declare const fullApi: ApiFromModules<{
   site: typeof site;
@@ -26,7 +30,10 @@ declare const fullApi: ApiFromModules<{
  * const myFunctionReference = api.myModule.myFunction;
  * ```
  */
-export declare const api: FilterApi<typeof fullApi, FunctionReference<any, "public">>;
+export declare const api: FilterApi<
+  typeof fullApi,
+  FunctionReference<any, "public">
+>;
 
 /**
  * A utility for referencing Convex functions in your app's internal API.
@@ -36,7 +43,10 @@ export declare const api: FilterApi<typeof fullApi, FunctionReference<any, "publ
  * const myFunctionReference = internal.myModule.myFunction;
  * ```
  */
-export declare const internal: FilterApi<typeof fullApi, FunctionReference<any, "internal">>;
+export declare const internal: FilterApi<
+  typeof fullApi,
+  FunctionReference<any, "internal">
+>;
 
 export declare const components: {
   monitorCount: {
@@ -119,12 +129,22 @@ export declare const components: {
         { cursor?: string; limit: number },
         { cursor: string; isDone: boolean; page: Array<any> }
       >;
-      validate: FunctionReference<"query", "internal", { namespace?: any }, any>;
+      validate: FunctionReference<
+        "query",
+        "internal",
+        { namespace?: any },
+        any
+      >;
     };
     inspect: {
       display: FunctionReference<"query", "internal", { namespace?: any }, any>;
       dump: FunctionReference<"query", "internal", { namespace?: any }, string>;
-      inspectNode: FunctionReference<"query", "internal", { namespace?: any; node?: string }, null>;
+      inspectNode: FunctionReference<
+        "query",
+        "internal",
+        { namespace?: any; node?: string },
+        null
+      >;
       listTreeNodes: FunctionReference<
         "query",
         "internal",
@@ -157,8 +177,18 @@ export declare const components: {
         { maxNodeSize?: number; namespace?: any; rootLazy?: boolean },
         null
       >;
-      delete_: FunctionReference<"mutation", "internal", { key: any; namespace?: any }, null>;
-      deleteIfExists: FunctionReference<"mutation", "internal", { key: any; namespace?: any }, any>;
+      delete_: FunctionReference<
+        "mutation",
+        "internal",
+        { key: any; namespace?: any },
+        null
+      >;
+      deleteIfExists: FunctionReference<
+        "mutation",
+        "internal",
+        { key: any; namespace?: any },
+        any
+      >;
       init: FunctionReference<
         "mutation",
         "internal",
@@ -171,7 +201,12 @@ export declare const components: {
         { key: any; namespace?: any; summand?: number; value: any },
         null
       >;
-      makeRootLazy: FunctionReference<"mutation", "internal", { namespace?: any }, null>;
+      makeRootLazy: FunctionReference<
+        "mutation",
+        "internal",
+        { namespace?: any },
+        null
+      >;
       replace: FunctionReference<
         "mutation",
         "internal",

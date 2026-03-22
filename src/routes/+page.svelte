@@ -17,7 +17,6 @@
   import { useQuery } from "convex-svelte";
   import { api } from "../../dashboard/src/convex/_generated/api";
 
-  let currentTab = "tab-0";
   const query = useQuery(api.site.get);
 
   let signin = "https://oddinpay.com/signin";
@@ -858,12 +857,16 @@
         </button>
 
         <div class="oddin-status hover:opacity-50">
-          {#if query.isLoading}
+          {#if oddinHost === "beep.oddinpay.com"}
+            <a href={slug} target="_blank" rel="noopener noreferrer">
+              {logo}
+            </a>
+          {:else if query.isLoading}
             <Skeleton class="h-8 w-30 bg-gray-300 rounded-md" />
           {:else if query.data}
             {#each query.data as site}
               <a href={site.slug} target="_blank" rel="noopener noreferrer">
-                {#if oddinHost === oddinHost}
+                {#if oddinHost === "beep.oddinpay.com"}
                   {logo}
                 {:else}
                   {site.textLogo}
@@ -874,7 +877,7 @@
         </div>
 
         <div id="themeBtn" class="ml-auto"></div>
-        {#if query.isLoading}
+        {#if oddinHost === "beep.oddinpay.com"}
           <Button
             id="change"
             onclick={() => window.open(signin, "_blank")}
@@ -884,6 +887,8 @@
             Sign in
           </Button>
           <Buttong url={signup} />
+        {:else if query.isLoading}
+          <Skeleton class="h-8 w-20 bg-gray-300 rounded-md" />
         {:else if query.data}
           {#each query.data as site}
             <Button
@@ -1520,7 +1525,7 @@
 {/if}
 
 <svelte:head>
-  {#if oddinHost === oddinHost}
+  {#if oddinHost === "beep.oddinpay.com"}
     <title>Status • OddinPay</title>
     <meta
       name="description"
