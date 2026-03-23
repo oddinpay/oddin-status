@@ -24,6 +24,7 @@ const getConvexClient = () => {
 
 export const actions: Actions = {
   create: async (e) => {
+    console.log("Creating monitor...");
     const form = await superValidate(e, zod4(formCreate));
     if (!form.valid) return fail(400, { form });
 

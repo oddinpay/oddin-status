@@ -1,7 +1,6 @@
 <script lang="ts">
   import Button, { buttonVariants } from "$lib/components/ui/button.svelte";
   import Input from "$lib/components/ui/input.svelte";
-  import Label from "$lib/components/ui/label.svelte";
   import * as Dialog from "$lib/components/ui/dialog";
   import { cn } from "$lib/utils";
   import * as Select from "$lib/components/ui/select/index.js";
@@ -14,21 +13,16 @@
   import { zod4 } from "sveltekit-superforms/adapters";
   import { toast, Toaster } from "svelte-sonner";
   import { formCreate } from "$lib/types/form";
+  import Loader2 from "@lucide/svelte/icons/loader-2";
 
-  const id = $props.id();
   let open = $state(false);
 
   const services = [
-    { value: "HTTPS", label: "HTTPS" },
-    { value: "HTTP", label: "HTTP" },
-    { value: "TCP", label: "TCP" },
-    { value: "DNS", label: "DNS" },
+    { value: "https", label: "HTTPS" },
+    { value: "http", label: "HTTP" },
+    { value: "tcp", label: "TCP" },
+    { value: "dns", label: "DNS" },
   ];
-
-  let value = $state("HTTPS");
-  let interval = $state();
-  let url = $state();
-  let host = $state();
 
   const form = superForm(page.data.form, {
     id: "create-monitor",
@@ -54,8 +48,12 @@
   const { form: formData, submitting, enhance } = form;
 
   const triggerContent = $derived(
-    services.find((f) => f.value === value)?.label ?? services[0].label,
+    services.find((f) => f.value === $formData.monitorType)?.label ?? "HTTPS",
   );
+
+  if (!$formData.monitorType) {
+    $formData.monitorType = "https";
+  }
 </script>
 
 <Toaster closeButton position="top-center" />
@@ -119,7 +117,7 @@
                   <Form.FieldErrors />
                 </Form.Field>
               </div>
-              <div class="space-y-2">
+              <!-- <div class="space-y-2">
                 <Form.Label class="font-bold text-gray-300" for="title"
                   >Monitor Type</Form.Label
                 >
@@ -203,26 +201,117 @@
                   />
                 </div>
               {/if}
+            </div> -->
+              <div class="space-y-4">
+                <Form.Field {form} name="interval">
+                  <Form.Control>
+                    {#snippet children({ props })}
+                      <Form.Label class="font-bold text-gray-300" for="interval"
+                        >Interval</Form.Label
+                      >
+                      <Input
+                        class=" border-zinc-700 text-white"
+                        placeholder="10s"
+                        type="number"
+                        {...props}
+                        bind:value={$formData.interval}
+                        required
+                      />
+                    {/snippet}
+                  </Form.Control>
+                  <Form.FieldErrors />
+                </Form.Field>
+
+                <Form.Field {form} name="monitorType">
+                  <Form.Control>
+                    {#snippet children({ props })}
+                      <Form.Label class="font-bold  text-gray-300"
+                        >Monitor Type</Form.Label
+                      >
+                      <Select.Root
+                        type="single"
+                        bind:value={$formData.monitorType}
+                        name={props.name}
+                      >
+                        <Select.Trigger
+                          class="w-full border-zinc-700 text-white"
+                        >
+                          {triggerContent}
+                        </Select.Trigger>
+                        <Select.Content
+                          class="bg-zinc-800 border-zinc-700 text-white"
+                        >
+                          {#each services as type}
+                            <Select.Item
+                              class="cursor-pointer"
+                              value={type.value}
+                              label={type.label}
+                            >
+                              {type.label}
+                            </Select.Item>
+                          {/each}
+                        </Select.Content>
+                      </Select.Root>
+                    {/snippet}
+                  </Form.Control>
+                  <Form.FieldErrors />
+                </Form.Field>
+
+                <Form.Field {form} name="url">
+                  <Form.Control>
+                    {#snippet children({ props })}
+                      <Form.Label class="font-bold text-gray-300">
+                        {$formData.monitorType === "TCP" ||
+                        $formData.monitorType === "DNS"
+                          ? "Host"
+                          : "URL"}
+                      </Form.Label>
+                      <Input
+                        {...props}
+                        class="border-zinc-700 text-white"
+                        placeholder={$formData.monitorType === "TCP"
+                          ? "127.0.0.1"
+                          : "https://oddinpay.com"}
+                        bind:value={$formData.url}
+                      />
+                    {/snippet}
+                  </Form.Control>
+                  <Form.FieldErrors />
+                </Form.Field>
+
+                {#if $formData.monitorType === "TCP"}
+                  <Form.Field {form} name="port">
+                    <Form.Control>
+                      {#snippet children({ props })}
+                        <Form.Label class="font-bold text-gray-300"
+                          >Port</Form.Label
+                        >
+                        <Input
+                          {...props}
+                          type="number"
+                          class="border-zinc-700 text-white"
+                          placeholder="443"
+                          bind:value={$formData.port}
+                        />
+                      {/snippet}
+                    </Form.Control>
+                    <Form.FieldErrors />
+                  </Form.Field>
+                {/if}
+              </div>
+              <Form.Button
+                formaction="?/create"
+                class="mt-2 w-full cursor-pointer "
+                type="submit"
+                variant="outline"
+                disabled={$submitting}
+                >{#if $submitting}
+                  <Loader2 class="size-4 animate-spin" />
+                {:else}
+                  Save
+                {/if}
+              </Form.Button>
             </div>
-            <div class="space-y-2">
-              <Form.Label class="font-bold text-gray-300" for="logo"
-                >Interval</Form.Label
-              >
-              <Input
-                class=" border-zinc-700 text-white"
-                id="{id}-logo"
-                placeholder="10s"
-                type="number"
-                bind:value={interval}
-                required
-              />
-            </div>
-            <Form.Button
-              class="mt-2 w-full cursor-pointer"
-              type="submit"
-              formaction="?/create"
-              variant="outline">Save</Form.Button
-            >
           </form>
         </Dialog.Content>
       </Dialog.Root>
