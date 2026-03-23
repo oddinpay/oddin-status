@@ -7,9 +7,17 @@
   import * as Select from "$lib/components/ui/select/index.js";
   import { SquareActivity } from "lucide-svelte";
   import * as Empty from "$lib/components/ui/empty/index.js";
+  import * as Form from "$lib/components/ui/form/index.js";
   import ArrowUpRightIcon from "@lucide/svelte/icons/arrow-up-right";
+  import { page } from "$app/state";
+  import { superForm } from "sveltekit-superforms";
+  import { zod4 } from "sveltekit-superforms/adapters";
+  import { toast, Toaster } from "svelte-sonner";
+  import { formCreate } from "$lib/types/form";
 
   const id = $props.id();
+  let open = $state(false);
+
   const services = [
     { value: "HTTPS", label: "HTTPS" },
     { value: "HTTP", label: "HTTP" },
@@ -18,19 +26,39 @@
   ];
 
   let value = $state("HTTPS");
-  let name = $state();
   let interval = $state();
   let url = $state();
   let host = $state();
 
-  function handleOnSubmit(e: Event) {
-    e.preventDefault();
-  }
+  const form = superForm(page.data.form, {
+    id: "create-monitor",
+    resetForm: true,
+    validators: zod4(formCreate),
+    onSubmit: async () => {
+      await new Promise((resolve) => setTimeout(resolve, 800));
+    },
+    onUpdate: async ({ form: f }) => {
+      if (f.valid) {
+        open = false;
+        toast.success("Monitor created successfully!");
+      } else {
+        open = false;
+        const serverMessage = f.errors._errors?.[0];
+        const finalMessage =
+          serverMessage || "Something went wrong. Please try again.";
+        toast.error(finalMessage);
+      }
+    },
+  });
+
+  const { form: formData, submitting, enhance } = form;
 
   const triggerContent = $derived(
     services.find((f) => f.value === value)?.label ?? services[0].label,
   );
 </script>
+
+<Toaster closeButton position="top-center" />
 
 <Empty.Root>
   <Empty.Header>
@@ -45,7 +73,7 @@
   </Empty.Header>
   <Empty.Content>
     <div class="flex gap-2">
-      <Dialog.Root>
+      <Dialog.Root bind:open>
         <Dialog.Trigger
           class={cn("cursor-pointer", buttonVariants({ variant: "outline" }))}
           >Create monitor</Dialog.Trigger
@@ -69,22 +97,31 @@
             </Dialog.Header>
           </div>
 
-          <form onsubmit={handleOnSubmit} class="space-y-5">
+          <form method="POST" class="space-y-5" use:enhance>
             <div class="space-y-4">
               <div class="space-y-2">
-                <Label class="font-bold text-gray-300" for="logo">Name</Label>
-                <Input
-                  class=" border-zinc-700 text-white"
-                  id="{id}-logo"
-                  placeholder="oddinpay"
-                  type="text"
-                  bind:value={name}
-                  required
-                />
+                <Form.Field {form} name="name">
+                  <Form.Control>
+                    {#snippet children({ props })}
+                      <Form.Label class="font-bold text-gray-300" for="logo"
+                        >Name</Form.Label
+                      >
+                      <Input
+                        class=" border-zinc-700 text-white"
+                        placeholder="oddinpay"
+                        type="text"
+                        {...props}
+                        bind:value={$formData.name}
+                        required
+                      />
+                    {/snippet}
+                  </Form.Control>
+                  <Form.FieldErrors />
+                </Form.Field>
               </div>
               <div class="space-y-2">
-                <Label class="font-bold text-gray-300" for="title"
-                  >Monitor Type</Label
+                <Form.Label class="font-bold text-gray-300" for="title"
+                  >Monitor Type</Form.Label
                 >
                 <Select.Root
                   type="single"
@@ -117,18 +154,18 @@
               </div>
 
               <div class="space-y-2">
-                {#if value === "PING"}
-                  <Label class="font-bold text-gray-300" for="slug">Host</Label>
-                {:else if value === "DNS"}
-                  <Label class="font-bold text-gray-300" for="slug">Host</Label>
-                {:else if value === "REDIS"}
-                  <Label class="font-bold text-gray-300" for="slug">Host</Label>
-                {:else if value === "SMTP"}
-                  <Label class="font-bold text-gray-300" for="slug">Host</Label>
+                {#if value === "DNS"}
+                  <Form.Label class="font-bold text-gray-300" for="slug"
+                    >Host</Form.Label
+                  >
                 {:else if value === "TCP"}
-                  <Label class="font-bold text-gray-300" for="slug">Host</Label>
+                  <Form.Label class="font-bold text-gray-300" for="slug"
+                    >Host</Form.Label
+                  >
                 {:else}
-                  <Label class="font-bold text-gray-300" for="slug">URL</Label>
+                  <Form.Label class="font-bold text-gray-300" for="slug"
+                    >URL</Form.Label
+                  >
                 {/if}
 
                 {#if value === "HTTP" || value === "HTTPS"}
@@ -152,9 +189,11 @@
                 {/if}
               </div>
 
-              {#if value === "TCP" || value === "REDIS" || value === "SMTP"}
+              {#if value === "TCP"}
                 <div class="space-y-2">
-                  <Label class="font-bold text-gray-300" for="slug">Port</Label>
+                  <Form.Label class="font-bold text-gray-300" for="slug"
+                    >Port</Form.Label
+                  >
                   <Input
                     class="border-zinc-700 text-white"
                     id="{id}-description"
@@ -164,36 +203,11 @@
                   />
                 </div>
               {/if}
-              {#if value === "REDIS" || value === "SMTP"}
-                <div class="space-y-2">
-                  <Label class="font-bold text-gray-300" for="slug"
-                    >Username</Label
-                  >
-                  <Input
-                    class="border-zinc-700 text-white"
-                    id="{id}-description"
-                    placeholder="sachinsenal"
-                    type="text"
-                    required
-                  />
-                </div>
-
-                <div class="space-y-2">
-                  <Label class="font-bold text-gray-300" for="slug"
-                    >Password</Label
-                  >
-                  <Input
-                    class="border-zinc-700 text-white"
-                    id="{id}-description"
-                    placeholder="supersecret"
-                    type="text"
-                    required
-                  />
-                </div>
-              {/if}
             </div>
             <div class="space-y-2">
-              <Label class="font-bold text-gray-300" for="logo">Interval</Label>
+              <Form.Label class="font-bold text-gray-300" for="logo"
+                >Interval</Form.Label
+              >
               <Input
                 class=" border-zinc-700 text-white"
                 id="{id}-logo"
@@ -203,11 +217,11 @@
                 required
               />
             </div>
-            <Button
+            <Form.Button
               class="mt-2 w-full cursor-pointer"
               type="submit"
               formaction="?/create"
-              variant="outline">Save</Button
+              variant="outline">Save</Form.Button
             >
           </form>
         </Dialog.Content>
