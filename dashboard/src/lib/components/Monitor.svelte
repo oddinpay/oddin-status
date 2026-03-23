@@ -118,7 +118,7 @@
                 </Form.Field>
               </div>
 
-              <Form.Field {form} name="monitorType">
+              <Form.Field {form} name="protocol">
                 <Form.Control>
                   {#snippet children({ props })}
                     <Form.Label class="font-bold  text-gray-300"
@@ -151,7 +151,7 @@
                 <Form.FieldErrors />
               </Form.Field>
 
-              <Form.Field {form} name="url">
+              <Form.Field {form} name="host">
                 <Form.Control>
                   {#snippet children({ props })}
                     <Form.Label class="font-bold text-gray-300">
