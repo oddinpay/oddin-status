@@ -10,7 +10,6 @@
   import ArrowUpRightIcon from "@lucide/svelte/icons/arrow-up-right";
 
   const id = $props.id();
-
   const services = [
     { value: "HTTPS", label: "HTTPS" },
     { value: "HTTP", label: "HTTP" },
