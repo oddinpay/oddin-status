@@ -79,11 +79,6 @@ export const deleteById = mutation({
     if (args.apiKey !== process.env.API_KEY) {
       throw new Error("Unauthorized");
     }
-    const doc = await ctx.db.get(args.id);
-    if (!doc) return;
-
-    await monitorAggregate.delete(ctx, doc);
-
     await ctx.db.delete(args.id);
   },
 });
