@@ -118,6 +118,81 @@
                 </Form.Field>
               </div>
 
+              <Form.Field {form} name="monitorType">
+                <Form.Control>
+                  {#snippet children({ props })}
+                    <Form.Label class="font-bold  text-gray-300"
+                      >Monitor Type</Form.Label
+                    >
+                    <Select.Root
+                      type="single"
+                      bind:value={$formData.monitorType}
+                      name={props.name}
+                    >
+                      <Select.Trigger class="w-full border-zinc-700 text-white">
+                        {triggerContent}
+                      </Select.Trigger>
+                      <Select.Content
+                        class="bg-zinc-800 border-zinc-700 text-white"
+                      >
+                        {#each services as type}
+                          <Select.Item
+                            class="cursor-pointer"
+                            value={type.value}
+                            label={type.label}
+                          >
+                            {type.label}
+                          </Select.Item>
+                        {/each}
+                      </Select.Content>
+                    </Select.Root>
+                  {/snippet}
+                </Form.Control>
+                <Form.FieldErrors />
+              </Form.Field>
+
+              <Form.Field {form} name="url">
+                <Form.Control>
+                  {#snippet children({ props })}
+                    <Form.Label class="font-bold text-gray-300">
+                      {$formData.monitorType === "TCP" ||
+                      $formData.monitorType === "DNS"
+                        ? "Host"
+                        : "URL"}
+                    </Form.Label>
+                    <Input
+                      {...props}
+                      class="border-zinc-700 text-white"
+                      placeholder={$formData.monitorType === "TCP"
+                        ? "127.0.0.1"
+                        : "https://oddinpay.com"}
+                      bind:value={$formData.url}
+                    />
+                  {/snippet}
+                </Form.Control>
+                <Form.FieldErrors />
+              </Form.Field>
+
+              {#if $formData.monitorType === "TCP"}
+                <Form.Field {form} name="port">
+                  <Form.Control>
+                    {#snippet children({ props })}
+                      <Form.Label class="font-bold text-gray-300"
+                        >Port</Form.Label
+                      >
+                      <Input
+                        {...props}
+                        type="number"
+                        class="border-zinc-700 text-white"
+                        placeholder="443"
+                        bind:value={$formData.port}
+                      />
+                    {/snippet}
+                  </Form.Control>
+                  <Form.FieldErrors />
+                </Form.Field>
+              {/if}
+
               <div class="space-y-4">
                 <Form.Field {form} name="interval">
                   <Form.Control>
@@ -137,83 +212,6 @@
                   </Form.Control>
                   <Form.FieldErrors />
                 </Form.Field>
-
-                <Form.Field {form} name="monitorType">
-                  <Form.Control>
-                    {#snippet children({ props })}
-                      <Form.Label class="font-bold  text-gray-300"
-                        >Monitor Type</Form.Label
-                      >
-                      <Select.Root
-                        type="single"
-                        bind:value={$formData.monitorType}
-                        name={props.name}
-                      >
-                        <Select.Trigger
-                          class="w-full border-zinc-700 text-white"
-                        >
-                          {triggerContent}
-                        </Select.Trigger>
-                        <Select.Content
-                          class="bg-zinc-800 border-zinc-700 text-white"
-                        >
-                          {#each services as type}
-                            <Select.Item
-                              class="cursor-pointer"
-                              value={type.value}
-                              label={type.label}
-                            >
-                              {type.label}
-                            </Select.Item>
-                          {/each}
-                        </Select.Content>
-                      </Select.Root>
-                    {/snippet}
-                  </Form.Control>
-                  <Form.FieldErrors />
-                </Form.Field>
-
-                <Form.Field {form} name="url">
-                  <Form.Control>
-                    {#snippet children({ props })}
-                      <Form.Label class="font-bold text-gray-300">
-                        {$formData.monitorType === "TCP" ||
-                        $formData.monitorType === "DNS"
-                          ? "Host"
-                          : "URL"}
-                      </Form.Label>
-                      <Input
-                        {...props}
-                        class="border-zinc-700 text-white"
-                        placeholder={$formData.monitorType === "TCP"
-                          ? "127.0.0.1"
-                          : "https://oddinpay.com"}
-                        bind:value={$formData.url}
-                      />
-                    {/snippet}
-                  </Form.Control>
-                  <Form.FieldErrors />
-                </Form.Field>
-
-                {#if $formData.monitorType === "TCP"}
-                  <Form.Field {form} name="port">
-                    <Form.Control>
-                      {#snippet children({ props })}
-                        <Form.Label class="font-bold text-gray-300"
-                          >Port</Form.Label
-                        >
-                        <Input
-                          {...props}
-                          type="number"
-                          class="border-zinc-700 text-white"
-                          placeholder="443"
-                          bind:value={$formData.port}
-                        />
-                      {/snippet}
-                    </Form.Control>
-                    <Form.FieldErrors />
-                  </Form.Field>
-                {/if}
               </div>
               <Form.Button
                 formaction="?/create"
