@@ -290,7 +290,12 @@
                 method: "POST",
                 body: formData,
               });
-              toast.success("Deleted!");
+
+              if (response.ok) {
+                toast.success("Deleted successfully.");
+              } else {
+                toast.error("Failed to delete.");
+              }
             },
           });
         }}

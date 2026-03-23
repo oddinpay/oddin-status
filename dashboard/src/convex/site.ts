@@ -56,3 +56,10 @@ export const patch = mutation({
     await ctx.db.patch(id, rest);
   },
 });
+
+export const deleteById = mutation({
+  args: { id: v.id("site") },
+  handler: async (ctx, args) => {
+    await ctx.db.delete(args.id);
+  },
+});

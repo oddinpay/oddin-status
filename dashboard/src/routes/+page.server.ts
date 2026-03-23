@@ -70,7 +70,25 @@ export const actions: Actions = {
     return { form };
   },
 
-  delete: async (e) => {
+  delete: async ({ request }) => {
     console.log("delete action called");
+
+    const formData = await request.formData();
+    const id = formData.get("_id");
+    if (!id) {
+      return { status: 400, body: "Missing ID" };
+    }
+
+    try {
+      const convex = getConvexClient();
+      await convex.mutation(api.site.deleteById, {
+        id: formData.get("_id") as any,
+      });
+
+      return { success: true };
+    } catch (err) {
+      console.error(err);
+      return { status: 500, body: "Failed to delete" };
+    }
   },
 };
