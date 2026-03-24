@@ -126,37 +126,37 @@
         });
       },
     },
-    {
-      accessorKey: "amount",
-      header: () => {
-        const amountHeaderSnippet = createRawSnippet(() => {
-          return {
-            render: () => `<div class="text-end">Amount</div>`,
-          };
-        });
-        return renderSnippet(amountHeaderSnippet);
-      },
-      cell: ({ row }) => {
-        const formatter = new Intl.NumberFormat("en-US", {
-          style: "currency",
-          currency: "USD",
-        });
+    // {
+    //   accessorKey: "amount",
+    //   header: () => {
+    //     const amountHeaderSnippet = createRawSnippet(() => {
+    //       return {
+    //         render: () => `<div class="text-end">Amount</div>`,
+    //       };
+    //     });
+    //     return renderSnippet(amountHeaderSnippet);
+    //   },
+    //   cell: ({ row }) => {
+    //     const formatter = new Intl.NumberFormat("en-US", {
+    //       style: "currency",
+    //       currency: "USD",
+    //     });
 
-        const amountCellSnippet = createRawSnippet<[{ amount: number }]>(
-          (getAmount) => {
-            const { amount } = getAmount();
-            const formatted = formatter.format(amount);
-            return {
-              render: () =>
-                `<div class="text-end font-medium">${formatted}</div>`,
-            };
-          },
-        );
-        return renderSnippet(amountCellSnippet, {
-          amount: row.original.amount,
-        });
-      },
-    },
+    //     const amountCellSnippet = createRawSnippet<[{ amount: number }]>(
+    //       (getAmount) => {
+    //         const { amount } = getAmount();
+    //         const formatted = formatter.format(amount);
+    //         return {
+    //           render: () =>
+    //             `<div class="text-end font-medium">${formatted}</div>`,
+    //         };
+    //       },
+    //     );
+    //     return renderSnippet(amountCellSnippet, {
+    //       amount: row.original.amount,
+    //     });
+    //   },
+    // },
     {
       id: "actions",
       enableHiding: false,
@@ -165,7 +165,7 @@
     },
   ];
 
-  let pagination = $state<PaginationState>({ pageIndex: 0, pageSize: 10 });
+  let pagination = $state<PaginationState>({ pageIndex: 0, pageSize: 4 });
   let sorting = $state<SortingState>([]);
   let columnFilters = $state<ColumnFiltersState>([]);
   let rowSelection = $state<RowSelectionState>({});
