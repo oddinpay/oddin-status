@@ -251,6 +251,13 @@
     thead tr th {
       transition: background-color 0.2s ease;
     }
+
+    thead tr th:last-child,
+    tbody tr td:last-child {
+      width: 1%;
+      white-space: nowrap;
+      padding-right: 1rem;
+    }
   </style>
 </svelte:head>
 
