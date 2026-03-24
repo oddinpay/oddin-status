@@ -326,7 +326,7 @@
           <Table.Row>
             <Table.Cell
               colspan={columns.length}
-              class="h-24  text-white text-center"
+              class="h-24 text-white text-center"
             >
               No results.
             </Table.Cell>
