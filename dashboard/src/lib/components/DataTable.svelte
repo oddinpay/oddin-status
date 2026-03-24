@@ -1,6 +1,6 @@
 <script lang="ts">
-  import ChevronDownIcon from "@lucide/svelte/icons/chevron-down";
   import ChevronLeft from "@lucide/svelte/icons/chevron-left";
+  import { Search } from "lucide-svelte";
   import ChevronRight from "@lucide/svelte/icons/chevron-right";
   import {
     type ColumnDef,
@@ -271,16 +271,21 @@
 
 <div class="-mb-8 w-full">
   <div class="flex items-center justify-end py-4">
-    <Input
-      placeholder="Filter monitors..."
-      value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-      oninput={(e) =>
-        table.getColumn("email")?.setFilterValue(e.currentTarget.value)}
-      onchange={(e) => {
-        table.getColumn("email")?.setFilterValue(e.currentTarget.value);
-      }}
-      class="max-w-sm bg-zinc-800 w-50 border-zinc-700 text-white"
-    />
+    <div class="relative">
+      <Search
+        class="absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-zinc-400"
+      />
+      <Input
+        placeholder="Filter monitors..."
+        value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+        oninput={(e) =>
+          table.getColumn("email")?.setFilterValue(e.currentTarget.value)}
+        onchange={(e) => {
+          table.getColumn("email")?.setFilterValue(e.currentTarget.value);
+        }}
+        class="max-w-sm bg-zinc-800 w-50 border-zinc-700 text-white pl-8"
+      />
+    </div>
     <DropdownMenu.Root>
       <DropdownMenu.Trigger>
         <!-- {#snippet child({ props })}
