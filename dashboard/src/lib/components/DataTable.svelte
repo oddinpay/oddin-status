@@ -281,14 +281,14 @@
       </DropdownMenu.Content>
     </DropdownMenu.Root>
   </div>
-  <div class="rounded-md border">
+  <div class="rounded-md border border-zinc-700">
     <Table.Root>
       <Table.Header>
         {#each table.getHeaderGroups() as headerGroup (headerGroup.id)}
           <Table.Row>
             {#each headerGroup.headers as header (header.id)}
               <Table.Head
-                class="text-white cursor-pointer hover:bg-zinc-800 [&:has([role=checkbox])]:ps-3"
+                class="text-white border-b border-zinc-700  cursor-pointer hover:bg-zinc-800 [&:has([role=checkbox])]:ps-3"
               >
                 {#if !header.isPlaceholder}
                   <FlexRender
@@ -306,7 +306,7 @@
           <Table.Row data-state={row.getIsSelected() && "selected"}>
             {#each row.getVisibleCells() as cell (cell.id)}
               <Table.Cell
-                class="text-white cursor-pointer hover:bg-zinc-800 [&:has([role=checkbox])]:ps-3"
+                class="text-white border-b border-zinc-700 cursor-pointer hover:bg-zinc-800 [&:has([role=checkbox])]:ps-3"
               >
                 <FlexRender
                   content={cell.column.columnDef.cell}
@@ -319,7 +319,7 @@
           <Table.Row>
             <Table.Cell
               colspan={columns.length}
-              class="h-24 text-white text-center"
+              class="h-24  text-white text-center"
             >
               No results.
             </Table.Cell>
