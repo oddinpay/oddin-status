@@ -270,7 +270,7 @@
 </svelte:head>
 
 <div class="-mb-8 w-full">
-  <div class="flex items-center py-4">
+  <div class="flex items-center justify-end py-4">
     <Input
       placeholder="Filter monitors..."
       value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
@@ -279,11 +279,11 @@
       onchange={(e) => {
         table.getColumn("email")?.setFilterValue(e.currentTarget.value);
       }}
-      class="max-w-sm bg-zinc-800 border-zinc-700 text-white"
+      class="max-w-sm bg-zinc-800 w-50 border-zinc-700 text-white"
     />
     <DropdownMenu.Root>
       <DropdownMenu.Trigger>
-        {#snippet child({ props })}
+        <!-- {#snippet child({ props })}
           <Button
             {...props}
             variant="outline"
@@ -291,7 +291,7 @@
           >
             Columns <ChevronDownIcon class="ms-2 size-4" />
           </Button>
-        {/snippet}
+        {/snippet} -->
       </DropdownMenu.Trigger>
       <DropdownMenu.Content align="end">
         {#each table
