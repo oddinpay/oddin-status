@@ -287,7 +287,9 @@
         {#each table.getHeaderGroups() as headerGroup (headerGroup.id)}
           <Table.Row>
             {#each headerGroup.headers as header (header.id)}
-              <Table.Head class="[&:has([role=checkbox])]:ps-3">
+              <Table.Head
+                class="text-white cursor-pointer hover:bg-zinc-800 [&:has([role=checkbox])]:ps-3"
+              >
                 {#if !header.isPlaceholder}
                   <FlexRender
                     content={header.column.columnDef.header}
@@ -303,7 +305,9 @@
         {#each table.getRowModel().rows as row (row.id)}
           <Table.Row data-state={row.getIsSelected() && "selected"}>
             {#each row.getVisibleCells() as cell (cell.id)}
-              <Table.Cell class="[&:has([role=checkbox])]:ps-3">
+              <Table.Cell
+                class="text-white cursor-pointer hover:bg-zinc-800 [&:has([role=checkbox])]:ps-3"
+              >
                 <FlexRender
                   content={cell.column.columnDef.cell}
                   context={cell.getContext()}
@@ -313,7 +317,10 @@
           </Table.Row>
         {:else}
           <Table.Row>
-            <Table.Cell colspan={columns.length} class="h-24 text-center">
+            <Table.Cell
+              colspan={columns.length}
+              class="h-24 text-white text-center"
+            >
               No results.
             </Table.Cell>
           </Table.Row>
