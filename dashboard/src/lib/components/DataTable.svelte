@@ -46,7 +46,7 @@
       id: "3u1reuv4",
       amount: 242,
       status: "Success",
-      email: "www.example.com",
+      email: "www.oddinpay.com",
     },
     {
       id: "derv1ws0",
@@ -302,7 +302,7 @@
     </DropdownMenu.Root>
   </div>
   <div class="rounded-md">
-    <Table.Root class="stm:w-120">
+    <Table.Root class="stm:w-100">
       <Table.Header>
         {#each table.getHeaderGroups() as headerGroup (headerGroup.id)}
           <Table.Row>
