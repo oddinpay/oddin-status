@@ -8,6 +8,6 @@
 </script>
 
 <Button class="cursor-pointer" {variant} {...restProps}>
-  Status
+  Monitor
   <ArrowUpDownIcon class="ms-2" />
 </Button>
