@@ -237,13 +237,19 @@
 
 <svelte:head>
   <style>
-    tbody tr td {
-      transition: background-color 0.2s ease;
-    }
-
     tbody tr:hover td {
       background-color: #3f3f46;
       color: white;
+    }
+
+    thead tr:hover th {
+      background-color: #3f3f46;
+      color: white;
+    }
+
+    tbody tr td,
+    thead tr th {
+      transition: background-color 0.2s ease;
     }
   </style>
 </svelte:head>
