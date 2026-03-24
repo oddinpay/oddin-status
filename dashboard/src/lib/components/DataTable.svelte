@@ -39,13 +39,13 @@
       id: "m5gr84i9",
       amount: 316,
       status: "Success",
-      email: "ken99@yahoo.com",
+      email: "ken99@yaho0000000000000000000000000000000000000000000000000000000000000000000000000000000o.com",
     },
     {
       id: "3u1reuv4",
       amount: 242,
       status: "Success",
-      email: "Abe45@gmail.com",
+      email: "www.example.com",
     },
     {
       id: "derv1ws0",
@@ -58,18 +58,6 @@
       amount: 874,
       status: "Success",
       email: "Silas22@gmail.com",
-    },
-    {
-      id: "bhqecj4p",
-      amount: 721,
-      status: "Failed",
-      email: "carmella@hotmail.com",
-    },
-    {
-      id: "bhqecj4p",
-      amount: 721,
-      status: "Failed",
-      email: "carmella@hotmail.com",
     },
   ];
 
@@ -126,7 +114,7 @@
           (getEmail) => {
             const { email } = getEmail();
             return {
-              render: () => `<div class="lowercase">${email}</div>`,
+              render: () => `<div class="lowercase truncate max-w-[150px]">${email}</div>`,
             };
           },
         );
@@ -286,7 +274,7 @@
     </DropdownMenu.Root>
   </div>
   <div class="rounded-md">
-    <Table.Root>
+    <Table.Root class="stm:w-120">
       <Table.Header>
         {#each table.getHeaderGroups() as headerGroup (headerGroup.id)}
           <Table.Row>
