@@ -136,7 +136,7 @@
           variant: "outline",
           size: "icon",
           class:
-            "size-8 bg-zinc-800 cursor-pointer  text-red-500 hover:bg-red-950/30 hover:text-red-400 disabled:opacity-30 transition-color disabled:pointer-events-none disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-red-500",
+            "size-8 bg-transparent cursor-pointer text-red-500 hover:bg-red-950/30 hover:text-red-400 disabled:opacity-30 transition-color disabled:pointer-events-none disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-red-500",
           disabled: table.getFilteredSelectedRowModel().rows.length === 0,
           onclick: () => {
             const selectedIds = table
