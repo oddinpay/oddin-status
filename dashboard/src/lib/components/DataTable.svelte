@@ -1,5 +1,7 @@
 <script lang="ts">
   import ChevronDownIcon from "@lucide/svelte/icons/chevron-down";
+  import ChevronLeft from "@lucide/svelte/icons/chevron-left";
+  import ChevronRight from "@lucide/svelte/icons/chevron-right";
   import {
     type ColumnDef,
     type ColumnFiltersState,
@@ -258,6 +260,12 @@
       white-space: nowrap;
       padding-right: 1rem;
     }
+
+    button:disabled {
+      cursor: not-allowed !important;
+      pointer-events: auto !important;
+      opacity: 0.5;
+    }
   </style>
 </svelte:head>
 
@@ -356,22 +364,27 @@
       {table.getFilteredSelectedRowModel().rows.length} of
       {table.getFilteredRowModel().rows.length} monitor(s) selected.
     </div>
-    <div class="space-x-2">
+    <div class="flex items-center space-x-2">
       <Button
         variant="outline"
-        size="sm"
+        size="icon"
+        class="size-8 bg-zinc-800 border-zinc-700 hover:text-white text-white hover:bg-zinc-700 disabled:pointer-events-auto disabled:cursor-not-allowed disabled:opacity-50"
         onclick={() => table.previousPage()}
         disabled={!table.getCanPreviousPage()}
       >
-        Previous
+        <ChevronLeft class="size-4" />
+        <span class="sr-only">Previous page</span>
       </Button>
+
       <Button
         variant="outline"
-        size="sm"
+        size="icon"
+        class="size-8 bg-zinc-800 border-zinc-700 hover:text-white text-white hover:bg-zinc-700 disabled:pointer-events-auto disabled:cursor-not-allowed disabled:opacity-50"
         onclick={() => table.nextPage()}
         disabled={!table.getCanNextPage()}
       >
-        Next
+        <ChevronRight class="size-4" />
+        <span class="sr-only">Next page</span>
       </Button>
     </div>
   </div>
