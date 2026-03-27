@@ -22,6 +22,7 @@
   import { api } from "../convex/_generated/api";
   import { Spinner } from "$lib/components/ui/spinner/index.js";
   import { env } from "$env/dynamic/public";
+  import Skeleton from "$lib/components/ui/skeleton/skeleton.svelte";
 
   let baseUrl = env.PUBLIC_PAGE_URL
     ? env.PUBLIC_PAGE_URL
@@ -141,7 +142,10 @@
                 value="tab-1"
               >
                 {#if query.isLoading}
-                  <Spinner class="text-white size-8" />
+                  <Skeleton
+                    id="card"
+                    class="nokia:w-80 w-100 h-[99.25px] ipse:w-60 sm:w-100 bg-zinc-700/50"
+                  />
                 {:else if query.error}
                   <NotPage />
                 {:else if siteLive}
@@ -204,3 +208,13 @@
     </Tabs>
   </div>
 </div>
+
+<svelte:head>
+  <style>
+    @media (min-width: 220px) and (max-width: 330px) {
+      #card {
+        width: 200px;
+      }
+    }
+  </style>
+</svelte:head>

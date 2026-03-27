@@ -10,7 +10,7 @@
 <div class="flex w-full items-center justify-center">
   <Item.Root
     id="card"
-    class="bg-zinc-800 border-zinc-700 nokia:w-80 ipse:w-60 sm:w-100 overflow-hidden"
+    class="bg-zinc-800  w-100 h-[99.25px] border-zinc-700 nokia:w-80 ipse:w-60 sm:w-100 overflow-hidden"
     variant="outline"
   >
     <Item.Media variant="icon">
