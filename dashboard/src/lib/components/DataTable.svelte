@@ -29,6 +29,9 @@
     renderSnippet,
   } from "$lib/components/ui/data-table/index.js";
 
+  import { useQuery } from "convex-svelte";
+  import { api } from "../../convex/_generated/api";
+
   type Payment = {
     id: string;
     amount: number;
@@ -36,13 +39,14 @@
     email: string;
   };
 
+  const monitors = useQuery(api.status.get);
+
   const data: Payment[] = [
     {
       id: "m5gr84i9",
       amount: 1,
       status: "Success",
-      email:
-        "ken99@yahoo.com",
+      email: "ken99@yahoo.com",
     },
     {
       id: "3u1reuv4",

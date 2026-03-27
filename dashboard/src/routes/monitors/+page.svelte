@@ -23,11 +23,8 @@
   import { Spinner } from "$lib/components/ui/spinner/index.js";
 
   let currentTab = "tab-1";
-
-  const monitorCount = useQuery(api.status.count, {});
-  const monitors = useQuery(api.status.get);
-
   let totalCount = $state(0);
+  const monitorCount = useQuery(api.status.count, {});
 
   $effect(() => {
     if (monitorCount.data !== undefined) {
