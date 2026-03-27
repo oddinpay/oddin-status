@@ -33,6 +33,7 @@
   import { useQuery } from "convex-svelte";
   import { api } from "../../convex/_generated/api";
   import { env } from "$env/dynamic/public";
+  import { migrate } from "svelte/compiler";
 
   const monitorCount = useQuery(api.status.count, {});
   let totalCount = $state(0);
@@ -333,6 +334,15 @@
               {/each}
             </Table.Row>
           {/each}
+        {:else if table.getRowModel().rows.length === 0}
+          <Table.Row>
+            <Table.Cell
+              colspan={columns.length}
+              class="h-24 text-white text-center"
+            >
+              No results.
+            </Table.Cell>
+          </Table.Row>
         {/if}
         {#each table.getRowModel().rows as row (row.id)}
           <Table.Row
@@ -349,15 +359,6 @@
                 />
               </Table.Cell>
             {/each}
-          </Table.Row>
-        {:else}
-          <Table.Row>
-            <Table.Cell
-              colspan={columns.length}
-              class="h-24 text-white text-center"
-            >
-              No results.
-            </Table.Cell>
           </Table.Row>
         {/each}
       </Table.Body>
