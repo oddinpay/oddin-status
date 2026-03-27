@@ -34,43 +34,49 @@
 
   type Payment = {
     id: string;
-    amount: number;
-    status: "Pending" | "Processing" | "Success" | "Failed";
-    email: string;
+    name: string;
   };
+
+  type ConvexMonitor = {
+    _id: string;
+    name: string;
+  };
+
+  type TableRow = Payment & Partial<ConvexMonitor>;
 
   const monitors = useQuery(api.status.get);
 
   const data: Payment[] = [
     {
       id: "m5gr84i9",
-      amount: 1,
-      status: "Success",
-      email: "ken99@yahoo.com",
+      name: "ken99@yahoo.com",
     },
     {
       id: "3u1reuv4",
-      amount: 2,
-      status: "Success",
-      email: "www.oddinpay.com",
+      name: "www.oddinpay.com",
     },
     {
       id: "derv1ws0",
-      amount: 3,
-      status: "Processing",
-      email: "Monserrat44@gmail.com",
+      name: "Monserrat44@gmail.com",
     },
     {
       id: "5kma53ae",
-      amount: 4,
-      status: "Success",
-      email: "Silas22@gmail.com",
+      name: "Silas22@gmail.com",
     },
   ];
 
+  const allData = $derived<TableRow[]>([
+    ...data,
+    ...(monitors.data ?? []).map((m) => ({
+      ...m,
+      id: m._id,
+      name: m.name,
+    })),
+  ]);
+
   const columns: ColumnDef<Payment>[] = [
     {
-      id: "select",
+      id: "_id",
       header: ({ table }) =>
         renderComponent(DataTableCheckbox, {
           checked: table.getIsAllPageRowsSelected(),
@@ -106,29 +112,27 @@
           },
         );
         return renderSnippet(statusSnippet, {
-          status: row.original.status,
+          status: row.original.name.includes("www") ? "up" : "down",
         });
       },
     },
     {
-      accessorKey: "email",
+      accessorKey: "name",
       header: ({ column }) =>
         renderComponent(DataTableEmailButton, {
           onclick: column.getToggleSortingHandler(),
         }),
       cell: ({ row }) => {
-        const emailSnippet = createRawSnippet<[{ email: string }]>(
-          (getEmail) => {
-            const { email } = getEmail();
-            return {
-              render: () =>
-                `<div class="lowercase truncate max-w-[150px]">${email}</div>`,
-            };
-          },
-        );
+        const emailSnippet = createRawSnippet<[{ name: string }]>((getName) => {
+          const { name } = getName();
+          return {
+            render: () =>
+              `<div class="lowercase truncate max-w-[150px]">${name}</div>`,
+          };
+        });
 
         return renderSnippet(emailSnippet, {
-          email: row.original.email,
+          name: row.original.name,
         });
       },
     },
@@ -170,7 +174,7 @@
 
   const table = createSvelteTable({
     get data() {
-      return data;
+      return allData;
     },
     columns,
     state: {
@@ -272,11 +276,11 @@
       />
       <Input
         placeholder="Filter monitors..."
-        value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+        value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
         oninput={(e) =>
-          table.getColumn("email")?.setFilterValue(e.currentTarget.value)}
+          table.getColumn("name")?.setFilterValue(e.currentTarget.value)}
         onchange={(e) => {
-          table.getColumn("email")?.setFilterValue(e.currentTarget.value);
+          table.getColumn("name")?.setFilterValue(e.currentTarget.value);
         }}
         class="max-w-sm bg-zinc-800 w-50 border-zinc-700 text-white pl-8"
       />
