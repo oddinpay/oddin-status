@@ -1,22 +1,15 @@
 <script lang="ts">
   import MoreHorizontal from "@lucide/svelte/icons/more-horizontal";
-  import { Button, buttonVariants } from "$lib/components/ui/button/index.js";
+  import { buttonVariants } from "$lib/components/ui/button/index.js";
   import * as Dialog from "$lib/components/ui/dialog/index.js";
   import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
   import { Input } from "$lib/components/ui/input/index.js";
-  import { Label } from "$lib/components/ui/label/index.js";
-  import { Textarea } from "$lib/components/ui/textarea/index.js";
-  import * as Field from "$lib/components/ui/field/index.js";
   import { superForm } from "sveltekit-superforms";
   import { zod4 } from "sveltekit-superforms/adapters";
   import { toast } from "svelte-sonner";
   import * as Form from "$lib/components/ui/form/index.js";
   import { formUpdate } from "$lib/types/form";
-  import { cn } from "$lib/utils";
   import { page } from "$app/state";
-  import * as Empty from "$lib/components/ui/empty/index.js";
-  import IconFileOrientation from "@tabler/icons-svelte/icons/file-orientation";
-  import ArrowUpRightIcon from "@lucide/svelte/icons/arrow-up-right";
   import { useImageUpload } from "$lib/hooks/use-image-upload.svelte";
   import ImagePlus from "@lucide/svelte/icons/image-plus";
   import Loader2 from "@lucide/svelte/icons/loader-2";
@@ -24,16 +17,15 @@
     ConfirmDeleteDialog,
     confirmDelete,
   } from "$lib/components/ui/confirm-delete-dialog";
-  import { sleep } from "$lib/sleep";
 
   import { useQuery } from "convex-svelte";
   import { api } from "../../convex/_generated/api";
 
-  const statusQuery = useQuery(api.status.get);
   const query = useQuery(api.site.get);
 
+  let { id }: { id: string } = $props();
+
   let open = $state(false);
-  let showShareDialog = $state(false);
 
   const profileImageHandler = useImageUpload({
     initialImage: "",
@@ -104,15 +96,13 @@
             <Form.Control>
               {#snippet children({ props })}
                 <Form.Label class="font-bold text-gray-300">ID</Form.Label>
-                {#each query.data as site}
-                  <Input
-                    class="border-zinc-700 bg-transparent text-white"
-                    placeholder="60f5a3c2e1b2c3d4e5f67890"
-                    type="text"
-                    {...props}
-                    bind:value={site._id}
-                  />
-                {/each}
+                <Input
+                  class="border-zinc-700 bg-transparent text-white"
+                  placeholder="60f5a3c2e1b2c3d4e5f67890"
+                  type="text"
+                  {...props}
+                  bind:value={id}
+                />
               {/snippet}
             </Form.Control>
             <Form.FieldErrors />
@@ -260,6 +250,7 @@
   </DropdownMenu.Trigger>
   <DropdownMenu.Content class="w-40 " align="end">
     <DropdownMenu.Group>
+      <DropdownMenu.Label>Actions</DropdownMenu.Label>
       <DropdownMenu.Item
         class="cursor-pointer text-black data-highlighted:bg-zinc-200 data-highlighted:text-black"
         onSelect={() => (open = true)}

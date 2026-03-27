@@ -20,7 +20,6 @@
   import Card from "$lib/components/Card.svelte";
   import { useQuery } from "convex-svelte";
   import { api } from "../convex/_generated/api";
-  import { Spinner } from "$lib/components/ui/spinner/index.js";
   import { env } from "$env/dynamic/public";
   import Skeleton from "$lib/components/ui/skeleton/skeleton.svelte";
 
@@ -155,7 +154,11 @@
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <Card title={site.title} description={site.description} />
+                      <Card
+                        id={site._id}
+                        title={site.title}
+                        description={site.description}
+                      />
                     </a>
                   {/each}
                 {:else}

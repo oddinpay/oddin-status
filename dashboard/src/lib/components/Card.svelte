@@ -3,8 +3,11 @@
   import ShieldAlertIcon from "@lucide/svelte/icons/shield-alert";
   import Menu from "$lib/components/Menu.svelte";
 
-  export let title: string;
-  export let description: string;
+  let {
+    id,
+    title,
+    description,
+  }: { id: string; title: string; description: string } = $props();
 </script>
 
 <div class="flex w-full items-center justify-center">
@@ -25,7 +28,7 @@
     </Item.Content>
 
     <Item.Actions class="ml-auto">
-      <Menu />
+      <Menu {id} />
     </Item.Actions>
   </Item.Root>
 </div>
