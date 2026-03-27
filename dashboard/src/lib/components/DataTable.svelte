@@ -372,7 +372,7 @@
       <Button
         variant="outline"
         size="icon"
-        class="size-8 bg-zinc-800 border-zinc-700 hover:text-white text-white hover:bg-zinc-700 disabled:pointer-events-auto disabled:cursor-not-allowed disabled:opacity-50"
+        class="size-8 bg-zinc-800 border-zinc-700 hover:text-white text-white hover:bg-zinc-700 hover:cursor-pointer disabled:pointer-events-auto disabled:cursor-not-allowed disabled:opacity-50"
         onclick={() => table.previousPage()}
         disabled={!table.getCanPreviousPage()}
       >
@@ -383,7 +383,7 @@
       <Button
         variant="outline"
         size="icon"
-        class="size-8 bg-zinc-800 border-zinc-700 hover:text-white text-white hover:bg-zinc-700 disabled:pointer-events-auto disabled:cursor-not-allowed disabled:opacity-50"
+        class="size-8 bg-zinc-800 border-zinc-700 hover:text-white text-white hover:bg-zinc-700 hover:cursor-pointer disabled:pointer-events-auto disabled:cursor-not-allowed disabled:opacity-50"
         onclick={() => table.nextPage()}
         disabled={!table.getCanNextPage()}
       >
