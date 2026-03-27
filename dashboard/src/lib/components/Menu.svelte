@@ -222,7 +222,7 @@
       </div>
       <Form.Button
         formaction="?/update"
-        class="mt-2 w-full cursor-pointer "
+        class="mt-2 w-full cursor-pointer disabled:pointer-events-auto disabled:cursor-not-allowed"
         type="submit"
         variant="outline"
         disabled={$submitting}
