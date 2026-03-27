@@ -305,29 +305,43 @@
   <div class="rounded-md">
     <Table.Root class="stm:w-100">
       <Table.Header>
-        {#each table.getHeaderGroups() as headerGroup (headerGroup.id)}
+        {#if monitors.isLoading}
           <Table.Row>
-            {#each headerGroup.headers as header (header.id)}
+            {#each columns as _}
               <Table.Head
                 class="text-white border-b border-zinc-700  cursor-pointer hover:bg-zinc-800 [&:has([role=checkbox])]:ps-3"
               >
-                {#if !header.isPlaceholder}
-                  <FlexRender
-                    content={header.column.columnDef.header}
-                    context={header.getContext()}
-                  />
-                {/if}
+                <Skeleton class="h-8 w-full bg-zinc-700/50" />
               </Table.Head>
             {/each}
           </Table.Row>
-        {/each}
+        {:else}
+          {#each table.getHeaderGroups() as headerGroup (headerGroup.id)}
+            <Table.Row>
+              {#each headerGroup.headers as header (header.id)}
+                <Table.Head
+                  class="text-white border-b border-zinc-700  cursor-pointer hover:bg-zinc-800 [&:has([role=checkbox])]:ps-3"
+                >
+                  {#if !header.isPlaceholder}
+                    <FlexRender
+                      content={header.column.columnDef.header}
+                      context={header.getContext()}
+                    />
+                  {/if}
+                </Table.Head>
+              {/each}
+            </Table.Row>
+          {/each}
+        {/if}
       </Table.Header>
       <Table.Body>
         {#if monitors.isLoading}
           {#each Array(totalCount) as _}
             <Table.Row>
               {#each columns as _}
-                <Table.Cell class="border-b border-zinc-700">
+                <Table.Cell
+                  class="text-white border-b border-zinc-700 cursor-pointer hover:bg-zinc-800 [&:has([role=checkbox])]:ps-3"
+                >
                   <Skeleton class="h-8 w-full bg-zinc-700/50" />
                 </Table.Cell>
               {/each}
