@@ -161,7 +161,7 @@
                       {$formData.monitorType === "tcp" ||
                       $formData.monitorType === "dns"
                         ? "Host"
-                        : "URL"}
+                        : "Domain"}
                     </Form.Label>
                     <Input
                       {...props}
