@@ -31,6 +31,7 @@
 
   import { useQuery } from "convex-svelte";
   import { api } from "../../convex/_generated/api";
+  import { env } from "$env/dynamic/public";
 
   type Payment = {
     id: string;
@@ -44,26 +45,13 @@
 
   type TableRow = Payment & Partial<ConvexMonitor>;
 
-  const monitors = useQuery(api.status.get);
+  const apiKey = env.PUBLIC_API_KEY;
 
-  const data: Payment[] = [
-    {
-      id: "m5gr84i9",
-      name: "ken99@yahoo.com",
-    },
-    {
-      id: "3u1reuv4",
-      name: "www.oddinpay.com",
-    },
-    {
-      id: "derv1ws0",
-      name: "Monserrat44@gmail.com",
-    },
-    {
-      id: "5kma53ae",
-      name: "Silas22@gmail.com",
-    },
-  ];
+  const monitors = useQuery(api.status.get, {
+    apiKey,
+  });
+
+  const data: Payment[] = [];
 
   const allData = $derived<TableRow[]>([
     ...data,
