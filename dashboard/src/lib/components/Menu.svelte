@@ -262,9 +262,9 @@
         class="cursor-pointer text-red-600 data-highlighted:bg-red-100 data-highlighted:text-red-600"
         onSelect={() => {
           confirmDelete({
-            title: "Delete Status Page",
+            title: "Delete status",
             description:
-              "Are you sure you want to delete this item? This action cannot be undone.",
+              "Are you sure you want to delete this status? This action cannot be undone.",
             input: {
               confirmationText: "please",
             },
