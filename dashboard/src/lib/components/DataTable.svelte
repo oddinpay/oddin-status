@@ -331,6 +331,7 @@
         {/each}
       </DropdownMenu.Content>
     </DropdownMenu.Root>
+    <ConfirmDeleteDialog />
   </div>
   <div class="rounded-md">
     <Table.Root class="stm:w-100">
@@ -437,5 +438,3 @@
     </div>
   </div>
 </div>
-
-<ConfirmDeleteDialog />
