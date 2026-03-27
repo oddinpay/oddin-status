@@ -7,7 +7,6 @@
   import { toast } from "svelte-sonner";
   import { formUpdate } from "$lib/types/form";
   import { page } from "$app/state";
-  import Loader2 from "@lucide/svelte/icons/loader-2";
   import {
     ConfirmDeleteDialog,
     confirmDelete,
@@ -86,11 +85,7 @@
           });
         }}
       >
-        {#if !$submitting}
-          Delete
-        {:else}
-          <Loader2 class="size-4 animate-spin" />
-        {/if}
+        Delete
       </DropdownMenu.Item>
     </DropdownMenu.Group>
   </DropdownMenu.Content>
