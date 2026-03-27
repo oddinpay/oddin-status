@@ -165,7 +165,6 @@
       return allData;
     },
     columns,
-    getRowId: (row) => row.id,
     state: {
       get pagination() {
         return pagination;
