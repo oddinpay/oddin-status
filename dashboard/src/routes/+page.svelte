@@ -143,7 +143,7 @@
                 {#if query.isLoading}
                   <Spinner class="text-white size-8" />
                 {:else if query.error}
-                  failed to load: {query.error.toString()}
+                  <NotPage />
                 {:else if siteLive}
                   {#each query.data as site}
                     <a

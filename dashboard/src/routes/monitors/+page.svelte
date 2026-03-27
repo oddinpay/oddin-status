@@ -130,7 +130,7 @@
                 {#if monitorCount.isLoading}
                   <Spinner class="text-white size-8" />
                 {:else if monitorCount.error}
-                  failed to load: {monitorCount.error.toString()}
+                  <NotMonitor />
                 {:else if totalCount > 0}
                   <DataTable />
                 {:else}
