@@ -158,16 +158,16 @@
                 <Form.Control>
                   {#snippet children({ props })}
                     <Form.Label class="font-bold text-gray-300">
-                      {$formData.monitorType === "tcp" ||
-                      $formData.monitorType === "dns"
-                        ? "Domain"
+                      {$formData.monitorType === "dns" ||
+                      $formData.monitorType === "tcp"
+                        ? "IP & Port"
                         : "Domain"}
                     </Form.Label>
                     <Input
                       {...props}
                       class="border-zinc-700 text-white"
                       placeholder={$formData.monitorType === "tcp"
-                        ? "127.0.0.1"
+                        ? "127.0.0.1:8080"
                         : "www.oddinpay.com"}
                       bind:value={$formData.url}
                     />
@@ -175,26 +175,6 @@
                 </Form.Control>
                 <Form.FieldErrors />
               </Form.Field>
-
-              {#if $formData.monitorType === "tcp"}
-                <Form.Field {form} name="port">
-                  <Form.Control>
-                    {#snippet children({ props })}
-                      <Form.Label class="font-bold text-gray-300"
-                        >Port</Form.Label
-                      >
-                      <Input
-                        {...props}
-                        type="number"
-                        class="border-zinc-700 text-white"
-                        placeholder="5785"
-                        bind:value={$formData.port}
-                      />
-                    {/snippet}
-                  </Form.Control>
-                  <Form.FieldErrors />
-                </Form.Field>
-              {/if}
 
               <div class="space-y-4">
                 <Form.Field {form} name="interval">
