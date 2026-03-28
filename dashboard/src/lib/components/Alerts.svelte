@@ -17,19 +17,19 @@
     { class: "text-emerald-600", label: "Resolved", value: "i1" },
     { class: "text-yellow-500", label: "In Progress", value: "i2" },
     { class: "text-gray-500", label: "Investigating", value: "i3" },
-    { class: "text-white", label: "Identified", value: "i4" },
+    { class: "text-zinc-300", label: "Identified", value: "i4" },
   ] as const;
 
   const services = [
-    { value: "HTTPS", label: "HTTPS" },
-    { value: "HTTP", label: "HTTP" },
-    { value: "TCP", label: "TCP" },
-    { value: "DNS", label: "DNS" },
+    { value: "https", label: "HTTPS" },
+    { value: "http", label: "HTTP" },
+    { value: "tcp", label: "TCP" },
+    { value: "dns", label: "DNS" },
   ];
 
   let value = $state("i4");
 
-  let types = $state("HTTPS");
+  let types = $state("https");
 
   let name = $state("");
 
