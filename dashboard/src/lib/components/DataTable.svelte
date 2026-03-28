@@ -245,8 +245,10 @@
             const selectedRows = table.getSelectedRowModel().rows;
             const selectedIds = selectedRows.map((row) => row.original.id);
 
+            const isBulk = selectedIds.length > 1;
+
             confirmDelete({
-              title: "Delete monitor",
+              title: isBulk ? "Delete monitors" : "Delete monitor",
               description:
                 "Are you sure you want to delete this monitor? This action cannot be undone.",
               input: {
@@ -255,10 +257,16 @@
               onConfirm: async () => {
                 const formData = new FormData();
 
-                formData.append("ids", JSON.stringify(selectedIds));
-                formData.append("confirmation", "yes");
+                const action = isBulk ? "?/deleteBulk" : "?/delete";
 
-                const response = await fetch("?/deleteBulk", {
+                if (!isBulk) {
+                  formData.append("_id", selectedIds[0]);
+                } else {
+                  formData.append("ids", JSON.stringify(selectedIds));
+                }
+
+                formData.append("confirmation", "yes");
+                const response = await fetch(action, {
                   method: "POST",
                   body: formData,
                 });
