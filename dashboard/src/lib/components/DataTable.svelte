@@ -262,7 +262,7 @@
                 if (!isBulk) {
                   formData.append("_id", selectedIds[0]);
                 } else {
-                  formData.append("ids", JSON.stringify(selectedIds));
+                  formData.append("_id", JSON.stringify(selectedIds));
                 }
 
                 formData.append("confirmation", "yes");

@@ -95,4 +95,34 @@ export const actions: Actions = {
       return { status: 500, body: "Failed to delete" };
     }
   },
+
+  deleteBulk: async ({ request }) => {
+    const formData = await request.formData();
+    const rawIdData = formData.get("_id");
+
+    if (!rawIdData) {
+      return { status: 400, body: "Missing IDs" };
+    }
+
+    try {
+      const convex = getConvexClient();
+      const apiKey = env.API_KEY;
+
+      if (!apiKey) {
+        return { status: 500, body: "API_KEY not set" };
+      }
+
+      const ids = JSON.parse(rawIdData as string);
+
+      await convex.mutation(api.status.deleteBulk, {
+        apiKey,
+        id: ids,
+      });
+
+      return { success: true };
+    } catch (err) {
+      console.error("Bulk delete failed:", err);
+      return { status: 500, body: "Failed to delete" };
+    }
+  },
 };
