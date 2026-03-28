@@ -84,7 +84,7 @@ export const actions: Actions = {
         );
       }
 
-      await convex.mutation(api.site.deleteById, {
+      await convex.mutation(api.status.deleteById, {
         apiKey,
         id: formData.get("_id") as any,
       });
