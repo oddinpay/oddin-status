@@ -90,29 +90,29 @@
               <TabsList
                 class="h-auto gap-2 rounded-full border-b border-border bg-zinc-800 px-10 py-2 text-zinc-400"
               >
-                <TabsTrigger
+                <!-- <TabsTrigger
                   value="tab-3"
                   class="relative cursor-pointer after:absolute  after:inset-x-0 after:bottom-0 after:-mb-1 after:h-0.5  hover:text-white hover:after:bg-white data-[state=active]:bg-transparent data-[state=active]:text-white data-[state=active]:shadow-none data-[state=active]:after:bg-white data-[state=active]:hover:text-white"
                 >
                   Rules
-                </TabsTrigger>
+                </TabsTrigger> -->
 
                 <TabsTrigger
-                  value="tab-5"
+                  value="tab-3"
                   class="relative cursor-pointer after:absolute  after:inset-x-0 after:bottom-0 after:-mb-1 after:h-0.5  hover:text-white hover:after:bg-white data-[state=active]:bg-transparent data-[state=active]:text-white data-[state=active]:shadow-none data-[state=active]:after:bg-white data-[state=active]:hover:text-white"
                 >
                   Integrations
                 </TabsTrigger>
               </TabsList>
-              <TabsContent value="tab-3">
+              <!-- <TabsContent value="tab-3">
                 <Alerts />
-              </TabsContent>
+              </TabsContent> -->
               <TabsContent value="tab-4">
                 <p class="p-4 text-center text-xs text-white">
                   Content for Tab 4
                 </p>
               </TabsContent>
-              <TabsContent value="tab-5">
+              <TabsContent value="tab-3">
                 <div class="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div
                     class="flex h-80 w-30 360:w-60 xl:w-80 flex-col overflow-hidden rounded-xl border border-zinc-700 shadow-sm"
