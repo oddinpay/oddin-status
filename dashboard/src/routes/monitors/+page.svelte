@@ -21,6 +21,10 @@
   import { useQuery } from "convex-svelte";
   import { api } from "../../convex/_generated/api";
   import { Spinner } from "$lib/components/ui/spinner/index.js";
+  import { source } from "sveltekit-sse";
+  import { onMount, onDestroy } from "svelte";
+  import { browser } from "$app/environment";
+  import { env } from "$env/dynamic/public";
 
   let currentTab = "tab-1";
   let totalCount = $state(0);
@@ -33,6 +37,74 @@
       totalCount = 0;
     }
   });
+
+  const oddinHost = env.PUBLIC_ODDIN_HOST;
+  let unsubscribe: (() => void) | undefined;
+
+  type StatusType = "up" | "down" | "warn" | "default";
+
+  interface StatusEntry {
+    date: Date;
+    status: StatusType;
+  }
+
+  interface ApiData {
+    id?: string;
+    name?: string;
+    date?: string[];
+    state?: string[];
+    statuses: StatusEntry[];
+    uptime15: string;
+    uptime30: string;
+    uptime60: string;
+    uptime90: string;
+    __order?: number;
+  }
+
+  onMount(() => {
+    if (!browser) return;
+
+    const json = source(`https://${oddinHost}/v1/sse`)
+      .select("")
+      .json<ApiData>();
+
+    unsubscribe = json.subscribe((msg: any) => {
+      const probe = msg?.payload?.probe;
+      const sla = msg?.payload?.sla;
+      const index = msg?.index;
+
+      if (!probe?.id) return;
+
+      const id = probe.id;
+
+      if (probe.action?.[0] === "deleted") {
+        delete probeMap[id];
+        return;
+      }
+
+      probeMap[id] = {
+        ...probeMap[id],
+        ...probe,
+        uptime90: sla?.uptime90 ?? probeMap[id]?.uptime90 ?? "100.000%",
+        __order: index ?? probeMap[id]?.__order ?? Infinity,
+      };
+    });
+  });
+
+  onDestroy(() => {
+    unsubscribe?.();
+  });
+
+  type ProbeMap = Record<string, ApiData>;
+  let probeMap = $state<ProbeMap>({});
+
+  const totalUp = $derived(
+    Object.values(probeMap).filter((p) => p.state?.[0] === "up").length,
+  );
+
+  const totalDown = $derived(
+    Object.values(probeMap).filter((p) => p.state?.[0] === "down").length,
+  );
 </script>
 
 <div
@@ -153,7 +225,7 @@
               class="text-white"
               show_value
               size="lg"
-              value={1}
+              value={totalUp}
             />
           </TabsContent>
         </div>
@@ -171,7 +243,7 @@
               class="text-white"
               show_value
               size="lg"
-              value={0}
+              value={totalDown}
             />
           </TabsContent>
         </div>

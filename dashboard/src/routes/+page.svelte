@@ -203,7 +203,7 @@
               class="text-white"
               show_value
               size="lg"
-              value={100}
+              value={0}
             />
           </TabsContent>
         </div>

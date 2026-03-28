@@ -261,14 +261,14 @@
             description:
               "Are you sure you want to delete this status? This action cannot be undone.",
             input: {
-              confirmationText: "please",
+              confirmationText: "yes",
             },
             onConfirm: async () => {
               const formData = new FormData();
 
               formData.append("_id", id);
 
-              formData.append("confirmation", "please");
+              formData.append("confirmation", "yes");
 
               const response = await fetch("?/delete", {
                 method: "POST",
