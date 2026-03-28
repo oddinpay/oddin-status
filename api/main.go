@@ -452,19 +452,19 @@ func probeHTTP(re HttpRequest) ProbeResult {
 	return ProbeResult{}
 }
 
-func probeTCP(req HttpRequest) ProbeResult {
+func probeTCP(re HttpRequest) ProbeResult {
 	maxRetries := 5
 
 	for attempt := 1; attempt <= maxRetries; attempt++ {
-		conn, err := net.DialTimeout("tcp", req.Host, defaultTimeout)
+		conn, err := net.DialTimeout("tcp", re.Host, defaultTimeout)
 		if err != nil {
 			if attempt < maxRetries {
 				time.Sleep(200 * time.Millisecond)
 				continue
 			}
 			return ProbeResult{
-				Name:        req.Name,
-				Protocol:    strings.ToUpper(req.Protocol),
+				Name:        re.Name,
+				Protocol:    strings.ToUpper(re.Protocol),
 				Description: err.Error(),
 				Timestamp:   time.Now().Format("15:04:05.000"),
 				Date:        getRecentDates(),
@@ -480,8 +480,8 @@ func probeTCP(req HttpRequest) ProbeResult {
 				continue
 			}
 			return ProbeResult{
-				Name:        req.Name,
-				Protocol:    strings.ToUpper(req.Protocol),
+				Name:        re.Name,
+				Protocol:    strings.ToUpper(re.Protocol),
 				Description: "write failed: " + err.Error(),
 				Timestamp:   time.Now().Format("15:04:05.000"),
 				Date:        getRecentDates(),
@@ -500,8 +500,8 @@ func probeTCP(req HttpRequest) ProbeResult {
 				continue
 			}
 			return ProbeResult{
-				Name:        req.Name,
-				Protocol:    strings.ToUpper(req.Protocol),
+				Name:        re.Name,
+				Protocol:    strings.ToUpper(re.Protocol),
 				Description: "no response after connect",
 				Timestamp:   time.Now().Format("15:04:05.000"),
 				Date:        getRecentDates(),
@@ -510,8 +510,8 @@ func probeTCP(req HttpRequest) ProbeResult {
 		}
 
 		return ProbeResult{
-			Name:        req.Name,
-			Protocol:    strings.ToUpper(req.Protocol),
+			Name:        re.Name,
+			Protocol:    strings.ToUpper(re.Protocol),
 			Description: fmt.Sprintf("response received %s", strings.TrimSpace(string(buf[:n]))),
 			Timestamp:   time.Now().Format("15:04:05.000"),
 			Date:        getRecentDates(),
@@ -522,13 +522,13 @@ func probeTCP(req HttpRequest) ProbeResult {
 	return ProbeResult{}
 }
 
-func probeDNS(req HttpRequest) ProbeResult {
+func probeDNS(re HttpRequest) ProbeResult {
 	maxRetries := 5
 
-	if net.ParseIP(req.Host) != nil {
+	if net.ParseIP(re.Host) != nil {
 		return ProbeResult{
-			Name:        req.Name,
-			Protocol:    strings.ToUpper(req.Protocol),
+			Name:        re.Name,
+			Protocol:    strings.ToUpper(re.Protocol),
 			Description: "Input is already an IP, DNS lookup skipped",
 			Timestamp:   time.Now().Format("15:04:05.000"),
 			Date:        getRecentDates(),
@@ -538,7 +538,7 @@ func probeDNS(req HttpRequest) ProbeResult {
 
 	for attempt := 1; attempt <= maxRetries; attempt++ {
 		ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
-		addrs, err := net.DefaultResolver.LookupHost(ctx, req.Host)
+		addrs, err := net.DefaultResolver.LookupHost(ctx, re.Host)
 		cancel()
 
 		if err != nil {
@@ -547,8 +547,8 @@ func probeDNS(req HttpRequest) ProbeResult {
 				continue
 			}
 			return ProbeResult{
-				Name:        req.Name,
-				Protocol:    strings.ToUpper(req.Protocol),
+				Name:        re.Name,
+				Protocol:    strings.ToUpper(re.Protocol),
 				Description: fmt.Sprintf("DNS error: %s", err.Error()),
 				Timestamp:   time.Now().Format("15:04:05.000"),
 				Date:        getRecentDates(),
@@ -557,8 +557,8 @@ func probeDNS(req HttpRequest) ProbeResult {
 		}
 
 		return ProbeResult{
-			Name:        req.Name,
-			Protocol:    strings.ToUpper(req.Protocol),
+			Name:        re.Name,
+			Protocol:    strings.ToUpper(re.Protocol),
 			Description: fmt.Sprintf("resolved %v", addrs),
 			Timestamp:   time.Now().Format("15:04:05.000"),
 			Date:        getRecentDates(),
