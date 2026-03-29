@@ -68,6 +68,8 @@
       };
     }),
   );
+
+  $inspect(sites.map((s) => s.faviconUrl));
 </script>
 
 <svelte:head>
