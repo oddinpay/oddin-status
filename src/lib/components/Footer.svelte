@@ -79,7 +79,7 @@
       sans-serif,
       -apple-system,
       BlinkMacSystemFont;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 15px;
     line-height: 15px;
     color: #2a741b;

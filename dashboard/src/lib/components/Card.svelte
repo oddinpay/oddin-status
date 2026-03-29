@@ -1,7 +1,7 @@
 <script lang="ts">
   import * as Item from "$lib/components/ui/item/index.js";
-  import ShieldAlertIcon from "@lucide/svelte/icons/shield-alert";
   import Menu from "$lib/components/Menu.svelte";
+  import { Globe } from "lucide-svelte";
 
   let {
     id,
@@ -17,7 +17,7 @@
     variant="outline"
   >
     <Item.Media variant="icon">
-      <ShieldAlertIcon />
+      <Globe />
     </Item.Media>
 
     <Item.Content>
