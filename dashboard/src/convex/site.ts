@@ -16,6 +16,7 @@ export const post = mutation({
     textLogo: v.string(),
     signupUrl: v.string(),
     signinUrl: v.string(),
+    image: v.string(),
     slug: v.string(),
   },
   handler: async (ctx, args) => {
@@ -35,6 +36,7 @@ export const post = mutation({
       textLogo: args.textLogo,
       signupUrl: args.signupUrl,
       signinUrl: args.signinUrl,
+      image: args.image,
       slug: args.slug,
     });
   },
