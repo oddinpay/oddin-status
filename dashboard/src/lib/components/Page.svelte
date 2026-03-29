@@ -55,7 +55,6 @@
         if (typeof result === "string") {
           $formData.image = result.split(",")[1];
           profileImageBase64 = result.split(",")[1];
-          console.log("Base64 Image String:", profileImageBase64);
         }
       };
       reader.readAsDataURL(file);
