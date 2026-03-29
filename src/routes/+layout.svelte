@@ -78,7 +78,7 @@
 </script>
 
 <svelte:head>
-  <link rel="icon" href={activeFavicon} type="image/svg+xml" />
+  <link rel="icon" href={activeFavicon} />
 
   <!-- Canonical URL -->
   <link rel="canonical" href={canonicalUrl} />
