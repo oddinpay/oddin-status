@@ -21,8 +21,12 @@
     </div>
 
     <div class="footer-right">
-      <a href={site} target="_blank" rel="noopener noreferrer">Visit our full website</a>
-      <a href={privacy} target="_blank" rel="noopener noreferrer">Privacy &amp; terms</a>
+      <a href={site} target="_blank" rel="noopener noreferrer"
+        >Visit our full website</a
+      >
+      <a href={privacy} target="_blank" rel="noopener noreferrer"
+        >Privacy &amp; terms</a
+      >
     </div>
   </div>
 </footer>
@@ -75,9 +79,9 @@
       sans-serif,
       -apple-system,
       BlinkMacSystemFont;
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 18px;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 15px;
     color: #2a741b;
   }
 

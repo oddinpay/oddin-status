@@ -27,6 +27,7 @@
   import { env } from "$env/dynamic/public";
 
   let currentTab = "tab-1";
+  let innerTab = $state("tab-1");
   let totalCount = $state(0);
   const monitorCount = useQuery(api.status.count, {});
 
@@ -116,7 +117,7 @@
     </div>
 
     <Tabs
-      value={currentTab}
+      value={innerTab}
       class="flex max-h-[calc(100dvh-3rem)]  w-full flex-col gap-8 900:flex-row"
     >
       <TabsList
@@ -207,7 +208,7 @@
                 {/if}
               </TabsContent>
               <TabsContent value="tab-2">
-                <Monitor />
+                <Monitor innerTab={innerTab} />
               </TabsContent>
             </Tabs>
           </TabsContent>
