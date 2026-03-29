@@ -64,14 +64,14 @@
 
       return {
         ...site,
-        faviconUrl: mimeType ? `data:${mimeType};base64,${b64}` : null,
+        faviconUrl: `data:${mimeType};base64,${b64}`,
       };
     }),
   );
 
   $effect(() => {
     sites.forEach((site) => {
-      console.log("Site Title:", site.title, "| URL:", site.faviconUrl);
+      console.log("Site Title:", site.title, "| Favicon URL:", site.faviconUrl);
     });
   });
 </script>
