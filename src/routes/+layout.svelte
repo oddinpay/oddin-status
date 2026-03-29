@@ -80,7 +80,7 @@
       if (b64.startsWith("PHN2Zy")) {
         activeFavicon = `data:image/svg+xml;utf8,${encodeURIComponent(b64)}`;
       } else {
-        activeFavicon = `data:${b64};base64,${b64}`;
+        activeFavicon = `data:${type};base64,${type}`;
       }
     });
   });
