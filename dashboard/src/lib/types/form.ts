@@ -2,7 +2,6 @@ import { z } from "zod/v4";
 
 export const formUpdate = z.object({
   _id: z.string().trim().optional(),
-  image: z.string().trim().optional(),
   title: z
     .string()
     .trim()
@@ -10,6 +9,8 @@ export const formUpdate = z.object({
     .max(50, "Title must not exceed 50 characters")
     .optional()
     .or(z.literal("")),
+
+  image: z.string().trim().optional(),
 
   description: z
     .string()

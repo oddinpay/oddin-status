@@ -67,26 +67,39 @@
 
 <Dialog.Root bind:open>
   <Dialog.Content class="bg-zinc-900">
-    <div class="flex flex-col items-center gap-2">
-      <div
-        class="flex size-11 shrink-0 items-center justify-center rounded-full border border-border"
-      >
-        {@render Avatar()}
-      </div>
-
-      <Dialog.Header>
-        <Dialog.Title class="mt-10 text-gray-300 sm:text-center"
-          >Favicon</Dialog.Title
-        >
-        <Dialog.Description class="text-gray-400 sm:text-center">
-          Update your status page.
-        </Dialog.Description>
-      </Dialog.Header>
-    </div>
-
     <form method="POST" class="space-y-5" use:enhance>
       <div class="space-y-4">
         <div class="space-y-2">
+          <Form.Field {form} name="image">
+            <Form.Control>
+              {#snippet children({ props })}
+                <input
+                  type="hidden"
+                  name={props.name}
+                  bind:value={$formData.image}
+                />
+
+                <div class="flex flex-col items-center gap-2">
+                  <div
+                    class="flex size-11 shrink-0 items-center justify-center rounded-full border border-border"
+                  >
+                    {@render Avatar()}
+                  </div>
+
+                  <Dialog.Header>
+                    <Dialog.Title class="mt-10 text-gray-300 sm:text-center"
+                      >Favicon</Dialog.Title
+                    >
+                    <Dialog.Description class="text-gray-400 sm:text-center">
+                      Update your status page.
+                    </Dialog.Description>
+                  </Dialog.Header>
+                </div>
+              {/snippet}
+            </Form.Control>
+            <Form.FieldErrors />
+          </Form.Field>
+
           <Form.Field {form} name="_id">
             <Form.Control>
               {#snippet children({ props })}
