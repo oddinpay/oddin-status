@@ -32,7 +32,7 @@
     })(),
   );
 
-  function detectImageTypeFromBase64(base64: string): string | undefined {
+  function detectImageTypeFromBase64(base64: string): string {
     const firstChar = base64.trim();
     switch (firstChar) {
       case "/":
@@ -51,6 +51,8 @@
         return "image/bmp"; // BMP
       case "AAAA":
         return "image/avif"; // AVIF
+      default:
+        return ""; // Unknown
     }
   }
 
@@ -74,7 +76,10 @@
   $effect(() => {
     sites.forEach((site) => {
       let b64 = site.b64;
-      activeFavicon = `data:${detectImageTypeFromBase64(b64)};base64,${b64}`;
+
+      const detectedType = detectImageTypeFromBase64(b64);
+
+      activeFavicon = `data:${detectedType};base64,${b64}`;
     });
   });
 </script>
