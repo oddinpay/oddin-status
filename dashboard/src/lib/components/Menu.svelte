@@ -109,7 +109,7 @@
                   type="text"
                   {...props}
                   bind:value={id}
-                  disabled
+                  readonly
                 />
               {/snippet}
             </Form.Control>
