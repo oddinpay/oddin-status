@@ -20,11 +20,14 @@
   import Card from "$lib/components/Card.svelte";
   import { useQuery } from "convex-svelte";
   import { api } from "../convex/_generated/api";
+  import { env } from "$env/dynamic/public";
   import Skeleton from "$lib/components/ui/skeleton/skeleton.svelte";
 
+  let baseUrl = env.PUBLIC_PAGE_URL
+    ? env.PUBLIC_PAGE_URL
+    : "https://status.oddinpay.com";
   let currentTab = "tab-0";
   const query = useQuery(api.site.get);
-  const query2 = useQuery(api.status.get);
   let siteLive = $state(false);
 
   const monitorCount = useQuery(api.status.count, {});
@@ -146,19 +149,17 @@
                   <NotPage />
                 {:else if siteLive}
                   {#each query.data as site}
-                    {#each query2.data as status}
-                      <a
-                        href={status.protocol + "://" + status.name}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <Card
-                          id={site._id}
-                          title={site.title}
-                          description={site.description}
-                        />
-                      </a>
-                    {/each}
+                    <a
+                      href={`${baseUrl}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Card
+                        id={site._id}
+                        title={site.title}
+                        description={site.description}
+                      />
+                    </a>
                   {/each}
                 {:else}
                   <NotPage />
