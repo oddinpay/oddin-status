@@ -58,8 +58,6 @@
   });
 </script>
 
-<Toaster closeButton position="top-center" />
-
 <Empty.Root>
   <Empty.Header>
     <Empty.Media variant="icon">

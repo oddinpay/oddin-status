@@ -1,7 +1,7 @@
 <script lang="ts">
   import { superForm } from "sveltekit-superforms";
   import { zod4 } from "sveltekit-superforms/adapters";
-  import { Toaster, toast } from "svelte-sonner";
+  import { toast } from "svelte-sonner";
   import * as Form from "$lib/components/ui/form/index.js";
   import { formSchema } from "$lib/types/form";
   import Button, { buttonVariants } from "$lib/components/ui/button.svelte";
@@ -63,8 +63,6 @@
     }
   });
 </script>
-
-<Toaster closeButton position="top-center" />
 
 <Empty.Root>
   <Empty.Header>
