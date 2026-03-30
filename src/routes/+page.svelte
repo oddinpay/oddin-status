@@ -16,6 +16,7 @@
   import { env } from "$env/dynamic/public";
   import { useQuery } from "convex-svelte";
   import { api } from "../../dashboard/src/convex/_generated/api";
+  import { page } from "$app/state";
 
   const query = useQuery(api.site.get);
 
@@ -57,7 +58,7 @@
     __order?: number;
   }
 
-  const oddinHost = env.PUBLIC_ODDIN_HOST;
+  const oddinHost = env.PUBLIC_SSE_HOST;
   let unsubscribe: (() => void) | undefined;
 
   onMount(() => {
@@ -857,7 +858,7 @@
         </button>
 
         <div class="oddin-status hover:opacity-50">
-          {#if oddinHost === "beep.oddinpay.com"}
+          {#if page.url.hostname === "status.oddinpay.com"}
             <a href={slug} target="_blank" rel="noopener noreferrer">
               {logo}
             </a>
@@ -866,7 +867,7 @@
           {:else if query.data}
             {#each query.data as site}
               <a href={site.slug} target="_blank" rel="noopener noreferrer">
-                {#if oddinHost === "beep.oddinpay.com"}
+                {#if page.url.hostname === "status.oddinpay.com"}
                   {logo}
                 {:else}
                   {site.textLogo}
@@ -877,7 +878,7 @@
         </div>
 
         <div id="themeBtn" class="ml-auto"></div>
-        {#if oddinHost === "beep.oddinpay.com"}
+        {#if page.url.hostname === "status.oddinpay.com"}
           <Button
             id="change"
             onclick={() => window.open(signin, "_blank")}
@@ -1521,7 +1522,7 @@
     </div>
   </div>
 
-  {#if oddinHost === "beep.oddinpay.com"}
+  {#if page.url.hostname === "status.oddinpay.com"}
     <Footer
       privacy={"https://oddinpay.com/privacy"}
       site={"https://oddinpay.com"}
@@ -1536,7 +1537,7 @@
 {/if}
 
 <svelte:head>
-  {#if oddinHost === "beep.oddinpay.com"}
+  {#if page.url.hostname === "status.oddinpay.com"}
     <title>Status • OddinPay</title>
     <meta
       name="description"
