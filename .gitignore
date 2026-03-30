@@ -202,4 +202,3 @@ dist
 
 dashboard/src/routes/ani/+page.svelte
 dashboard/src/lib/components/Bizare.svelte
-dashboard/src/lib/components/Bizare.svelte
