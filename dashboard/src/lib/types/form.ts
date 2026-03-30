@@ -123,3 +123,30 @@ export const formCreate = z.object({
     .default(10)
     .optional(),
 });
+
+export const monitorUpdate = z.object({
+  _id: z.string().trim().optional(),
+  name: z
+    .string()
+    .trim()
+    .min(1, "Name must be at least 1 character long")
+    .max(50, "Name must not exceed 50 characters")
+    .optional(),
+  protocol: z
+    .enum(["https", "http", "tcp", "dns"], {
+      message: "Protocol must be one of: https, http, tcp, dns",
+    })
+    .default("https")
+    .optional(),
+  host: z.string().trim().optional(),
+  port: z
+    .number()
+    .min(1, "Port must be a positive number")
+    .max(65535, "Port must be less than 65536")
+    .optional(),
+  interval: z
+    .number()
+    .min(0, "Interval must be a positive number")
+    .default(10)
+    .optional(),
+});

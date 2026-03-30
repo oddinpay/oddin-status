@@ -45,6 +45,7 @@ export const post = mutation({
 export const patch = mutation({
   args: {
     id: v.id("site"),
+    apiKey: v.string(),
     title: v.optional(v.string()),
     description: v.optional(v.string()),
     textLogo: v.optional(v.string()),
@@ -54,6 +55,10 @@ export const patch = mutation({
     slug: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
+    if (args.apiKey !== process.env.API_KEY) {
+      throw new Error("Unauthorized");
+    }
+
     const { id, ...rest } = args;
     await ctx.db.patch(id, rest);
   },

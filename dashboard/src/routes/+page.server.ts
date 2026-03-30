@@ -56,17 +56,28 @@ export const actions: Actions = {
     const form = await superValidate(e, zod4(formUpdate));
     if (!form.valid) return fail(400, { form });
 
-    const convex = getConvexClient();
-    await convex.mutation(api.site.patch, {
-      id: form.data._id as any,
-      title: form.data.title,
-      description: form.data.description,
-      textLogo: form.data.textLogo,
-      signupUrl: form.data.signup,
-      signinUrl: form.data.signin,
-      image: form.data.image,
-      slug: form.data.slug,
-    });
+    try {
+      const convex = getConvexClient();
+      const apiKey = env.API_KEY;
+
+      if (!apiKey) {
+        return setError(form, "", "API_KEY environment variable is not set");
+      }
+
+      await convex.mutation(api.site.patch, {
+        apiKey,
+        id: form.data._id as any,
+        title: form.data.title,
+        description: form.data.description,
+        textLogo: form.data.textLogo,
+        signupUrl: form.data.signup,
+        signinUrl: form.data.signin,
+        image: form.data.image,
+        slug: form.data.slug,
+      });
+    } catch (error) {
+      return setError(form, "", "Failed to update");
+    }
 
     return { form };
   },
