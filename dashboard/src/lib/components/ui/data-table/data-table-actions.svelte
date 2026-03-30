@@ -16,6 +16,7 @@
   import Loader2 from "@lucide/svelte/icons/loader-2";
   import { Input } from "$lib/components/ui/input/index.js";
   import * as Dialog from "$lib/components/ui/dialog/index.js";
+  import { SquareActivity } from "lucide-svelte";
 
   let { id }: { id: string } = $props();
 
@@ -44,6 +45,24 @@
 
 <Dialog.Root bind:open>
   <Dialog.Content class="bg-zinc-900">
+    <div class="flex flex-col items-center gap-2">
+      <div
+        class="flex size-10 shrink-0 items-center justify-center rounded-full border border-border"
+        aria-hidden="true"
+      >
+        <SquareActivity class="h-10 w-10 text-white" />
+      </div>
+
+      <Dialog.Header>
+        <Dialog.Title class=" text-gray-300 sm:text-center"
+          >Update Monitor</Dialog.Title
+        >
+        <Dialog.Description class="text-gray-400 sm:text-center">
+          Update your monitor settings.
+        </Dialog.Description>
+      </Dialog.Header>
+    </div>
+
     <form method="POST" class="space-y-5" use:enhance>
       <div class="space-y-4">
         <div class="space-y-2">
