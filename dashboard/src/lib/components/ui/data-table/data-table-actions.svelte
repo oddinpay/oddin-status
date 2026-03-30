@@ -204,7 +204,7 @@
           >{#if $submitting}
             <Loader2 class="size-4 animate-spin" />
           {:else}
-            Save
+            Update
           {/if}
         </Form.Button>
       </div>
