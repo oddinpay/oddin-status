@@ -3,14 +3,12 @@ import { v } from "convex/values";
 
 export default defineSchema({
   status: defineTable({
-    id: v.optional(v.id("status")),
     host: v.string(),
     interval: v.number(),
     name: v.string(),
     protocol: v.string(),
   }),
   site: defineTable({
-    id: v.optional(v.id("site")),
     title: v.string(),
     description: v.string(),
     textLogo: v.optional(v.string()),

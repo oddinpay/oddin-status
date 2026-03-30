@@ -59,10 +59,10 @@ export const patch = mutation({
   args: {
     id: v.id("status"),
     apiKey: v.string(),
-    host: v.string(),
-    interval: v.number(),
-    name: v.string(),
-    protocol: v.string(),
+    host: v.optional(v.string()),
+    interval: v.optional(v.number()),
+    name: v.optional(v.string()),
+    protocol: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     if (args.apiKey !== process.env.API_KEY) {

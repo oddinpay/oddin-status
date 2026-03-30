@@ -49,21 +49,31 @@ export const actions: Actions = {
     return { form };
   },
 
-  // update: async (e) => {
-  //   const form = await superValidate(e, zod4(formCreate));
-  //   if (!form.valid) return fail(400, { form });
+  update: async (e) => {
+    const form = await superValidate(e, zod4(monitorUpdate));
+    if (!form.valid) return fail(400, { form });
 
-  //   const convex = getConvexClient();
-  //   await convex.mutation(api.status.patch, {
-  //     id: form.data._id as any,
-  //     host: form.data.host,
-  //     interval: form.data.interval,
-  //     name: form.data.name,
-  //     protocol: form.data.protocol,
-  //   });
+    try {
+      const convex = getConvexClient();
+      const apiKey = env.API_KEY;
 
-  //   return { form };
-  // },
+      if (!apiKey) {
+        return setError(form, "", "API_KEY environment variable is not set");
+      }
+
+      await convex.mutation(api.status.patch, {
+        id: form.data._id as any,
+        host: form.data.host,
+        interval: form.data.interval,
+        name: form.data.name,
+        protocol: form.data.protocol,
+      });
+    } catch (error) {
+      return setError(form, "", "Failed to update");
+    }
+
+    return { form };
+  },
 
   delete: async ({ request }) => {
     const formData = await request.formData();
