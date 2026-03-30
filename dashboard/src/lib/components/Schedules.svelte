@@ -97,7 +97,7 @@
                 <Input
                   class=" border-zinc-700 text-white"
                   id="{id}-title"
-                  placeholder="Scheduled Maintenance"
+                  placeholder="Scheduled maintenance"
                   type="text"
                   bind:value={name}
                   required
