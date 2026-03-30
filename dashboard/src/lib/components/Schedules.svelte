@@ -30,6 +30,21 @@
   }
 
   const selected = $derived(incidents.find((i) => i.value === value));
+
+  $effect(() => {
+    if (value === "i2") {
+      name =
+        "Scheduled maintenance is currently in progress. We will provide updates as necessary.";
+    }
+
+    if (value === "i1") {
+      name =
+        "The scheduled maintenance has been completed.";
+    }
+  });
+
+  // Check if the input should be disabled
+  const isLocked = $derived(value === "i2");
 </script>
 
 {#snippet status(item: (typeof incidents)[number])}
@@ -97,12 +112,13 @@
                   placeholder="Scheduled maintenance"
                   type="text"
                   bind:value={name}
+                  readonly={isLocked}
                   required
                 />
               </div>
 
               <div class="space-y-2">
-                <Label class="font-bold text-gray-300" for="{id}-title"
+                <Label class="font-bold text-gray-300" for="{id}-status"
                   >Status</Label
                 >
                 <Select.Root type="single" bind:value>
