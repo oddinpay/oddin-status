@@ -16,8 +16,8 @@
 	const incidents = [
 		{ class: 'text-emerald-600', label: 'Completed', value: 'i1' },
 		{ class: 'text-yellow-500', label: 'In Progress', value: 'i2' },
-		{ class: 'text-gray-500', label: 'Cancelled', value: 'i3' },
-		{ class: 'text-white', label: 'Scheduled', value: 'i4' }
+		{ class: 'text-red-500', label: 'Cancelled', value: 'i3' },
+		{ class: 'text-gray-500', label: 'Scheduled', value: 'i4' }
 	] as const;
 
 	let value = $state('i4');
