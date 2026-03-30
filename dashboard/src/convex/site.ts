@@ -59,7 +59,7 @@ export const patch = mutation({
       throw new Error("Unauthorized");
     }
 
-    const { id, ...rest } = args;
+    const { id, apiKey, ...rest } = args;
     await ctx.db.patch(id, rest);
   },
 });
