@@ -17,8 +17,6 @@
 
   let open = $state(false);
 
-  let innerTab = $props();
-
   const services = [
     { value: "https", label: "HTTPS" },
     { value: "http", label: "HTTP" },
@@ -37,7 +35,6 @@
       if (f.valid) {
         open = false;
         toast.success("Monitor created successfully!");
-        innerTab = "tab-1";
       } else {
         open = false;
         const serverMessage = f.errors._errors?.[0];
