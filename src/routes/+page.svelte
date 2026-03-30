@@ -16,7 +16,7 @@
   import { env } from "$env/dynamic/public";
   import { useQuery } from "convex-svelte";
   import { api } from "../../dashboard/src/convex/_generated/api";
-  import { page } from "$app/stores";
+  import { page } from "$app/state";
 
   const query = useQuery(api.site.get);
 
@@ -858,7 +858,7 @@
         </button>
 
         <div class="oddin-status hover:opacity-50">
-          {#if $page.url.hostname === "status.oddinpay.com"}
+          {#if page.url.hostname === "status.oddinpay.com"}
             <a href={slug} target="_blank" rel="noopener noreferrer">
               {logo}
             </a>
@@ -867,7 +867,7 @@
           {:else if query.data}
             {#each query.data as site}
               <a href={site.slug} target="_blank" rel="noopener noreferrer">
-                {#if $page.url.hostname === "status.oddinpay.com"}
+                {#if page.url.hostname === "status.oddinpay.com"}
                   {logo}
                 {:else}
                   {site.textLogo}
@@ -878,7 +878,7 @@
         </div>
 
         <div id="themeBtn" class="ml-auto"></div>
-        {#if $page.url.hostname === "status.oddinpay.com"}
+        {#if page.url.hostname === "status.oddinpay.com"}
           <Button
             id="change"
             onclick={() => window.open(signin, "_blank")}
