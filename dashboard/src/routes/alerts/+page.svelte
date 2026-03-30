@@ -139,7 +139,7 @@
           class="min-h-62.5 rounded-lg border border-border bg-zinc-900 p-8 900:overflow-y-hidden"
         >
           <TabsContent value="tab-4" class="h-auto min-h-37.5">
-            <p class="text-base font-semibold text-zinc-200">
+            <p class="text-base font-extralight text-zinc-200">
               Total Subscribers
             </p>
           </TabsContent>
@@ -149,7 +149,7 @@
           class="min-h-62.5 rounded-lg border border-border bg-zinc-900 p-8 900:overflow-y-hidden"
         >
           <TabsContent value="tab-4" class="h-auto min-h-37.5">
-            <p class="text-base font-semibold text-zinc-200">Recent Alerts</p>
+            <p class="text-base font-extralight text-zinc-200">Recent Alerts</p>
           </TabsContent>
         </div>
       </div>
