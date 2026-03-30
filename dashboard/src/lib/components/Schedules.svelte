@@ -46,10 +46,10 @@
     if (value === "i2") {
       bioLimit.value =
         "Scheduled maintenance is currently in progress. We will provide updates as necessary.";
-    }
-
-    if (value === "i1") {
+    } else if (value === "i1") {
       bioLimit.value = "The scheduled maintenance has been completed.";
+    } else {
+      bioLimit.value = "";
     }
   });
 
