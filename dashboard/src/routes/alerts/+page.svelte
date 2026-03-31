@@ -14,6 +14,7 @@
   } from "lucide-svelte";
   import Header from "$lib/components/Header.svelte";
   import { goto } from "$app/navigation";
+  import { Gauge } from "$lib/components/ui/gauge";
   let currentTab = "tab-4";
 </script>
 
@@ -142,6 +143,17 @@
             <p class="text-base font-extralight text-zinc-200">
               Total Subscribers
             </p>
+
+            <Gauge
+              colors={{
+                primary: "stroke-green-600",
+                secondary: "stroke-green-200",
+              }}
+              class="text-white"
+              show_value
+              size="lg"
+              value={0}
+            />
           </TabsContent>
         </div>
 
