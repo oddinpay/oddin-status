@@ -341,6 +341,6 @@
     justify-content: center;
     align-items: center;
     margin-top: 10px;
-    transform: translateZ(0);
+    transform: translate3d(0, 0, 0);
   }
 </style>
