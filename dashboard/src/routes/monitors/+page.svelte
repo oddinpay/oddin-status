@@ -342,5 +342,6 @@
     align-items: center;
     margin-top: 10px;
     transform: translate3d(0, 0, 0);
+    will-change: transform;
   }
 </style>
