@@ -252,7 +252,7 @@
               });
 
               if (response.ok) {
-                toast.success("Deleted successfully.");
+                toast.success("Monitor deleted successfully.");
               } else {
                 toast.error("Failed to delete.");
               }
