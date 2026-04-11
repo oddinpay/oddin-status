@@ -477,7 +477,7 @@
     [Indicators.Identified, 2],
     [Indicators.Investigating, 3],
     [Indicators.Scheduled, 3],
-    [Indicators.Cancelled, 4],
+    [Indicators.Cancelled, 0],
   ]);
 
   incidents.forEach((incident) => {
