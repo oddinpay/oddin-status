@@ -584,6 +584,7 @@
         if (
           hasInProgress &&
           !hasCompleted &&
+          !hasCancelled &&
           e.status === Indicators.Scheduled
         ) {
           return false;
