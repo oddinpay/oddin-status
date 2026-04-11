@@ -573,21 +573,23 @@
     const hasCompleted = m.entries.some(
       (e) => e.status === Indicators.Completed,
     );
-
     const hasCancelled = m.entries.some(
       (e) => e.status === Indicators.Cancelled,
     );
 
     m.entries = m.entries
-      .filter(
-        (e) =>
-          !(
-            hasInProgress &&
-            !hasCancelled &&
-            !hasCompleted &&
-            e.status === Indicators.Scheduled
-          ),
-      )
+      .filter((e) => {
+        const isScheduledWhileInProgress =
+          hasInProgress &&
+          !hasCancelled &&
+          !hasCompleted &&
+          e.status === Indicators.Scheduled;
+
+        const isCompletedWhileCancelled =
+          hasCancelled && e.status === Indicators.Completed;
+
+        return !isScheduledWhileInProgress && !isCompletedWhileCancelled;
+      })
       .sort(
         (a, b) =>
           (statusPriority.get(a.status) ?? Infinity) -
