@@ -781,14 +781,14 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 						delete(probeCancels, id)
 					}
 
-					done := make(chan struct{})
+					// done := make(chan struct{})
 
-					go func() {
-						kv.Delete(ctx, running.Name)
-						close(done)
-					}()
+					// go func() {
+					// 	kv.Delete(ctx, running.Name)
+					// 	close(done)
+					// }()
 
-					<-done
+					// <-done
 
 					globalHub.Broadcast(map[string]StatusPayload{
 						id: {Probe: ProbeResult{Id: id, Action: []string{"deleted"}}},
@@ -1122,7 +1122,6 @@ func publishToNATS(ctx context.Context, name string, payload *StatusPayload, s *
 					}
 				}
 			} else {
-				s.Reset()
 				freshSLA := s.Snapshot()
 				newSnapshot := map[string]any{
 					"sla_breached":       freshSLA["sla_breached"],
@@ -1132,9 +1131,15 @@ func publishToNATS(ctx context.Context, name string, payload *StatusPayload, s *
 					"down_time_seconds":  freshSLA["down_time_seconds"],
 					"uptime90":           freshSLA["uptime90"],
 				}
+
+				s.Reset()
+
 				if oldHist, ok := oldPayload.SLA["history"].([]any); ok {
 					payload.SLA["history"] = append([]any{newSnapshot}, oldHist...)
+				} else {
+					payload.SLA["history"] = []any{newSnapshot}
 				}
+
 				payload.Probe.Date = append([]string{todayUTC}, oldPayload.Probe.Date...)
 				payload.Probe.State = append([]string{currentStatus}, oldPayload.Probe.State...)
 			}
@@ -1335,7 +1340,7 @@ func main() {
 		kv, err = js.CreateKeyValue(context.Background(), jetstream.KeyValueConfig{
 			Bucket:   "BEEP_STATUS",
 			MaxBytes: 1024 * 1024 * 50,
-			History:  1, 
+			History:  1,
 			TTL:      0,
 		})
 
