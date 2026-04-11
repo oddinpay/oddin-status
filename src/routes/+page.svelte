@@ -567,9 +567,6 @@
   ];
 
   maintenances.forEach((m) => {
-    const hasCancelled = m.entries.some(
-      (e) => e.status === Indicators.Cancelled,
-    );
     const hasInProgress = m.entries.some(
       (e) => e.status === Indicators.Inprogress,
     );
@@ -577,28 +574,20 @@
       (e) => e.status === Indicators.Completed,
     );
 
+    const hasCancelled = m.entries.some(
+      (e) => e.status === Indicators.Cancelled,
+    );
+
     m.entries = m.entries
-      .filter((e) => {
-        if (hasCancelled) {
-          if (
-            e.status === Indicators.Inprogress ||
-            e.status === Indicators.Completed
-          ) {
-            return false;
-          }
-        }
-
-        if (
-          hasInProgress &&
-          !hasCompleted &&
-          !hasCancelled &&
-          e.status === Indicators.Scheduled
-        ) {
-          return false;
-        }
-
-        return true;
-      })
+      .filter(
+        (e) =>
+          !(
+            hasInProgress &&
+            !hasCancelled &&
+            !hasCompleted &&
+            e.status === Indicators.Scheduled
+          ),
+      )
       .sort(
         (a, b) =>
           (statusPriority.get(a.status) ?? Infinity) -
