@@ -590,7 +590,6 @@
         return !(
           hasInProgress &&
           !hasCompleted &&
-          !hasCancelled &&
           e.status === Indicators.Scheduled
         );
       })
