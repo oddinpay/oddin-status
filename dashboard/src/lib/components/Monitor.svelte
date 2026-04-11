@@ -34,7 +34,7 @@
     onUpdate: async ({ form: f }) => {
       if (f.valid) {
         open = false;
-        toast.success("Monitor created successfully!");
+        toast.success($formData.name + " created successfully!");
       } else {
         open = false;
         const serverMessage = f.errors._errors?.[0];
