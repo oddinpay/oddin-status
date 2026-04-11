@@ -18,5 +18,6 @@ enabled = true
 invocation_logs = true
 head_sampling_rate = 1
 
-[placement]
-mode = "smart"
+[observability.traces]
+enabled = true
+head_sampling_rate = 1
