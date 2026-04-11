@@ -567,31 +567,27 @@
   ];
 
   maintenances.forEach((m) => {
-    const statuses = m.entries.map((e) => e.status);
-    const hasCancelled = statuses.includes(Indicators.Cancelled);
-    const hasInProgress = statuses.includes(Indicators.Inprogress);
-    const hasCompleted = statuses.includes(Indicators.Completed);
+    const hasInProgress = m.entries.some(
+      (e) => e.status === Indicators.Inprogress,
+    );
+    const hasCompleted = m.entries.some(
+      (e) => e.status === Indicators.Completed,
+    );
+
+    const hasCancelled = m.entries.some(
+      (e) => e.status === Indicators.Cancelled,
+    );
 
     m.entries = m.entries
-      .filter((e) => {
-        if (hasCancelled) {
-          return (
-            e.status !== Indicators.Inprogress &&
-            e.status !== Indicators.Completed
-          );
-        }
-
-        if (
-          hasInProgress &&
-          !hasCompleted &&
-          !hasCancelled &&
-          e.status === Indicators.Scheduled
-        ) {
-          return false;
-        }
-
-        return true;
-      })
+      .filter(
+        (e) =>
+          !(
+            hasInProgress &&
+            !hasCancelled &&
+            !hasCompleted &&
+            e.status === Indicators.Scheduled
+          ),
+      )
       .sort(
         (a, b) =>
           (statusPriority.get(a.status) ?? Infinity) -
@@ -1419,11 +1415,11 @@
                             {/if}
                             <h2>Maintenance</h2>
                             <div class="maintenance-list">
-                              {#if maintenances.every( (incident) => incident.entries.some((entry) => entry.status === Indicators.Completed || entry.status === Indicators.Cancelled), )}
+                              {#if maintenances.every( (incident) => incident.entries.some((entry) => entry.status === Indicators.Completed), )}
                                 No maintenance windows available.
                               {:else}
                                 {#each maintenances as maintenance}
-                                  {#if !maintenance.entries.some((entry) => entry.status === Indicators.Completed || entry.status === Indicators.Cancelled)}
+                                  {#if !maintenance.entries.some((entry) => entry.status === Indicators.Completed)}
                                     {#each maintenance.entries as entry}
                                       <div
                                         class="flex justify-between items-center p-3 gap-4"
