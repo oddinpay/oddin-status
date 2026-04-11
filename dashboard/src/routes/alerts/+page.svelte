@@ -162,6 +162,17 @@
         >
           <TabsContent value="tab-4" class="h-auto min-h-37.5">
             <p class="text-base font-extralight text-zinc-200">Recent Alerts</p>
+
+            <Gauge
+              colors={{
+                primary: "stroke-yellow-600",
+                secondary: "stroke-yellow-200",
+              }}
+              class="text-white"
+              show_value
+              size="lg"
+              value={0}
+            />
           </TabsContent>
         </div>
       </div>
