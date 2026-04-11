@@ -1191,7 +1191,7 @@ func publishToNATS(ctx context.Context, name string, payload *StatusPayload, s *
 		payload.SLA["uptime90"] = fmt.Sprintf("%.3f%%", rootAvail*100)
 		payload.SLA["sla_breached"] = (s.Target >= 1.0 && rootDown > 0) || (rootAvail < s.Target)
 
-		idx := 0
+		idx := -1
 
 		targetCache.RLock()
 		i, ok := targetCache.lookup[name]
