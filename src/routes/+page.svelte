@@ -628,11 +628,11 @@
   // $effect(() => {
   // });
 
-  function setOverflow(_node: HTMLElement) {
-    if (window.matchMedia && window.matchMedia("(min-width: 1279px)").matches) {
-      document.documentElement.style.overflow = "unset";
-    }
-  }
+  // function setOverflow(_node: HTMLElement) {
+  //   if (window.matchMedia && window.matchMedia("(min-width: 1279px)").matches) {
+  //     document.documentElement.style.overflow = "unset";
+  //   }
+  // }
 
   let activeTab = $state("tab-1");
   let direction = $state<"right" | "left">("right");
@@ -857,7 +857,7 @@
 </script>
 
 {#if ready}
-  <div use:setOverflow class="min-h-screen bg-white text-black">
+  <div class="min-h-screen bg-white text-black">
     <!-- Navbar -->
     <header
       class="fixed w-full top-0 z-40 h-14 border-b border-black/5 backdrop-blur bg-white/50"
@@ -1655,11 +1655,11 @@
       }
     }
 
-    main {
+    /* main {
       display: flex;
       justify-content: center;
       align-items: center;
-    }
+    } */
 
     :root {
       --wrapper-ui-max-width: 1800px;
