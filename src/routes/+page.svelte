@@ -857,7 +857,7 @@
 </script>
 
 {#if ready}
-  <div use:setOverflow class="min-h-screen bg-white text-black">
+  <div use:setOverflow class="min-h-screen flex-col bg-white text-black">
     <!-- Navbar -->
     <header
       class="fixed w-full top-0 z-40 h-14 border-b border-black/5 backdrop-blur bg-white/50"
@@ -925,7 +925,7 @@
     </header>
     <div id="navBackdrop" class="hidden fixed inset-0 bg-black/40 z-40"></div>
     <div
-      class="mx-auto max-w-screen-2xl grid grid-cols-1 xl:grid-cols-[180px_minmax(0,1fr)_200px] items-start"
+      class="mx-auto max-w-screen-2xl grid grid-cols-1 xl:grid-cols-[180px_minmax(0,1fr)_200px] items-start pt-14"
     >
       <!-- LEFT NAV -->
       <aside
