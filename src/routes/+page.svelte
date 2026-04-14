@@ -1655,11 +1655,11 @@
       }
     }
 
-    /* main {
+    main {
       display: flex;
       justify-content: center;
       align-items: center;
-    } */
+    }
 
     :root {
       --wrapper-ui-max-width: 1800px;
