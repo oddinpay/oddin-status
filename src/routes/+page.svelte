@@ -860,7 +860,7 @@
   <div use:setOverflow class="min-h-screen bg-white text-black">
     <!-- Navbar -->
     <header
-      class="fixed top-0 left-0 right-0 z-40 h-14 border-b border-black/5 backdrop-blur bg-white/50"
+      class="fixed w-full top-0 z-40 h-14 border-b border-black/5 backdrop-blur bg-white/50"
     >
       <div
         class="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 h-full flex items-center gap-3"
@@ -896,7 +896,6 @@
         </div>
 
         <div id="themeBtn" class="ml-auto"></div>
-
         {#if page.url.hostname === "status.oddinpay.com"}
           <Button
             id="change"
