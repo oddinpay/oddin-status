@@ -1657,11 +1657,8 @@
 
     main {
       display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
+      justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      padding-top: 2rem;
     }
 
     :root {
