@@ -32,13 +32,12 @@
   let service = $state("");
   let bioLimit = useCharacterLimit(180, "");
 
-  function handleOnSubmit(e: Event) {
-    e.preventDefault();
-  }
-
   let value = $state("scheduled");
 
-  const selected = $derived(incidents.find((i) => i.value === $formData.status));
+  const selected = $derived(
+    incidents.find((i) => i.value === $formData.status),
+  );
+
   $effect(() => {
     const name = service.trim().toUpperCase() || "API";
 
@@ -53,9 +52,6 @@
       bioLimit.value = `${name} has an upcoming scheduled maintenance. We will provide updates as necessary.`;
     }
   });
-
-  // Check if the input should be disabled
-  const isLocked = $derived(value === "in-progress" || value === "completed");
 
   const form = superForm(page.data.form, {
     id: "create-schedule",
@@ -79,6 +75,12 @@
   });
 
   const { form: formData, submitting, enhance } = form;
+
+  const isLocked = $derived(
+    $formData.status === "in-progress" ||
+      $formData.status === "completed" ||
+      $formData.status === "cancelled",
+  );
 </script>
 
 {#snippet status(item: (typeof incidents)[number])}
@@ -134,7 +136,7 @@
             </Dialog.Header>
           </div>
 
-          <form onsubmit={handleOnSubmit} class="space-y-5">
+          <form method="POST" class="space-y-5" use:enhance>
             <div class="space-y-4">
               <div class="space-y-2">
                 <Label class="font-bold text-gray-300" for="title">Title</Label>
