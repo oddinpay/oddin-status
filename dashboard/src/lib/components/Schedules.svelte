@@ -187,33 +187,40 @@
               </div>
 
               <div class="space-y-2">
-                <Label class="font-bold text-gray-300" for="status"
-                  >Status</Label
-                >
-                <Select.Root type="single" bind:value={$formData.status}>
-                  <Select.Trigger
-                    id="status"
-                    class="w-full cursor-pointer border-zinc-700 text-white [&_svg:not([class*='text-'])]:text-zinc-200 [&>span]:flex [&>span]:items-center [&>span]:gap-2 [&>span_svg]:shrink-0"
-                  >
-                    {#if selected}
-                      {@render status(selected)}
-                    {:else}
-                      Select a status
-                    {/if}
-                  </Select.Trigger>
-                  <Select.Content
-                    class="bg-zinc-800  text-white [&_*[data-select-item]]:ps-2 [&_*[data-select-item]]:pe-8 [&_*[data-select-item]>span]:start-auto [&_*[data-select-item]>span]:inset-e-2 [&_*[data-select-item]>span]:flex [&_*[data-select-item]>span]:items-center [&_*[data-select-item]>span]:gap-2 [&_*[data-select-item]>span>svg]:shrink-0"
-                  >
-                    {#each incidents as item (item.value)}
-                      <Select.Item
-                        class="cursor-pointer data-highlighted:bg-zinc-700 data-highlighted:text-white [&_svg:not([class*='text-'])]:text-gray-500"
-                        value={item.value}
+                <Form.Field {form} name="status">
+                  <Form.Control>
+                    {#snippet children({ props })}
+                      <Label class="font-bold text-gray-300" for="status"
+                        >Status</Label
                       >
-                        {@render status(item)}
-                      </Select.Item>
-                    {/each}
-                  </Select.Content>
-                </Select.Root>
+                      <Select.Root type="single" bind:value={$formData.status}>
+                        <Select.Trigger
+                          {...props}
+                          class="w-full cursor-pointer border-zinc-700 text-white [&_svg:not([class*='text-'])]:text-zinc-200 [&>span]:flex [&>span]:items-center [&>span]:gap-2 [&>span_svg]:shrink-0"
+                        >
+                          {#if selected}
+                            {@render status(selected)}
+                          {:else}
+                            Select a status
+                          {/if}
+                        </Select.Trigger>
+                        <Select.Content
+                          class="bg-zinc-800  text-white [&_*[data-select-item]]:ps-2 [&_*[data-select-item]]:pe-8 [&_*[data-select-item]>span]:start-auto [&_*[data-select-item]>span]:inset-e-2 [&_*[data-select-item]>span]:flex [&_*[data-select-item]>span]:items-center [&_*[data-select-item]>span]:gap-2 [&_*[data-select-item]>span>svg]:shrink-0"
+                        >
+                          {#each incidents as item (item.value)}
+                            <Select.Item
+                              class="cursor-pointer data-highlighted:bg-zinc-700 data-highlighted:text-white [&_svg:not([class*='text-'])]:text-gray-500"
+                              value={item.value}
+                            >
+                              {@render status(item)}
+                            </Select.Item>
+                          {/each}
+                        </Select.Content>
+                      </Select.Root>
+                    {/snippet}
+                  </Form.Control>
+                  <Form.FieldErrors />
+                </Form.Field>
               </div>
 
               <div class="space-y-2">
