@@ -128,7 +128,6 @@
                       <Select.Root
                         type="single"
                         bind:value={$formData.monitorType}
-                        name={props.name}
                         required
                       >
                         <Select.Trigger
