@@ -22,7 +22,7 @@
 
   const incidents = [
     { class: "text-gray-500", label: "Scheduled", value: "scheduled" },
-    { class: "text-yellow-500", label: "In Progress", value: "in-progress" },
+    { class: "text-yellow-500", label: "In Progress", value: "in_progress" },
     { class: "text-emerald-600", label: "Completed", value: "completed" },
     { class: "text-red-500", label: "Cancelled", value: "cancelled" },
   ] as const;
@@ -32,8 +32,6 @@
   let service = $state("");
   let bioLimit = useCharacterLimit(180, "");
 
-  let value = $state("scheduled");
-
   const selected = $derived(
     incidents.find((i) => i.value === $formData.status),
   );
@@ -41,12 +39,12 @@
   $effect(() => {
     const name = service.trim().toUpperCase() || "API";
 
-    if (value === "in-progress") {
+    if ($formData.status === "in_progress") {
       bioLimit.value =
         "Scheduled maintenance is currently in progress. We will provide updates as necessary.";
-    } else if (value === "completed") {
+    } else if ($formData.status === "completed") {
       bioLimit.value = "The scheduled maintenance has been completed.";
-    } else if (value === "cancelled") {
+    } else if ($formData.status === "cancelled") {
       bioLimit.value = "The scheduled maintenance has been cancelled.";
     } else {
       bioLimit.value = `${name} has an upcoming scheduled maintenance. We will provide updates as necessary.`;
@@ -77,7 +75,7 @@
   const { form: formData, submitting, enhance } = form;
 
   const isLocked = $derived(
-    $formData.status === "in-progress" ||
+    $formData.status === "in_progress" ||
       $formData.status === "completed" ||
       $formData.status === "cancelled",
   );
