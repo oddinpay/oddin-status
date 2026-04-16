@@ -28,7 +28,6 @@
   ] as const;
 
   let open = $state(false);
-  let value = $state("i4");
   let name = $state("");
   let service = $state("");
   let bioLimit = useCharacterLimit(180, "");
@@ -36,6 +35,8 @@
   function handleOnSubmit(e: Event) {
     e.preventDefault();
   }
+
+  let value = $state("i4");
 
   const selected = $derived(incidents.find((i) => i.value === value));
   $effect(() => {

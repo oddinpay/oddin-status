@@ -175,7 +175,7 @@ export const scheduleCreate = z.object({
     })
     .default("scheduled"),
   
-  scheduledAt: z.date(),
+  scheduledAt: z.coerce.date(),
   
   note: z
     .string()
