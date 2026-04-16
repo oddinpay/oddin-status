@@ -37,6 +37,15 @@
   );
 
   $effect(() => {
+    const serviceName = service.trim();
+    if (serviceName) {
+      name = `Scheduled maintenance for ${serviceName}`;
+    } else {
+      name = "Scheduled maintenance for API";
+    }
+  });
+
+  $effect(() => {
     const name = service.trim().toUpperCase() || "API";
 
     if ($formData.status === "in_progress") {
@@ -137,17 +146,6 @@
           <form method="POST" class="space-y-5" use:enhance>
             <div class="space-y-4">
               <div class="space-y-2">
-                <Label class="font-bold text-gray-300" for="title">Title</Label>
-                <Input
-                  class=" border-zinc-700 text-white"
-                  id="title"
-                  placeholder="Scheduled maintenance"
-                  type="text"
-                  bind:value={name}
-                />
-              </div>
-
-              <div class="space-y-2">
                 <Label class="font-bold text-gray-300" for="service"
                   >Service</Label
                 >
@@ -157,6 +155,17 @@
                   placeholder="API"
                   type="text"
                   bind:value={service}
+                />
+              </div>
+
+              <div class="space-y-2">
+                <Label class="font-bold text-gray-300">Title</Label>
+                <Input
+                  class=" border-zinc-700 text-white"
+                  placeholder="Scheduled maintenance for API"
+                  type="text"
+                  readonly
+                  bind:value={name}
                 />
               </div>
 
