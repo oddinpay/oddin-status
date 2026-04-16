@@ -26,8 +26,9 @@ export default defineSchema({
 
   schedules: defineTable({
     title: v.string(),
+    service: v.string(),
     status: v.string(),
-    date: v.string(),
-    description: v.string(),
+    scheduledAt: v.number(),
+    note: v.string(),
   }),
 });

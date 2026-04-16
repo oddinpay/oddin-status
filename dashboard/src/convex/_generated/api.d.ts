@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as schedules from "../schedules.js";
 import type * as site from "../site.js";
 import type * as status from "../status.js";
 
@@ -18,6 +19,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  schedules: typeof schedules;
   site: typeof site;
   status: typeof status;
 }>;

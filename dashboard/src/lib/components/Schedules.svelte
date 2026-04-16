@@ -4,12 +4,19 @@
   import Label from "$lib/components/ui/label.svelte";
   import * as Dialog from "$lib/components/ui/dialog";
   import { cn } from "$lib/utils";
+  import * as Form from "$lib/components/ui/form/index.js";
   import * as Select from "$lib/components/ui/select/index.js";
   import { CalendarCheck } from "lucide-svelte";
   import * as Empty from "$lib/components/ui/empty/index.js";
   import ArrowUpRightIcon from "@lucide/svelte/icons/arrow-up-right";
   import { useCharacterLimit } from "$lib/hooks/use-character-limit.svelte";
   import Textarea from "$lib/components/ui/textarea.svelte";
+  import { page } from "$app/state";
+  import { superForm } from "sveltekit-superforms";
+  import { zod4 } from "sveltekit-superforms/adapters";
+  import { toast } from "svelte-sonner";
+  import { scheduleCreate } from "$lib/types/form";
+  import Loader2 from "@lucide/svelte/icons/loader-2";
 
   const id = $props.id();
 
@@ -20,10 +27,10 @@
     { class: "text-gray-500", label: "Scheduled", value: "i4" },
   ] as const;
 
+  let open = $state(false);
   let value = $state("i4");
   let name = $state("");
   let service = $state("");
-
   let bioLimit = useCharacterLimit(180, "");
 
   function handleOnSubmit(e: Event) {
@@ -48,6 +55,29 @@
 
   // Check if the input should be disabled
   const isLocked = $derived(value === "i2" || value === "i1");
+
+  const form = superForm(page.data.form, {
+    id: "create-schedule",
+    resetForm: true,
+    validators: zod4(scheduleCreate),
+    onSubmit: async () => {
+      await new Promise((resolve) => setTimeout(resolve, 800));
+    },
+    onUpdate: async ({ form: f }) => {
+      if (f.valid) {
+        open = false;
+        toast.success($formData.name + " created successfully!");
+      } else {
+        open = false;
+        const serverMessage = f.errors._errors?.[0];
+        const finalMessage =
+          serverMessage || "Something went wrong. Please try again.";
+        toast.error(finalMessage);
+      }
+    },
+  });
+
+  const { form: formData, submitting, enhance } = form;
 </script>
 
 {#snippet status(item: (typeof incidents)[number])}
@@ -187,11 +217,18 @@
                   </p>
                 </div>
               </div>
-              <Button
-                class="mt-2 w-full cursor-pointer"
+              <Form.Button
+                formaction="?/create"
+                class="mt-2 w-full cursor-pointer disabled:pointer-events-auto disabled:cursor-not-allowed"
                 type="submit"
-                variant="outline">Create</Button
-              >
+                variant="outline"
+                disabled={$submitting}
+                >{#if $submitting}
+                  <Loader2 class="size-4 animate-spin" />
+                {:else}
+                  Create
+                {/if}
+              </Form.Button>
             </div>
           </form>
         </Dialog.Content>

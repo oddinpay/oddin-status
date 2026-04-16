@@ -411,6 +411,7 @@
         class="absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-zinc-400"
       />
       <Input
+        id="table-search"
         placeholder="Filter monitors..."
         value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
         oninput={(e) =>

@@ -101,8 +101,8 @@
                 <Form.Field {form} name="name">
                   <Form.Control>
                     {#snippet children({ props })}
-                      <Form.Label class="font-bold text-gray-300" for="logo"
-                        >Name</Form.Label
+                      <Form.Label class="font-bold text-gray-300" for="name">
+                        Name</Form.Label
                       >
                       <Input
                         class=" border-zinc-700 text-white"
@@ -118,67 +118,72 @@
                 </Form.Field>
               </div>
 
-              <Form.Field {form} name="protocol">
-                <Form.Control>
-                  {#snippet children({ props })}
-                    <Form.Label class="font-bold text-gray-300"
-                      >Protocol</Form.Label
-                    >
-                    <Select.Root
-                      type="single"
-                      bind:value={$formData.monitorType}
-                      name={props.name}
-                      required
-                    >
-                      <Select.Trigger
-                        class="w-full cursor-pointer border-zinc-700 text-white"
+              <div class="space-y-2">
+                <Form.Field {form} name="protocol">
+                  <Form.Control>
+                    {#snippet children({ props })}
+                      <Form.Label class="font-bold text-gray-300"
+                        >Protocol</Form.Label
                       >
-                        {triggerContent}
-                      </Select.Trigger>
-
-                      <Select.Content
-                        class="bg-zinc-800 border-zinc-700 text-white"
+                      <Select.Root
+                        type="single"
+                        bind:value={$formData.monitorType}
+                        name={props.name}
+                        required
                       >
-                        {#each services as type}
-                          <Select.Item
-                            class="cursor-pointer data-highlighted:bg-zinc-700 data-highlighted:text-white [&_svg:not([class*='text-'])]:text-gray-500"
-                            value={type.value}
-                            label={type.label}
-                          >
-                            {type.label}
-                          </Select.Item>
-                        {/each}
-                      </Select.Content>
-                    </Select.Root>
-                  {/snippet}
-                </Form.Control>
-                <Form.FieldErrors />
-              </Form.Field>
+                        <Select.Trigger
+                          {...props}
+                          class="w-full cursor-pointer border-zinc-700 text-white"
+                        >
+                          {triggerContent}
+                        </Select.Trigger>
 
-              <Form.Field {form} name="host">
-                <Form.Control>
-                  {#snippet children({ props })}
-                    <Form.Label class="font-bold text-gray-300">
-                      {$formData.monitorType === "dns" ||
-                      $formData.monitorType === "tcp"
-                        ? "Host"
-                        : "Domain"}
-                    </Form.Label>
-                    <Input
-                      {...props}
-                      class="border-zinc-700 text-white"
-                      placeholder={$formData.monitorType === "tcp"
-                        ? "127.0.0.1:8080"
-                        : "www.oddinpay.com"}
-                      bind:value={$formData.url}
-                      required
-                    />
-                  {/snippet}
-                </Form.Control>
-                <Form.FieldErrors />
-              </Form.Field>
+                        <Select.Content
+                          class="bg-zinc-800 border-zinc-700 text-white"
+                        >
+                          {#each services as type}
+                            <Select.Item
+                              class="cursor-pointer data-highlighted:bg-zinc-700 data-highlighted:text-white [&_svg:not([class*='text-'])]:text-gray-500"
+                              value={type.value}
+                              label={type.label}
+                            >
+                              {type.label}
+                            </Select.Item>
+                          {/each}
+                        </Select.Content>
+                      </Select.Root>
+                    {/snippet}
+                  </Form.Control>
+                  <Form.FieldErrors />
+                </Form.Field>
+              </div>
 
-              <div class="space-y-4">
+              <div class="space-y-2">
+                <Form.Field {form} name="host">
+                  <Form.Control>
+                    {#snippet children({ props })}
+                      <Form.Label class="font-bold text-gray-300">
+                        {$formData.monitorType === "dns" ||
+                        $formData.monitorType === "tcp"
+                          ? "Host"
+                          : "Domain"}
+                      </Form.Label>
+                      <Input
+                        {...props}
+                        class="border-zinc-700 text-white"
+                        placeholder={$formData.monitorType === "tcp"
+                          ? "127.0.0.1:8080"
+                          : "www.oddinpay.com"}
+                        bind:value={$formData.url}
+                        required
+                      />
+                    {/snippet}
+                  </Form.Control>
+                  <Form.FieldErrors />
+                </Form.Field>
+              </div>
+
+              <div class="space-y-2">
                 <Form.Field {form} name="interval">
                   <Form.Control>
                     {#snippet children({ props })}
