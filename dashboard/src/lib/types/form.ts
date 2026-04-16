@@ -153,3 +153,33 @@ export const monitorUpdate = z.object({
     .default(10)
     .optional(),
 });
+
+
+export const scheduleCreate = z.object({
+  _id: z.string().trim().optional(),
+  title: z
+    .string()
+    .trim()
+    .min(1, "Title must be at least 1 character long")
+    .max(50, "Title must not exceed 50 characters"),
+
+  service: z
+    .string()
+    .trim()
+    .min(1, "Service must be at least 1 character long")
+    .max(50, "Service must not exceed 50 characters"),
+
+  status: z
+    .enum(["scheduled", "in_progress", "completed", "cancelled"], {
+      message: "Status must be one of: scheduled, In progress, completed, cancelled",
+    })
+    .default("scheduled"),
+  
+  scheduledAt: z.date(),
+
+  note: z
+    .string()
+    .trim()
+    .min(1, "Note must be at least 1 character long")
+    .max(180, "Note must not exceed 180 characters")
+});
