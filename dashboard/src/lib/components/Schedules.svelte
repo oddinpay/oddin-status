@@ -32,7 +32,7 @@
 
   const selected = $derived(incidents.find((i) => i.value === value));
   $effect(() => {
-    const name = service.trim().toUpperCase() || "{{SERVICE}}";
+    const name = service.trim().toUpperCase() || "API";
 
     if (value === "i2") {
       bioLimit.value =
