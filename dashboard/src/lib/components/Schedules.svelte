@@ -224,32 +224,39 @@
               </div>
 
               <div class="space-y-2">
-                <div class="*:not-first:mt-2">
-                  <Label class="font-bold text-gray-300" for="{id}-note"
-                    >Note</Label
-                  >
-                  <Textarea
-                    id="{id}-note"
-                    class=" border-zinc-700 text-white"
-                    bind:value={bioLimit.value}
-                    maxlength={bioLimit.maxLength}
-                    placeholder="Write a few sentences about incident..."
-                    aria-describedby="{id}-left-textarea"
-                    readonly={isLocked}
-                    required
-                  />
-                  <p
-                    id="{id}-left-textarea"
-                    class="mt-2 text-right text-xs text-muted-foreground"
-                    role="status"
-                    aria-live="polite"
-                  >
-                    <span class="tabular-nums"
-                      >{bioLimit.maxLength - bioLimit.characterCount}</span
-                    >
-                    characters left
-                  </p>
-                </div>
+                <Form.Field {form} name="note">
+                  <Form.Control>
+                    {#snippet children()}
+                      <div class="*:not-first:mt-2">
+                        <Label class="font-bold text-gray-300" for="note"
+                          >Note</Label
+                        >
+                        <Textarea
+                          id="note"
+                          class=" border-zinc-700 text-white"
+                          bind:value={bioLimit.value}
+                          maxlength={bioLimit.maxLength}
+                          placeholder="Write a few sentences about incident..."
+                          aria-describedby="{id}-left-textarea"
+                          readonly={isLocked}
+                          required
+                        />
+                        <p
+                          class="mt-2 text-right text-xs text-muted-foreground"
+                          role="status"
+                          aria-live="polite"
+                        >
+                          <span class="tabular-nums"
+                            >{bioLimit.maxLength -
+                              bioLimit.characterCount}</span
+                          >
+                          characters left
+                        </p>
+                      </div>
+                    {/snippet}
+                  </Form.Control>
+                  <Form.FieldErrors />
+                </Form.Field>
               </div>
               <Form.Button
                 formaction="?/create"
