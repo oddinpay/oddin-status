@@ -1,5 +1,5 @@
 import { zod4 } from "sveltekit-superforms/adapters";
-import { formCreate, monitorUpdate } from "$lib/types/form";
+import { monitorCreate, monitorUpdate } from "$lib/types/form";
 import { fail, type Actions } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 import { setError, superValidate } from "sveltekit-superforms";
@@ -8,7 +8,7 @@ import { api } from "../../convex/_generated/api";
 import { env } from "$env/dynamic/private";
 
 export const load: PageServerLoad = async (event) => {
-  const form = await superValidate(event, zod4(formCreate));
+  const form = await superValidate(event, zod4(monitorCreate));
   return {
     form,
   };
@@ -24,7 +24,7 @@ const getConvexClient = () => {
 
 export const actions: Actions = {
   create: async (e) => {
-    const form = await superValidate(e, zod4(formCreate));
+    const form = await superValidate(e, zod4(monitorCreate));
     if (!form.valid) return fail(400, { form });
 
     try {

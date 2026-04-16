@@ -12,7 +12,7 @@
   import { superForm } from "sveltekit-superforms";
   import { zod4 } from "sveltekit-superforms/adapters";
   import { toast } from "svelte-sonner";
-  import { formCreate } from "$lib/types/form";
+  import { monitorCreate } from "$lib/types/form";
   import Loader2 from "@lucide/svelte/icons/loader-2";
 
   let open = $state(false);
@@ -27,7 +27,7 @@
   const form = superForm(page.data.form, {
     id: "create-monitor",
     resetForm: true,
-    validators: zod4(formCreate),
+    validators: zod4(monitorCreate),
     onSubmit: async () => {
       await new Promise((resolve) => setTimeout(resolve, 800));
     },
