@@ -180,5 +180,5 @@ export const scheduleCreate = z.object({
   note: z
     .string()
     .trim()
-    .min(1, "Note must be at least 1 character long")
+    .optional()
   });
