@@ -10,7 +10,6 @@ export const post = mutation({
     title: v.string(),
     service: v.string(),
     status: v.string(),
-    scheduledAt: v.number(),
     note: v.string(),
   },
   handler: async (ctx, args) => {
@@ -22,7 +21,6 @@ export const post = mutation({
       title: args.title,
       service: args.service,
       status: args.status,
-      scheduledAt: args.scheduledAt,
       note: args.note,
     });
 

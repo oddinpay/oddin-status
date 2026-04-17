@@ -40,7 +40,6 @@ export const actions: Actions = {
         title: form.data.title,
         service: form.data.service,
         status: form.data.status,
-        scheduledAt: form.data.scheduledAt.getTime(),
         note: form.data.note,
 
       });
