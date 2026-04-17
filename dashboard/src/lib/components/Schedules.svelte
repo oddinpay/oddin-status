@@ -22,7 +22,7 @@
 
   const incidents = [
     { class: "text-gray-500", label: "Scheduled", value: "scheduled" },
-    { class: "text-yellow-500", label: "In Progress", value: "in_progress" },
+    { class: "text-yellow-500", label: "In Progress", value: "inprogress" },
     { class: "text-emerald-600", label: "Completed", value: "completed" },
     { class: "text-red-500", label: "Cancelled", value: "cancelled" },
   ] as const;
@@ -49,7 +49,7 @@
   $effect(() => {
     const name = service.trim().toUpperCase() || "API";
 
-    if ($formData.status === "in_progress") {
+    if ($formData.status === "inprogress") {
       bioLimit.value =
         "Scheduled maintenance is currently in progress. We will provide updates as necessary.";
     } else if ($formData.status === "completed") {
@@ -85,7 +85,7 @@
   const { form: formData, submitting, enhance } = form;
 
   const isLocked = $derived(
-    $formData.status === "in_progress" ||
+    $formData.status === "inprogress" ||
       $formData.status === "completed" ||
       $formData.status === "cancelled" ||
       $formData.status === "scheduled",
