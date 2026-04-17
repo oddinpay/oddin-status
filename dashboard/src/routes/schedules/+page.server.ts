@@ -44,7 +44,7 @@ export const actions: Actions = {
 
       });
     } catch (error) {
-      return setError(form, "", "A site already exists");
+      return setError(form, "", "Failed to create schedule");
     }
 
     return { form };

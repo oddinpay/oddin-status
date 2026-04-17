@@ -71,7 +71,7 @@
     onUpdate: async ({ form: f }) => {
       if (f.valid) {
         open = false;
-        toast.success($formData.name + " created successfully!");
+        toast.success("Schedule created successfully!");
       } else {
         open = false;
         const serverMessage = f.errors._errors?.[0];
