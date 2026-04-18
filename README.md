@@ -16,4 +16,4 @@
 
 Built for serverless environments like Cloudflare Workers, ensures high availability and real-time monitoring for production workloads and critical services.
 
-The ostatus Dashboard runs locally, decoupled from the serverless environment. By communicating securely through Cloudflare D1, your admin interface remains completely private and never exposed to the public internet.
+The ostatus dashboard runs locally, decoupled from the serverless environment. By communicating securely through cloudflare D1, your admin interface remains completely private and never exposed to the public internet.
