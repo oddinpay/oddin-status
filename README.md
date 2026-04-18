@@ -1,6 +1,6 @@
 # ostatus
 
-🚨 Beautiful status page & uptime monitor. **Ready for production** out of the box. **Easily deploy to cloudflare in just one click.**
+🚨 Beautiful status page & uptime monitor. Ready for production out of the box. Easily deploy to Cloudflare in just one click.**
 
 ## ✨ Key Features
 
@@ -14,6 +14,6 @@
 
 ## More about ostatus
 
-Built for serverless environments like Cloudflare Workers, ensures high availability and real-time monitoring for production workloads and critical services.
+Built for serverless environments like Cloudflare workers, ensures high availability and real-time monitoring for production workloads and critical services.
 
-The ostatus dashboard runs locally, decoupled from the serverless environment. By communicating securely through cloudflare D1, your admin interface remains completely private and never exposed to the public internet.
+The ostatus dashboard runs locally, decoupled from the serverless environment. By communicating securely through Cloudflare D1, your admin interface remains completely private and never exposed to the public internet.
