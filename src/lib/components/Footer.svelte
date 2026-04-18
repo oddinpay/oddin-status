@@ -1,6 +1,6 @@
 <script>
   const year = new Date().getFullYear();
-  const brand = "ostatus";
+  const brand = "OSTATUS";
   const company = "ODDINPAY";
   const entity = "LLC";
   export let privacy;
