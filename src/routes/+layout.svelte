@@ -6,11 +6,10 @@
   import "default-passive-events";
   import { env } from "$env/dynamic/public";
   import { setupConvex } from "convex-svelte";
-
+  
   let { children } = $props();
-
   setupConvex(env.PUBLIC_CONVEX_URL);
-
+  
   import { useQuery } from "convex-svelte";
   import { api } from "../convex/_generated/api";
 
