@@ -9,7 +9,7 @@ export const monitorAggregate = new TableAggregate<{
   DataModel: DataModel;
   TableName: "status";
 }>(components.monitorCount, {
-  sortKey: (doc) => doc.protocol,
+  sortKey: (doc) => doc._creationTime.toString(),
 });
 
 export const get = query({

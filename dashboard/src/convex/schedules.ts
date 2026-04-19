@@ -4,12 +4,12 @@ import { components } from "./_generated/api";
 import type { DataModel } from "./_generated/dataModel";
 import { TableAggregate } from "@convex-dev/aggregate";
 
-export const monitorAggregate = new TableAggregate<{
+export const scheduleAggregate = new TableAggregate<{
   Key: string;
   DataModel: DataModel;
   TableName: "schedules";
-}>(components.monitorCount, {
-  sortKey: (doc) => doc.service,
+}>(components.scheduleCount, {
+  sortKey: (doc) => doc._creationTime.toString(),
 });
 
 
@@ -43,7 +43,7 @@ export const post = mutation({
 
     const doc = await ctx.db.get(id);
     if (doc) {
-      await monitorAggregate.insert(ctx, doc);
+      await scheduleAggregate.insert(ctx, doc);
     }
     return id;
   },
@@ -53,7 +53,7 @@ export const post = mutation({
 export const count = query({
   args: {},
   handler: async (ctx) => {
-    return await monitorAggregate.count(ctx);
+    return await scheduleAggregate.count(ctx);
   },
 });
 
@@ -70,11 +70,11 @@ export const getStatusCounts = query({
 
 export const backfill = mutation({
   handler: async (ctx) => {
-    await monitorAggregate.clear(ctx);
+    await scheduleAggregate.clear(ctx);
     const existing = await ctx.db.query("schedules").collect();
     for (const doc of existing) {
       try {
-        await monitorAggregate.insert(ctx, doc);
+        await scheduleAggregate.insert(ctx, doc);
       } catch (e) {
         return `Error backfilling schedule ${doc._id}: ${e}`;
       }
