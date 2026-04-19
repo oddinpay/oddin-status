@@ -916,6 +916,19 @@
     <div
       class="mx-auto max-w-screen-2xl grid grid-cols-1 xl:grid-cols-[180px_minmax(0,1fr)_200px] items-start"
     >
+      <!-- LEFT NAV -->
+      <aside
+        id="leftNav"
+        class="relative xl:sticky xl:top-14 xl:h-221.25 overflow-auto border-gray-100 px-4 py-6 hidden xl:block"
+      >
+        <div class="absolute right-0 top-0 h-full w-1 bg-gray-100">
+          <span
+            aria-hidden="true"
+            class="absolute bottom-[20em] -translate-y-1/2 h-10 w-full bg-linear-to-b from-green-400 via-green-600 to-green-500 rounded-md shadow-md"
+          ></span>
+        </div>
+      </aside>
+
       <!-- MAIN CONTENT -->
       <main class="min-w-0">
         <div class="relative p-5">
