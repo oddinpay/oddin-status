@@ -17,7 +17,6 @@
   import { useQuery } from "convex-svelte";
   import { api } from "../convex/_generated/api";
   import { page } from "$app/state";
-  import Loader from "$lib/components/Loader.svelte";
 
   const query = useQuery(api.site.get);
   const schedulesQuery = useQuery(api.schedules.get);
@@ -587,10 +586,11 @@
               hour: "2-digit",
               minute: "2-digit",
               timeZone: "UTC",
+              hour12: false,
               timeZoneName: "short",
             }),
-            description: sched.note,
             status: indicator as MaintenanceEntry["status"],
+            description: sched.note,
           },
         ],
       };
@@ -1454,7 +1454,7 @@
                           {/if}
                           <h2>Maintenance</h2>
                           <div class="maintenance-list">
-                            {#if maintenances.every( (incident) => incident.entries.some((entry) => entry.status === Indicators.Completed || entry.status === Indicators.Cancelled), )}
+                            {#if schedulesQuery.isLoading}{:else if maintenances.length === 0 || maintenances.every( (incident) => incident.entries.some((entry) => entry.status === Indicators.Completed || entry.status === Indicators.Cancelled), )}
                               No maintenance windows available.
                             {:else}
                               {#each maintenances as maintenance}
