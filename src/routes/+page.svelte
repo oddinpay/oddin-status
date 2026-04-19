@@ -1512,35 +1512,37 @@
                               </svg>
                             {:else if maintenances.length === 0 || maintenances.every( (incident) => incident.entries.some((entry) => entry.status === Indicators.Completed || entry.status === Indicators.Cancelled), )}
                               No maintenance windows available.
-                            {:else}
+                            {:else if schedulesQuery.data}
                               {#each maintenances as maintenance}
-                                {#if !maintenance.entries.some((entry) => entry.status === Indicators.Completed || entry.status === Indicators.Cancelled)}
-                                  {#each maintenance.entries as entry}
-                                    <div
-                                      class="flex justify-between items-center p-3 gap-4"
-                                    >
-                                      <span
-                                        class="inline-flex items-center px-2.5 badge2 py-1 rounded-full text-xs font-medium {entry
-                                          .status.badge}"
-                                      >
-                                        {entry.status.statusLabel}
-                                      </span>
+                                {#if maintenance.entries.length > 0}
+                                  {#if !maintenance.entries.some((entry) => entry.status === Indicators.Completed || entry.status === Indicators.Cancelled)}
+                                    {#each maintenance.entries as entry}
                                       <div
-                                        class="flex flex-col text-left leading-tight"
+                                        class="flex justify-between items-center p-3 gap-4"
                                       >
                                         <span
-                                          class="text-base font-semibold text-(--inactive-service)"
+                                          class="inline-flex items-center px-2.5 badge2 py-1 rounded-full text-xs font-medium {entry
+                                            .status.badge}"
                                         >
-                                          {maintenance.service}
+                                          {entry.status.statusLabel}
                                         </span>
-                                        <time
-                                          class="text-base text-(--inactive)"
+                                        <div
+                                          class="flex flex-col text-left leading-tight"
                                         >
-                                          {entry.time}
-                                        </time>
+                                          <span
+                                            class="text-base font-semibold text-(--inactive-service)"
+                                          >
+                                            {maintenance.service}
+                                          </span>
+                                          <time
+                                            class="text-base text-(--inactive)"
+                                          >
+                                            {entry.time}
+                                          </time>
+                                        </div>
                                       </div>
-                                    </div>
-                                  {/each}
+                                    {/each}
+                                  {/if}
                                 {/if}
                               {/each}
                             {/if}
