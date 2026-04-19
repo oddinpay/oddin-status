@@ -1510,7 +1510,7 @@
                                   />
                                 </circle>
                               </svg>
-                            {:else if schedulesQuery.isLoading}{:else if maintenances.length === 0 || maintenances.every( (incident) => incident.entries.some((entry) => entry.status === Indicators.Completed || entry.status === Indicators.Cancelled), )}
+                            {:else if maintenances.length === 0 || maintenances.every( (incident) => incident.entries.some((entry) => entry.status === Indicators.Completed || entry.status === Indicators.Cancelled), )}
                               No maintenance windows available.
                             {:else}
                               {#each maintenances as maintenance}
