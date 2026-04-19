@@ -15,7 +15,7 @@
   import timer from "$lib/timer";
   import { env } from "$env/dynamic/public";
   import { useQuery } from "convex-svelte";
-  import { api } from "../../dashboard/src/convex/_generated/api";
+  import {api} from "../convex/_generated/api"
   import { page } from "$app/state";
 
   const query = useQuery(api.site.get);

@@ -12,7 +12,7 @@
   setupConvex(env.PUBLIC_CONVEX_URL);
 
   import { useQuery } from "convex-svelte";
-  import { api } from "../../dashboard/src/convex/_generated/api";
+  import { api } from "../convex/_generated/api";
 
   const query = useQuery(api.site.get);
 
