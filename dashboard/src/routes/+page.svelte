@@ -177,7 +177,7 @@
         >
           <TabsContent value="tab-0" class="h-auto min-h-37.5">
             <p class="text-base font-extralight text-zinc-200">
-              Total Monitors
+              Monitors
             </p>
             <Gauge
               colors={{
@@ -197,7 +197,7 @@
         >
           <TabsContent value="tab-0" class="h-auto min-h-37.5">
             <p class="text-base font-extralight text-zinc-200">
-              Total Incidents
+              Incidents
             </p>
             <Gauge
               colors={{

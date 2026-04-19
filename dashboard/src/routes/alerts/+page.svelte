@@ -141,7 +141,7 @@
         >
           <TabsContent value="tab-4" class="h-auto min-h-37.5">
             <p class="text-base font-extralight text-zinc-200">
-              Total Subscribers
+              Subscribers
             </p>
 
             <Gauge
