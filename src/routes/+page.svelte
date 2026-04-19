@@ -19,6 +19,7 @@
   import { page } from "$app/state";
 
   const query = useQuery(api.site.get);
+  const schedulesQuery = useQuery(api.schedules.get);
 
   let signin = "https://oddinpay.com/signin";
   let signup = "https://oddinpay.com/signup";
