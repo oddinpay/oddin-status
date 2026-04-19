@@ -21,10 +21,10 @@
   const id = $props.id();
 
   const incidents = [
-    { class: "text-gray-500", label: "Scheduled", value: "scheduled" },
-    { class: "text-yellow-500", label: "In Progress", value: "inprogress" },
-    { class: "text-emerald-600", label: "Completed", value: "completed" },
-    { class: "text-red-500", label: "Cancelled", value: "cancelled" },
+    { class: "text-gray-500", label: "Scheduled", value: "Scheduled" },
+    { class: "text-yellow-500", label: "In Progress", value: "Inprogress" },
+    { class: "text-emerald-600", label: "Completed", value: "Completed" },
+    { class: "text-red-500", label: "Cancelled", value: "Cancelled" },
   ] as const;
 
   let open = $state(false);
