@@ -916,407 +916,289 @@
     <div
       class="mx-auto max-w-screen-2xl grid grid-cols-1 xl:grid-cols-[180px_minmax(0,1fr)_200px] items-start"
     >
-      <div></div>
-
-      <!-- MAIN CONTENT -->
-      <main class="min-w-0">
-        <div class="relative p-5">
-          <article id="content" class="markdown-body p-5 max-w-5xl">
-            <div class="flex flex-col justify-center">
-              <div class="py-25">
-                <div class="wrapper-ui">
-                  <div class="child-wrapper-ui">
-                    <div class="headline-container">
-                      {#if overallStatus === "up"}
-                        <svg
-                          class="w-20 h-20 mx-auto"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            fill="#21ba45"
-                            fill-rule="evenodd"
-                            d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10m-5.97-3.03a.75.75 0 0 1 0 1.06l-5 5a.75.75 0 0 1-1.06 0l-2-2a.75.75 0 1 1 1.06-1.06l1.47 1.47l2.235-2.235L14.97 8.97a.75.75 0 0 1 1.06 0"
-                            clip-rule="evenodd"
-                          />
-                        </svg>
-                      {:else if overallStatus === "warn"}
-                        <svg
-                          class="w-20 h-20 mx-auto"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                        >
-                          <path
-                            fill="#d97706"
-                            d="M10 2c4.42 0 8 3.58 8 8s-3.58 8-8 8s-8-3.58-8-8s3.58-8 8-8m1.13 9.38l.35-6.46H8.52l.35 6.46zm-.09 3.36c.24-.23.37-.55.37-.96c0-.42-.12-.74-.36-.97s-.59-.35-1.06-.35s-.82.12-1.07.35s-.37.55-.37.97c0 .41.13.73.38.96c.26.23.61.34 1.06.34s.8-.11 1.05-.34"
-                          />
-                        </svg>
-                      {:else if overallStatus === "down"}
-                        <svg
-                          class="w-20 h-20 mx-auto"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            fill="#db2828"
-                            d="M12 2c5.53 0 10 4.47 10 10s-4.47 10-10 10S2 17.53 2 12S6.47 2 12 2m3.59 5L12 10.59L8.41 7L7 8.41L10.59 12L7 15.59L8.41 17L12 13.41L15.59 17L17 15.59L13.41 12L17 8.41z"
-                          />
-                        </svg>
-                      {:else}
-                        <div
-                          role="status"
-                          class="profile shimmer w-20 h-20 bg-gray-300"
-                        ></div>
-                      {/if}
-
-                      <h1
-                        id="content"
-                        class="headline8"
-                        style="font-size: clamp(2.5rem, 3vh, 5rem);"
-                      >
+      <div>
+        <!-- MAIN CONTENT -->
+        <main class="min-w-0">
+          <div class="relative p-5">
+            <article id="content" class="markdown-body p-5 max-w-5xl">
+              <div class="flex flex-col justify-center">
+                <div class="py-25">
+                  <div class="wrapper-ui">
+                    <div class="child-wrapper-ui">
+                      <div class="headline-container">
                         {#if overallStatus === "up"}
-                          All Systems Operational
-                        {:else if overallStatus === "warn"}
-                          System Outage Detected
-                        {:else if overallStatus === "down"}
-                          Critical Issues Detected
-                        {:else}
                           <svg
+                            class="w-20 h-20 mx-auto"
                             xmlns="http://www.w3.org/2000/svg"
-                            width="48"
-                            height="48"
                             viewBox="0 0 24 24"
-                            ><circle cx="18" cy="12" r="0" fill="currentColor"
-                              ><animate
-                                attributeName="r"
-                                begin=".67"
-                                calcMode="spline"
-                                dur="1.5s"
-                                keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8"
-                                repeatCount="indefinite"
-                                values="0;2;0;0"
-                              /></circle
-                            ><circle cx="12" cy="12" r="0" fill="currentColor"
-                              ><animate
-                                attributeName="r"
-                                begin=".33"
-                                calcMode="spline"
-                                dur="1.5s"
-                                keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8"
-                                repeatCount="indefinite"
-                                values="0;2;0;0"
-                              /></circle
-                            ><circle cx="6" cy="12" r="0" fill="currentColor"
-                              ><animate
-                                attributeName="r"
-                                begin="0"
-                                calcMode="spline"
-                                dur="1.5s"
-                                keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8"
-                                repeatCount="indefinite"
-                                values="0;2;0;0"
-                              /></circle
-                            ></svg
                           >
+                            <path
+                              fill="#21ba45"
+                              fill-rule="evenodd"
+                              d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10m-5.97-3.03a.75.75 0 0 1 0 1.06l-5 5a.75.75 0 0 1-1.06 0l-2-2a.75.75 0 1 1 1.06-1.06l1.47 1.47l2.235-2.235L14.97 8.97a.75.75 0 0 1 1.06 0"
+                              clip-rule="evenodd"
+                            />
+                          </svg>
+                        {:else if overallStatus === "warn"}
+                          <svg
+                            class="w-20 h-20 mx-auto"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              fill="#d97706"
+                              d="M10 2c4.42 0 8 3.58 8 8s-3.58 8-8 8s-8-3.58-8-8s3.58-8 8-8m1.13 9.38l.35-6.46H8.52l.35 6.46zm-.09 3.36c.24-.23.37-.55.37-.96c0-.42-.12-.74-.36-.97s-.59-.35-1.06-.35s-.82.12-1.07.35s-.37.55-.37.97c0 .41.13.73.38.96c.26.23.61.34 1.06.34s.8-.11 1.05-.34"
+                            />
+                          </svg>
+                        {:else if overallStatus === "down"}
+                          <svg
+                            class="w-20 h-20 mx-auto"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              fill="#db2828"
+                              d="M12 2c5.53 0 10 4.47 10 10s-4.47 10-10 10S2 17.53 2 12S6.47 2 12 2m3.59 5L12 10.59L8.41 7L7 8.41L10.59 12L7 15.59L8.41 17L12 13.41L15.59 17L17 15.59L13.41 12L17 8.41z"
+                            />
+                          </svg>
+                        {:else}
+                          <div
+                            role="status"
+                            class="profile shimmer w-20 h-20 bg-gray-300"
+                          ></div>
                         {/if}
-                      </h1>
-                      <p
-                        class="text-base text-gray-500 font-bold text-center sm:text-left"
-                      >
-                        <span class="text-lg">
-                          {$clock}
-                        </span>
-                      </p>
-                      <span class="text-base mt-5 text-center sm:text-left">
-                        <span
-                          class="inline-flex pointer-events-none items-center px-4 py-0.5 rounded-full text-sm font-semibold no-underline"
-                          style=" 
+
+                        <h1
+                          id="content"
+                          class="headline8"
+                          style="font-size: clamp(2.5rem, 3vh, 5rem);"
+                        >
+                          {#if overallStatus === "up"}
+                            All Systems Operational
+                          {:else if overallStatus === "warn"}
+                            System Outage Detected
+                          {:else if overallStatus === "down"}
+                            Critical Issues Detected
+                          {:else}
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="48"
+                              height="48"
+                              viewBox="0 0 24 24"
+                              ><circle cx="18" cy="12" r="0" fill="currentColor"
+                                ><animate
+                                  attributeName="r"
+                                  begin=".67"
+                                  calcMode="spline"
+                                  dur="1.5s"
+                                  keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8"
+                                  repeatCount="indefinite"
+                                  values="0;2;0;0"
+                                /></circle
+                              ><circle cx="12" cy="12" r="0" fill="currentColor"
+                                ><animate
+                                  attributeName="r"
+                                  begin=".33"
+                                  calcMode="spline"
+                                  dur="1.5s"
+                                  keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8"
+                                  repeatCount="indefinite"
+                                  values="0;2;0;0"
+                                /></circle
+                              ><circle cx="6" cy="12" r="0" fill="currentColor"
+                                ><animate
+                                  attributeName="r"
+                                  begin="0"
+                                  calcMode="spline"
+                                  dur="1.5s"
+                                  keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8"
+                                  repeatCount="indefinite"
+                                  values="0;2;0;0"
+                                /></circle
+                              ></svg
+                            >
+                          {/if}
+                        </h1>
+                        <p
+                          class="text-base text-gray-500 font-bold text-center sm:text-left"
+                        >
+                          <span class="text-lg">
+                            {$clock}
+                          </span>
+                        </p>
+                        <span class="text-base mt-5 text-center sm:text-left">
+                          <span
+                            class="inline-flex pointer-events-none items-center px-4 py-0.5 rounded-full text-sm font-semibold no-underline"
+                            style=" 
   border: 1px solid {overallStatus === 'up'
-                            ? '#a6eb84'
-                            : overallStatus === 'warn'
-                              ? '#ffddb3'
-                              : overallStatus === 'down'
-                                ? '#f05d5e'
-                                : '#d1d5db'}; 
+                              ? '#a6eb84'
+                              : overallStatus === 'warn'
+                                ? '#ffddb3'
+                                : overallStatus === 'down'
+                                  ? '#f05d5e'
+                                  : '#d1d5db'}; 
   text-decoration: none; 
   background-color: {overallStatus === 'up'
-                            ? '#d7f7c2'
-                            : overallStatus === 'warn'
-                              ? '#fff4e5'
-                              : overallStatus === 'down'
-                                ? '#fddede'
-                                : '#f3f4f6'}; 
+                              ? '#d7f7c2'
+                              : overallStatus === 'warn'
+                                ? '#fff4e5'
+                                : overallStatus === 'down'
+                                  ? '#fddede'
+                                  : '#f3f4f6'}; 
   color: {overallStatus === 'up'
-                            ? '#006908'
-                            : overallStatus === 'warn'
-                              ? '#b45309'
-                              : overallStatus === 'down'
-                                ? '#db2828'
-                                : '#4b5563'}; 
+                              ? '#006908'
+                              : overallStatus === 'warn'
+                                ? '#b45309'
+                                : overallStatus === 'down'
+                                  ? '#db2828'
+                                  : '#4b5563'}; 
                         "
-                        >
-                          {badge}
+                          >
+                            {badge}
+                          </span>
                         </span>
-                      </span>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div class="legend mt-2">
-                  <strong class="text-sm text-zinc-500">Legend:</strong>
-                  <span class="text-green-800">
-                    <svg
-                      class="w-5 h-5 inline-block"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        fill="#21ba45"
-                        fill-rule="evenodd"
-                        d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10m-5.97-3.03a.75.75 0 0 1 0 1.06l-5 5a.75.75 0 0 1-1.06 0l-2-2a.75.75 0 1 1 1.06-1.06l1.47 1.47l2.235-2.235L14.97 8.97a.75.75 0 0 1 1.06 0"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-                    Operational
-                  </span>
-                  <span class="text-amber-700">
-                    <svg
-                      class="w-5 h-5 inline-block"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fill="#d97706"
-                        d="M10 2c4.42 0 8 3.58 8 8s-3.58 8-8 8s-8-3.58-8-8s3.58-8 8-8m1.13 9.38l.35-6.46H8.52l.35 6.46zm-.09 3.36c.24-.23.37-.55.37-.96c0-.42-.12-.74-.36-.97s-.59-.35-1.06-.35s-.82.12-1.07.35s-.37.55-.37.97c0 .41.13.73.38.96c.26.23.61.34 1.06.34s.8-.11 1.05-.34"
-                      />
-                    </svg>
-                    Partial degradation
-                  </span>
-                  <span class="text-red-600">
-                    <svg
-                      class="w-5 h-5 inline-block"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        fill="#db2828"
-                        d="M12 2c5.53 0 10 4.47 10 10s-4.47 10-10 10S2 17.53 2 12S6.47 2 12 2m3.59 5L12 10.59L8.41 7L7 8.41L10.59 12L7 15.59L8.41 17L12 13.41L15.59 17L17 15.59L13.41 12L17 8.41z"
-                      />
-                    </svg>
-                    Severe degradation
-                  </span>
-                </div>
-
-                <div aria-hidden="true">
-                  <div
-                    class="relative left-1/2 -translate-x-1/2 w-screen"
-                  ></div>
-                </div>
-
-                <Tabs
-                  value={activeTab}
-                  class="items-left p-5"
-                  onValueChange={handleChange}
-                >
-                  <TabsList
-                    class="border-border text-foreground h-auto gap-2 rounded-none border-b bg-transparent px-0 py-1"
-                  >
-                    {#each tabsOrder as t, i}
-                      <TabsTrigger
-                        value={t}
-                        class={`cursor-pointer hover:bg-accent hover:text-foreground transition-colors duration-150 ease-in-out data-[state=active]:hover:bg-accent relative after:absolute after:inset-x-0 after:bottom-0 after:-mb-1 after:h-0.5 after:transform after:scale-x-0 after:transition-transform after:duration-200 after:ease-in-out data-[state=active]:after:scale-x-100 data-[state=active]:after:bg-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none ${
-                          direction === "left"
-                            ? "after:origin-left"
-                            : "after:origin-right"
-                        }`}
+                  <div class="legend mt-2">
+                    <strong class="text-sm text-zinc-500">Legend:</strong>
+                    <span class="text-green-800">
+                      <svg
+                        class="w-5 h-5 inline-block"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
                       >
-                        {#if i === 0}
-                          <span
-                            class={activeTab === t
-                              ? "text-black font-semibold"
-                              : "text-gray-500 font-semibold"}>Live status</span
-                          >
-                        {:else if i === 1}
-                          <span
-                            class={activeTab === t
-                              ? "text-black font-semibold"
-                              : "text-zinc-500 font-semibold"}>History</span
-                          >
-                        {/if}
-                      </TabsTrigger>
-                    {/each}
-                  </TabsList>
-                  {#each tabsOrder as t, i}
-                    <TabsContent value={t}>
-                      {#if i === 0}
-                        {#if mockData.length === 0}
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="48"
-                            height="48"
-                            viewBox="0 0 24 24"
-                            ><circle cx="18" cy="12" r="0" fill="currentColor"
-                              ><animate
-                                attributeName="r"
-                                begin=".67"
-                                calcMode="spline"
-                                dur="1.5s"
-                                keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8"
-                                repeatCount="indefinite"
-                                values="0;2;0;0"
-                              /></circle
-                            ><circle cx="12" cy="12" r="0" fill="currentColor"
-                              ><animate
-                                attributeName="r"
-                                begin=".33"
-                                calcMode="spline"
-                                dur="1.5s"
-                                keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8"
-                                repeatCount="indefinite"
-                                values="0;2;0;0"
-                              /></circle
-                            ><circle cx="6" cy="12" r="0" fill="currentColor"
-                              ><animate
-                                attributeName="r"
-                                begin="0"
-                                calcMode="spline"
-                                dur="1.5s"
-                                keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8"
-                                repeatCount="indefinite"
-                                values="0;2;0;0"
-                              /></circle
-                            ></svg
-                          >
-                        {:else}
-                          {#each mockData as api, index}
-                            <section class="card" style="margin-bottom: 2px;">
-                              <div class="card-header">
-                                <div
-                                  style="display: flex; align-items: center; gap: 5px;"
-                                >
-                                  {#if currentStatusFor(api) === "up"}
-                                    <svg
-                                      class="w-5 h-5"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      viewBox="0 0 24 24"
-                                    >
-                                      <path
-                                        fill="#21ba45"
-                                        fill-rule="evenodd"
-                                        d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10m-5.97-3.03a.75.75 0 0 1 0 1.06l-5 5a.75.75 0 0 1-1.06 0l-2-2a.75.75 0 1 1 1.06-1.06l1.47 1.47l2.235-2.235L14.97 8.97a.75.75 0 0 1 1.06 0"
-                                        clip-rule="evenodd"
-                                      />
-                                    </svg>
-                                  {:else if currentStatusFor(api) === "warn"}
-                                    <svg
-                                      class="w-5 h-5"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      viewBox="0 0 20 20"
-                                    >
-                                      <path
-                                        fill="#d97706"
-                                        d="M10 2c4.42 0 8 3.58 8 8s-3.58 8-8 8s-8-3.58-8-8s3.58-8 8-8m1.13 9.38l.35-6.46H8.52l.35 6.46zm-.09 3.36c.24-.23.37-.55.37-.96c0-.42-.12-.74-.36-.97s-.59-.35-1.06-.35s-.82.12-1.07.35s-.37.55-.37.97c0 .41.13.73.38.96c.26.23.61.34 1.06.34s.8-.11 1.05-.34"
-                                      />
-                                    </svg>
-                                  {:else if currentStatusFor(api) === "down"}
-                                    <svg
-                                      class="w-5 h-5"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      viewBox="0 0 24 24"
-                                    >
-                                      <path
-                                        fill="#db2828"
-                                        d="M12 2c5.53 0 10 4.47 10 10s-4.47 10-10 10S2 17.53 2 12S6.47 2 12 2m3.59 5L12 10.59L8.41 7L7 8.41L10.59 12L7 15.59L8.41 17L12 13.41L15.59 17L17 15.59L13.41 12L17 8.41z"
-                                      />
-                                    </svg>
-                                  {/if}
-                                  <div class="text-lg">{api.name}</div>
-                                </div>
-                                <div class="uptimes">
-                                  <span class="uptime15"
-                                    >{api.uptime15} uptime</span
-                                  >
-                                  <span class="uptime30"
-                                    >{api.uptime30} uptime</span
-                                  >
-                                  <span class="uptime60"
-                                    >{api.uptime60} uptime</span
-                                  >
-                                  <span class="uptime90"
-                                    >{api.uptime90} uptime</span
-                                  >
-                                </div>
-                              </div>
-                              <div class="bar">
-                                {#each api.statuses as s, i}
-                                  <div
-                                    class="chip {s.status} {i === dayIndex
-                                      ? s.status
-                                      : ''}"
-                                  ></div>
-                                {/each}
-                              </div>
-                              <div class="timeline">
-                                <span class="label15 text-zinc-500"
-                                  >15 days ago</span
-                                >
-                                <span class="label30 text-zinc-500"
-                                  >30 days ago</span
-                                >
-                                <span class="label60 text-zinc-500"
-                                  >60 days ago</span
-                                >
-                                <span class="label90 text-zinc-500"
-                                  >90 days ago</span
-                                >
-                                <span class="text-zinc-500">Today</span>
-                              </div>
-                            </section>
-                          {/each}
-                        {/if}
+                        <path
+                          fill="#21ba45"
+                          fill-rule="evenodd"
+                          d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10m-5.97-3.03a.75.75 0 0 1 0 1.06l-5 5a.75.75 0 0 1-1.06 0l-2-2a.75.75 0 1 1 1.06-1.06l1.47 1.47l2.235-2.235L14.97 8.97a.75.75 0 0 1 1.06 0"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                      Operational
+                    </span>
+                    <span class="text-amber-700">
+                      <svg
+                        class="w-5 h-5 inline-block"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fill="#d97706"
+                          d="M10 2c4.42 0 8 3.58 8 8s-3.58 8-8 8s-8-3.58-8-8s3.58-8 8-8m1.13 9.38l.35-6.46H8.52l.35 6.46zm-.09 3.36c.24-.23.37-.55.37-.96c0-.42-.12-.74-.36-.97s-.59-.35-1.06-.35s-.82.12-1.07.35s-.37.55-.37.97c0 .41.13.73.38.96c.26.23.61.34 1.06.34s.8-.11 1.05-.34"
+                        />
+                      </svg>
+                      Partial degradation
+                    </span>
+                    <span class="text-red-600">
+                      <svg
+                        class="w-5 h-5 inline-block"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          fill="#db2828"
+                          d="M12 2c5.53 0 10 4.47 10 10s-4.47 10-10 10S2 17.53 2 12S6.47 2 12 2m3.59 5L12 10.59L8.41 7L7 8.41L10.59 12L7 15.59L8.41 17L12 13.41L15.59 17L17 15.59L13.41 12L17 8.41z"
+                        />
+                      </svg>
+                      Severe degradation
+                    </span>
+                  </div>
 
-                        <div class="status-page">
-                          <div class="left">
-                            <h2>System status</h2>
-                            {#if monitors.length < 3 && monitors.length === 0}
-                              No monitors available.
-                            {:else if monitors.length === 0}
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-linecap="round"
-                                  stroke-width="2"
-                                  d="M12 6.99998C9.1747 6.99987 6.99997 9.24998 7 12C7.00003 14.55 9.02119 17 12 17C14.7712 17 17 14.75 17 12"
-                                  ><animateTransform
-                                    attributeName="transform"
-                                    attributeType="XML"
-                                    dur="560ms"
-                                    from="0,12,12"
-                                    repeatCount="indefinite"
-                                    to="360,12,12"
-                                    type="rotate"
-                                  />
-                                </path>
-                              </svg>
-                            {:else if monitors.length === 0}
-                              No monitors available.
-                            {:else}
-                              {#each monitors as status}
-                                <div class="status-card">
+                  <div aria-hidden="true">
+                    <div
+                      class="relative left-1/2 -translate-x-1/2 w-screen"
+                    ></div>
+                  </div>
+
+                  <Tabs
+                    value={activeTab}
+                    class="items-left p-5"
+                    onValueChange={handleChange}
+                  >
+                    <TabsList
+                      class="border-border text-foreground h-auto gap-2 rounded-none border-b bg-transparent px-0 py-1"
+                    >
+                      {#each tabsOrder as t, i}
+                        <TabsTrigger
+                          value={t}
+                          class={`cursor-pointer hover:bg-accent hover:text-foreground transition-colors duration-150 ease-in-out data-[state=active]:hover:bg-accent relative after:absolute after:inset-x-0 after:bottom-0 after:-mb-1 after:h-0.5 after:transform after:scale-x-0 after:transition-transform after:duration-200 after:ease-in-out data-[state=active]:after:scale-x-100 data-[state=active]:after:bg-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none ${
+                            direction === "left"
+                              ? "after:origin-left"
+                              : "after:origin-right"
+                          }`}
+                        >
+                          {#if i === 0}
+                            <span
+                              class={activeTab === t
+                                ? "text-black font-semibold"
+                                : "text-gray-500 font-semibold"}
+                              >Live status</span
+                            >
+                          {:else if i === 1}
+                            <span
+                              class={activeTab === t
+                                ? "text-black font-semibold"
+                                : "text-zinc-500 font-semibold"}>History</span
+                            >
+                          {/if}
+                        </TabsTrigger>
+                      {/each}
+                    </TabsList>
+                    {#each tabsOrder as t, i}
+                      <TabsContent value={t}>
+                        {#if i === 0}
+                          {#if mockData.length === 0}
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="48"
+                              height="48"
+                              viewBox="0 0 24 24"
+                              ><circle cx="18" cy="12" r="0" fill="currentColor"
+                                ><animate
+                                  attributeName="r"
+                                  begin=".67"
+                                  calcMode="spline"
+                                  dur="1.5s"
+                                  keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8"
+                                  repeatCount="indefinite"
+                                  values="0;2;0;0"
+                                /></circle
+                              ><circle cx="12" cy="12" r="0" fill="currentColor"
+                                ><animate
+                                  attributeName="r"
+                                  begin=".33"
+                                  calcMode="spline"
+                                  dur="1.5s"
+                                  keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8"
+                                  repeatCount="indefinite"
+                                  values="0;2;0;0"
+                                /></circle
+                              ><circle cx="6" cy="12" r="0" fill="currentColor"
+                                ><animate
+                                  attributeName="r"
+                                  begin="0"
+                                  calcMode="spline"
+                                  dur="1.5s"
+                                  keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8"
+                                  repeatCount="indefinite"
+                                  values="0;2;0;0"
+                                /></circle
+                              ></svg
+                            >
+                          {:else}
+                            {#each mockData as api, index}
+                              <section class="card" style="margin-bottom: 2px;">
+                                <div class="card-header">
                                   <div
-                                    style="display: flex; align-items: center; gap: 10px;"
+                                    style="display: flex; align-items: center; gap: 5px;"
                                   >
-                                    {#if status.status === "up"}
+                                    {#if currentStatusFor(api) === "up"}
                                       <svg
-                                        class="w-10 h-10 inline-block"
+                                        class="w-5 h-5"
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24"
                                       >
@@ -1327,9 +1209,9 @@
                                           clip-rule="evenodd"
                                         />
                                       </svg>
-                                    {:else if status.status === "warn"}
+                                    {:else if currentStatusFor(api) === "warn"}
                                       <svg
-                                        class="w-10 h-10 inline-block"
+                                        class="w-5 h-5"
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 20 20"
                                       >
@@ -1338,9 +1220,9 @@
                                           d="M10 2c4.42 0 8 3.58 8 8s-3.58 8-8 8s-8-3.58-8-8s3.58-8 8-8m1.13 9.38l.35-6.46H8.52l.35 6.46zm-.09 3.36c.24-.23.37-.55.37-.96c0-.42-.12-.74-.36-.97s-.59-.35-1.06-.35s-.82.12-1.07.35s-.37.55-.37.97c0 .41.13.73.38.96c.26.23.61.34 1.06.34s.8-.11 1.05-.34"
                                         />
                                       </svg>
-                                    {:else if status.status === "down"}
+                                    {:else if currentStatusFor(api) === "down"}
                                       <svg
-                                        class="w-10 h-10 inline-block"
+                                        class="w-5 h-5"
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24"
                                       >
@@ -1350,124 +1232,222 @@
                                         />
                                       </svg>
                                     {/if}
-                                    <div>
-                                      <strong>{status.title}</strong>
-                                      <p class="monitors" style="color: #666;">
-                                        {status.description}
-                                      </p>
-                                    </div>
+                                    <div class="text-lg">{api.name}</div>
+                                  </div>
+                                  <div class="uptimes">
+                                    <span class="uptime15"
+                                      >{api.uptime15} uptime</span
+                                    >
+                                    <span class="uptime30"
+                                      >{api.uptime30} uptime</span
+                                    >
+                                    <span class="uptime60"
+                                      >{api.uptime60} uptime</span
+                                    >
+                                    <span class="uptime90"
+                                      >{api.uptime90} uptime</span
+                                    >
                                   </div>
                                 </div>
-                              {/each}
-                            {/if}
-                          </div>
+                                <div class="bar">
+                                  {#each api.statuses as s, i}
+                                    <div
+                                      class="chip {s.status} {i === dayIndex
+                                        ? s.status
+                                        : ''}"
+                                    ></div>
+                                  {/each}
+                                </div>
+                                <div class="timeline">
+                                  <span class="label15 text-zinc-500"
+                                    >15 days ago</span
+                                  >
+                                  <span class="label30 text-zinc-500"
+                                    >30 days ago</span
+                                  >
+                                  <span class="label60 text-zinc-500"
+                                    >60 days ago</span
+                                  >
+                                  <span class="label90 text-zinc-500"
+                                    >90 days ago</span
+                                  >
+                                  <span class="text-zinc-500">Today</span>
+                                </div>
+                              </section>
+                            {/each}
+                          {/if}
 
-                          <div class="right">
-                            <h2>Recent incidents</h2>
-                            {#if incidents.every( (incident) => incident.entries.some((entry) => entry.status === Indicators.Resolved), )}
-                              No incidents to display
-                            {:else}
-                              {#each incidents as incident}
-                                {#if !incident.entries.some((entry) => entry.status === Indicators.Resolved)}
-                                  <div class="incident-card">
-                                    {#each incident.entries as entry}
-                                      <div class="status-entry">
-                                        <span class="time font-bold"
-                                          >{entry.time}</span
+                          <div class="status-page">
+                            <div class="left">
+                              <h2>System status</h2>
+                              {#if monitors.length < 3 && monitors.length === 0}
+                                No monitors available.
+                              {:else if monitors.length === 0}
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-linecap="round"
+                                    stroke-width="2"
+                                    d="M12 6.99998C9.1747 6.99987 6.99997 9.24998 7 12C7.00003 14.55 9.02119 17 12 17C14.7712 17 17 14.75 17 12"
+                                    ><animateTransform
+                                      attributeName="transform"
+                                      attributeType="XML"
+                                      dur="560ms"
+                                      from="0,12,12"
+                                      repeatCount="indefinite"
+                                      to="360,12,12"
+                                      type="rotate"
+                                    />
+                                  </path>
+                                </svg>
+                              {:else if monitors.length === 0}
+                                No monitors available.
+                              {:else}
+                                {#each monitors as status}
+                                  <div class="status-card">
+                                    <div
+                                      style="display: flex; align-items: center; gap: 10px;"
+                                    >
+                                      {#if status.status === "up"}
+                                        <svg
+                                          class="w-10 h-10 inline-block"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          viewBox="0 0 24 24"
                                         >
-                                        <span
-                                          class="badge mt-1 {entry.status
-                                            .badge}"
+                                          <path
+                                            fill="#21ba45"
+                                            fill-rule="evenodd"
+                                            d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10m-5.97-3.03a.75.75 0 0 1 0 1.06l-5 5a.75.75 0 0 1-1.06 0l-2-2a.75.75 0 1 1 1.06-1.06l1.47 1.47l2.235-2.235L14.97 8.97a.75.75 0 0 1 1.06 0"
+                                            clip-rule="evenodd"
+                                          />
+                                        </svg>
+                                      {:else if status.status === "warn"}
+                                        <svg
+                                          class="w-10 h-10 inline-block"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          viewBox="0 0 20 20"
                                         >
-                                          {entry.status.statusLabel}
-                                        </span>
+                                          <path
+                                            fill="#d97706"
+                                            d="M10 2c4.42 0 8 3.58 8 8s-3.58 8-8 8s-8-3.58-8-8s3.58-8 8-8m1.13 9.38l.35-6.46H8.52l.35 6.46zm-.09 3.36c.24-.23.37-.55.37-.96c0-.42-.12-.74-.36-.97s-.59-.35-1.06-.35s-.82.12-1.07.35s-.37.55-.37.97c0 .41.13.73.38.96c.26.23.61.34 1.06.34s.8-.11 1.05-.34"
+                                          />
+                                        </svg>
+                                      {:else if status.status === "down"}
+                                        <svg
+                                          class="w-10 h-10 inline-block"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          viewBox="0 0 24 24"
+                                        >
+                                          <path
+                                            fill="#db2828"
+                                            d="M12 2c5.53 0 10 4.47 10 10s-4.47 10-10 10S2 17.53 2 12S6.47 2 12 2m3.59 5L12 10.59L8.41 7L7 8.41L10.59 12L7 15.59L8.41 17L12 13.41L15.59 17L17 15.59L13.41 12L17 8.41z"
+                                          />
+                                        </svg>
+                                      {/if}
+                                      <div>
+                                        <strong>{status.title}</strong>
                                         <p
-                                          class="mt-2 text-gray-600"
-                                          style="font-size: 16px"
+                                          class="monitors"
+                                          style="color: #666;"
                                         >
-                                          {entry.description}
+                                          {status.description}
                                         </p>
                                       </div>
-                                    {/each}
+                                    </div>
                                   </div>
-                                {/if}
-                              {/each}
-                            {/if}
-                            <h2>Maintenance</h2>
-                            <div class="maintenance-list">
-                              {#if maintenances.every( (incident) => incident.entries.some((entry) => entry.status === Indicators.Completed || entry.status === Indicators.Cancelled), )}
-                                No maintenance windows available.
-                              {:else}
-                                {#each maintenances as maintenance}
-                                  {#if !maintenance.entries.some((entry) => entry.status === Indicators.Completed || entry.status === Indicators.Cancelled)}
-                                    {#each maintenance.entries as entry}
-                                      <div
-                                        class="flex justify-between items-center p-3 gap-4"
-                                      >
-                                        <span
-                                          class="inline-flex items-center px-2.5 badge2 py-1 rounded-full text-xs font-medium {entry
-                                            .status.badge}"
-                                        >
-                                          {entry.status.statusLabel}
-                                        </span>
-                                        <div
-                                          class="flex flex-col text-left leading-tight"
-                                        >
-                                          <span
-                                            class="text-base font-semibold text-(--inactive-service)"
-                                          >
-                                            {maintenance.service}
-                                          </span>
-                                          <time
-                                            class="text-base text-(--inactive)"
-                                          >
-                                            {entry.time}
-                                          </time>
-                                        </div>
-                                      </div>
-                                    {/each}
-                                  {/if}
                                 {/each}
                               {/if}
                             </div>
-                          </div>
-                        </div>
-                      {:else if i === 1}
-                        {#if incidents.length === 0 && maintenances.length === 0}
-                          <p
-                            class="p-10 text-black text-center"
-                            style="font-size: 16px"
-                          >
-                            No historical incidents available.
-                          </p>
-                        {/if}
-                        {#each incidents as incident}
-                          <div class="incident-card mt-10">
-                            <h2>{incident.title}</h2>
-                            {#each incident.entries as entry}
-                              <div class="status-entry">
-                                <span class="time font-bold">{entry.time}</span>
-                                <span class="badge mt-1 {entry.status.badge}">
-                                  {entry.status.statusLabel}
-                                </span>
-                                <p
-                                  class="mt-2 text-gray-600"
-                                  style="font-size: 16px"
-                                >
-                                  {entry.description}
-                                </p>
-                              </div>
-                            {/each}
-                          </div>
-                        {/each}
 
-                        {#each maintenances as maintenance}
-                          {#if maintenance.entries.some((entry) => entry.status === Indicators.Completed || entry.status === Indicators.Cancelled)}
+                            <div class="right">
+                              <h2>Recent incidents</h2>
+                              {#if incidents.every( (incident) => incident.entries.some((entry) => entry.status === Indicators.Resolved), )}
+                                No incidents to display
+                              {:else}
+                                {#each incidents as incident}
+                                  {#if !incident.entries.some((entry) => entry.status === Indicators.Resolved)}
+                                    <div class="incident-card">
+                                      {#each incident.entries as entry}
+                                        <div class="status-entry">
+                                          <span class="time font-bold"
+                                            >{entry.time}</span
+                                          >
+                                          <span
+                                            class="badge mt-1 {entry.status
+                                              .badge}"
+                                          >
+                                            {entry.status.statusLabel}
+                                          </span>
+                                          <p
+                                            class="mt-2 text-gray-600"
+                                            style="font-size: 16px"
+                                          >
+                                            {entry.description}
+                                          </p>
+                                        </div>
+                                      {/each}
+                                    </div>
+                                  {/if}
+                                {/each}
+                              {/if}
+                              <h2>Maintenance</h2>
+                              <div class="maintenance-list">
+                                {#if maintenances.every( (incident) => incident.entries.some((entry) => entry.status === Indicators.Completed || entry.status === Indicators.Cancelled), )}
+                                  No maintenance windows available.
+                                {:else}
+                                  {#each maintenances as maintenance}
+                                    {#if !maintenance.entries.some((entry) => entry.status === Indicators.Completed || entry.status === Indicators.Cancelled)}
+                                      {#each maintenance.entries as entry}
+                                        <div
+                                          class="flex justify-between items-center p-3 gap-4"
+                                        >
+                                          <span
+                                            class="inline-flex items-center px-2.5 badge2 py-1 rounded-full text-xs font-medium {entry
+                                              .status.badge}"
+                                          >
+                                            {entry.status.statusLabel}
+                                          </span>
+                                          <div
+                                            class="flex flex-col text-left leading-tight"
+                                          >
+                                            <span
+                                              class="text-base font-semibold text-(--inactive-service)"
+                                            >
+                                              {maintenance.service}
+                                            </span>
+                                            <time
+                                              class="text-base text-(--inactive)"
+                                            >
+                                              {entry.time}
+                                            </time>
+                                          </div>
+                                        </div>
+                                      {/each}
+                                    {/if}
+                                  {/each}
+                                {/if}
+                              </div>
+                            </div>
+                          </div>
+                        {:else if i === 1}
+                          {#if incidents.length === 0 && maintenances.length === 0}
+                            <p
+                              class="p-10 text-black text-center"
+                              style="font-size: 16px"
+                            >
+                              No historical incidents available.
+                            </p>
+                          {/if}
+                          {#each incidents as incident}
                             <div class="incident-card mt-10">
-                              <h2>
-                                Scheduled maintenance for {maintenance.service}
-                              </h2>
-                              {#each maintenance.entries as entry}
+                              <h2>{incident.title}</h2>
+                              {#each incident.entries as entry}
                                 <div class="status-entry">
                                   <span class="time font-bold"
                                     >{entry.time}</span
@@ -1479,23 +1459,51 @@
                                     class="mt-2 text-gray-600"
                                     style="font-size: 16px"
                                   >
-                                    System affected: {maintenance.service}
+                                    {entry.description}
                                   </p>
                                 </div>
                               {/each}
                             </div>
-                          {/if}
-                        {/each}
-                      {/if}
-                    </TabsContent>
-                  {/each}
-                </Tabs>
+                          {/each}
+
+                          {#each maintenances as maintenance}
+                            {#if maintenance.entries.some((entry) => entry.status === Indicators.Completed || entry.status === Indicators.Cancelled)}
+                              <div class="incident-card mt-10">
+                                <h2>
+                                  Scheduled maintenance for {maintenance.service}
+                                </h2>
+                                {#each maintenance.entries as entry}
+                                  <div class="status-entry">
+                                    <span class="time font-bold"
+                                      >{entry.time}</span
+                                    >
+                                    <span
+                                      class="badge mt-1 {entry.status.badge}"
+                                    >
+                                      {entry.status.statusLabel}
+                                    </span>
+                                    <p
+                                      class="mt-2 text-gray-600"
+                                      style="font-size: 16px"
+                                    >
+                                      System affected: {maintenance.service}
+                                    </p>
+                                  </div>
+                                {/each}
+                              </div>
+                            {/if}
+                          {/each}
+                        {/if}
+                      </TabsContent>
+                    {/each}
+                  </Tabs>
+                </div>
               </div>
-            </div>
-          </article>
-          <div aria-hidden="true" class="h-37.5"></div>
-        </div>
-      </main>
+            </article>
+            <div aria-hidden="true" class="h-37.5"></div>
+          </div>
+        </main>
+      </div>
     </div>
   </div>
 
