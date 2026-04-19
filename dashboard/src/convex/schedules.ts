@@ -12,6 +12,15 @@ export const monitorAggregate = new TableAggregate<{
   sortKey: (doc) => doc.service,
 });
 
+
+export const get = query({
+  args: { apiKey: v.string() },
+  handler: async (ctx, args) => {
+    if (args.apiKey !== process.env.API_KEY) throw new Error("Unauthorized");
+    return await ctx.db.query("schedules").collect();
+  },
+});
+
 export const post = mutation({
   args: {
     apiKey: v.string(),
@@ -32,10 +41,35 @@ export const post = mutation({
       note: args.note,
     });
 
-    // const doc = await ctx.db.get(id);
-    // if (doc) {
-    //   await monitorAggregate.insert(ctx, doc);
-    // }
+    const doc = await ctx.db.get(id);
+    if (doc) {
+      await monitorAggregate.insert(ctx, doc);
+    }
     return id;
   },
 });
+
+
+export const count = query({
+  args: {},
+  handler: async (ctx) => {
+    return await monitorAggregate.count(ctx);
+  },
+});
+
+
+export const backfill = mutation({
+  handler: async (ctx) => {
+    await monitorAggregate.clear(ctx);
+    const existing = await ctx.db.query("schedules").collect();
+    for (const doc of existing) {
+      try {
+        await monitorAggregate.insert(ctx, doc);
+      } catch (e) {
+        return `Error backfilling schedule ${doc._id}: ${e}`;
+      }
+    }
+    return `Synced ${existing.length} schedules.`;
+  },
+});
+

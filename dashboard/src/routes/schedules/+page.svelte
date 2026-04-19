@@ -16,7 +16,22 @@
   import Header from "$lib/components/Header.svelte";
   import Schedules from "$lib/components/Schedules.svelte";
   import NotSchedules from "$lib/components/NotSchedules.svelte";
+  import { Gauge } from "$lib/components/ui/gauge";
+  import { useQuery } from "convex-svelte";
+  import { api } from "../../convex/_generated/api";
+
   let currentTab = "tab-3";
+
+  let totalCount = $state(0);
+  const monitorCount = useQuery(api.schedules.count, {});
+
+  $effect(() => {
+    if (monitorCount.data !== undefined) {
+      totalCount = monitorCount.data;
+    } else {
+      totalCount = 0;
+    }
+  });
 </script>
 
 <div
@@ -120,6 +135,17 @@
             <p class="text-base font-extralight text-zinc-200">
               Ongoing Maintenance
             </p>
+
+            <Gauge
+              colors={{
+                primary: "stroke-red-700",
+                secondary: "stroke-red-200",
+              }}
+              class="text-white"
+              show_value
+              size="lg"
+              value={totalCount}
+            />
           </TabsContent>
         </div>
 
