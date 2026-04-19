@@ -49,12 +49,12 @@
   $effect(() => {
     const name = service.trim().toUpperCase() || "API";
 
-    if ($formData.status === "inprogress") {
+    if ($formData.status === "Inprogress") {
       bioLimit.value =
         "Scheduled maintenance is currently in progress. We will provide updates as necessary.";
-    } else if ($formData.status === "completed") {
+    } else if ($formData.status === "Completed") {
       bioLimit.value = "The scheduled maintenance has been completed.";
-    } else if ($formData.status === "cancelled") {
+    } else if ($formData.status === "Cancelled") {
       bioLimit.value = "The scheduled maintenance has been cancelled.";
     } else {
       bioLimit.value = `${name} has an upcoming scheduled maintenance. We will provide updates as necessary.`;
@@ -88,10 +88,10 @@
   const { form: formData, submitting, enhance } = form;
 
   const isLocked = $derived(
-    $formData.status === "inprogress" ||
-      $formData.status === "completed" ||
-      $formData.status === "cancelled" ||
-      $formData.status === "scheduled",
+    $formData.status === "Inprogress" ||
+      $formData.status === "Completed" ||
+      $formData.status === "Cancelled" ||
+      $formData.status === "Scheduled",
   );
 
   $effect(() => {

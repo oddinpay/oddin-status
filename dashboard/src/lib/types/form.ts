@@ -170,16 +170,16 @@ export const scheduleCreate = z.object({
     .max(50, "Service must not exceed 50 characters"),
 
   status: z
-    .enum(["scheduled", "inprogress", "completed", "cancelled"], {
-      message: "Status must be one of: scheduled, In progress, completed, cancelled",
+    .enum(["Scheduled", "Inprogress", "Completed", "Cancelled"], {
+      message: "Status must be one of: Scheduled, In Progress, Completed, Cancelled",
     })
-    .default("scheduled"),
-  
+    .default("Scheduled"),
+
   // scheduledAt: z.coerce.date(),
-  
+
   note: z
     .string()
     .trim()
     .min(1, "Note must be at least 1 character long")
     .max(180, "Note must not exceed 180 characters")
-  });
+});
