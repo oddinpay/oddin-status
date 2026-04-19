@@ -471,6 +471,8 @@
     // },
   ];
 
+  $inspect(schedulesQuery.data);
+
   const statusPriority = new Map<Indicator, number>([
     [Indicators.Completed, 0],
     [Indicators.Resolved, 0],
