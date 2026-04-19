@@ -410,6 +410,55 @@
     entries: MaintenanceEntry[];
   }
 
+  const statusPriority = new Map<Indicator, number>([
+    [Indicators.Completed, 0],
+    [Indicators.Resolved, 0],
+    [Indicators.Inprogress, 1],
+    [Indicators.Identified, 2],
+    [Indicators.Investigating, 3],
+    [Indicators.Scheduled, 3],
+    [Indicators.Cancelled, 0],
+  ]);
+
+  type AccordionItem = {
+    value: string;
+    date: string;
+    title: string;
+    content: string;
+    PageTitle: string;
+    cover: string;
+    active: boolean;
+    features: string[];
+  };
+
+  // --- types ---
+  type AccordionItemNoVal = Omit<AccordionItem, "value">;
+
+  interface RoadmapProps {
+    sections?: AccordionItemNoVal[];
+    badge?: string;
+    status?: string;
+    logo?: string;
+    slug?: string;
+    cover?: string;
+    title?: string;
+    description?: string;
+    features?: string[];
+  }
+
+  let activeTab = $state("tab-1");
+  let direction = $state<"right" | "left">("right");
+
+  const tabsOrder = ["tab-1", "tab-2"];
+
+  function handleChange(newValue: string) {
+    const oldIndex = tabsOrder.indexOf(activeTab);
+    const newIndex = tabsOrder.indexOf(newValue);
+
+    direction = newIndex > oldIndex ? "left" : "right";
+    activeTab = newValue;
+  }
+
   let incidents: Incident[] = [
     // {
     //   title: "Elevated iDeal errors",
@@ -470,16 +519,6 @@
     //   ],
     // },
   ];
-
-  const statusPriority = new Map<Indicator, number>([
-    [Indicators.Completed, 0],
-    [Indicators.Resolved, 0],
-    [Indicators.Inprogress, 1],
-    [Indicators.Identified, 2],
-    [Indicators.Investigating, 3],
-    [Indicators.Scheduled, 3],
-    [Indicators.Cancelled, 0],
-  ]);
 
   incidents.forEach((incident) => {
     incident.entries.sort((a, b) => {
@@ -551,78 +590,6 @@
     });
     return rawList;
   });
-
-  // maintenances.forEach((m) => {
-  //   const hasInProgress = m.entries.some(
-  //     (e) => e.status === Indicators.Inprogress,
-  //   );
-  //   const hasCompleted = m.entries.some(
-  //     (e) => e.status === Indicators.Completed,
-  //   );
-  //   const hasCancelled = m.entries.some(
-  //     (e) => e.status === Indicators.Cancelled,
-  //   );
-
-  //   m.entries = m.entries
-  //     .filter((e) => {
-  //       const isScheduledWhileInProgress =
-  //         hasInProgress &&
-  //         !hasCancelled &&
-  //         !hasCompleted &&
-  //         e.status === Indicators.Scheduled;
-
-  //       const isCompletedWhileCancelled =
-  //         hasCancelled &&
-  //         (e.status === Indicators.Completed ||
-  //           e.status === Indicators.Inprogress);
-
-  //       return !isScheduledWhileInProgress && !isCompletedWhileCancelled;
-  //     })
-  //     .sort(
-  //       (a, b) =>
-  //         (statusPriority.get(a.status) ?? Infinity) -
-  //         (statusPriority.get(b.status) ?? Infinity),
-  //     );
-  // });
-
-  type AccordionItem = {
-    value: string;
-    date: string;
-    title: string;
-    content: string;
-    PageTitle: string;
-    cover: string;
-    active: boolean;
-    features: string[];
-  };
-
-  // --- types ---
-  type AccordionItemNoVal = Omit<AccordionItem, "value">;
-
-  interface RoadmapProps {
-    sections?: AccordionItemNoVal[];
-    badge?: string;
-    status?: string;
-    logo?: string;
-    slug?: string;
-    cover?: string;
-    title?: string;
-    description?: string;
-    features?: string[];
-  }
-
-  let activeTab = $state("tab-1");
-  let direction = $state<"right" | "left">("right");
-
-  const tabsOrder = ["tab-1", "tab-2"];
-
-  function handleChange(newValue: string) {
-    const oldIndex = tabsOrder.indexOf(activeTab);
-    const newIndex = tabsOrder.indexOf(newValue);
-
-    direction = newIndex > oldIndex ? "left" : "right";
-    activeTab = newValue;
-  }
 
   // --- styles ---
   const COLOR_STYLES: Record<
