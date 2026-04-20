@@ -532,31 +532,39 @@
   let maintenances: Maintenance[] = $derived.by(() => {
     if (!schedulesQuery.data) return [];
 
-    const rawList = schedulesQuery.data.map((sched) => {
+    const grouped = new Map<string, Maintenance>();
+
+    schedulesQuery.data.forEach((sched) => {
       const statusKey = sched.status as keyof typeof Indicators;
       const indicator = Indicators[statusKey];
-      return {
-        service: sched.service,
-        entries: [
-          {
-            time: new Date().toLocaleString("en-US", {
-              month: "short",
-              day: "numeric",
-              year: "numeric",
-              hour: "2-digit",
-              minute: "2-digit",
-              timeZone: "UTC",
-              hour12: false,
-              timeZoneName: "short",
-            }),
-            status: indicator as MaintenanceEntry["status"],
-            description: sched.note,
-          },
-        ],
-      };
+      const groupId = sched.parentId;
+
+      if (!grouped.has(groupId)) {
+        grouped.set(groupId, {
+          service: sched.service,
+          entries: [],
+        });
+      }
+
+      grouped.get(groupId)!.entries.push({
+        time: new Date(sched._creationTime).toLocaleString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          timeZone: "UTC",
+          hour12: false,
+          timeZoneName: "short",
+        }),
+        status: indicator as MaintenanceEntry["status"],
+        description: sched.note,
+      });
     });
 
-    rawList.forEach((m) => {
+    const finalMaintenanceList = Array.from(grouped.values());
+
+    finalMaintenanceList.forEach((m) => {
       const hasInProgress = m.entries.some(
         (e) => e.status === Indicators.Inprogress,
       );
@@ -588,7 +596,7 @@
             (statusPriority.get(b.status) ?? Infinity),
         );
     });
-    return rawList;
+    return finalMaintenanceList;
   });
 
   // --- styles ---
