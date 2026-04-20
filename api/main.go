@@ -1049,7 +1049,7 @@ func publishToNATS(ctx context.Context, name string, payload *StatusPayload, s *
 		return
 	}
 
-	now := time.Now().UTC()
+	now := time.Now().UTC().Truncate(1 * time.Second)
 
 	// Daily block
 	todayUTC := now.Format("02/01/2006")
