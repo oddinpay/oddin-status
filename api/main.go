@@ -1059,8 +1059,8 @@ func publishToNATS(ctx context.Context, name string, payload *StatusPayload, s *
 	now := time.Now().UTC()
 
 	// 1-minute block
-	intervalBlock := (now.Minute() / 1) * 1
-	todayUTC := fmt.Sprintf("%s %02d:%02d", now.Format("02/01/2006"), now.Hour(), intervalBlock)
+	intervalBlock := (now.Second() / 2) * 2
+	todayUTC := fmt.Sprintf("%s %02d:%02d:%02d", now.Format("02/01/2006"), now.Hour(), now.Minute(), intervalBlock)
 
 	// Daily block
 	// todayUTC := now.Format("02/01/2006")
