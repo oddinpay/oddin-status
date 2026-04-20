@@ -752,7 +752,7 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 		probeCancels := make(map[string]context.CancelFunc)
 
 		missingStrikes := make(map[string]int)
-		const maxStrikes = 5
+		const maxStrikes = 60
 
 		for {
 			refreshCache(ctx)
