@@ -1053,9 +1053,8 @@ func publishToNATS(ctx context.Context, name string, payload *StatusPayload, s *
 
 	now := time.Now().UTC()
 
-	nowWithOffset := now.Add(2 * time.Second)
-
-	todayUTC := nowWithOffset.Format("02/01/2006")
+	// Daily block
+	todayUTC := now.Format("02/01/2006")
 
 	currentStatus := hr.Warn
 	if len(payload.Probe.State) > 0 {
