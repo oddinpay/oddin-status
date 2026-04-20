@@ -752,7 +752,7 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 		probeCancels := make(map[string]context.CancelFunc)
 
 		missingStrikes := make(map[string]int)
-		const maxStrikes = 60
+		const maxStrikes = 5
 
 		for {
 			refreshCache(ctx)
@@ -784,8 +784,8 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 							delete(probeCancels, id)
 						}
 
-						targetName := running.Name
-						go func() { kv.Delete(ctx, targetName) }()
+						// targetName := running.Name
+						// go func() { kv.Delete(ctx, targetName) }()
 
 						globalHub.Broadcast(map[string]StatusPayload{
 							id: {Probe: ProbeResult{Id: id, Action: []string{"deleted"}}},
@@ -1129,6 +1129,8 @@ func publishToNATS(ctx context.Context, name string, payload *StatusPayload, s *
 					"down_time_seconds":  freshSLA["down_time_seconds"],
 					"uptime90":           freshSLA["uptime90"],
 				}
+
+				// s.Reset()
 
 				if oldHist, ok := oldPayload.SLA["history"].([]any); ok {
 					payload.SLA["history"] = append([]any{newSnapshot}, oldHist...)
