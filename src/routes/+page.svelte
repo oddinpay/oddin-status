@@ -1491,12 +1491,6 @@
       font-weight: 600;
     }
 
-    /* #content h2 {
-      font-size: 1.6em;
-      line-height: 1.5;
-      font-weight: 600;
-    } */
-
     #content h2 {
       font-size: 1.2em;
       line-height: 1.5;
