@@ -158,65 +158,63 @@
 
   function parseDate(dateString: string | Date): Date {
     if (dateString instanceof Date) return dateString;
-    if (typeof dateString !== "string") return new Date();
-
+    if (typeof dateString !== "string") return new Date(String(dateString));
     const dateOnly = dateString.split(" ")[0];
     const parts = dateOnly.split("/");
-
-    if (parts.length !== 3) return new Date();
-
-    const [day, month, year] = parts.map(Number);
-    return new Date(year, month - 1, day);
+    if (parts.length !== 3) return new Date(dateString);
+    const [day, month, year] = parts;
+    return new Date(`${year}-${month}-${day}`);
   }
 
-  // function normalizeDates(rawDate: unknown): string[] {
-  //   if (!rawDate) return [];
+  function normalizeDates(rawDate: unknown): string[] {
+    if (!rawDate) return [];
 
-  //   if (Array.isArray(rawDate)) {
-  //     return rawDate.map((d) => parseDate(d).toLocaleDateString());
-  //   }
+    if (Array.isArray(rawDate)) {
+      return rawDate.map((d) => parseDate(d).toLocaleDateString());
+    }
 
-  //   if (typeof rawDate === "string") {
-  //     return rawDate
-  //       .split(",")
-  //       .map((s) => s.trim())
-  //       .filter(Boolean)
-  //       .map((s) => parseDate(s).toLocaleDateString());
-  //   }
+    if (typeof rawDate === "string") {
+      return rawDate
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean)
+        .map((s) => parseDate(s).toLocaleDateString());
+    }
 
-  //   return [parseDate(rawDate as Date | string).toLocaleDateString()];
-  // }
+    return [parseDate(rawDate as Date | string).toLocaleDateString()];
+  }
 
   let mockData = $derived.by(() => {
     const probes = sortedProbes;
+
     const unique = new Map<string, ApiData>();
     for (const p of probes) {
       if (!p || !p.id) continue;
       unique.set(String(p.name), p);
     }
-    const uniqueProbes = Array.from(unique.values()).slice(0, 3);
+    const uniqueProbes = Array.from(unique.values());
 
-    return uniqueProbes.map((probe) => {
+    const limitedProbes = uniqueProbes.slice(0, 3);
+
+    return limitedProbes.map((probe) => {
+      const datesList = normalizeDates(probe?.date ?? new Date());
+      const statesList = Array.isArray(probe?.state)
+        ? probe.state
+        : [probe?.state];
+
       const datesMap = new Map<string, StatusType>();
-
-      const datesList = Array.isArray(probe?.date) ? probe.date : [];
-      const statesList = Array.isArray(probe?.state) ? probe.state : [];
-
-      datesList.forEach((d, idx) => {
-        const parsed = parseDate(d);
-        const key = `${parsed.getFullYear()}-${parsed.getMonth() + 1}-${parsed.getDate()}`;
-        datesMap.set(key, asStatus(statesList[idx]));
+      datesList.forEach((date, index) => {
+        const state = statesList[index] ?? "default";
+        datesMap.set(date, state as StatusType);
       });
 
       const statuses: StatusEntry[] = Array.from(
         { length: TOTAL_DAYS },
         (_, i) => {
           const tempDate = new Date(start);
-          tempDate.setDate(start.getDate() + i);
-
-          const key = `${tempDate.getFullYear()}-${tempDate.getMonth() + 1}-${tempDate.getDate()}`;
-          const resolved = datesMap.get(key) ?? "up";
-
+          tempDate.setUTCDate(start.getUTCDate() + i);
+          const key = tempDate.toLocaleDateString();
+          const resolved = datesMap.get(key) ?? "default";
           return {
             date: tempDate,
             status: resolved,
@@ -224,14 +222,16 @@
         },
       );
 
-      return {
+      const api: ApiData = {
         name: String(probe?.name ?? ""),
         statuses,
-        uptime15: String(probe?.uptime90 ?? "100.000%"),
-        uptime30: String(probe?.uptime90 ?? "100.000%"),
-        uptime60: String(probe?.uptime90 ?? "100.000%"),
-        uptime90: String(probe?.uptime90 ?? "100.000%"),
+        uptime15: String(probe?.uptime90 ?? "00.000%"),
+        uptime30: String(probe?.uptime90 ?? "00.000%"),
+        uptime60: String(probe?.uptime90 ?? "00.000%"),
+        uptime90: String(probe?.uptime90 ?? "00.000%"),
       };
+
+      return api;
     });
   });
 
