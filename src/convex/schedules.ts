@@ -10,7 +10,7 @@ export const scheduleAggregate = new TableAggregate<{
   DataModel: DataModel;
   TableName: "schedules";
 }>(components.scheduleCount, {
-  sortKey: (doc) => doc._creationTime.toString(),
+  sortKey: (doc) => doc.status,
 });
 
 
