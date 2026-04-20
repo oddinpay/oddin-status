@@ -81,7 +81,6 @@ var (
 	wg               sync.WaitGroup
 	js               jetstream.JetStream
 	kv               jetstream.KeyValue
-	testDayCounter   atomic.Int64
 	httpClient       = &http.Client{
 		Timeout: defaultTimeout,
 		Transport: &http.Transport{
@@ -146,8 +145,7 @@ func fetchTargets(ctx context.Context) []HttpRequest {
 			Name:     u.Name,
 			Protocol: u.Protocol,
 			Host:     u.Host,
-			// Interval: time.Duration(u.Interval) * time.Second,
-			Interval: 1 * time.Second,
+			Interval: time.Duration(u.Interval) * time.Second,
 		})
 	}
 
@@ -733,9 +731,7 @@ func startProbeWorker(ctx context.Context, wg *sync.WaitGroup, t HttpRequest) {
 
 			slaTrackers.Lock()
 			isDown := len(res.State) > 0 && strings.ToLower(res.State[0]) == hr.Down
-			// tracker.Tick(isDown, t.Interval)
-
-			tracker.Tick(isDown, 24*time.Hour)
+			tracker.Tick(isDown, t.Interval)
 			payload := StatusPayload{Probe: res, SLA: tracker.Snapshot()}
 			slaTrackers.Unlock()
 
@@ -1056,11 +1052,7 @@ func publishToNATS(ctx context.Context, name string, payload *StatusPayload, s *
 	now := time.Now().UTC()
 
 	// Daily block
-	// todayUTC := now.Format("02/01/2006")
-
-	virtualTime := now.Add(time.Duration(testDayCounter.Load()) * 24 * time.Hour)
-	todayUTC := virtualTime.Format("02/01/2006")
-	testDayCounter.Add(1)
+	todayUTC := now.Format("02/01/2006")
 
 	currentStatus := hr.Warn
 	if len(payload.Probe.State) > 0 {
