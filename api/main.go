@@ -1053,20 +1053,13 @@ func publishToNATS(ctx context.Context, name string, payload *StatusPayload, s *
 		return
 	}
 
-	// now := time.Now().UTC()
+	now := time.Now().UTC()
 
 	// Daily block
 	// todayUTC := now.Format("02/01/2006")
 
-	baseDate := time.Date(2026, time.April, 21, 0, 0, 0, 0, time.UTC)
-
-	// 2. Add the counter to the FIXED base date
-	virtualTime := baseDate.Add(time.Duration(testDayCounter.Load()) * 24 * time.Hour)
-
-	// 3. Format it for the UI
+	virtualTime := now.Add(time.Duration(testDayCounter.Load()) * 24 * time.Hour)
 	todayUTC := virtualTime.Format("02/01/2006")
-
-	// 4. Increment for the next probe
 	testDayCounter.Add(1)
 
 	currentStatus := hr.Warn
