@@ -784,8 +784,8 @@ func startProbeManager(ctx context.Context, wg *sync.WaitGroup) {
 							delete(probeCancels, id)
 						}
 
-						targetName := running.Name
-						go func() { kv.Delete(ctx, targetName) }()
+						// targetName := running.Name
+						// go func() { kv.Delete(ctx, targetName) }()
 
 						globalHub.Broadcast(map[string]StatusPayload{
 							id: {Probe: ProbeResult{Id: id, Action: []string{"deleted"}}},
