@@ -4,6 +4,7 @@ import { components } from "./_generated/api";
 import type { DataModel } from "./_generated/dataModel";
 import { TableAggregate } from "@convex-dev/aggregate";
 
+
 export const scheduleAggregate = new TableAggregate<{
   Key: string;
   DataModel: DataModel;
@@ -23,6 +24,7 @@ export const get = query({
 export const post = mutation({
   args: {
     apiKey: v.string(),
+    parentId: v.string(),
     title: v.string(),
     service: v.string(),
     status: v.string(),
@@ -34,6 +36,7 @@ export const post = mutation({
     }
 
     const id = await ctx.db.insert("schedules", {
+      parentId: args.parentId,
       title: args.title,
       service: args.service,
       status: args.status,

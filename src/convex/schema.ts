@@ -25,6 +25,7 @@ export default defineSchema({
   }),
 
   schedules: defineTable({
+    parentId: v.string(),
     title: v.string(),
     service: v.string(),
     status: v.string(),

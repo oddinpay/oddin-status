@@ -6,6 +6,8 @@ import { setError, superValidate } from "sveltekit-superforms";
 import { ConvexHttpClient } from "convex/browser";
 import { api } from "../../convex/_generated/api";
 import { env } from "$env/dynamic/private";
+import { typeid } from 'typeid-js';
+
 
 export const load: PageServerLoad = async (event) => {
   const form = await superValidate(event, zod4(scheduleCreate));
@@ -37,11 +39,11 @@ export const actions: Actions = {
 
       await convex.mutation(api.schedules.post, {
         apiKey,
+        parentId: typeid("sc"),
         title: form.data.title,
         service: form.data.service,
         status: form.data.status,
         note: form.data.note,
-
       });
     } catch (error) {
       return setError(form, "", "Failed to create schedule");
