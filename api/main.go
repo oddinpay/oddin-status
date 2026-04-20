@@ -23,6 +23,7 @@ import (
 	convex "github.com/inselfcontroll/convex-go"
 	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
+
 	"go.jetify.com/sse"
 	"go.jetify.com/typeid/v2"
 )
