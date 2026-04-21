@@ -1181,7 +1181,7 @@
                         <div class="left">
                           <h2>System status</h2>
                           {#if monitors.length < 3 && monitors.length === 0}
-                            No monitors to display 
+                            No monitors to display.
                           {:else if monitors.length === 0}
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -1207,7 +1207,7 @@
                               </path>
                             </svg>
                           {:else if monitors.length === 0}
-                            No monitors to display
+                            No monitors to display.
                           {:else}
                             {#each monitors as status}
                               <div class="status-card">
@@ -1265,7 +1265,7 @@
                         <div class="right">
                           <h2>Recent incidents</h2>
                           {#if incidents.every( (incident) => incident.entries.some((entry) => entry.status === Indicators.Resolved), )}
-                            No incidents to display
+                            No incidents reported.
                           {:else}
                             {#each incidents as incident}
                               {#if !incident.entries.some((entry) => entry.status === Indicators.Resolved)}
@@ -1395,7 +1395,7 @@
                           class="p-10 text-black text-center"
                           style="font-size: 16px"
                         >
-                          No historical data available
+                          No historical data available.
                         </p>
                       {/if}
                       {#each incidents as incident}
