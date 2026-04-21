@@ -119,7 +119,6 @@
                   Schedule
                 </TabsTrigger>
               </TabsList>
-              <TabsContent value="tab-4"></TabsContent>
               <TabsContent value="tab-5">
                 <NotSchedules />
               </TabsContent>
