@@ -32,11 +32,6 @@
 </footer>
 
 <style>
-  :global(body) {
-    margin: 0;
-    padding: 0;
-  }
-
   .logo {
     margin-bottom: 5px;
   }
@@ -47,7 +42,7 @@
     color: #1a1f36;
     padding: 60px 40px 30px;
     overflow: hidden;
-    border-top: 1px solid #eee;
+    border: 1px solid #eee;
   }
 
   footer::before {
