@@ -1181,7 +1181,7 @@
                         <div class="left">
                           <h2>System status</h2>
                           {#if monitors.length < 3 && monitors.length === 0}
-                            No monitors available
+                            No monitors to display 
                           {:else if monitors.length === 0}
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -1207,7 +1207,7 @@
                               </path>
                             </svg>
                           {:else if monitors.length === 0}
-                            No monitors available
+                            No monitors to display
                           {:else}
                             {#each monitors as status}
                               <div class="status-card">
