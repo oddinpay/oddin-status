@@ -54,7 +54,6 @@
     height: 120px;
     background: #0c2c4b;
     z-index: -1;
-    border-top: 1px solid #e0e0e0;
   }
 
   .footer-content {
