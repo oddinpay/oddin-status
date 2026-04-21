@@ -1351,7 +1351,7 @@
                                 </circle>
                               </svg>
                             {:else if maintenances.length === 0 || maintenances.every( (incident) => incident.entries.some((entry) => entry.status === Indicators.Completed || entry.status === Indicators.Cancelled), )}
-                              No ongoing maintenance
+                              No maintenance scheduled.
                             {:else if schedulesQuery.data}
                               {#each maintenances as maintenance}
                                 {#if maintenance.entries.length > 0}
