@@ -42,7 +42,6 @@
     color: #1a1f36;
     padding: 60px 40px 30px;
     overflow: hidden;
-    border-top: 1px solid #eee;
   }
 
   footer::before {
@@ -53,10 +52,12 @@
     width: 100%;
     height: 120px;
     background: #0c2c4b;
-    z-index: -1;
+    z-index: 0;
+    border-top: 1px solid #eee;
   }
 
   .footer-content {
+    position: relative;
     max-width: 1200px;
     margin: auto;
     display: flex;
