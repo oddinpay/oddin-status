@@ -1395,7 +1395,7 @@
                           class="p-10 text-black text-center"
                           style="font-size: 16px"
                         >
-                          No historical incidents available.
+                          No historical data available.
                         </p>
                       {/if}
                       {#each incidents as incident}
