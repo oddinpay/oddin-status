@@ -1181,7 +1181,7 @@
                         <div class="left">
                           <h2>System status</h2>
                           {#if monitors.length < 3 && monitors.length === 0}
-                            No monitors available.
+                            No monitors available
                           {:else if monitors.length === 0}
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -1351,7 +1351,7 @@
                                 </circle>
                               </svg>
                             {:else if maintenances.length === 0 || maintenances.every( (incident) => incident.entries.some((entry) => entry.status === Indicators.Completed || entry.status === Indicators.Cancelled), )}
-                              No maintenance windows available.
+                              No ongoing maintenance
                             {:else if schedulesQuery.data}
                               {#each maintenances as maintenance}
                                 {#if maintenance.entries.length > 0}
