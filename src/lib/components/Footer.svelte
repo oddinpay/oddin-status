@@ -32,6 +32,11 @@
 </footer>
 
 <style>
+  :global(body) {
+    margin: 0;
+    padding: 0;
+  }
+
   .logo {
     margin-bottom: 5px;
   }
