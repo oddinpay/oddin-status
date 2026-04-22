@@ -104,7 +104,7 @@
     type ProbeMap = Record<string, ApiData>;
     let probeMap = $state<ProbeMap>({});
 
-    const monitorCount = useQuery(api.status.count, {});
+    const monitorCount = useQuery(api.schedules.count, {});
     let totalCount = $state(0);
 
     $effect(() => {
