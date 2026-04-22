@@ -128,13 +128,11 @@
     type TableRow = Payment & Partial<ConvexMonitor>;
 
     const apiKey = env.PUBLIC_API_KEY;
-
     const monitors = useQuery(api.status.get, {
         apiKey,
     });
 
     const data: Payment[] = [];
-
     const allData = $derived<TableRow[]>([
         ...data,
         ...(monitors.data ?? []).map((m) => ({
