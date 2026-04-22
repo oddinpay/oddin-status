@@ -156,7 +156,7 @@
                     </Form.Field>
                 </div>
 
-                <div class="space-y-2">
+                <!-- <div class="space-y-2">
                     <Form.Field {form} name="title">
                         <Form.Control>
                             {#snippet children({ props })}
@@ -176,7 +176,7 @@
                         </Form.Control>
                         <Form.FieldErrors />
                     </Form.Field>
-                </div>
+                </div> -->
 
                 <div class="space-y-2">
                     <Form.Field {form} name="status">
