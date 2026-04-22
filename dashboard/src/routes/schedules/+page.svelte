@@ -21,6 +21,7 @@
   import { api } from "../../convex/_generated/api";
   import { onMount, onDestroy } from "svelte";
   import { browser } from "$app/environment";
+  import ScheduleData from "$lib/components/ScheduleData.svelte";
 
   let currentTab = "tab-3";
   let requestID: number;
@@ -204,7 +205,6 @@
                   Schedule
                 </TabsTrigger>
               </TabsList>
-              <TabsContent value="tab-5"></TabsContent>
 
               <TabsContent
                 class="flex items-center hover:opacity-95 justify-center min-h-50"
@@ -219,12 +219,11 @@
                 {:else if scheduleCount.error}
                   <NotSchedules />
                 {:else if totalCount > 0}
-                  test
+                  <ScheduleData />
                 {:else}
                   <NotSchedules />
                 {/if}
               </TabsContent>
-
               <TabsContent value="tab-6">
                 <Schedules />
               </TabsContent>
