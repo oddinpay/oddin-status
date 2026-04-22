@@ -89,13 +89,12 @@
               {#snippet children({ props })}
                 <Form.Label class="font-bold text-gray-300">ID</Form.Label>
                 <Input
-                  class="border-zinc-700 bg-transparent text-white"
+                  class="border-zinc-700  disabled:pointer-events-none disabled:cursor-all-scroll bg-transparent text-white"
                   placeholder="60f5a3c2e1b2c3d4e5f67890"
                   type="text"
+                  readonly
                   {...props}
                   bind:value={id}
-                  readonly
-                  disabled
                 />
               {/snippet}
             </Form.Control>
@@ -124,9 +123,7 @@
         <Form.Field {form} name="protocol">
           <Form.Control>
             {#snippet children({ props })}
-              <Form.Label class="font-bold text-gray-300"
-                >Protocol</Form.Label
-              >
+              <Form.Label class="font-bold text-gray-300">Protocol</Form.Label>
               <Select.Root
                 type="single"
                 bind:value={$formData.monitorType}

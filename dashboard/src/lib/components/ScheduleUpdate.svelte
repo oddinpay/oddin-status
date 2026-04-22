@@ -165,11 +165,10 @@
                                     for="title">Title</Form.Label
                                 >
                                 <Input
-                                    class=" border-zinc-700 text-white"
+                                    class="border-zinc-700 text-white"
                                     placeholder="Scheduled maintenance for API"
                                     type="text"
                                     readonly
-                                    disabled
                                     {...props}
                                     bind:value={name}
                                 />
