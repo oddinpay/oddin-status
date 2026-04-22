@@ -110,7 +110,7 @@
                 >
                 <Input
                   class=" border-zinc-700 bg-transparent text-white"
-                  placeholder="oddinpay"
+                  placeholder={name}
                   type="text"
                   {...props}
                   bind:value={$formData.name}
