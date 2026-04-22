@@ -100,7 +100,8 @@
             </Form.Control>
             <Form.FieldErrors />
           </Form.Field>
-
+        </div>
+        <div class="space-y-2">
           <Form.Field {form} name="name">
             <Form.Control>
               {#snippet children({ props })}
