@@ -251,7 +251,7 @@
           class="relative col-span-1 rounded-lg border border-border bg-zinc-900 p-8 900:col-span-2 900:min-h-120 900:overflow-y-hidden"
         >
           <TabsContent value="tab-1" class="h-auto min-h-75">
-            <Tabs value="tab-1" class=" items-center">
+            <Tabs value="tab-1" class="items-center">
               <TabsList
                 class="h-auto gap-2 rounded-full border-b border-border bg-zinc-800 px-10 py-2 text-zinc-400"
               >
