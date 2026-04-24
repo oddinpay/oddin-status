@@ -104,12 +104,12 @@
     type ProbeMap = Record<string, ApiData>;
     let probeMap = $state<ProbeMap>({});
 
-    const monitorCount = useQuery(api.schedules.count, {});
+    const scheduleCount = useQuery(api.schedules.count, {});
     let totalCount = $state(0);
 
     $effect(() => {
-        if (monitorCount.data !== undefined) {
-            totalCount = monitorCount.data;
+        if (scheduleCount.data !== undefined) {
+            totalCount = scheduleCount.data;
         } else {
             totalCount = 0;
         }
@@ -122,23 +122,23 @@
 
     type ConvexMonitor = {
         _id: string;
-        name: string;
+        service: string;
     };
 
     type TableRow = Payment & Partial<ConvexMonitor>;
 
     const apiKey = env.PUBLIC_API_KEY;
-    const monitors = useQuery(api.status.get, {
+    const schedule = useQuery(api.schedules.get, {
         apiKey,
     });
 
     const data: Payment[] = [];
     const allData = $derived<TableRow[]>([
         ...data,
-        ...(monitors.data ?? []).map((m) => ({
+        ...(schedule.data ?? []).map((m) => ({
             ...m,
             id: m._id,
-            name: m.name,
+            name: m.service,
         })),
     ]);
 
@@ -468,7 +468,7 @@
     <div class="rounded-md">
         <Table.Root class="stm:w-100">
             <Table.Header>
-                {#if monitors.isLoading}
+                {#if schedule.isLoading}
                     <Table.Row>
                         {#each columns as _}
                             <Table.Head
@@ -499,7 +499,7 @@
                 {/if}
             </Table.Header>
             <Table.Body>
-                {#if monitors.isLoading}
+                {#if schedule.isLoading}
                     {#each Array(totalCount) as _}
                         <Table.Row>
                             {#each columns as _}
@@ -546,7 +546,7 @@
     <div class="flex items-center justify-end space-x-2 pt-4">
         <div class="text-muted-foreground flex-1 text-sm">
             {table.getFilteredSelectedRowModel().rows.length} of
-            {table.getFilteredRowModel().rows.length} monitor(s) selected.
+            {table.getFilteredRowModel().rows.length} schedule(s) selected.
         </div>
         <div class="flex items-center space-x-2">
             <Button

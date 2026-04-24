@@ -18,8 +18,11 @@
   import { api } from "../convex/_generated/api";
   import { page } from "$app/state";
 
+  const apiKey = env.PUBLIC_API_KEY;
   const query = useQuery(api.site.get);
-  const schedulesQuery = useQuery(api.schedules.get);
+  const schedulesQuery = useQuery(api.schedules.get, {
+    apiKey,
+  });
 
   let signin = "https://oddinpay.com/signin";
   let signup = "https://oddinpay.com/signup";
