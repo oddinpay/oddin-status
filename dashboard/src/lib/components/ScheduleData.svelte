@@ -117,12 +117,12 @@
 
     type Payment = {
         id: string;
-        service: string;
+        name: string;
     };
 
     type ConvexMonitor = {
         _id: string;
-        service: string;
+        name: string;
     };
 
     type TableRow = Payment & Partial<ConvexMonitor>;
@@ -138,7 +138,7 @@
         ...(schedule.data ?? []).map((m) => ({
             ...m,
             id: m._id,
-            service: m.service,
+            name: m.service,
         })),
     ]);
 
@@ -232,7 +232,7 @@
                 );
 
                 return renderSnippet(emailSnippet, {
-                    name: row.original.service,
+                    name: row.original.name,
                 });
             },
         },
@@ -305,7 +305,7 @@
             cell: ({ row }) =>
                 renderComponent(DataTableActions, {
                     id: row.original.id,
-                    name: row.original.service,
+                    name: row.original.name,
                 }),
             enableHiding: false,
         },
