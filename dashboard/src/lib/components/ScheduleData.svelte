@@ -226,7 +226,7 @@
                         const { name } = getName();
                         return {
                             render: () =>
-                                `<div class="lowercase truncate max-w-[150px]">${name}</div>`,
+                                `<div class="truncate max-w-[150px]">${name}</div>`,
                         };
                     },
                 );
