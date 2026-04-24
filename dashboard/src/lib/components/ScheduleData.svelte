@@ -108,11 +108,9 @@
             header: "Status",
             cell: ({ row }) => {
                 const statusValue = row.original.status;
-
                 const statusSnippet = createRawSnippet<[{ status: string }]>(
                     (getStatus) => {
                         const { status } = getStatus();
-
                         const themeMap: Record<
                             string,
                             { dot: string; ping: string }
