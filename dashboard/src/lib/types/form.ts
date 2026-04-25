@@ -161,7 +161,7 @@ export const scheduleCreate = z.object({
     .string()
     .trim()
     .min(1, "Title must be at least 1 character long")
-    .max(50, "Title must not exceed 50 characters"),
+    .max(50, "Title must not exceed 50 characters").optional(),
 
   service: z
     .string()
@@ -175,19 +175,21 @@ export const scheduleCreate = z.object({
     })
     .default("Scheduled"),
 
-  // scheduledAt: z.coerce.date(),
-
   note: z
     .string()
     .trim()
     .min(1, "Note must be at least 1 character long")
     .max(180, "Note must not exceed 180 characters")
+
+  // scheduledAt: z.coerce.date(),
+
+
 });
 
 
 
 export const scheduleUpdate = z.object({
-  _id: z.string().trim().optional(),
+  parentId: z.string().trim(),
   service: z
     .string()
     .trim()

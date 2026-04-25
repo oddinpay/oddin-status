@@ -64,11 +64,11 @@ export const actions: Actions = {
         return setError(form, "", "API_KEY environment variable is not set");
       }
 
-      await convex.mutation(api.schedules.patch, {
-        id: form.data._id as any,
+      await convex.mutation(api.schedules.update, {
         apiKey,
+        parentId: form.data.parentId,
         service: form.data.service as string,
-        status: form.data.status as string,
+        status: form.data.status,
         note: form.data.note as string,
       });
     } catch (error) {

@@ -27,7 +27,12 @@
         { class: "text-red-500", label: "Cancelled", value: "Cancelled" },
     ] as const;
 
-    let { id, name, service }: { id: string; name: string; service: string } =
+    let {
+        id,
+        name,
+        service,
+        parentId,
+    }: { id: string; name: string; service: string; parentId: string } =
         $props();
     let open = $state(false);
     let bioLimit = useCharacterLimit(180, "");
@@ -135,6 +140,27 @@
         <form method="POST" class="space-y-5" use:enhance>
             <div class="space-y-4">
                 <div class="space-y-2">
+                    <Form.Field {form} name="parentId">
+                        <Form.Control>
+                            {#snippet children({ props })}
+                                <Form.Label
+                                    class="font-bold text-gray-300"
+                                    for="parentId">ID</Form.Label
+                                >
+                                <Input
+                                    class=" border-zinc-700 text-white"
+                                    placeholder="sc_23kq140p62ena8trgd66m8342n"
+                                    type="text"
+                                    {...props}
+                                    bind:value={parentId}
+                                />
+                            {/snippet}
+                        </Form.Control>
+                        <Form.FieldErrors />
+                    </Form.Field>
+                </div>
+
+                <div class="space-y-2">
                     <Form.Field {form} name="service">
                         <Form.Control>
                             {#snippet children({ props })}
@@ -240,7 +266,7 @@
                     </Form.Field>
                 </div>
                 <Form.Button
-                    formaction="?/create"
+                    formaction="?/update"
                     class="mt-2 w-full cursor-pointer disabled:pointer-events-auto disabled:cursor-not-allowed"
                     type="submit"
                     variant="outline"
@@ -248,7 +274,7 @@
                     >{#if $submitting}
                         <Loader2 class="size-4 animate-spin" />
                     {:else}
-                        Create
+                        Update
                     {/if}
                 </Form.Button>
             </div>

@@ -54,6 +54,7 @@
         name: string;
         status: string;
         service: string;
+        parentId: string;
     };
 
     type ConvexMonitor = {
@@ -251,6 +252,7 @@
                     id: row.original.id,
                     name: row.original.name,
                     service: row.original.service,
+                    parentId: row.original.parentId,
                 }),
             enableHiding: false,
         },

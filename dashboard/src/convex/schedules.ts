@@ -26,7 +26,7 @@ export const post = mutation({
   args: {
     apiKey: v.string(),
     parentId: v.string(),
-    title: v.string(),
+    title: v.optional(v.string()),
     service: v.string(),
     status: v.string(),
     note: v.string(),
@@ -38,7 +38,7 @@ export const post = mutation({
 
     const id = await ctx.db.insert("schedules", {
       parentId: args.parentId,
-      title: args.title,
+      title: args.title ?? "",
       service: args.service,
       status: args.status,
       note: args.note,
@@ -71,10 +71,10 @@ export const getStatusCounts = query({
   }
 });
 
-export const patch = mutation({
+export const update = mutation({
   args: {
-    id: v.id("schedules"),
     apiKey: v.string(),
+    parentId: v.string(),
     service: v.string(),
     status: v.string(),
     note: v.string(),
@@ -83,8 +83,20 @@ export const patch = mutation({
     if (args.apiKey !== process.env.API_KEY) {
       throw new Error("Unauthorized");
     }
-    const { id, apiKey, ...rest } = args;
-    await ctx.db.patch(id, rest);
+
+    const id = await ctx.db.insert("schedules", {
+      title: "", // Title is not updatable, so we set it to empty string to avoid confusion
+      parentId: args.parentId,
+      service: args.service,
+      status: args.status,
+      note: args.note,
+    });
+
+    const doc = await ctx.db.get(id);
+    if (doc) {
+      await scheduleAggregate.insert(ctx, doc);
+    }
+    return id;
   },
 });
 
