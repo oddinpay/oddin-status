@@ -52,7 +52,6 @@ export const post = mutation({
 
 
 export const count = query({
-  args: {},
   handler: async (ctx) => {
     return await scheduleAggregate.count(ctx);
   },
