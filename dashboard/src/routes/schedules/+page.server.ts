@@ -128,7 +128,7 @@ export const actions: Actions = {
 
       const ids = JSON.parse(rawIdData as string);
 
-      await convex.mutation(api.status.deleteBulk, {
+      await convex.mutation(api.schedules.deleteBulk, {
         apiKey,
         id: ids,
       });
