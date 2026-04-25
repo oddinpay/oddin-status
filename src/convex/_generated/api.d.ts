@@ -10,7 +10,6 @@
 
 import type * as schedules from "../schedules.js";
 import type * as site from "../site.js";
-import type * as status from "../status.js";
 
 import type {
   ApiFromModules,
@@ -21,7 +20,6 @@ import type {
 declare const fullApi: ApiFromModules<{
   schedules: typeof schedules;
   site: typeof site;
-  status: typeof status;
 }>;
 
 /**
