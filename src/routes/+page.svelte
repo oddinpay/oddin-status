@@ -547,7 +547,8 @@
             (statusPriority.get(b.status) ?? Infinity),
         );
     });
-    return finalMaintenanceList;
+
+    return finalMaintenanceList.filter((m) => m.entries.length > 0);
   });
 
   // --- styles ---
