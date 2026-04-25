@@ -187,9 +187,11 @@ export const scheduleCreate = z.object({
 });
 
 
-
 export const scheduleUpdate = z.object({
-  parentId: z.string().trim(),
+  parentId: z
+    .string()
+    .trim()
+    .startsWith("sc_", { message: "Parent ID must start with 'sc_'" }),
   service: z
     .string()
     .trim()
