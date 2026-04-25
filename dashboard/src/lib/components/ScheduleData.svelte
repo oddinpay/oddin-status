@@ -35,7 +35,6 @@
     } from "$lib/components/ui/data-table/index.js";
     import { useQuery } from "convex-svelte";
     import { api } from "../../convex/_generated/api";
-    import { env } from "$env/dynamic/public";
     import { toast } from "svelte-sonner";
 
     const scheduleCount = useQuery(api.schedules.count, {});
@@ -65,10 +64,7 @@
 
     type TableRow = Schedule & Partial<ConvexMonitor>;
 
-    const apiKey = env.PUBLIC_API_KEY;
-    const schedule = useQuery(api.schedules.get, {
-        apiKey,
-    });
+    const schedule = useQuery(api.schedules.get, {});
 
     const data: Schedule[] = [];
     const allData = $derived<TableRow[]>([
