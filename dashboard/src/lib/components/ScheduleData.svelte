@@ -107,7 +107,6 @@
         {
             accessorKey: "status",
             header: "Status",
-
             cell: ({ row }) => {
                 const statusValue = row.original.status;
                 const statusSnippet = createRawSnippet<[{ status: string }]>(
