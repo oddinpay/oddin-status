@@ -25,6 +25,7 @@
     import { api } from "../../convex/_generated/api";
 
     const incidents = [
+        { class: "text-gray-500", label: "Scheduled", value: "Scheduled" },
         { class: "text-yellow-500", label: "In Progress", value: "Inprogress" },
         { class: "text-emerald-600", label: "Completed", value: "Completed" },
         { class: "text-red-500", label: "Cancelled", value: "Cancelled" },
@@ -45,6 +46,10 @@
     } = $props();
 
     const visibleIncidents = $derived(() => {
+        if (isParentLocked) {
+            return incidents.filter((i) => i.value === statusProp);
+        }
+
         if (statusProp === "Inprogress") {
             return incidents.filter((i) => i.value === "Completed");
         } else if (statusProp === "Scheduled") {
@@ -95,6 +100,20 @@
     });
 
     $effect(() => {
+        if (isParentLocked) {
+            if (statusProp === "Scheduled") {
+                $formData.status = "Scheduled";
+            } else if (statusProp === "Completed") {
+                $formData.status = "Completed";
+            } else if (statusProp === "Inprogress") {
+                $formData.status = "Inprogress";
+            } else if (statusProp === "Cancelled") {
+                $formData.status = "Cancelled";
+            }
+
+            return;
+        }
+
         if (statusProp === "Scheduled") {
             $formData.status = "Inprogress";
         } else if (statusProp === "Inprogress") {
@@ -126,6 +145,8 @@
             bioLimit.value = "The scheduled maintenance has been completed.";
         } else if ($formData.status === "Cancelled") {
             bioLimit.value = "The scheduled maintenance has been cancelled.";
+        } else if ($formData.status === "Scheduled") {
+            bioLimit.value = `Scheduled maintenance for ${service}`;
         }
     });
 
