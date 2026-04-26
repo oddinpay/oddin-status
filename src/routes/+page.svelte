@@ -548,7 +548,11 @@
         );
     });
 
-    return finalMaintenanceList.filter((m) => m.entries.length > 0);
+    return finalMaintenanceList.filter(
+      (m) =>
+        m.entries.length > 0 &&
+        m.entries.some((e) => e.status === Indicators.Scheduled),
+    );
   });
 
   // --- styles ---
