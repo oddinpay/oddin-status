@@ -51,7 +51,7 @@
 
     const visibleIncidents = $derived(() => {
         if (statusProp === "Inprogress") {
-            return incidents.filter((i) => i.value === "Completed");
+            return incidents.filter((i) => i.value === "Completed" || i.value === "Inprogress");
         } else if (statusProp === "Scheduled") {
             return incidents;
         } else if (statusProp === "Cancelled") {
