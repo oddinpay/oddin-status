@@ -58,7 +58,9 @@
                 (i) => i.value === "Completed" || i.value === "Inprogress",
             );
         } else if (statusProp === "Scheduled") {
-            return incidents;
+            return incidents.filter(
+                (i) => i.value === "Inprogress" || i.value === "Cancelled",
+            );
         } else if (statusProp === "Cancelled") {
             return incidents.filter((i) => i.value === "Cancelled");
         } else if (statusProp === "Completed") {
@@ -73,7 +75,7 @@
 
     const isParentLocked = $derived.by(() => {
         if (!scheduleCount.data) return false;
-        
+
         const relatedSchedules = scheduleCount.data.filter(
             (s) => s.parentId === parentId,
         );
