@@ -47,6 +47,8 @@
     $effect(() => {
         if (statusProp === "Scheduled") {
             $formData.status = "Inprogress";
+        } else if (statusProp === "Inprogress") {
+            $formData.status = "Scheduled";
         } else if (statusProp) {
             $formData.status = statusProp;
         }
@@ -54,9 +56,7 @@
 
     const visibleIncidents = $derived(() => {
         if (statusProp === "Inprogress") {
-            return incidents.filter(
-                (i) => i.value === "Completed" || i.value === "Inprogress",
-            );
+            return incidents.filter((i) => i.value === "Completed");
         } else if (statusProp === "Scheduled") {
             return incidents.filter(
                 (i) => i.value === "Inprogress" || i.value === "Cancelled",
