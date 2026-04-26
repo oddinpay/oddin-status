@@ -21,6 +21,9 @@
         confirmDelete,
     } from "$lib/components/ui/confirm-delete-dialog";
 
+    import { useQuery } from "convex-svelte";
+    import { api } from "../../convex/_generated/api";
+
     const incidents = [
         { class: "text-yellow-500", label: "In Progress", value: "Inprogress" },
         { class: "text-emerald-600", label: "Completed", value: "Completed" },
@@ -58,12 +61,35 @@
             return incidents;
         } else if (statusProp === "Cancelled") {
             return incidents.filter((i) => i.value === "Cancelled");
+        } else if (statusProp === "Completed") {
+            return incidents.filter((i) => i.value === "Completed");
         }
         return incidents;
     });
 
     let open = $state(false);
     let bioLimit = useCharacterLimit(180, "");
+    const scheduleCount = useQuery(api.schedules.get, {});
+
+    const isParentLocked = $derived.by(() => {
+        if (!scheduleCount.data) return false;
+        
+        const relatedSchedules = scheduleCount.data.filter(
+            (s) => s.parentId === parentId,
+        );
+
+        const hasInProgress = relatedSchedules.some(
+            (s) => s.status === "Inprogress",
+        );
+        const hasCompleted = relatedSchedules.some(
+            (s) => s.status === "Completed",
+        );
+        const hasCancelled = relatedSchedules.some(
+            (s) => s.status === "Cancelled",
+        );
+
+        return hasCompleted || hasCancelled || (hasInProgress && hasCompleted);
+    });
 
     const selected = $derived(
         incidents.find((i) => i.value === $formData.status),
@@ -301,7 +327,7 @@
                     class="mt-2 w-full cursor-pointer disabled:pointer-events-auto disabled:cursor-not-allowed"
                     type="submit"
                     variant="outline"
-                    disabled={$submitting}
+                    disabled={$submitting || isParentLocked}
                     >{#if $submitting}
                         <Loader2 class="size-4 animate-spin" />
                     {:else}
