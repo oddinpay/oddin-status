@@ -124,12 +124,23 @@
                   </div>
 
                   <div
-                    class="flex h-80 w-30 360:w-60 xl:w-80 flex-col overflow-hidden rounded-xl border border-zinc-700 shadow-sm"
+                    class="flex h-80 w-30 360:w-60 xl:w-80 flex-col overflow-hidden rounded-xl border border-zinc-700 shadow-sm relative"
                   >
-                    <div class="flex-1 p-6">
+                    <div class="p-6">
                       <h3 class="font-medium text-zinc-300">RSS</h3>
                     </div>
-                    <div class="border-t p-4"></div>
+
+                    <div
+                      class="absolute inset-0 flex items-center justify-center pointer-events-none"
+                    >
+                      <button
+                        class="pointer-events-auto rounded-lg bg-white px-5 py-2 text-sm font-bold text-black hover:bg-zinc-200 active:scale-95"
+                      >
+                        Done
+                      </button>
+                    </div>
+
+                    <div class="mt-auto border-t p-4"></div>
                   </div>
                 </div>
               </TabsContent>
@@ -140,9 +151,7 @@
           class="min-h-62.5 rounded-lg border border-border bg-zinc-900 p-8 900:overflow-y-hidden"
         >
           <TabsContent value="tab-4" class="h-auto min-h-37.5">
-            <p class="text-base font-extralight text-zinc-200">
-              Subscribers
-            </p>
+            <p class="text-base font-extralight text-zinc-200">Subscribers</p>
 
             <Gauge
               colors={{
