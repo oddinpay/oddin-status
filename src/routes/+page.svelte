@@ -1407,7 +1407,7 @@
                       </div>
                     {:else if i === 1}
                       {#if schedulesQuery.isLoading}
-                        <div class="flex-center">
+                        <div class="flex w-full justify-center py-4">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="48"
@@ -1540,14 +1540,6 @@
     {/each}
   {/if}
   <style>
-    .flex-center {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      min-height: 48px;
-    }
-
     #navToggle {
       display: none !important;
     }
