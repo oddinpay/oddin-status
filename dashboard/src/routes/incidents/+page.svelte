@@ -16,6 +16,7 @@
   import Header from "$lib/components/Header.svelte";
   import NotIncidents from "$lib/components/NotIncidents.svelte";
   import Incidents from "$lib/components/Incidents.svelte";
+  import { Gauge } from "$lib/components/ui/gauge";
 
   let currentTab = "tab-2";
 </script>
@@ -129,6 +130,17 @@
             <p class="text-base font-extralight text-zinc-200">
               Active Incidents
             </p>
+            <Gauge
+              colors={{
+                primary: "stroke-yellow-700",
+                secondary: "stroke-yellow-200",
+              }}
+              class="text-white"
+              show_value
+              size="lg"
+              // value={statusCounts.data?.inprogress ?? 0}
+              value={0}
+            />
           </TabsContent>
         </div>
         <div
@@ -136,6 +148,17 @@
         >
           <TabsContent value="tab-2" class="h-auto min-h-37.5">
             <p class="text-base font-extralight text-zinc-200">Incidents</p>
+            <Gauge
+              colors={{
+                primary: "stroke-green-700",
+                secondary: "stroke-green-200",
+              }}
+              class="text-white"
+              show_value
+              size="lg"
+              // value={statusCounts.data?.inprogress ?? 0}
+              value={0}
+            />
           </TabsContent>
         </div>
       </div>
