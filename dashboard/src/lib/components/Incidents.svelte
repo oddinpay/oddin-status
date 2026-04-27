@@ -9,19 +9,19 @@
   import * as Empty from "$lib/components/ui/empty/index.js";
   import ArrowUpRightIcon from "@lucide/svelte/icons/arrow-up-right";
   import Textarea from "$lib/components/ui/textarea.svelte";
-
+  import { incidentCreate } from "$lib/types/form";
   import { useCharacterLimit } from "$lib/hooks/use-character-limit.svelte";
 
   const id = $props.id();
 
   const incidents = [
-    { class: "text-emerald-500", label: "Resolved", value: "i1" },
-    { class: "text-yellow-500", label: "In Progress", value: "i2" },
-    { class: "text-gray-500", label: "Investigating", value: "i3" },
-    { class: "text-red-500", label: "Identified", value: "i4" },
+    { class: "text-emerald-500", label: "Resolved", value: "Resolved" },
+    { class: "text-yellow-500", label: "In Progress", value: "In Progress" },
+    { class: "text-gray-500", label: "Investigating", value: "Investigating" },
+    { class: "text-red-500", label: "Identified", value: "Identified" },
   ] as const;
 
-  let value = $state("i4");
+  let value = $state("Identified");
 
   let name = $state("");
 

@@ -212,3 +212,62 @@ export const scheduleUpdate = z.object({
     .max(180, "Note must not exceed 180 characters")
     .optional(),
 });
+
+
+export const incidentCreate = z.object({
+  _id: z.string().trim().optional(),
+  title: z
+    .string()
+    .trim()
+    .min(1, "Title must be at least 1 character long")
+    .max(50, "Title must not exceed 50 characters").optional(),
+
+  service: z
+    .string()
+    .trim()
+    .min(1, "Service must be at least 1 character long")
+    .max(50, "Service must not exceed 50 characters"),
+
+  status: z
+    .enum(["Identified", "Investigating", "Inprogress", "Resolved"], {
+      message: "Status must be one of: Identified, Investigating, In Progress, Resolved",
+    })
+    .default("Identified"),
+
+  note: z
+    .string()
+    .trim()
+    .min(1, "Note must be at least 1 character long")
+    .max(180, "Note must not exceed 180 characters")
+
+  // scheduledAt: z.coerce.date(),
+
+});
+
+
+export const incidentUpdate = z.object({
+  parentId: z
+    .string()
+    .trim()
+    .startsWith("sc_", { message: "Parent ID must start with 'sc_'" }),
+  service: z
+    .string()
+    .trim()
+    .min(1, "Service must be at least 1 character long")
+    .max(50, "Service must not exceed 50 characters")
+    .optional(),
+
+  status: z
+    .enum(["Inprogress", "Completed", "Cancelled"], {
+      message: "Status must be one of: In Progress, Completed, Cancelled",
+    })
+    .default("Inprogress"),
+
+  note: z
+    .string()
+    .trim()
+    .min(1, "Note must be at least 1 character long")
+    .max(180, "Note must not exceed 180 characters")
+    .optional(),
+});
+
