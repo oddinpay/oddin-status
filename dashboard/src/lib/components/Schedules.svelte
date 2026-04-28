@@ -227,7 +227,7 @@
                               {:else}
                                 <DateRangePicker.Segment
                                   {part}
-                                  class="rounded-5px hover:bg-muted focus:bg-muted focus:text-foreground aria-[valuetext=Empty]:text-muted-foreground focus-visible:ring-0! focus-visible:ring-offset-0! px-1 py-1"
+                                  class="rounded-5px hover:bg-zinc-700 focus:bg-zinc-700 focus:text-foreground aria-[valuetext=Empty]:text-muted-foreground focus-visible:ring-0! focus-visible:ring-offset-0! px-1 py-1"
                                 >
                                   {value}
                                 </DateRangePicker.Segment>
