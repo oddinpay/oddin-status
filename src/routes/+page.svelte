@@ -561,18 +561,6 @@
     return finalMaintenanceList.filter((m) => {
       if (m.entries.some((e) => e.status === Indicators.Scheduled)) return true;
 
-      if (
-        activeTab === "tab-2" &&
-        m.entries.some((e) => e.status === Indicators.Inprogress)
-      )
-        return true;
-
-      if (
-        activeTab === "tab-1" &&
-        m.entries.some((e) => e.status === Indicators.Inprogress)
-      )
-        return true;
-
       return false;
     });
   });
