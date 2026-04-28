@@ -492,14 +492,16 @@
       }
 
       grouped.get(groupId)!.entries.push({
-        time: new Date(sched._creationTime).toLocaleString("en-US", {
-          month: "short",
-          day: "numeric",
-          year: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false,
-        }),
+        time: new Date(sched._creationTime)
+          .toLocaleString("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false,
+          })
+          .replace(",", ""),
         status: indicator as MaintenanceEntry["status"],
         description: sched.note,
       });
