@@ -548,23 +548,15 @@
         );
     });
 
-    // return finalMaintenanceList.filter(
-    //   (m) =>
-    //     m.entries.length > 0 &&
-    //     m.entries.some(
-    //       (e) =>
-    //         e.status === Indicators.Scheduled ||
-    //         e.status === Indicators.Inprogress,
-    //     ),
-    // );
-
-    return finalMaintenanceList.filter((m) => {
-      if (m.entries.some((e) => e.status === Indicators.Scheduled)) return true;
-      if (m.entries.some((e) => e.status === Indicators.Inprogress))
-        return true;
-
-      return false;
-    });
+    return finalMaintenanceList.filter(
+      (m) =>
+        m.entries.length > 0 &&
+        m.entries.some(
+          (e) =>
+            e.status === Indicators.Scheduled ||
+            e.status === Indicators.Inprogress,
+        ),
+    );
   });
 
   // --- styles ---
@@ -1465,7 +1457,6 @@
                           No historical data available.
                         </p>
                       {/if}
-
                       {#each incidents as incident}
                         <div class="incident-card mt-10">
                           <h2>{incident.title}</h2>
