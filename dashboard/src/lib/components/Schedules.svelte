@@ -210,7 +210,7 @@
                     >Datetime</DateRangePicker.Label
                   >
                   <div
-                    class="h-input border border-zinc-700 text-white rounded-input bg-transparent focus-within:border-border-input-hover focus-within:shadow-date-field-focus hover:border-border-input-hover flex w-full select-none items-center px-2 py-3 text-sm tracking-[0.01em]"
+                    class="h-input border border-zinc-700 hover:border hover:border-zinc-700 text-white rounded-input bg-transparent focus-within:border-border-input-hover focus-within:shadow-date-field-focus flex w-full select-none items-center px-2 py-3 text-sm tracking-[0.01em]"
                   >
                     {#each ["start", "end"] as const as type (type)}
                       <DateRangePicker.Input {type}>
