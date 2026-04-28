@@ -1457,6 +1457,7 @@
                           No historical data available.
                         </p>
                       {/if}
+
                       {#each incidents as incident}
                         <div class="incident-card mt-10">
                           <h2>{incident.title}</h2>
