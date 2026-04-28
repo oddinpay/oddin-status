@@ -482,6 +482,7 @@
       const statusKey = sched.status as keyof typeof Indicators;
       const indicator = Indicators[statusKey];
       const groupId = sched.parentId;
+      let datetime = sched._creationTime;
 
       if (!grouped.has(groupId)) {
         grouped.set(groupId, {
@@ -491,7 +492,7 @@
       }
 
       grouped.get(groupId)!.entries.push({
-        time: new Date(sched._creationTime).toLocaleString("en-US", {
+        time: new Date(datetime).toLocaleString("en-US", {
           month: "short",
           day: "numeric",
           year: "numeric",
