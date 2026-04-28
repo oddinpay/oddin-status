@@ -247,10 +247,10 @@
                     {/each}
 
                     <DateRangePicker.Trigger
-                      class=" text-foreground/60 hover:bg-muted active:bg-dark-10 ml-auto inline-flex size-8 items-center justify-center rounded-5px transition-all"
+                      class="text-foreground/60  hover:bg-zinc-700 active:bg-dark-10 ml-auto inline-flex size-8 items-center justify-center rounded-5px"
                     >
                       <CalendarBlank
-                        class="size-6 cursor-pointer text-white hover:text-black"
+                        class="size-6 cursor-pointer hover:opacity-85 text-white hover:text-white"
                       />
                     </DateRangePicker.Trigger>
                   </div>
@@ -261,7 +261,7 @@
                     class="z-50 cursor-pointer ipse:data-[state=open]:scale-85 md:data-[state=open]:scale-95 data-[state=open]:scale-85"
                   >
                     <DateRangePicker.Calendar
-                      class="rounded-15px border-dark-10 bg-background-alt shadow-popover mt-6 border  stm:p-5 p-2"
+                      class="rounded-15px border-dark-10 bg-background-alt shadow-popover mt-6 border stm:p-5 p-2"
                     >
                       {#snippet children({ months, weekdays })}
                         <DateRangePicker.Header
