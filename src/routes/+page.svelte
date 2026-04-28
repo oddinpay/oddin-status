@@ -560,6 +560,8 @@
 
     return finalMaintenanceList.filter((m) => {
       if (m.entries.some((e) => e.status === Indicators.Scheduled)) return true;
+      if (m.entries.some((e) => e.status === Indicators.Inprogress))
+        return true;
 
       return false;
     });
