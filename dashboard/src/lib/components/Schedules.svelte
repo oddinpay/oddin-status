@@ -258,7 +258,7 @@
                     side="left"
                     align="center"
                     sideOffset={-35}
-                    class="z-50  ipse:data-[state=open]:scale-85 md:data-[state=open]:scale-95 data-[state=open]:scale-85"
+                    class="z-50 cursor-pointer ipse:data-[state=open]:scale-85 md:data-[state=open]:scale-95 data-[state=open]:scale-85"
                   >
                     <DateRangePicker.Calendar
                       class="rounded-15px border-dark-10 bg-background-alt shadow-popover mt-6 border  stm:p-5 p-2"
