@@ -210,7 +210,7 @@
                     >Datetime</DateRangePicker.Label
                   >
                   <div
-                    class="h-input rounded-input border-border-input bg-background text-foreground focus-within:border-border-input-hover focus-within:shadow-date-field-focus hover:border-border-input-hover flex w-full select-none items-center border px-2 py-3 text-sm tracking-[0.01em]"
+                    class="h-input border border-zinc-700 text-white rounded-input bg-transparent focus-within:border-border-input-hover focus-within:shadow-date-field-focus hover:border-border-input-hover flex w-full select-none items-center px-2 py-3 text-sm tracking-[0.01em]"
                   >
                     {#each ["start", "end"] as const as type (type)}
                       <DateRangePicker.Input {type}>
@@ -247,14 +247,21 @@
                     {/each}
 
                     <DateRangePicker.Trigger
-                      class="text-foreground/60 hover:bg-muted active:bg-dark-10 ml-auto inline-flex size-8 items-center justify-center rounded-5px transition-all"
+                      class="  text-foreground/60 hover:bg-muted active:bg-dark-10 ml-auto inline-flex size-8 items-center justify-center rounded-5px transition-all"
                     >
-                      <CalendarBlank class="size-6" />
+                      <CalendarBlank
+                        class="size-6 cursor-pointer text-white hover:text-black"
+                      />
                     </DateRangePicker.Trigger>
                   </div>
-                  <DateRangePicker.Content sideOffset={6} class="z-50">
+                  <DateRangePicker.Content
+                    side="left"
+                    align="center"
+                    sideOffset={-30}
+                    class="z-50  ipse:data-[state=open]:scale-85 md:data-[state=open]:scale-95 data-[state=open]:scale-85"
+                  >
                     <DateRangePicker.Calendar
-                      class="rounded-15px border-dark-10 bg-background-alt shadow-popover mt-6 border p-5.5"
+                      class="rounded-15px border-dark-10 bg-background-alt shadow-popover mt-6 border  stm:p-5 p-2"
                     >
                       {#snippet children({ months, weekdays })}
                         <DateRangePicker.Header
