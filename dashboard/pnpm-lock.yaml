@@ -84,6 +84,9 @@ importers:
       lucide-svelte:
         specifier: ^0.545.0
         version: 0.545.0(svelte@5.53.12)
+      phosphor-svelte:
+        specifier: ^3.1.0
+        version: 3.1.0(svelte@5.53.12)(vite@8.0.0(@types/node@25.6.0)(esbuild@0.27.0)(jiti@2.6.1))
       prettier:
         specifier: ^3.6.2
         version: 3.8.1
@@ -1703,6 +1706,15 @@ packages:
 
   pathe@2.0.3:
     resolution: {integrity: sha512-WUjGcAqP1gQacoQe+OBJsFA7Ld4DyXuUIjZ5cc75cLHvJ7dtNsTugphxIADwspS+AraAUePCKrSVtPLFj/F88w==}
+
+  phosphor-svelte@3.1.0:
+    resolution: {integrity: sha512-nldtxx+XCgNREvrb7O5xgDsefytXpSkPTx8Rnu3f2qQCUZLDV1rLxYSd2Jcwckuo9lZB1qKMqGR17P4UDC0PrA==}
+    peerDependencies:
+      svelte: ^5.0.0 || ^5.0.0-next.96
+      vite: '>=5'
+    peerDependenciesMeta:
+      vite:
+        optional: true
 
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
@@ -3447,6 +3459,14 @@ snapshots:
   path-parse@1.0.7: {}
 
   pathe@2.0.3: {}
+
+  phosphor-svelte@3.1.0(svelte@5.53.12)(vite@8.0.0(@types/node@25.6.0)(esbuild@0.27.0)(jiti@2.6.1)):
+    dependencies:
+      estree-walker: 3.0.3
+      magic-string: 0.30.21
+      svelte: 5.53.12
+    optionalDependencies:
+      vite: 8.0.0(@types/node@25.6.0)(esbuild@0.27.0)(jiti@2.6.1)
 
   picocolors@1.1.1: {}
 
