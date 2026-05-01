@@ -50,19 +50,33 @@
     $formData.service = service;
   });
 
-  $effect(() => {
+  // $effect(() => {
+  //   const name = service.trim().toUpperCase() || "API";
+
+  //   if ($formData.status === "Inprogress") {
+  //     bioLimit.value =
+  //       "Scheduled maintenance is currently in progress. We will provide updates as necessary.";
+  //   } else if ($formData.status === "Completed") {
+  //     bioLimit.value = "The scheduled maintenance has been completed.";
+  //   } else if ($formData.status === "Cancelled") {
+  //     bioLimit.value = "The scheduled maintenance has been cancelled.";
+  //   } else {
+  //     bioLimit.value = `${name} has an upcoming scheduled maintenance. We will provide updates as necessary.`;
+  //   }
+  // });
+
+  const autoNote = $derived.by(() => {
     const name = service.trim().toUpperCase() || "API";
 
     if ($formData.status === "Inprogress") {
-      bioLimit.value =
-        "Scheduled maintenance is currently in progress. We will provide updates as necessary.";
+      return "Scheduled maintenance is currently in progress. We will provide updates as necessary.";
     } else if ($formData.status === "Completed") {
-      bioLimit.value = "The scheduled maintenance has been completed.";
+      return "The scheduled maintenance has been completed.";
     } else if ($formData.status === "Cancelled") {
-      bioLimit.value = "The scheduled maintenance has been cancelled.";
-    } else {
-      bioLimit.value = `${name} has an upcoming scheduled maintenance. We will provide updates as necessary.`;
+      return "The scheduled maintenance has been cancelled.";
     }
+
+    return `${name} has an upcoming scheduled maintenance. We will provide updates as necessary.`;
   });
 
   const form = superForm(page.data.form, {
@@ -99,7 +113,8 @@
   );
 
   $effect(() => {
-    $formData.note = bioLimit.value;
+    $formData.note = autoNote;
+    bioLimit.value = autoNote;
   });
 </script>
 
@@ -268,7 +283,7 @@
                           class="flex items-center justify-between"
                         >
                           <DateRangePicker.PrevButton
-                            class="rounded-9px bg-background-alt hover:bg-muted inline-flex size-10 items-center justify-center transition-transform active:scale-[0.98]"
+                            class="rounded-9px cursor-pointer bg-background-alt hover:bg-muted inline-flex size-10 items-center justify-center transition-transform active:scale-[0.98]"
                           >
                             <CaretLeft class="size-6" />
                           </DateRangePicker.PrevButton>
@@ -276,7 +291,7 @@
                             class="text-[15px] font-medium"
                           />
                           <DateRangePicker.NextButton
-                            class="rounded-9px bg-background-alt hover:bg-muted inline-flex size-10 items-center justify-center transition-transform active:scale-[0.98]"
+                            class="rounded-9px cursor-pointer bg-background-alt hover:bg-muted inline-flex size-10 items-center justify-center transition-transform active:scale-[0.98]"
                           >
                             <CaretRight class="size-6" />
                           </DateRangePicker.NextButton>
