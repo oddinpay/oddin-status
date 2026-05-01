@@ -12,7 +12,7 @@
 	<PinInput.Cell
 		{cell}
 		class={cn(
-			'border-input bg-background text-foreground ring-offset-background relative flex size-9 items-center justify-center border-y border-e font-medium shadow-xs shadow-black/[.04] transition-all first:rounded-s-lg first:border-s last:rounded-e-lg',
+			'border-input bg-background text-foreground ring-offset-background relative flex size-9 items-center justify-center border-y border-e font-medium shadow-xs shadow-black/4 transition-transform first:rounded-s-lg first:border-s last:rounded-e-lg',
 			{ 'border-ring ring-ring/30 z-10 border ring-2 ring-offset-2': cell.isActive }
 		)}
 	>

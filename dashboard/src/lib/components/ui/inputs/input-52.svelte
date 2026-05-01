@@ -53,7 +53,7 @@
 		aria-label="Password strength"
 	>
 		<div
-			class={cn(`h-full transition-all duration-500 ease-out`, passwordStrength.strengthColor)}
+			class={cn(`h-full transition-transform duration-500 ease-out`, passwordStrength.strengthColor)}
 			style:width="{(passwordStrength.strengthScore / 4) * 100}%"
 		></div>
 	</div>

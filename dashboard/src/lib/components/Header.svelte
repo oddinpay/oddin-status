@@ -43,15 +43,15 @@
               >
                 <path
                   d="M4 12L20 12"
-                  class="origin-center -translate-y-1.75 transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-x-0 group-aria-expanded:translate-y-0 group-aria-expanded:rotate-315"
+                  class="origin-center -translate-y-1.75 transition-transform duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-x-0 group-aria-expanded:translate-y-0 group-aria-expanded:rotate-315"
                 />
                 <path
                   d="M4 12H20"
-                  class="origin-center transition-all duration-300 ease-[cubic-bezier(.5,.85,0.25,1.8)] group-aria-expanded:rotate-45"
+                  class="origin-center transition-transform duration-300 ease-[cubic-bezier(.5,.85,0.25,1.8)] group-aria-expanded:rotate-45"
                 />
                 <path
                   d="M4 12H20"
-                  class="origin-center translate-y-1.75 transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-y-0 group-aria-expanded:rotate-135"
+                  class="origin-center translate-y-1.75 transition-transform duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-y-0 group-aria-expanded:rotate-135"
                 />
               </svg>
             </Button>

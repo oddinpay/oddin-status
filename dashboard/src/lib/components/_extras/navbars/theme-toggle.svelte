@@ -18,12 +18,12 @@
 		<!-- Note: After dark mode implementation, rely on dark: prefix rather than group-data-[state=on]: -->
 		<MoonIcon
 			size={16}
-			class="shrink-0 scale-0 opacity-0 transition-all group-data-[state=on]:scale-100 group-data-[state=on]:opacity-100"
+			class="shrink-0 scale-0 opacity-0 transition-transform group-data-[state=on]:scale-100 group-data-[state=on]:opacity-100"
 			aria-hidden="true"
 		/>
 		<SunIcon
 			size={16}
-			class="absolute shrink-0 scale-100 opacity-100 transition-all group-data-[state=on]:scale-0 group-data-[state=on]:opacity-0"
+			class="absolute shrink-0 scale-100 opacity-100 transition-transform group-data-[state=on]:scale-0 group-data-[state=on]:opacity-0"
 			aria-hidden="true"
 		/>
 	</Toggle>

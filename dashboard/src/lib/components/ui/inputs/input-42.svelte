@@ -1,13 +1,13 @@
 <script lang="ts">
-	import Label from '$lib/components/ui/label.svelte';
-	import { useLocale } from '$lib/hooks/use-locale.svelte';
-	import { cn } from '$lib/utils.js';
+	import Label from "$lib/components/ui/label.svelte";
+	import { useLocale } from "$lib/hooks/use-locale.svelte";
+	import { cn } from "$lib/utils.js";
 
-	import { getLocalTimeZone, today } from '@internationalized/date';
-	import Calendar from '@lucide/svelte/icons/calendar';
-	import ChevronLeft from '@lucide/svelte/icons/chevron-left';
-	import ChevronRight from '@lucide/svelte/icons/chevron-right';
-	import { type DateRange, DateRangePicker } from 'bits-ui';
+	import { getLocalTimeZone, today } from "@internationalized/date";
+	import Calendar from "@lucide/svelte/icons/calendar";
+	import ChevronLeft from "@lucide/svelte/icons/chevron-left";
+	import ChevronRight from "@lucide/svelte/icons/chevron-right";
+	import { type DateRange, DateRangePicker } from "bits-ui";
 
 	let now = today(getLocalTimeZone());
 	let value: DateRange = $state({ end: undefined, start: undefined });
@@ -26,7 +26,7 @@
 		<div
 			class="border-input bg-background ring-offset-background focus-within:border-ring focus-within:ring-ring/30 inline-flex h-9 w-full items-center overflow-hidden rounded-lg border px-3 py-2 pe-9 text-sm whitespace-nowrap shadow-xs shadow-black/[.04] transition-shadow focus-within:ring-2 focus-within:ring-offset-2 focus-within:outline-hidden disabled:opacity-50"
 		>
-			{#each ['start', 'end'] as const as type (type)}
+			{#each ["start", "end"] as const as type (type)}
 				<DateRangePicker.Input {type}>
 					{#snippet children({ segments })}
 						<!-- eslint-disable-next-line svelte/require-each-key -->
@@ -34,8 +34,8 @@
 							<DateRangePicker.Segment
 								{part}
 								class={[
-									'text-foreground focus:bg-accent data-invalid:focused:bg-destructive focused:aria-[valuetext=Empty]:text-foreground focused:text-foreground data-invalid:aria-[valuetext=Empty]:text-destructive data-invalid:text-destructive aria-[valuetext=Empty]:text-muted-foreground/70 data-invalid:focused:text-white data-invalid:focused:aria-[valuetext=Empty]:text-white inline rounded p-0.5 caret-transparent outline-hidden disabled:cursor-not-allowed disabled:opacity-50',
-									'data-[segment=literal]:text-muted-foreground/70  data-[segment=literal]:px-0'
+									"text-foreground focus:bg-accent data-invalid:focused:bg-destructive focused:aria-[valuetext=Empty]:text-foreground focused:text-foreground data-invalid:aria-[valuetext=Empty]:text-destructive data-invalid:text-destructive aria-[valuetext=Empty]:text-muted-foreground/70 data-invalid:focused:text-white data-invalid:focused:aria-[valuetext=Empty]:text-white inline rounded p-0.5 caret-transparent outline-hidden disabled:cursor-not-allowed disabled:opacity-50",
+									"data-[segment=literal]:text-muted-foreground/70  data-[segment=literal]:px-0",
 								]}
 							>
 								{value}
@@ -43,8 +43,11 @@
 						{/each}
 					{/snippet}
 				</DateRangePicker.Input>
-				{#if type === 'start'}
-					<span aria-hidden="true" class="text-muted-foreground/70 px-2">-</span>
+				{#if type === "start"}
+					<span
+						aria-hidden="true"
+						class="text-muted-foreground/70 px-2">-</span
+					>
 				{/if}
 			{/each}
 		</div>
@@ -67,7 +70,9 @@
 					>
 						<ChevronLeft size={16} />
 					</DateRangePicker.PrevButton>
-					<DateRangePicker.Heading class="grow text-center text-sm font-medium" />
+					<DateRangePicker.Heading
+						class="grow text-center text-sm font-medium"
+					/>
 					<DateRangePicker.NextButton
 						class="text-muted-foreground/80 ring-offset-background hover:bg-accent hover:text-foreground flex size-9 items-center justify-center rounded-lg transition-shadow"
 					>
@@ -75,11 +80,17 @@
 					</DateRangePicker.NextButton>
 				</header>
 
-				<div class="flex flex-col space-y-4 pt-4 sm:flex-row sm:space-y-0 sm:space-x-4">
+				<div
+					class="flex flex-col space-y-4 pt-4 sm:flex-row sm:space-y-0 sm:space-x-4"
+				>
 					{#each months as month (month.value)}
-						<DateRangePicker.Grid class="w-fit border-collapse space-y-1 select-none">
+						<DateRangePicker.Grid
+							class="w-fit border-collapse space-y-1 select-none"
+						>
 							<DateRangePicker.GridHead>
-								<DateRangePicker.GridRow class="flex w-full justify-between">
+								<DateRangePicker.GridRow
+									class="flex w-full justify-between"
+								>
 									{#each weekdays as day (day)}
 										<DateRangePicker.HeadCell
 											class="text-muted-foreground/80 size-9 rounded-lg p-0 text-xs font-medium"
@@ -91,31 +102,33 @@
 							</DateRangePicker.GridHead>
 
 							<DateRangePicker.GridBody class="[&_td]:px-0">
-								{#each month.weeks as weekDates (weekDates.join('-'))}
-									<DateRangePicker.GridRow class="flex w-full">
+								{#each month.weeks as weekDates (weekDates.join("-"))}
+									<DateRangePicker.GridRow
+										class="flex w-full"
+									>
 										{#each weekDates as date (date.day)}
 											<DateRangePicker.Cell
 												{date}
 												month={month.value}
 												class={cn(
-													'text-foreground ring-offset-background data-focus-visible:border-ring hover:bg-accent data-selected:bg-accent hover:text-foreground data-selected:text-foreground data-focus-visible:ring-ring/30 data-invalid:data-selection-end:[&:not([data-hover])]:bg-destructive data-invalid:data-selection-start:[&:not([data-hover])]:bg-destructive data-selection-end:[&:not([data-hover])]:bg-primary data-selection-start:[&:not([data-hover])]:bg-primary data-invalid:data-selection-end:[&:not([data-hover])]:text-destructive-foreground data-invalid:data-selection-start:[&:not([data-hover])]:text-destructive-foreground data-selection-end:[&:not([data-hover])]:text-primary-foreground data-selection-start:[&:not([data-hover])]:text-primary-foreground relative flex size-9 items-center justify-center rounded-lg border border-transparent p-0 text-sm font-normal whitespace-nowrap [transition-property:border-radius,box-shadow] duration-150 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-30 data-focus-visible:z-10 data-focus-visible:ring-2 data-focus-visible:ring-offset-2 data-focus-visible:outline-hidden data-invalid:bg-red-100 data-selected:rounded-none data-selection-end:rounded-e-lg data-selection-start:rounded-s-lg data-unavailable:pointer-events-none data-unavailable:line-through data-unavailable:opacity-30',
+													"text-foreground ring-offset-background data-focus-visible:border-ring hover:bg-accent data-selected:bg-accent hover:text-foreground data-selected:text-foreground data-focus-visible:ring-ring/30 data-invalid:data-selection-end:[&:not([data-hover])]:bg-destructive data-invalid:data-selection-start:[&:not([data-hover])]:bg-destructive data-selection-end:[&:not([data-hover])]:bg-primary data-selection-start:[&:not([data-hover])]:bg-primary data-invalid:data-selection-end:[&:not([data-hover])]:text-destructive-foreground data-invalid:data-selection-start:[&:not([data-hover])]:text-destructive-foreground data-selection-end:[&:not([data-hover])]:text-primary-foreground data-selection-start:[&:not([data-hover])]:text-primary-foreground relative flex size-9 items-center justify-center rounded-lg border border-transparent p-0 text-sm font-normal whitespace-nowrap [transition-property:border-radius,box-shadow] duration-150 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-30 data-focus-visible:z-10 data-focus-visible:ring-2 data-focus-visible:ring-offset-2 data-focus-visible:outline-hidden data-invalid:bg-red-100 data-selected:rounded-none data-selection-end:rounded-e-lg data-selection-start:rounded-s-lg data-unavailable:pointer-events-none data-unavailable:line-through data-unavailable:opacity-30",
 													date.compare(now) === 0 &&
-														'after:bg-primary data-selection-end:[&:not([data-hover])]:after:bg-background data-selection-start:[&:not([data-hover])]:after:bg-background after:pointer-events-none after:absolute after:start-1/2 after:bottom-1 after:z-10 after:size-[3px] after:-translate-x-1/2 after:rounded-full'
+														"after:bg-primary data-selection-end:[&:not([data-hover])]:after:bg-background data-selection-start:[&:not([data-hover])]:after:bg-background after:pointer-events-none after:absolute after:start-1/2 after:bottom-1 after:z-10 after:size-[3px] after:-translate-x-1/2 after:rounded-full",
 												)}
 											>
 												<DateRangePicker.Day
 													class={cn(
-														'text-foreground ring-offset-background relative flex size-9 items-center justify-center rounded-lg border border-transparent p-0 text-sm font-normal whitespace-nowrap [transition-property:border-radius,box-shadow] duration-150',
-														'disabled:pointer-events-none data-outside-month:pointer-events-none',
-														'data-highlighted:bg-accent data-selected:bg-accent',
-														'data-selection-end:bg-primary data-selection-start:bg-primary',
-														'data-selection-end:text-primary-foreground data-selection-start:text-primary-foreground',
-														'data-highlighted:rounded-none data-selection-end:rounded-e-lg data-selection-start:rounded-s-lg',
-														'focus-visible:ring-ring/30 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-hidden'
+														"text-foreground ring-offset-background relative flex size-9 items-center justify-center rounded-lg border border-transparent p-0 text-sm font-normal whitespace-nowrap [transition-property:border-radius,box-shadow] duration-150",
+														"disabled:pointer-events-none data-outside-month:pointer-events-none",
+														"data-highlighted:bg-accent data-selected:bg-accent",
+														"data-selection-end:bg-primary data-selection-start:bg-primary",
+														"data-selection-end:text-primary-foreground data-selection-start:text-primary-foreground",
+														"data-highlighted:rounded-none data-selection-end:rounded-e-lg data-selection-start:rounded-s-lg",
+														"focus-visible:ring-ring/30 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-hidden",
 													)}
 												>
 													<div
-														class="bg-primary data-selected:bg-background absolute start-1/2 bottom-1 hidden size-[3px] -translate-x-1/2 rounded-full transition-all group-data-today:block"
+														class="bg-primary data-selected:bg-background absolute inset-s-1/2 bottom-1 hidden size-0.75 -translate-x-1/2 rounded-full transition-transform group-data-today:block"
 													></div>
 													{date.day}
 												</DateRangePicker.Day>
@@ -130,7 +143,11 @@
 			{/snippet}
 		</DateRangePicker.Calendar>
 	</DateRangePicker.Content>
-	<p class="text-muted-foreground mt-2 text-xs" role="region" aria-live="polite">
+	<p
+		class="text-muted-foreground mt-2 text-xs"
+		role="region"
+		aria-live="polite"
+	>
 		Built with
 		<a
 			class="hover:text-foreground underline"

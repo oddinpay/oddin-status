@@ -1,20 +1,25 @@
 <script lang="ts">
-	import type { DateValue } from '@internationalized/date';
+	import type { DateValue } from "@internationalized/date";
 
-	import Label from '../ui/label.svelte';
-	import { useLocale } from '$lib/hooks/use-locale.svelte';
+	import Label from "../ui/label.svelte";
+	import { useLocale } from "$lib/hooks/use-locale.svelte";
 
-	import CalendarIcon from '@lucide/svelte/icons/calendar';
-	import ChevronLeft from '@lucide/svelte/icons/chevron-left';
-	import ChevronRight from '@lucide/svelte/icons/chevron-right';
-	import { cn } from '$lib/utils';
-	import { DatePicker } from 'bits-ui';
+	import CalendarIcon from "@lucide/svelte/icons/calendar";
+	import ChevronLeft from "@lucide/svelte/icons/chevron-left";
+	import ChevronRight from "@lucide/svelte/icons/chevron-right";
+	import { cn } from "$lib/utils";
+	import { DatePicker } from "bits-ui";
 
 	let value: DateValue | undefined = $state(undefined);
 	let locale = useLocale();
 </script>
 
-<DatePicker.Root locale={locale.locale} bind:value weekdayFormat="short" fixedWeeks={true}>
+<DatePicker.Root
+	locale={locale.locale}
+	bind:value
+	weekdayFormat="short"
+	fixedWeeks={true}
+>
 	<div class="*:not-first:mt-2">
 		<Label class="text-foreground text-sm font-medium">Date picker</Label>
 		<div class="flex">
@@ -27,8 +32,8 @@
 							<DatePicker.Segment
 								{part}
 								class={[
-									'text-foreground focus:bg-accent data-invalid:focused:bg-destructive focused:aria-[valuetext=Empty]:text-foreground focused:text-foreground data-invalid:aria-[valuetext=Empty]:text-destructive data-invalid:text-destructive aria-[valuetext=Empty]:text-muted-foreground/70 data-invalid:focused:text-white data-invalid:focused:aria-[valuetext=Empty]:text-white inline rounded p-0.5 caret-transparent outline-hidden disabled:cursor-not-allowed disabled:opacity-50',
-									'data-[segment=literal]:text-muted-foreground/70 data-[segment=literal]:px-0'
+									"text-foreground focus:bg-accent data-invalid:focused:bg-destructive focused:aria-[valuetext=Empty]:text-foreground focused:text-foreground data-invalid:aria-[valuetext=Empty]:text-destructive data-invalid:text-destructive aria-[valuetext=Empty]:text-muted-foreground/70 data-invalid:focused:text-white data-invalid:focused:aria-[valuetext=Empty]:text-white inline rounded p-0.5 caret-transparent outline-hidden disabled:cursor-not-allowed disabled:opacity-50",
+									"data-[segment=literal]:text-muted-foreground/70 data-[segment=literal]:px-0",
 								]}
 							>
 								{value}
@@ -49,24 +54,34 @@
 		>
 			<DatePicker.Calendar class="w-fit p-2">
 				{#snippet children({ months, weekdays })}
-					<DatePicker.Header class="flex w-full items-center gap-1 pb-1">
+					<DatePicker.Header
+						class="flex w-full items-center gap-1 pb-1"
+					>
 						<DatePicker.PrevButton
 							class="text-muted-foreground/80 ring-offset-background hover:bg-accent hover:text-foreground flex size-9 items-center justify-center rounded-lg transition-shadow"
 						>
 							<ChevronLeft size={16} />
 						</DatePicker.PrevButton>
-						<DatePicker.Heading class="grow text-center text-sm font-medium" />
+						<DatePicker.Heading
+							class="grow text-center text-sm font-medium"
+						/>
 						<DatePicker.NextButton
 							class="text-muted-foreground/80 ring-offset-background hover:bg-accent hover:text-foreground flex size-9 items-center justify-center rounded-lg transition-shadow"
 						>
 							<ChevronRight size={16} />
 						</DatePicker.NextButton>
 					</DatePicker.Header>
-					<div class="flex flex-col space-y-4 pt-4 sm:flex-row sm:space-y-0 sm:space-x-4">
+					<div
+						class="flex flex-col space-y-4 pt-4 sm:flex-row sm:space-y-0 sm:space-x-4"
+					>
 						{#each months as month (month.value)}
-							<DatePicker.Grid class="w-fit border-collapse space-y-1 select-none">
+							<DatePicker.Grid
+								class="w-fit border-collapse space-y-1 select-none"
+							>
 								<DatePicker.GridHead>
-									<DatePicker.GridRow class="flex w-full justify-between">
+									<DatePicker.GridRow
+										class="flex w-full justify-between"
+									>
 										{#each weekdays as day (day)}
 											<DatePicker.HeadCell
 												class="text-muted-foreground/80 size-9 rounded-lg p-0 text-xs font-medium"
@@ -87,17 +102,17 @@
 												>
 													<DatePicker.Day
 														class={cn(
-															'text-foreground ring-offset-background relative flex size-9 items-center justify-center rounded-lg border border-transparent p-0 text-sm font-normal whitespace-nowrap [transition-property:border-radius,box-shadow] duration-150',
-															'disabled:pointer-events-none data-outside-month:pointer-events-none',
-															'data-highlighted:bg-accent data-selected:bg-accent',
-															'data-selection-end:bg-primary data-selection-start:bg-primary',
-															'data-selection-end:text-primary-foreground data-selection-start:text-primary-foreground',
-															'data-highlighted:rounded-none data-selection-end:rounded-e-lg data-selection-start:rounded-s-lg',
-															'focus-visible:ring-ring/30 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-hidden'
+															"text-foreground ring-offset-background relative flex size-9 items-center justify-center rounded-lg border border-transparent p-0 text-sm font-normal whitespace-nowrap [transition-property:border-radius,box-shadow] duration-150",
+															"disabled:pointer-events-none data-outside-month:pointer-events-none",
+															"data-highlighted:bg-accent data-selected:bg-accent",
+															"data-selection-end:bg-primary data-selection-start:bg-primary",
+															"data-selection-end:text-primary-foreground data-selection-start:text-primary-foreground",
+															"data-highlighted:rounded-none data-selection-end:rounded-e-lg data-selection-start:rounded-s-lg",
+															"focus-visible:ring-ring/30 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-hidden",
 														)}
 													>
 														<div
-															class="bg-primary data-selected:bg-background absolute start-1/2 bottom-1 hidden size-[3px] -translate-x-1/2 rounded-full transition-all group-data-today:block"
+															class="bg-primary data-selected:bg-background absolute inset-s-1/2 bottom-1 hidden size-0.75 -translate-x-1/2 rounded-full transition-transform group-data-today:block"
 														></div>
 														{date.day}
 													</DatePicker.Day>
