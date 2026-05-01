@@ -474,6 +474,8 @@
   });
 
   let maintenances: Maintenance[] = $derived.by(() => {
+    $clock;
+
     const rawData = schedulesQuery.data;
 
     if (!rawData) return [];
