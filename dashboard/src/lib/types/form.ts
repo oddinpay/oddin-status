@@ -182,6 +182,9 @@ export const scheduleCreate = z.object({
     .max(180, "Note must not exceed 180 characters"),
 
   date: z.any()
+    .refine((val) => val !== undefined && val !== null && val !== "", {
+      message: "Date is required and cannot be empty",
+    }),
 
 });
 
