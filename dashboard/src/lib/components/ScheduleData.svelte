@@ -510,7 +510,7 @@
                 {#each table.getRowModel().rows as row (row.id)}
                     <Table.Row
                         data-state={row.getIsSelected() && "selected"}
-                        class="data-[state=selected]:bg-zinc-700/50"
+                        class="data-[state=selected]:bg-zinc-500/50"
                     >
                         {#each row.getVisibleCells() as cell (cell.id)}
                             <Table.Cell

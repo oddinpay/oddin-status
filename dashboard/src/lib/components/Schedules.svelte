@@ -235,7 +235,7 @@
 
               <div class="space-y-2">
                 <input type="hidden" name="date" value={dateRangeString} />
-                <Form.Field {form} name="">
+                <Form.Field {form} name="date">
                   <Form.Control>
                     {#snippet children({ props })}
                       <DateRangePicker.Root
@@ -245,7 +245,7 @@
                         class="flex w-full max-w-full flex-col gap-1.5"
                       >
                         <Form.Label
-                          for=""
+                          for="date"
                           class="block font-bold text-gray-300 select-none text-sm"
                           >Date</Form.Label
                         >
