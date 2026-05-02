@@ -222,7 +222,7 @@
                 >
                   <DateRangePicker.Label
                     class="block font-bold text-gray-300 select-none text-sm"
-                    >Datetime</DateRangePicker.Label
+                    >Date</DateRangePicker.Label
                   >
                   <div
                     class="h-input border border-zinc-700 hover:border hover:border-zinc-700 text-white rounded-input bg-transparent flex w-full select-none items-center px-2 py-3 text-sm tracking-[0.01em]"
