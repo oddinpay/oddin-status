@@ -367,6 +367,7 @@
                       </DateRangePicker.Root>
                     {/snippet}
                   </Form.Control>
+                  <Form.FieldErrors />
                 </Form.Field>
               </div>
 
