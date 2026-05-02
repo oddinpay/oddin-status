@@ -401,47 +401,6 @@
     });
 </script>
 
-<svelte:head>
-    <style>
-        tbody tr:hover td {
-            background-color: #3f3f46;
-            color: white;
-        }
-
-        thead tr:hover th {
-            background-color: #3f3f46;
-            color: white;
-        }
-
-        thead tbody tr td,
-        thead tr th {
-            transition: background-color 0.2s ease;
-        }
-
-        thead tr th:last-child,
-        tbody tr td:last-child {
-            width: 1%;
-            white-space: nowrap;
-            padding-right: 1rem;
-        }
-
-        button:disabled {
-            cursor: not-allowed !important;
-            pointer-events: auto !important;
-            opacity: 0.5;
-        }
-
-        th:nth-child(1),
-        td:nth-child(1),
-        th:nth-child(2),
-        td:nth-child(2),
-        th:last-child,
-        td:last-child {
-            text-align: center;
-        }
-    </style>
-</svelte:head>
-
 <div class="-mb-8 w-full">
     <div class="flex items-center justify-end py-4">
         <div class="relative">
