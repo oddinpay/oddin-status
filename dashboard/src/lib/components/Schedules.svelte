@@ -80,21 +80,6 @@
     $formData.service = service;
   });
 
-  // $effect(() => {
-  //   const name = service.trim().toUpperCase() || "API";
-
-  //   if ($formData.status === "Inprogress") {
-  //     bioLimit.value =
-  //       "Scheduled maintenance is currently in progress. We will provide updates as necessary.";
-  //   } else if ($formData.status === "Completed") {
-  //     bioLimit.value = "The scheduled maintenance has been completed.";
-  //   } else if ($formData.status === "Cancelled") {
-  //     bioLimit.value = "The scheduled maintenance has been cancelled.";
-  //   } else {
-  //     bioLimit.value = `${name} has an upcoming scheduled maintenance. We will provide updates as necessary.`;
-  //   }
-  // });
-
   const autoNote = $derived.by(() => {
     const name = service.trim().toUpperCase() || "API";
 
@@ -146,7 +131,6 @@
 
   $effect(() => {
     $formData.note = autoNote;
-    bioLimit.value = autoNote;
   });
 </script>
 
@@ -458,7 +442,7 @@
                           {...props}
                           id="note"
                           class=" border-zinc-700 text-white"
-                          bind:value={bioLimit.value}
+                          bind:value={$formData.note}
                           maxlength={bioLimit.maxLength}
                           placeholder="Write a few sentences about incident..."
                           aria-describedby="{id}-left-textarea"
