@@ -54,11 +54,8 @@
     return "";
   });
 
-  const incidents = [
+  const schedules = [
     { class: "text-gray-500", label: "Scheduled", value: "Scheduled" },
-    // { class: "text-yellow-500", label: "In Progress", value: "Inprogress" },
-    // { class: "text-emerald-600", label: "Completed", value: "Completed" },
-    // { class: "text-red-500", label: "Cancelled", value: "Cancelled" },
   ] as const;
 
   let open = $state(false);
@@ -67,7 +64,7 @@
   let bioLimit = useCharacterLimit(180, "");
 
   const selected = $derived(
-    incidents.find((i) => i.value === $formData.status),
+    schedules.find((i) => i.value === $formData.status),
   );
 
   $effect(() => {
@@ -133,7 +130,7 @@
   });
 </script>
 
-{#snippet status(item: (typeof incidents)[number])}
+{#snippet status(item: (typeof schedules)[number])}
   <span class="flex items-center gap-2">
     <svg
       width="8"
@@ -413,7 +410,7 @@
                         <Select.Content
                           class="bg-zinc-800  text-white [&_*[data-select-item]]:ps-2 [&_*[data-select-item]]:pe-8 [&_*[data-select-item]>span]:start-auto [&_*[data-select-item]>span]:inset-e-2 [&_*[data-select-item]>span]:flex [&_*[data-select-item]>span]:items-center [&_*[data-select-item]>span]:gap-2 [&_*[data-select-item]>span>svg]:shrink-0"
                         >
-                          {#each incidents as item (item.value)}
+                          {#each schedules as item (item.value)}
                             <Select.Item
                               class="cursor-pointer data-highlighted:bg-zinc-700 data-highlighted:text-white [&_svg:not([class*='text-'])]:text-gray-500"
                               value={item.value}
