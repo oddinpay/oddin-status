@@ -42,6 +42,7 @@ export const actions: Actions = {
         parentId: typeid("sc").toString(),
         title: form.data.title,
         service: form.data.service,
+        date: form.data.date,
         status: form.data.status,
         note: form.data.note,
       });

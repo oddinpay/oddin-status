@@ -28,6 +28,7 @@ export const post = mutation({
     service: v.string(),
     status: v.string(),
     note: v.string(),
+    date: v.string(),
   },
   handler: async (ctx, args) => {
     if (args.apiKey !== process.env.API_KEY) {
@@ -40,6 +41,7 @@ export const post = mutation({
       service: args.service,
       status: args.status,
       note: args.note,
+      date: args.date,
     });
 
     const doc = await ctx.db.get(id);
@@ -82,9 +84,10 @@ export const update = mutation({
     }
 
     const id = await ctx.db.insert("schedules", {
-      title: "", // Title is not updatable, so we set it to empty string to avoid confusion
+      title: "",
       parentId: args.parentId,
       service: args.service,
+      date: "",
       status: args.status,
       note: args.note,
     });
