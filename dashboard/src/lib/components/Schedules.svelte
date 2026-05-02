@@ -26,7 +26,6 @@
 
   function formatDate(d: any) {
     if (!d) return "";
-
     const monthNames = [
       "January",
       "February",
@@ -41,9 +40,7 @@
       "November",
       "December",
     ];
-
     const monthName = monthNames[d.month - 1] || "";
-
     return `${monthName} ${String(d.day).padStart(2, "0")}, ${d.year}`;
   }
 
