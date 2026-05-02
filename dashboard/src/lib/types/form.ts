@@ -179,9 +179,13 @@ export const scheduleCreate = z.object({
     .string()
     .trim()
     .min(1, "Note must be at least 1 character long")
-    .max(180, "Note must not exceed 180 characters")
+    .max(180, "Note must not exceed 180 characters"),
 
-  // scheduledAt: z.coerce.date(),
+
+  // date: z.object({
+  //   start: z.coerce.date(),
+  //   end: z.coerce.date()
+  // })
 
 
 });
