@@ -194,6 +194,36 @@ export const scheduleCreate = z.object({
 });
 
 
+export const scheduleCreate2 = z.object({
+  _id: z.string().trim().optional(),
+  title: z
+    .string()
+    .trim()
+    .min(1, "Title must be at least 1 character long")
+    .max(50, "Title must not exceed 50 characters").optional(),
+
+  service: z
+    .string()
+    .trim()
+    .min(1, "Service must be at least 1 character long")
+    .max(50, "Service must not exceed 50 characters"),
+
+  status: z
+    .enum(["Scheduled", "Inprogress", "Completed", "Cancelled"], {
+      message: "Status must be one of: Scheduled, In Progress, Completed, Cancelled",
+    })
+    .default("Scheduled"),
+
+  note: z
+    .string()
+    .trim()
+    .min(1, "Note must be at least 1 character long")
+    .max(180, "Note must not exceed 180 characters"),
+
+});
+
+
+
 export const scheduleUpdate = z.object({
   parentId: z
     .string()

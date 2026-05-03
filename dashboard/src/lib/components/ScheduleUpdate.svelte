@@ -12,7 +12,7 @@
     import { superForm } from "sveltekit-superforms";
     import { zod4 } from "sveltekit-superforms/adapters";
     import { toast } from "svelte-sonner";
-    import { scheduleCreate } from "$lib/types/form";
+    import { scheduleCreate2 } from "$lib/types/form";
     import Loader2 from "@lucide/svelte/icons/loader-2";
     import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
     import MoreHorizontal from "@lucide/svelte/icons/more-horizontal";
@@ -153,7 +153,7 @@
     const form = superForm(page.data.form, {
         id: `update-schedule-${uid}`,
         resetForm: true,
-        validators: zod4(scheduleCreate),
+        validators: zod4(scheduleCreate2),
         onSubmit: async () => {
             await new Promise((resolve) => setTimeout(resolve, 800));
         },
