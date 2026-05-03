@@ -165,7 +165,6 @@
                 name = "";
                 bioLimit.value = "";
                 open = false;
-                form.reset();
                 toast.success("Schedule updated successfully!");
             } else {
                 open = false;
