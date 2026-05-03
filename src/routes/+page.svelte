@@ -515,15 +515,6 @@
         });
       }
 
-      const localRangeTime = sched.time;
-
-      const localStartDate = sched.date.split(" - ")[0];
-      const localEndDate = sched.date.split(" - ")[1];
-
-      const localStartTime = convertUtcToLocal(localRangeTime.split(" - ")[0]);
-      const localEndTime = convertUtcToLocal(localRangeTime.split(" - ")[1]);
-
-      const formatlocalTime = `${localStartDate} ${localStartTime} - ${localEndDate} ${localEndTime}`;
       const formatcurrentTime = new Date(sched._creationTime)
         .toLocaleString("en-US", {
           month: "short",
@@ -536,8 +527,17 @@
         .replace(/(\d{4}),/, "$1");
 
       const isScheduled = sched.status?.toLowerCase() === "scheduled";
+      let displayTime = formatcurrentTime;
 
-      const displayTime = isScheduled ? formatlocalTime : formatcurrentTime;
+      if (isScheduled && sched.date && sched.time) {
+        const localStartDate = sched.date.split(" - ")[0];
+        const localEndDate = sched.date.split(" - ")[1];
+
+        const localStartTime = convertUtcToLocal(sched.time.split(" - ")[0]);
+        const localEndTime = convertUtcToLocal(sched.time.split(" - ")[1]);
+
+        displayTime = `${localStartDate} ${localStartTime} - ${localEndDate} ${localEndTime}`;
+      }
 
       grouped.get(groupId)!.entries.push({
         time: displayTime,
