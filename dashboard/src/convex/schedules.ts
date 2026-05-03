@@ -63,10 +63,32 @@ export const count = query({
 
 export const getStatusCounts = query({
   handler: async (ctx) => {
+
     const all = await ctx.db.query("schedules").collect();
+    const groups = new Map<string, string[]>();
+
+    all.forEach(s => {
+      const existing = groups.get(s.parentId) || [];
+      groups.set(s.parentId, [...existing, s.status]);
+    });
+
+    const groupValues = Array.from(groups.values());
+    const scheduledCount = groupValues.filter(statuses =>
+      statuses.includes("Scheduled") && statuses.length === 1
+    ).length;
+
+
+    const inprogressCount = groupValues.filter(statuses => {
+      const hasInprogress = statuses.includes("Inprogress");
+      const onlyAllowedStatuses = statuses.every(s =>
+        s === "Inprogress" || s === "Scheduled"
+      );
+      return hasInprogress && onlyAllowedStatuses;
+    }).length;
+
     return {
-      inprogress: all.filter(s => s.status === "Inprogress").length,
-      scheduled: all.filter(s => s.status === "Scheduled").length,
+      inprogress: inprogressCount,
+      scheduled: scheduledCount,
       total: all.length
     };
   }
