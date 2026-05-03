@@ -228,7 +228,7 @@
                 </Form.Field>
               </div>
 
-              <div class="space-y-2">
+              <div class="space-y-1">
                 <Form.Field {form} name="date">
                   <Form.Control>
                     {#snippet children({ props })}
@@ -385,7 +385,69 @@
                 </Form.Field>
               </div>
               <input type="hidden" name="date" value={dateRangeString} />
-              <div class="space-y-2">
+
+              <div class="space-y-1">
+                <Form.Field {form} name="time">
+                  <Form.Control>
+                    {#snippet children({ props })}
+                      <div class="flex w-full max-w-full flex-col gap-1.5">
+                        <Form.Label
+                          for="time"
+                          class="block font-bold text-gray-300 select-none text-sm"
+                        >
+                          Time
+                        </Form.Label>
+
+                        <TimeRangeField.Root
+                          bind:value={$formData.time}
+                          class="group flex w-full max-w-full flex-col gap-1.5"
+                        >
+                          <div
+                            class="h-input rounded-input border-zinc-700 bg-transparent text-white focus-within:border-zinc-700 focus-within:shadow-date-field-focus hover:border-zinc-700 group-data-invalid:border-destructive flex w-full select-none items-center border px-2 py-3 text-sm tracking-[0.01em]"
+                          >
+                            {#each ["start", "end"] as const as type (type)}
+                              <TimeRangeField.Input {type} {...props}>
+                                {#snippet children({ segments })}
+                                  {#each segments as { part, value }, i (part + i)}
+                                    <div class="inline-block select-none">
+                                      {#if part === "literal"}
+                                        <TimeRangeField.Segment
+                                          {part}
+                                          class="text-muted-foreground p-1"
+                                        >
+                                          {value}
+                                        </TimeRangeField.Segment>
+                                      {:else}
+                                        <TimeRangeField.Segment
+                                          {part}
+                                          class="rounded-5px hover:bg-zinc-700 focus:bg-zinc-700 focus:text-white aria-[valuetext=Empty]:text-muted-foreground focus-visible:ring-0! focus-visible:ring-offset-0! px-1 py-1"
+                                        >
+                                          {value}
+                                        </TimeRangeField.Segment>
+                                      {/if}
+                                    </div>
+                                  {/each}
+                                {/snippet}
+                              </TimeRangeField.Input>
+                              {#if type === "start"}
+                                <div
+                                  aria-hidden="true"
+                                  class="text-muted-foreground pl-1 pr-2"
+                                >
+                                  to
+                                </div>
+                              {/if}
+                            {/each}
+                          </div>
+                        </TimeRangeField.Root>
+                      </div>
+                    {/snippet}
+                  </Form.Control>
+                  <Form.FieldErrors />
+                </Form.Field>
+              </div>
+
+              <div class="space-y-1">
                 <Form.Field {form} name="status">
                   <Form.Control>
                     {#snippet children({ props })}
