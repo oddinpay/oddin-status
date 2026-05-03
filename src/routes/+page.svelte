@@ -17,6 +17,14 @@
   import { useQuery } from "convex-svelte";
   import { api } from "../convex/_generated/api";
   import { page } from "$app/state";
+  import {
+    Time,
+    today,
+    getLocalTimeZone,
+    toZoned,
+    toCalendarDateTime,
+    parseAbsoluteToLocal,
+  } from "@internationalized/date";
 
   const query = useQuery(api.site.get);
   const schedulesQuery = useQuery(api.schedules.get);
@@ -31,9 +39,13 @@
   onMount(() => (ready = true));
   const clock = timer();
   const TOTAL_DAYS = 90;
-  const today = new Date();
+  const todays = new Date();
   const end = new Date(
-    Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()),
+    Date.UTC(
+      todays.getUTCFullYear(),
+      todays.getUTCMonth(),
+      todays.getUTCDate(),
+    ),
   );
 
   const start = new Date(end);
@@ -309,8 +321,20 @@
   });
 
   const dayIndex = Math.floor(
-    (today.getTime() - start.getTime()) / (1000 * 60 * 60 * 24),
+    (todays.getTime() - start.getTime()) / (1000 * 60 * 60 * 24),
   );
+
+  function convertUtcToLocal(utcString: string) {
+    const currentUtcDate = today(getLocalTimeZone()).toString();
+
+    const absoluteString = `${currentUtcDate}T${utcString}:00Z`;
+    const localZonedDateTime = parseAbsoluteToLocal(absoluteString);
+
+    const hours = localZonedDateTime.hour.toString().padStart(2, "0");
+    const minutes = localZonedDateTime.minute.toString().padStart(2, "0");
+
+    return `${hours}:${minutes}`;
+  }
 
   const Indicators = {
     Resolved: {
@@ -493,17 +517,13 @@
         });
       }
 
+      const localStartDate = sched.date;
+      const localRangeTime = sched.time;
+      const localStartTime = convertUtcToLocal(localRangeTime.split(" - ")[0]);
+      const localEndTime = convertUtcToLocal(localRangeTime.split(" - ")[1]);
+
       grouped.get(groupId)!.entries.push({
-        time: new Date(sched._creationTime)
-          .toLocaleString("en-US", {
-            month: "short",
-            day: "numeric",
-            year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: false,
-          })
-          .replace(/(\d{4}),/, "$1"),
+        time: `${localStartDate} ${localStartTime} - ${localEndTime}`,
         status: indicator as MaintenanceEntry["status"],
         description: sched.note,
       });
@@ -1404,7 +1424,7 @@
                                             {maintenance.service}
                                           </span>
                                           <time
-                                            class="text-base text-(--inactive)"
+                                            class="text-base text-nowrap text-(--inactive)"
                                           >
                                             {entry.time}
                                           </time>

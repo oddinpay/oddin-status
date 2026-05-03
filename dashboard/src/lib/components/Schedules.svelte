@@ -85,18 +85,18 @@
   function formatDate(d: any) {
     if (!d) return "";
     const monthNames = [
-      "January",
-      "February",
-      "March",
-      "April",
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
       "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
     ];
     const monthName = monthNames[d.month - 1] || "";
     return `${monthName} ${String(d.day).padStart(2, "0")}, ${d.year}`;
