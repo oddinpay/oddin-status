@@ -526,8 +526,8 @@
         })
         .replace(/(\d{4}),/, "$1");
 
-      const isScheduled = sched.status?.toLowerCase() === "scheduled";
       let displayTime = formatcurrentTime;
+      const isScheduled = sched.status?.toLowerCase() === "scheduled";
 
       if (isScheduled && sched.date && sched.time) {
         const localStartDate = sched.date.split(" - ")[0];
