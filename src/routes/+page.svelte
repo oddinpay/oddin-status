@@ -603,224 +603,214 @@
         );
     });
 
-    // return finalMaintenanceList.filter(
-    //   (m) =>
-    //     m.entries.length > 0 &&
-    //     m.entries.some(
-    //       (e) =>
-    //         e.status === Indicators.Scheduled ||
-    //         e.status === Indicators.Inprogress,
-    //     ),
-    // );
-
     return finalMaintenanceList.filter((m) => m.entries.length > 0);
   });
 
   // --- styles ---
-  const COLOR_STYLES: Record<
-    string,
-    {
-      badgeBg: string;
-      badgeText: string;
-      dividerBg: string;
-      numberText: string;
-      hoverText: string;
-      caretText: string;
-    }
-  > = {
-    orange: {
-      badgeBg: "bg-orange-100",
-      badgeText: "text-orange-700",
-      dividerBg: "via-orange-400",
-      numberText: "text-orange-700",
-      hoverText: "hover:text-orange-700",
-      caretText: "text-orange-700",
-    },
-    cyan: {
-      badgeBg: "bg-cyan-100",
-      badgeText: "text-cyan-700",
-      dividerBg: "via-cyan-400",
-      numberText: "text-cyan-700",
-      hoverText: "hover:text-cyan-700",
-      caretText: "text-cyan-700",
-    },
-    lime: {
-      badgeBg: "bg-lime-100",
-      badgeText: "text-lime-700",
-      dividerBg: "via-lime-400",
-      numberText: "text-lime-700",
-      hoverText: "hover:text-lime-700",
-      caretText: "text-lime-700",
-    },
-    gray: {
-      badgeBg: "bg-gray-100",
-      badgeText: "text-gray-700",
-      dividerBg: "via-gray-400",
-      numberText: "text-gray-700",
-      hoverText: "hover:text-gray-700",
-      caretText: "text-gray-700",
-    },
-    red: {
-      badgeBg: "bg-red-100",
-      badgeText: "text-red-700",
-      dividerBg: "via-red-400",
-      numberText: "text-red-700",
-      hoverText: "hover:text-red-700",
-      caretText: "text-red-700",
-    },
-    amber: {
-      badgeBg: "bg-amber-100",
-      badgeText: "text-amber-700",
-      dividerBg: "via-amber-400",
-      numberText: "text-amber-700",
-      hoverText: "hover:text-amber-700",
-      caretText: "text-amber-700",
-    },
-    yellow: {
-      badgeBg: "bg-yellow-100",
-      badgeText: "text-yellow-700",
-      dividerBg: "via-yellow-400",
-      numberText: "text-yellow-700",
-      hoverText: "hover:text-yellow-700",
-      caretText: "text-yellow-700",
-    },
-    green: {
-      badgeBg: "bg-green-100",
-      badgeText: "text-green-700",
-      dividerBg: "via-green-400",
-      numberText: "text-green-700",
-      hoverText: "hover:text-green-700",
-      caretText: "text-green-700",
-    },
-    emerald: {
-      badgeBg: "bg-emerald-100",
-      badgeText: "text-emerald-700",
-      dividerBg: "via-emerald-400",
-      numberText: "text-emerald-700",
-      hoverText: "hover:text-emerald-700",
-      caretText: "text-emerald-700",
-    },
-    teal: {
-      badgeBg: "bg-teal-100",
-      badgeText: "text-teal-700",
-      dividerBg: "via-teal-400",
-      numberText: "text-teal-700",
-      hoverText: "hover:text-teal-700",
-      caretText: "text-teal-700",
-    },
-    blue: {
-      badgeBg: "bg-blue-100",
-      badgeText: "text-blue-700",
-      dividerBg: "via-blue-400",
-      numberText: "text-blue-700",
-      hoverText: "hover:text-blue-700",
-      caretText: "text-blue-700",
-    },
-    indigo: {
-      badgeBg: "bg-indigo-100",
-      badgeText: "text-indigo-700",
-      dividerBg: "via-indigo-400",
-      numberText: "text-indigo-700",
-      hoverText: "hover:text-indigo-700",
-      caretText: "text-indigo-700",
-    },
-    purple: {
-      badgeBg: "bg-purple-100",
-      badgeText: "text-purple-700",
-      dividerBg: "via-purple-400",
-      numberText: "text-purple-700",
-      hoverText: "hover:text-purple-700",
-      caretText: "text-purple-700",
-    },
-    pink: {
-      badgeBg: "bg-pink-100",
-      badgeText: "text-pink-700",
-      dividerBg: "via-pink-400",
-      numberText: "text-pink-700",
-      hoverText: "hover:text-pink-700",
-      caretText: "text-pink-700",
-    },
-    rose: {
-      badgeBg: "bg-rose-100",
-      badgeText: "text-rose-700",
-      dividerBg: "via-rose-400",
-      numberText: "text-rose-700",
-      hoverText: "hover:text-rose-700",
-      caretText: "text-rose-700",
-    },
-    black: {
-      badgeBg: "bg-black",
-      badgeText: "text-white",
-      dividerBg: "via-black",
-      numberText: "text-black",
-      hoverText: "hover:text-white",
-      caretText: "text-white",
-    },
-    white: {
-      badgeBg: "bg-white",
-      badgeText: "text-gray-800",
-      dividerBg: "via-gray-200",
-      numberText: "text-gray-800",
-      hoverText: "hover:text-gray-800",
-      caretText: "text-gray-800",
-    },
-    zinc: {
-      badgeBg: "bg-zinc-100",
-      badgeText: "text-zinc-700",
-      dividerBg: "via-zinc-400",
-      numberText: "text-zinc-700",
-      hoverText: "hover:text-zinc-700",
-      caretText: "text-zinc-700",
-    },
-    slate: {
-      badgeBg: "bg-slate-100",
-      badgeText: "text-slate-700",
-      dividerBg: "via-slate-400",
-      numberText: "text-slate-700",
-      hoverText: "hover:text-slate-700",
-      caretText: "text-slate-700",
-    },
-    stone: {
-      badgeBg: "bg-stone-100",
-      badgeText: "text-stone-700",
-      dividerBg: "via-stone-400",
-      numberText: "text-stone-700",
-      hoverText: "hover:text-stone-700",
-      caretText: "text-stone-700",
-    },
-    sky: {
-      badgeBg: "bg-sky-100",
-      badgeText: "text-sky-700",
-      dividerBg: "via-sky-400",
-      numberText: "text-sky-700",
-      hoverText: "hover:text-sky-700",
-      caretText: "text-sky-700",
-    },
-    violet: {
-      badgeBg: "bg-violet-100",
-      badgeText: "text-violet-700",
-      dividerBg: "via-violet-400",
-      numberText: "text-violet-700",
-      hoverText: "hover:text-violet-700",
-      caretText: "text-violet-700",
-    },
-    fuchsia: {
-      badgeBg: "bg-fuchsia-100",
-      badgeText: "text-fuchsia-700",
-      dividerBg: "via-fuchsia-400",
-      numberText: "text-fuchsia-700",
-      hoverText: "hover:text-fuchsia-700",
-      caretText: "text-fuchsia-700",
-    },
-    neutral: {
-      badgeBg: "bg-neutral-100",
-      badgeText: "text-neutral-700",
-      dividerBg: "via-neutral-400",
-      numberText: "text-neutral-700",
-      hoverText: "hover:text-neutral-700",
-      caretText: "text-neutral-700",
-    },
-  };
+  // const COLOR_STYLES: Record<
+  //   string,
+  //   {
+  //     badgeBg: string;
+  //     badgeText: string;
+  //     dividerBg: string;
+  //     numberText: string;
+  //     hoverText: string;
+  //     caretText: string;
+  //   }
+  // > = {
+  //   orange: {
+  //     badgeBg: "bg-orange-100",
+  //     badgeText: "text-orange-700",
+  //     dividerBg: "via-orange-400",
+  //     numberText: "text-orange-700",
+  //     hoverText: "hover:text-orange-700",
+  //     caretText: "text-orange-700",
+  //   },
+  //   cyan: {
+  //     badgeBg: "bg-cyan-100",
+  //     badgeText: "text-cyan-700",
+  //     dividerBg: "via-cyan-400",
+  //     numberText: "text-cyan-700",
+  //     hoverText: "hover:text-cyan-700",
+  //     caretText: "text-cyan-700",
+  //   },
+  //   lime: {
+  //     badgeBg: "bg-lime-100",
+  //     badgeText: "text-lime-700",
+  //     dividerBg: "via-lime-400",
+  //     numberText: "text-lime-700",
+  //     hoverText: "hover:text-lime-700",
+  //     caretText: "text-lime-700",
+  //   },
+  //   gray: {
+  //     badgeBg: "bg-gray-100",
+  //     badgeText: "text-gray-700",
+  //     dividerBg: "via-gray-400",
+  //     numberText: "text-gray-700",
+  //     hoverText: "hover:text-gray-700",
+  //     caretText: "text-gray-700",
+  //   },
+  //   red: {
+  //     badgeBg: "bg-red-100",
+  //     badgeText: "text-red-700",
+  //     dividerBg: "via-red-400",
+  //     numberText: "text-red-700",
+  //     hoverText: "hover:text-red-700",
+  //     caretText: "text-red-700",
+  //   },
+  //   amber: {
+  //     badgeBg: "bg-amber-100",
+  //     badgeText: "text-amber-700",
+  //     dividerBg: "via-amber-400",
+  //     numberText: "text-amber-700",
+  //     hoverText: "hover:text-amber-700",
+  //     caretText: "text-amber-700",
+  //   },
+  //   yellow: {
+  //     badgeBg: "bg-yellow-100",
+  //     badgeText: "text-yellow-700",
+  //     dividerBg: "via-yellow-400",
+  //     numberText: "text-yellow-700",
+  //     hoverText: "hover:text-yellow-700",
+  //     caretText: "text-yellow-700",
+  //   },
+  //   green: {
+  //     badgeBg: "bg-green-100",
+  //     badgeText: "text-green-700",
+  //     dividerBg: "via-green-400",
+  //     numberText: "text-green-700",
+  //     hoverText: "hover:text-green-700",
+  //     caretText: "text-green-700",
+  //   },
+  //   emerald: {
+  //     badgeBg: "bg-emerald-100",
+  //     badgeText: "text-emerald-700",
+  //     dividerBg: "via-emerald-400",
+  //     numberText: "text-emerald-700",
+  //     hoverText: "hover:text-emerald-700",
+  //     caretText: "text-emerald-700",
+  //   },
+  //   teal: {
+  //     badgeBg: "bg-teal-100",
+  //     badgeText: "text-teal-700",
+  //     dividerBg: "via-teal-400",
+  //     numberText: "text-teal-700",
+  //     hoverText: "hover:text-teal-700",
+  //     caretText: "text-teal-700",
+  //   },
+  //   blue: {
+  //     badgeBg: "bg-blue-100",
+  //     badgeText: "text-blue-700",
+  //     dividerBg: "via-blue-400",
+  //     numberText: "text-blue-700",
+  //     hoverText: "hover:text-blue-700",
+  //     caretText: "text-blue-700",
+  //   },
+  //   indigo: {
+  //     badgeBg: "bg-indigo-100",
+  //     badgeText: "text-indigo-700",
+  //     dividerBg: "via-indigo-400",
+  //     numberText: "text-indigo-700",
+  //     hoverText: "hover:text-indigo-700",
+  //     caretText: "text-indigo-700",
+  //   },
+  //   purple: {
+  //     badgeBg: "bg-purple-100",
+  //     badgeText: "text-purple-700",
+  //     dividerBg: "via-purple-400",
+  //     numberText: "text-purple-700",
+  //     hoverText: "hover:text-purple-700",
+  //     caretText: "text-purple-700",
+  //   },
+  //   pink: {
+  //     badgeBg: "bg-pink-100",
+  //     badgeText: "text-pink-700",
+  //     dividerBg: "via-pink-400",
+  //     numberText: "text-pink-700",
+  //     hoverText: "hover:text-pink-700",
+  //     caretText: "text-pink-700",
+  //   },
+  //   rose: {
+  //     badgeBg: "bg-rose-100",
+  //     badgeText: "text-rose-700",
+  //     dividerBg: "via-rose-400",
+  //     numberText: "text-rose-700",
+  //     hoverText: "hover:text-rose-700",
+  //     caretText: "text-rose-700",
+  //   },
+  //   black: {
+  //     badgeBg: "bg-black",
+  //     badgeText: "text-white",
+  //     dividerBg: "via-black",
+  //     numberText: "text-black",
+  //     hoverText: "hover:text-white",
+  //     caretText: "text-white",
+  //   },
+  //   white: {
+  //     badgeBg: "bg-white",
+  //     badgeText: "text-gray-800",
+  //     dividerBg: "via-gray-200",
+  //     numberText: "text-gray-800",
+  //     hoverText: "hover:text-gray-800",
+  //     caretText: "text-gray-800",
+  //   },
+  //   zinc: {
+  //     badgeBg: "bg-zinc-100",
+  //     badgeText: "text-zinc-700",
+  //     dividerBg: "via-zinc-400",
+  //     numberText: "text-zinc-700",
+  //     hoverText: "hover:text-zinc-700",
+  //     caretText: "text-zinc-700",
+  //   },
+  //   slate: {
+  //     badgeBg: "bg-slate-100",
+  //     badgeText: "text-slate-700",
+  //     dividerBg: "via-slate-400",
+  //     numberText: "text-slate-700",
+  //     hoverText: "hover:text-slate-700",
+  //     caretText: "text-slate-700",
+  //   },
+  //   stone: {
+  //     badgeBg: "bg-stone-100",
+  //     badgeText: "text-stone-700",
+  //     dividerBg: "via-stone-400",
+  //     numberText: "text-stone-700",
+  //     hoverText: "hover:text-stone-700",
+  //     caretText: "text-stone-700",
+  //   },
+  //   sky: {
+  //     badgeBg: "bg-sky-100",
+  //     badgeText: "text-sky-700",
+  //     dividerBg: "via-sky-400",
+  //     numberText: "text-sky-700",
+  //     hoverText: "hover:text-sky-700",
+  //     caretText: "text-sky-700",
+  //   },
+  //   violet: {
+  //     badgeBg: "bg-violet-100",
+  //     badgeText: "text-violet-700",
+  //     dividerBg: "via-violet-400",
+  //     numberText: "text-violet-700",
+  //     hoverText: "hover:text-violet-700",
+  //     caretText: "text-violet-700",
+  //   },
+  //   fuchsia: {
+  //     badgeBg: "bg-fuchsia-100",
+  //     badgeText: "text-fuchsia-700",
+  //     dividerBg: "via-fuchsia-400",
+  //     numberText: "text-fuchsia-700",
+  //     hoverText: "hover:text-fuchsia-700",
+  //     caretText: "text-fuchsia-700",
+  //   },
+  //   neutral: {
+  //     badgeBg: "bg-neutral-100",
+  //     badgeText: "text-neutral-700",
+  //     dividerBg: "via-neutral-400",
+  //     numberText: "text-neutral-700",
+  //     hoverText: "hover:text-neutral-700",
+  //     caretText: "text-neutral-700",
+  //   },
+  // };
 </script>
 
 {#if ready}
