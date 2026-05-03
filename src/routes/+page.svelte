@@ -515,15 +515,22 @@
         });
       }
 
-      const formatcurrentTime = new Date(sched._creationTime)
-        .toLocaleString("en-US", {
-          month: "short",
-          day: "numeric",
-          year: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false,
-        })
+      const date = parseAbsoluteToLocal(
+        new Date(sched._creationTime).toISOString(),
+      );
+
+      const formatter = new Intl.DateTimeFormat("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+        timeZone: getLocalTimeZone(),
+      });
+
+      const formatcurrentTime = formatter
+        .format(date.toDate())
         .replace(/(\d{4}),/, "$1");
 
       const groupRecords = rawData.filter((r) => r.parentId === groupId);
