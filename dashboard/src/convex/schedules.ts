@@ -29,6 +29,7 @@ export const post = mutation({
     status: v.string(),
     note: v.string(),
     date: v.string(),
+    time: v.string(),
   },
   handler: async (ctx, args) => {
     if (args.apiKey !== process.env.API_KEY) {
