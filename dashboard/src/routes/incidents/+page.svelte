@@ -127,13 +127,11 @@
           class="min-h-62.5 rounded-lg border border-border bg-zinc-900 p-8 900:overflow-y-hidden"
         >
           <TabsContent value="tab-2" class="h-auto min-h-37.5">
-            <p class="text-base font-extralight text-zinc-200">
-              Active Incidents
-            </p>
+            <p class="text-base font-extralight text-zinc-200">Identified</p>
             <Gauge
               colors={{
-                primary: "stroke-yellow-700",
-                secondary: "stroke-yellow-200",
+                primary: "stroke-red-700",
+                secondary: "stroke-red-200",
               }}
               class="text-white"
               show_value
@@ -150,8 +148,8 @@
             <p class="text-base font-extralight text-zinc-200">Incidents</p>
             <Gauge
               colors={{
-                primary: "stroke-zinc-700",
-                secondary: "stroke-zinc-200",
+                primary: "stroke-yellow-700",
+                secondary: "stroke-yellow-200",
               }}
               class="text-white"
               show_value
