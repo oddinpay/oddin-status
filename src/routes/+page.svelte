@@ -526,10 +526,17 @@
         })
         .replace(/(\d{4}),/, "$1");
 
+      const groupRecords = rawData.filter((r) => r.parentId === groupId);
+
+      const hasAdvancedStatus = groupRecords.some((r) => {
+        const s = r.status?.toLowerCase();
+        return s === "completed" || s === "cancelled";
+      });
+
       let displayTime = formatcurrentTime;
       const isScheduled = sched.status?.toLowerCase() === "scheduled";
 
-      if (isScheduled && sched.date && sched.time) {
+      if (isScheduled && !hasAdvancedStatus && sched.date && sched.time) {
         const localStartDate = sched.date.split(" - ")[0];
         const localEndDate = sched.date.split(" - ")[1];
 
