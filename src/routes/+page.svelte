@@ -523,8 +523,24 @@
       const localStartTime = convertUtcToLocal(localRangeTime.split(" - ")[0]);
       const localEndTime = convertUtcToLocal(localRangeTime.split(" - ")[1]);
 
+      const formatlocalTime = `${localStartDate} ${localStartTime} - ${localEndDate} ${localEndTime}`;
+      const formatcurrentTime = new Date(sched._creationTime)
+        .toLocaleString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        })
+        .replace(/(\d{4}),/, "$1");
+
+      const isScheduled = sched.status?.toLowerCase() === "scheduled";
+
+      const displayTime = isScheduled ? formatlocalTime : formatcurrentTime;
+
       grouped.get(groupId)!.entries.push({
-        time: `${localStartDate} ${localStartTime} - ${localEndDate} ${localEndTime}`,
+        time: displayTime,
         status: indicator as MaintenanceEntry["status"],
         description: sched.note,
       });

@@ -23,29 +23,10 @@
   import CaretRight from "phosphor-svelte/lib/CaretRightIcon";
   import {
     Time,
-    today,
     getLocalTimeZone,
     toZoned,
     toCalendarDateTime,
-    parseAbsoluteToLocal,
   } from "@internationalized/date";
-
-  // function convertUtcToLocal(utcString: string) {
-  //   const currentUtcDate = today(getLocalTimeZone()).toString();
-
-  //   const absoluteString = `${currentUtcDate}T${utcString}:00Z`;
-  //   const localZonedDateTime = parseAbsoluteToLocal(absoluteString);
-
-  //   const hours = localZonedDateTime.hour.toString().padStart(2, "0");
-  //   const minutes = localZonedDateTime.minute.toString().padStart(2, "0");
-
-  //   return `${hours}:${minutes}`;
-  // }
-
-  // const localStartTime = convertUtcToLocal("05:41");
-  // const localEndTime = convertUtcToLocal("09:33");
-
-  // console.log(`${localStartTime} - ${localEndTime}`);
 
   const id = $props.id();
 
