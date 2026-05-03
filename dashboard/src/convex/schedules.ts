@@ -73,6 +73,7 @@ export const getStatusCounts = query({
     });
 
     const groupValues = Array.from(groups.values());
+
     const scheduledCount = groupValues.filter(statuses =>
       statuses.includes("Scheduled") && statuses.length === 1
     ).length;
