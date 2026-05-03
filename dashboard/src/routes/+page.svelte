@@ -176,9 +176,7 @@
           class="min-h-62.5 rounded-lg border border-border bg-zinc-900 p-8 900:overflow-y-hidden"
         >
           <TabsContent value="tab-0" class="h-auto min-h-37.5">
-            <p class="text-base font-extralight text-zinc-200">
-              Monitors
-            </p>
+            <p class="text-base font-extralight text-zinc-200">Monitors</p>
             <Gauge
               colors={{
                 primary: "stroke-green-600",
@@ -196,9 +194,7 @@
           class="min-h-62.5 rounded-lg border border-border bg-zinc-900 p-8 900:overflow-y-hidden"
         >
           <TabsContent value="tab-0" class="h-auto min-h-37.5">
-            <p class="text-base font-extralight text-zinc-200">
-              Incidents
-            </p>
+            <p class="text-base font-extralight text-zinc-200">Alerts</p>
             <Gauge
               colors={{
                 primary: "stroke-amber-600",
