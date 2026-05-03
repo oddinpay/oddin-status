@@ -1406,9 +1406,7 @@
                                 {#if maintenance.entries.length > 0}
                                   {#if !maintenance.entries.some((entry) => entry.status === Indicators.Completed || entry.status === Indicators.Cancelled)}
                                     {#each maintenance.entries as entry}
-                                      <div
-                                        class="flex justify-between items-center p-3 gap-4"
-                                      >
+                                      <div class="flex items-center p-3 gap-4">
                                         <span
                                           class="inline-flex items-center px-2.5 badge2 py-1 rounded-full text-xs font-medium {entry
                                             .status.badge}"
@@ -1424,7 +1422,7 @@
                                             {maintenance.service}
                                           </span>
                                           <time
-                                            class="text-base text-nowrap text-(--inactive)"
+                                            class="text-base text-(--inactive)"
                                           >
                                             {entry.time}
                                           </time>
