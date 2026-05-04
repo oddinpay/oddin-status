@@ -19,9 +19,11 @@ export default defineSchema({
   }),
 
   incidents: defineTable({
+    parentId: v.string(),
+    service: v.string(),
     title: v.string(),
     status: v.string(),
-    description: v.string(),
+    note: v.string(),
   }),
 
   schedules: defineTable({
