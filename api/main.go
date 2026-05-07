@@ -1115,12 +1115,11 @@ func publishToNATS(ctx context.Context, name string, payload *StatusPayload, s *
 		}
 
 		dailySnapshot := map[string]any{
-			"sla_breached":       downToday > 0,
-			"sla_target":         fmt.Sprintf("%.3f%%", s.Target*100),
-			"total_time_seconds": formatDurationFull(totalToday),
-			"down_time_seconds":  formatDurationFull(downToday),
-			"up_time_seconds":    formatDurationFull(totalToday - downToday),
-			"uptime90":           fmt.Sprintf("%.3f%%", availToday*100),
+			"sla_breached":      downToday > 0,
+			"sla_target":        fmt.Sprintf("%.3f%%", s.Target*100),
+			"down_time_seconds": formatDurationFull(downToday),
+			"up_time_seconds":   formatDurationFull(totalToday - downToday),
+			"uptime90":          fmt.Sprintf("%.3f%%", availToday*100),
 		}
 
 		if getErr == nil && len(oldPayload.Probe.Date) > 0 {
@@ -1152,7 +1151,7 @@ func publishToNATS(ctx context.Context, name string, payload *StatusPayload, s *
 
 		payload.SLA["total_time_seconds"] = overallSLA["total_time_seconds"]
 		payload.SLA["total_down_time_seconds"] = overallSLA["total_down_time_seconds"]
-		payload.SLA["up_time_seconds"] = overallSLA["up_time_seconds"]
+		payload.SLA["total_up_time_seconds"] = overallSLA["up_time_seconds"]
 		payload.SLA["uptime90"] = overallSLA["uptime90"]
 		payload.SLA["sla_breached"] = overallSLA["sla_breached"]
 
