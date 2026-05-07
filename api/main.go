@@ -649,7 +649,7 @@ func (s *SlidingSLA) Snapshot() map[string]any {
 		return map[string]any{
 			"sla_target":              "99.999%",
 			"uptime90":                "100.000%",
-			"up_time_seconds":         formatDurationFull(0),
+			"total_up_time_seconds":   formatDurationFull(0),
 			"total_down_time_seconds": formatDurationFull(0),
 			"total_time_seconds":      formatDurationFull(0),
 			"sla_breached":            false,
@@ -670,7 +670,7 @@ func (s *SlidingSLA) Snapshot() map[string]any {
 	return map[string]any{
 		"sla_target":              "99.999%",
 		"uptime90":                uptimeStr,
-		"up_time_seconds":         formatDurationFull(up),
+		"total_up_time_seconds":   formatDurationFull(up),
 		"total_down_time_seconds": formatDurationFull(down),
 		"total_time_seconds":      formatDurationFull(total),
 		"sla_breached":            breached,
@@ -1151,7 +1151,7 @@ func publishToNATS(ctx context.Context, name string, payload *StatusPayload, s *
 
 		payload.SLA["total_time_seconds"] = overallSLA["total_time_seconds"]
 		payload.SLA["total_down_time_seconds"] = overallSLA["total_down_time_seconds"]
-		payload.SLA["total_up_time_seconds"] = overallSLA["up_time_seconds"]
+		payload.SLA["total_up_time_seconds"] = overallSLA["total_up_time_seconds"]
 		payload.SLA["uptime90"] = overallSLA["uptime90"]
 		payload.SLA["sla_breached"] = overallSLA["sla_breached"]
 
