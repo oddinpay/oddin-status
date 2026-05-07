@@ -717,14 +717,6 @@ func startProbeWorker(ctx context.Context, wg *sync.WaitGroup, t HttpRequest) {
 							tStr, okT := first["total_time"].(string)
 							dStr, okD := first["total_downtime"].(string)
 
-							if !okT {
-								tStr, okT = first["total_time_seconds"].(string)
-							}
-
-							if !okD {
-								dStr, okD = first["down_time_seconds"].(string)
-							}
-
 							if okT && okD {
 								tSec := parseDurationToSecs(tStr)
 								dSec := parseDurationToSecs(dStr)
