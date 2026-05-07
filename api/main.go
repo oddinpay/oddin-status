@@ -679,7 +679,7 @@ func (s *SlidingSLA) Reset() {
 		s.buckets[i] = bucket{}
 	}
 	s.idx = 0
-	s.currentMinute = time.Now().Truncate(time.Minute)
+	s.currentMinute = time.Now().UTC().Truncate(24 * time.Hour)
 	s.lastUpdate = time.Now()
 }
 
@@ -1118,6 +1118,7 @@ func publishToNATS(ctx context.Context, name string, payload *StatusPayload, s *
 					}
 				}
 			} else {
+				
 				freshSLA := s.Snapshot()
 				newSnapshot := map[string]any{
 					"sla_breached":       freshSLA["sla_breached"],
