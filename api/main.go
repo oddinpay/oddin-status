@@ -648,7 +648,7 @@ func (s *SlidingSLA) Snapshot() map[string]any {
 	if total <= 0 {
 		return map[string]any{
 			"sla_target":              "99.999%",
-			"uptime90":                "99.999%",
+			"uptime90":                "100.000%",
 			"up_time_seconds":         formatDurationFull(0),
 			"total_down_time_seconds": formatDurationFull(0),
 			"total_time_seconds":      formatDurationFull(0),
@@ -660,7 +660,7 @@ func (s *SlidingSLA) Snapshot() map[string]any {
 	percent := availability * 100
 
 	uptimeStr := fmt.Sprintf("%.3f%%", percent)
-	if down > 0 && uptimeStr == "99.999%" {
+	if down > 0 && uptimeStr == "100.000%" {
 		uptimeStr = "99.999%"
 	}
 
