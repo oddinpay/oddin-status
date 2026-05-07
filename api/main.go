@@ -10,7 +10,6 @@ import (
 	"log"
 	"log/slog"
 	"maps"
-	"math/rand"
 	"net"
 	"net/http"
 	"os"
@@ -1054,8 +1053,6 @@ func publishToNATS(ctx context.Context, name string, payload *StatusPayload, s *
 	}
 
 	now := time.Now().UTC()
-
-	// Daily block
 	todayUTC := now.Format("02/01/2006")
 
 	currentStatus := hr.Warn
@@ -1071,13 +1068,9 @@ func publishToNATS(ctx context.Context, name string, payload *StatusPayload, s *
 		if getErr == nil && entry != nil {
 			revision = entry.Revision()
 			gr, err := gzip.NewReader(bytes.NewReader(entry.Value()))
-			if err != nil {
-				slog.Error("failed to create gzip reader", "error", err)
-			} else {
+			if err == nil {
 				var wrapped map[string]any
-				if err := json.NewDecoder(gr).Decode(&wrapped); err != nil {
-					slog.Error("failed to decode JSON from gzip", "error", err)
-				} else {
+				if err := json.NewDecoder(gr).Decode(&wrapped); err == nil {
 					if payloadMap, ok := wrapped["payload"].(map[string]any); ok {
 						payloadBytes, _ := json.Marshal(payloadMap)
 						_ = json.Unmarshal(payloadBytes, &oldPayload)
@@ -1101,95 +1094,57 @@ func publishToNATS(ctx context.Context, name string, payload *StatusPayload, s *
 			payload.SLA["id"] = slaId()
 		}
 
+		overallSLA := s.Snapshot()
+		totalToday, downToday := s.DailySnapshot()
+
+		dailySnapshot := map[string]any{
+			"sla_breached":       downToday > 0,
+			"sla_target":         fmt.Sprintf("%.3f%%", s.Target*100),
+			"total_time_seconds": formatDurationFull(totalToday),
+			"down_time_seconds":  formatDurationFull(downToday),
+			"up_time_seconds":    formatDurationFull(totalToday - downToday),
+			"uptime90":           "100.000%",
+		}
+
 		if getErr == nil && len(oldPayload.Probe.Date) > 0 {
 			if oldPayload.Probe.Date[0] == todayUTC {
 				payload.SLA["history"] = oldPayload.SLA["history"]
 				payload.Probe.Date = oldPayload.Probe.Date
 				payload.Probe.State = oldPayload.Probe.State
 
+				if h, ok := payload.SLA["history"].([]any); ok && len(h) > 0 {
+					h[0] = dailySnapshot
+				}
 				if len(payload.Probe.State) > 0 {
 					payload.Probe.State[0] = currentStatus
-				} else {
-					payload.Probe.State = []string{currentStatus}
-				}
-
-				if h, ok := payload.SLA["history"].([]any); ok && len(h) > 0 {
-					h[0] = map[string]any{
-						"sla_breached":       payload.SLA["sla_breached"],
-						"sla_target":         fmt.Sprintf("%.3f%%", s.Target*100),
-						"total_time_seconds": payload.SLA["total_time_seconds"],
-						"up_time_seconds":    payload.SLA["up_time_seconds"],
-						"down_time_seconds":  payload.SLA["down_time_seconds"],
-						"uptime90":           payload.SLA["uptime90"],
-					}
 				}
 			} else {
-
-				freshSLA := s.Snapshot()
-				newSnapshot := map[string]any{
-					"sla_breached":       freshSLA["sla_breached"],
-					"sla_target":         fmt.Sprintf("%.3f%%", s.Target*100),
-					"total_time_seconds": freshSLA["total_time_seconds"],
-					"up_time_seconds":    freshSLA["up_time_seconds"],
-					"down_time_seconds":  freshSLA["down_time_seconds"],
-					"uptime90":           freshSLA["uptime90"],
-				}
-
-				if oldHist, ok := oldPayload.SLA["history"].([]any); ok {
-					payload.SLA["history"] = append([]any{newSnapshot}, oldHist...)
-				} else {
-					payload.SLA["history"] = []any{newSnapshot}
-				}
-
+				payload.SLA["history"] = append([]any{dailySnapshot}, oldPayload.SLA["history"].([]any)...)
 				payload.Probe.Date = append([]string{todayUTC}, oldPayload.Probe.Date...)
 				payload.Probe.State = append([]string{currentStatus}, oldPayload.Probe.State...)
 			}
 		} else {
-			payload.SLA["history"] = []any{map[string]any{
-				"sla_breached":       payload.SLA["sla_breached"],
-				"sla_target":         fmt.Sprintf("%.3f%%", s.Target*100),
-				"total_time_seconds": payload.SLA["total_time_seconds"],
-				"up_time_seconds":    payload.SLA["up_time_seconds"],
-				"down_time_seconds":  payload.SLA["down_time_seconds"],
-				"uptime90":           payload.SLA["uptime90"],
-			}}
+			payload.SLA["history"] = []any{dailySnapshot}
 			payload.Probe.Date = []string{todayUTC}
+			payload.Probe.State = []string{currentStatus}
 		}
 
-		payload.Probe.State = capSlice(payload.Probe.State, 90)
+		payload.SLA["history"] = capSlice(payload.SLA["history"].([]any), 90)
 		payload.Probe.Date = capSlice(payload.Probe.Date, 90)
-		if h, ok := payload.SLA["history"].([]any); ok {
-			payload.SLA["history"] = capSlice(h, 90)
-		}
+		payload.Probe.State = capSlice(payload.Probe.State, 90)
 
-		var rootTotal, rootDown int64
-		if h, ok := payload.SLA["history"].([]any); ok && len(h) > 0 {
-			if m, ok := h[0].(map[string]any); ok {
-				rootTotal = parseDurationToSecs(m["total_time_seconds"].(string))
-				rootDown = parseDurationToSecs(m["total_down_time_seconds"].(string))
-			}
-		}
-
-		rootUp := rootTotal - rootDown
-		rootAvail := 1.0
-		if rootTotal > 0 {
-			rootAvail = 1.0 - (float64(rootDown) / float64(rootTotal))
-		}
-		payload.SLA["total_time_seconds"] = formatDurationFull(rootTotal)
-		payload.SLA["total_down_time_seconds"] = formatDurationFull(rootDown)
-		payload.SLA["up_time_seconds"] = formatDurationFull(rootUp)
-		payload.SLA["uptime90"] = fmt.Sprintf("%.3f%%", rootAvail*100)
-		payload.SLA["sla_breached"] = (s.Target >= 1.0 && rootDown > 0) || (rootAvail < s.Target)
+		payload.SLA["total_time_seconds"] = overallSLA["total_time_seconds"]
+		payload.SLA["down_time_seconds"] = overallSLA["down_time_seconds"]
+		payload.SLA["up_time_seconds"] = overallSLA["up_time_seconds"]
+		payload.SLA["uptime90"] = overallSLA["uptime90"]
+		payload.SLA["sla_breached"] = overallSLA["sla_breached"]
 
 		idx := -1
-
 		targetCache.RLock()
-		i, ok := targetCache.lookup[name]
-		targetCache.RUnlock()
-
-		if ok {
+		if i, ok := targetCache.lookup[name]; ok {
 			idx = i
 		}
+		targetCache.RUnlock()
 
 		wrappedPayload := map[string]any{
 			"index": idx,
@@ -1206,28 +1161,16 @@ func publishToNATS(ctx context.Context, name string, payload *StatusPayload, s *
 		gz.Close()
 
 		var updateErr error
-		maxRetries := 10
-		for i := range maxRetries {
-
+		for i := 0; i < 10; i++ {
 			if revision > 0 {
 				_, updateErr = kv.Update(ctx, name, buf.Bytes(), revision)
 			} else {
 				_, updateErr = kv.Create(ctx, name, buf.Bytes())
 			}
-
 			if updateErr == nil {
 				return
 			}
-
-			waitTime := time.Duration(i+1) * 10 * time.Millisecond
-			jitter := time.Duration(rand.Intn(20)) * time.Millisecond
-
-			select {
-			case <-ctx.Done():
-				return
-			case <-time.After(waitTime + jitter):
-				continue
-			}
+			time.Sleep(time.Duration(i+1) * 10 * time.Millisecond)
 		}
 	}
 }
