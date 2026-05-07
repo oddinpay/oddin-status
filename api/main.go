@@ -720,16 +720,10 @@ func startProbeWorker(ctx context.Context, wg *sync.WaitGroup, t HttpRequest) {
 								if tStr == "" {
 									tStr, _ = day["total_time"].(string)
 								}
-								if tStr == "" {
-									tStr, _ = day["uptime"].(string)
-								}
 
 								dStr, _ := day["down_time_seconds"].(string)
 								if dStr == "" {
 									dStr, _ = day["total_downtime"].(string)
-								}
-								if dStr == "" {
-									dStr, _ = day["downtime"].(string)
 								}
 
 								if tStr != "" && dStr != "" {
