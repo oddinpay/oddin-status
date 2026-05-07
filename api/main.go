@@ -650,7 +650,7 @@ func (s *SlidingSLA) Snapshot() map[string]any {
 			"sla_target":         "99.999%",
 			"uptime90":           "99.999%",
 			"up_time_seconds":    formatDurationFull(0),
-			"down_time_seconds":  formatDurationFull(0),
+			"total_down_time_seconds":  formatDurationFull(0),
 			"total_time_seconds": formatDurationFull(0),
 			"sla_breached":       false,
 		}
@@ -671,7 +671,7 @@ func (s *SlidingSLA) Snapshot() map[string]any {
 		"sla_target":         "99.999%",
 		"uptime90":           uptimeStr,
 		"up_time_seconds":    formatDurationFull(up),
-		"down_time_seconds":  formatDurationFull(down),
+		"total_down_time_seconds":  formatDurationFull(down),
 		"total_time_seconds": formatDurationFull(total),
 		"sla_breached":       breached,
 	}
@@ -714,7 +714,7 @@ func startProbeWorker(ctx context.Context, wg *sync.WaitGroup, t HttpRequest) {
 					if history, ok := sla["history"].([]any); ok && len(history) > 0 {
 						first := history[0].(map[string]any)
 						tSec := parseDurationToSecs(first["total_time_seconds"].(string))
-						dSec := parseDurationToSecs(first["down_time_seconds"].(string))
+						dSec := parseDurationToSecs(first["total_down_time_seconds"].(string))
 						tracker.SetState(tSec, dSec)
 						slog.Info("Hydrated existing state", "name", t.Name, "uptime", first["uptime90"])
 					}
@@ -1101,7 +1101,7 @@ func publishToNATS(ctx context.Context, name string, payload *StatusPayload, s *
 			"sla_breached":       downToday > 0,
 			"sla_target":         fmt.Sprintf("%.3f%%", s.Target*100),
 			"total_time_seconds": formatDurationFull(totalToday),
-			"down_time_seconds":  formatDurationFull(downToday),
+			"total_down_time_seconds":  formatDurationFull(downToday),
 			"up_time_seconds":    formatDurationFull(totalToday - downToday),
 			"uptime90":           "100.000%",
 		}
@@ -1134,7 +1134,7 @@ func publishToNATS(ctx context.Context, name string, payload *StatusPayload, s *
 		payload.Probe.State = capSlice(payload.Probe.State, 90)
 
 		payload.SLA["total_time_seconds"] = overallSLA["total_time_seconds"]
-		payload.SLA["down_time_seconds"] = overallSLA["down_time_seconds"]
+		payload.SLA["total_down_time_seconds"] = overallSLA["total_down_time_seconds"]
 		payload.SLA["up_time_seconds"] = overallSLA["up_time_seconds"]
 		payload.SLA["uptime90"] = overallSLA["uptime90"]
 		payload.SLA["sla_breached"] = overallSLA["sla_breached"]
