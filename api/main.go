@@ -614,6 +614,12 @@ func (s *SlidingSLA) rotateTo(now time.Time) {
 	s.currentMinute = minNow
 }
 
+func (s *SlidingSLA) DailySnapshot() (int64, int64) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	return s.buckets[s.idx].totalSec, s.buckets[s.idx].downSec
+}
+
 func (s *SlidingSLA) Tick(isDown bool, interval time.Duration) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
@@ -1118,7 +1124,7 @@ func publishToNATS(ctx context.Context, name string, payload *StatusPayload, s *
 					}
 				}
 			} else {
-				
+
 				freshSLA := s.Snapshot()
 				newSnapshot := map[string]any{
 					"sla_breached":       freshSLA["sla_breached"],
@@ -1160,7 +1166,7 @@ func publishToNATS(ctx context.Context, name string, payload *StatusPayload, s *
 		if h, ok := payload.SLA["history"].([]any); ok && len(h) > 0 {
 			if m, ok := h[0].(map[string]any); ok {
 				rootTotal = parseDurationToSecs(m["total_time_seconds"].(string))
-				rootDown = parseDurationToSecs(m["down_time_seconds"].(string))
+				rootDown = parseDurationToSecs(m["total_down_time_seconds"].(string))
 			}
 		}
 
@@ -1170,7 +1176,7 @@ func publishToNATS(ctx context.Context, name string, payload *StatusPayload, s *
 			rootAvail = 1.0 - (float64(rootDown) / float64(rootTotal))
 		}
 		payload.SLA["total_time_seconds"] = formatDurationFull(rootTotal)
-		payload.SLA["down_time_seconds"] = formatDurationFull(rootDown)
+		payload.SLA["total_down_time_seconds"] = formatDurationFull(rootDown)
 		payload.SLA["up_time_seconds"] = formatDurationFull(rootUp)
 		payload.SLA["uptime90"] = fmt.Sprintf("%.3f%%", rootAvail*100)
 		payload.SLA["sla_breached"] = (s.Target >= 1.0 && rootDown > 0) || (rootAvail < s.Target)
