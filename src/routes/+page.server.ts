@@ -46,7 +46,7 @@ export const actions: Actions = {
         const html = await render(Status, { props: { username } });
 
         const sendEmailTask = emailQueue.send({
-          from: "Oddinpay <hello@oddinpay.com>",
+          from: "Oddinpay Status <hello@oddinpay.com>",
           email: email,
           subject: "You have successfully subscribed to oddin status.",
           template: html,
