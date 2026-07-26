@@ -48,7 +48,7 @@ export const actions: Actions = {
         const sendEmailTask = emailQueue.send({
           from: "Oddinpay Status <hello@oddinpay.com>",
           email: email,
-          subject: "You have successfully subscribed to oddin status.",
+          subject: "You have successfully subscribed to ohstatus.",
           template: html,
         });
 
