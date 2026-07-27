@@ -66,7 +66,13 @@ const (
 	days90         = 90
 )
 
+var (
+	timestamp         = time.Now().Format("15:04:05.000")
+	workerEndpointURL = os.Getenv("WORKER_ENDPOINT_URL")
+)
+
 // ----------- DB / CACHE CONNECTIONS -----------
+
 var (
 	jwt              = os.Getenv("NATS_JWT")
 	seed             = os.Getenv("NATS_SEED")
@@ -80,6 +86,7 @@ var (
 	wg               sync.WaitGroup
 	js               jetstream.JetStream
 	kv               jetstream.KeyValue
+	alertKV          jetstream.KeyValue
 	httpClient       = &http.Client{
 		Timeout: defaultTimeout,
 		Transport: &http.Transport{
@@ -370,6 +377,70 @@ func slaId() string {
 	return slaId.String()
 }
 
+func sendToEndpoint(endpointURL string, name string, state string, timestamp string, date string) {
+	payload := map[string]string{
+		"name":      name,
+		"state":     state,
+		"timestamp": timestamp,
+		"date":      date,
+	}
+
+	jsonData, err := json.Marshal(payload)
+	if err != nil {
+		slog.Error("Failed to marshal down alert payload", "error", err)
+		return
+	}
+
+	go func() {
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+
+		req, err := http.NewRequestWithContext(ctx, http.MethodPost, endpointURL, bytes.NewBuffer(jsonData))
+		if err != nil {
+			slog.Error("Failed to create worker endpoint request", "error", err)
+			return
+		}
+		req.Header.Set("Content-Type", "application/json")
+
+		resp, err := httpClient.Do(req)
+		if err != nil {
+			slog.Error("Failed to send down status to endpoint", "error", err)
+			return
+		}
+		defer resp.Body.Close()
+
+		if resp.StatusCode < http.StatusOK || resp.StatusCode >= http.StatusBadRequest {
+			slog.Warn("Worker endpoint returned non-success status", "status", resp.StatusCode)
+		}
+	}()
+}
+
+func handleEndpointAlertState(alertKV jetstream.KeyValue, workerEndpointURL string, probeName string, currentState string, timestamp string, date string) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	entry, err := alertKV.Get(ctx, probeName)
+	lastAlertState := "UP"
+
+	if err == nil && entry != nil {
+		lastAlertState = string(entry.Value())
+	}
+
+	if lastAlertState == currentState {
+		return
+	}
+
+	_, err = alertKV.PutString(ctx, probeName, currentState)
+	if err != nil {
+		slog.Error("Failed to update alert state lock in NATS", "error", err)
+		return
+	}
+
+	if currentState == hr.Down {
+		sendToEndpoint(workerEndpointURL, probeName, hr.Down, timestamp, date)
+	}
+}
+
 // -------------------- PROBES --------------------
 func probeHTTP(re HttpRequest) ProbeResult {
 
@@ -404,6 +475,8 @@ func probeHTTP(re HttpRequest) ProbeResult {
 				continue
 			}
 
+			handleEndpointAlertState(alertKV, workerEndpointURL, re.Name, hr.Down, timestamp, getRecentDates()[0])
+
 			return ProbeResult{
 				Id:          re.ID,
 				Name:        re.Name,
@@ -419,6 +492,9 @@ func probeHTTP(re HttpRequest) ProbeResult {
 		cancel()
 
 		if resp.StatusCode >= StatusOK && resp.StatusCode < StatusBadRequest {
+
+			handleEndpointAlertState(alertKV, workerEndpointURL, re.Name, hr.Up, timestamp, getRecentDates()[0])
+
 			return ProbeResult{
 				Id:          re.ID,
 				Name:        re.Name,
@@ -434,6 +510,8 @@ func probeHTTP(re HttpRequest) ProbeResult {
 			time.Sleep(200 * time.Millisecond)
 			continue
 		}
+
+		handleEndpointAlertState(alertKV, workerEndpointURL, re.Name, hr.Down, timestamp, getRecentDates()[0])
 
 		return ProbeResult{
 			Id:          re.ID,
@@ -1394,6 +1472,20 @@ func main() {
 		}
 	}
 
+	alertKV, err = js.KeyValue(context.Background(), "OH_STATES")
+	if err != nil {
+		alertKV, err = js.CreateKeyValue(context.Background(), jetstream.KeyValueConfig{
+			Bucket:   "OH_STATES",
+			MaxBytes: 1024 * 1024 * 1024,
+			Storage:  jetstream.FileStorage,
+			History:  1,
+		})
+		if err != nil {
+			slog.Error("Failed to create OH_STATES KV bucket", "error", err)
+			os.Exit(1)
+		}
+	}
+
 	hydrateSnapshotFromKV(ctx)
 	startProbeManager(ctx, &wg)
 
@@ -1408,7 +1500,7 @@ func main() {
 	// })
 
 	originPolicy := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		host := strings.Split(r.Host, ":")[0]
+		host, _, _ := strings.Cut(r.Host, ":")
 		if host != os.Getenv("HOST") {
 			w.WriteHeader(http.StatusForbidden)
 			w.Write([]byte("403 prohibited"))
