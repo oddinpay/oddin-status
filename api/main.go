@@ -1476,7 +1476,7 @@ func main() {
 	if err != nil {
 		alertKV, err = js.CreateKeyValue(context.Background(), jetstream.KeyValueConfig{
 			Bucket:   "OH_STATES",
-			MaxBytes: 1024 * 1024 * 1024,
+			MaxBytes: 512 * 1024 * 1024,
 			Storage:  jetstream.FileStorage,
 			History:  1,
 		})
