@@ -55,7 +55,6 @@ const (
 	StatusMethodNotAllowed    = 405
 	StatusMultipleChoices     = 300
 
-	// Common headers
 	HeaderContentType  = "Content-Type"
 	HeaderCacheControl = "Cache-Control"
 	HeaderConnection   = "Connection"
