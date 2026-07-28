@@ -23,7 +23,6 @@ export async function POST({ request }: RequestEvent) {
     );
 
     if (state === "DOWN") {
-      // Trigger your notification logic for downtime
     }
 
     return json(
