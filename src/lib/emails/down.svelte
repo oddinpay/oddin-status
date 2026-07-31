@@ -85,7 +85,7 @@
           > page for live updates. Thank you for your patience and understanding.
         </Text>
 
-        <Hr class="mx-0 my-5 border-slate-400" />
+        <Hr class="mx-0 my-5 border-slate-300" />
         <Text class="m-0 mt-4 text-xs leading-5 text-slate-600">
           If you have any questions, we're here to help
           <Link

@@ -30,7 +30,7 @@
   </Head>
 
   <Body
-    class="bg-red-50 mx-auto my-auto px-2 font-[Arial,Inter_Variable,Roboto,-apple-system] antialiased leading-relaxed font-medium"
+    class="bg-yellow-50 mx-auto my-auto px-2 font-[Arial,Inter_Variable,Roboto,-apple-system] antialiased leading-relaxed font-medium"
   >
     <Preview preview={previewText} />
     <Container class="mx-auto max-w-116.25 p-4 my-10">
@@ -77,7 +77,7 @@
         </Section>
 
         <Text class="py-2 text-[17px] leading-relaxed font-medium text-black">
-          Severe degradation has been identified with {name}. We are working to
+          Partial degradation has been identified with {name}. We are working to
           fix this as soon as possible. Please visit our
           <Link
             class="text-blue-500 hover:text-blue-600"
@@ -85,7 +85,7 @@
           > page for live updates. Thank you for your patience and understanding.
         </Text>
 
-        <Hr class="mx-0 my-5 border-slate-400" />
+        <Hr class="mx-0 my-5 border-slate-300" />
         <Text class="m-0 mt-4 text-xs leading-5 text-slate-600">
           If you have any questions, we're here to help
           <Link
