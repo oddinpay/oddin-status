@@ -4,7 +4,7 @@ import { drizzle } from "drizzle-orm/d1";
 import { subscribers } from "$lib/schema";
 import { asc, gt } from "drizzle-orm";
 import { Renderer } from "@better-svelte-email/server";
-import Status from "$lib/emails/status.svelte";
+import Down from "$lib/emails/down.svelte";
 
 const { render } = new Renderer();
 
@@ -41,7 +41,7 @@ export async function POST({ request, platform }: RequestEvent) {
       if (emailQueue && activeShards.length > 0) {
         const { waitUntil } = await import("cloudflare:workers");
 
-        const html = await render(Status, { props: { name } });
+        const html = await render(Down, { props: { name } });
 
         const backgroundTask = async () => {
           const batchSize = 1000;
