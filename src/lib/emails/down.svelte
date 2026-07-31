@@ -17,7 +17,7 @@
     name?: string;
   }
 
-  let { name }: Props = $props();
+  let { name = "" }: Props = $props();
 
   // svelte-ignore state_referenced_locally
   const previewText = `Oh no! ${name} is down.`;
@@ -49,7 +49,19 @@
         </Link>
       </Section>
       <Section class="py-2">
-        <Heading as="h1" class="text-3xl font-semibold">{name}</Heading>
+        <Heading as="h1" class="text-3xl font-semibold">
+          {name.includes(".")
+            ? (() => {
+                const parts = name.split(".");
+                const mainPart =
+                  parts.length > 2 ? parts[parts.length - 2] : parts[0];
+
+                return mainPart.length <= 3
+                  ? mainPart.toUpperCase()
+                  : mainPart.charAt(0).toUpperCase() + mainPart.slice(1);
+              })()
+            : `${name} is DOWN!`}
+        </Heading>
 
         <Section class="py-2 text-center">
           <img
@@ -71,7 +83,7 @@
         </Text>
 
         <Hr class="mx-0 my-5" />
-        <Text class="m-0 mt-4 text-xs leading-5 text-slate-600">
+        <Text class="m-0 mt-4 text-xs leading-5 text-slate-900">
           If you have any questions, we're here to help
           <Link
             href="mailto:support@oddinpay.com"
@@ -83,7 +95,7 @@
       </Section>
 
       <Section class="py-2">
-        <Text class="m-0 text-base text-slate-600">
+        <Text class="m-0 text-base text-slate-900">
           Thanks,<br />
           <span class="font-semibold">The Oddinpay Team</span>
         </Text>
