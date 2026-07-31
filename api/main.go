@@ -491,8 +491,6 @@ func probeHTTP(re HttpRequest) ProbeResult {
 
 		if resp.StatusCode >= StatusOK && resp.StatusCode < StatusBadRequest {
 
-			handleEndpointAlertState(alertKV, workerEndpointURL, re.Name, hr.Up)
-
 			return ProbeResult{
 				Id:          re.ID,
 				Name:        re.Name,
@@ -541,6 +539,9 @@ func probeTCP(re HttpRequest) ProbeResult {
 				time.Sleep(200 * time.Millisecond)
 				continue
 			}
+
+			handleEndpointAlertState(alertKV, workerEndpointURL, re.Name, hr.Down)
+
 			return ProbeResult{
 				Id:          re.ID,
 				Name:        re.Name,
@@ -559,6 +560,9 @@ func probeTCP(re HttpRequest) ProbeResult {
 				time.Sleep(200 * time.Millisecond)
 				continue
 			}
+
+			handleEndpointAlertState(alertKV, workerEndpointURL, re.Name, hr.Down)
+
 			return ProbeResult{
 				Id:          re.ID,
 				Name:        re.Name,
@@ -580,6 +584,7 @@ func probeTCP(re HttpRequest) ProbeResult {
 				time.Sleep(200 * time.Millisecond)
 				continue
 			}
+
 			return ProbeResult{
 				Id:          re.ID,
 				Name:        re.Name,
@@ -631,6 +636,9 @@ func probeDNS(re HttpRequest) ProbeResult {
 				time.Sleep(200 * time.Millisecond)
 				continue
 			}
+
+			handleEndpointAlertState(alertKV, workerEndpointURL, re.Name, hr.Up)
+
 			return ProbeResult{
 				Id:          re.ID,
 				Name:        re.Name,
