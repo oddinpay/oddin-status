@@ -5,6 +5,7 @@ import { subscribers } from "$lib/schema";
 import { asc, gt } from "drizzle-orm";
 import { Renderer } from "@better-svelte-email/server";
 import Down from "$lib/emails/down.svelte";
+import Warn from "$lib/emails/warn.svelte";
 
 const { render } = new Renderer();
 
@@ -33,7 +34,9 @@ export async function POST({ request, platform }: RequestEvent) {
           ? `${name} is DOWN!`
           : `${name} is experiencing issues!`;
 
-      const html = await render(Down, { props: { name } });
+      const html = await render(state === "down" ? Down : Warn, {
+        props: { name },
+      });
 
       const activeShards = [
         platform?.env?.ohstatus,
