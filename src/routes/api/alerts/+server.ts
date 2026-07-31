@@ -25,11 +25,11 @@ export async function POST({ request, platform }: RequestEvent) {
 
     console.log(`[Alert Received] Probe: ${name} is ${state}`);
 
-    if (state == "DOWN" || state === "WARN") {
+    if (state == "down" || state === "warn") {
       const emailQueue = platform?.env?.SEND_ALERTS_QUEUE;
 
       const subject =
-        state === "DOWN"
+        state === "down"
           ? `${name} is DOWN!`
           : `${name} is experiencing issues!`;
 
