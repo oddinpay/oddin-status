@@ -11,7 +11,7 @@
     Heading,
     Section,
     Text,
-  } from "better-svelte-email";
+  } from "@better-svelte-email/components";
 
   interface Props {
     name?: string;

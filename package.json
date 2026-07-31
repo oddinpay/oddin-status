@@ -35,8 +35,9 @@
     "prod": "pnpm run build && wrangler deploy"
   },
   "dependencies": {
+    "@better-svelte-email/components": "^2.1.1",
+    "@better-svelte-email/server": "^2.1.1",
     "@tanstack/table-core": "^8.21.3",
-    "better-svelte-email": "^2.1.1",
     "drizzle-orm": "^0.45.2",
     "resend": "^6.16.0"
   },
