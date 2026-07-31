@@ -49,16 +49,19 @@
         </Link>
       </Section>
       <Section class="py-2">
-        <Heading as="h1" class="text-3xl font-semibold">
+        <Heading as="h1" class="text-black text-3xl font-semibold">
           {name.includes(".")
             ? (() => {
                 const parts = name.split(".");
                 const mainPart =
                   parts.length > 2 ? parts[parts.length - 2] : parts[0];
 
-                return mainPart.length <= 3
-                  ? mainPart.toUpperCase()
-                  : mainPart.charAt(0).toUpperCase() + mainPart.slice(1);
+                const formattedName =
+                  mainPart.length <= 3
+                    ? mainPart.toUpperCase()
+                    : mainPart.charAt(0).toUpperCase() + mainPart.slice(1);
+
+                return `${formattedName} is DEGRADED!`;
               })()
             : `${name} is DEGRADED!`}
         </Heading>
@@ -83,7 +86,7 @@
         </Text>
 
         <Hr class="mx-0 my-5" />
-        <Text class="m-0 mt-4 text-xs leading-5 text-slate-900">
+        <Text class="m-0 mt-4 text-xs leading-5 text-slate-600">
           If you have any questions, we're here to help
           <Link
             href="mailto:support@oddinpay.com"
@@ -95,7 +98,7 @@
       </Section>
 
       <Section class="py-2">
-        <Text class="m-0 text-base text-slate-900">
+        <Text class="m-0 text-base text-gray-600">
           Thanks,<br />
           <span class="font-semibold">The Oddinpay Team</span>
         </Text>
