@@ -69,6 +69,7 @@ const (
 var (
 	timestamp         = time.Now().Format("15:04:05.000")
 	workerEndpointURL = os.Getenv("WORKER_ENDPOINT_URL")
+	secretKey         = os.Getenv("SECRET_KEY")
 )
 
 // ----------- DB / CACHE CONNECTIONS -----------
@@ -399,6 +400,7 @@ func sendToEndpoint(endpointURL string, name string, state string) {
 			return
 		}
 		req.Header.Set("Content-Type", "application/json")
+		req.Header.Set("User-Agent", fmt.Sprintf("%s", secretKey))
 
 		resp, err := httpClient.Do(req)
 		if err != nil {
