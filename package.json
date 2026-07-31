@@ -41,9 +41,6 @@
     "resend": "^6.16.0"
   },
   "devDependencies": {
-    "@better-svelte-email/cli": "^2.1.1",
-    "@better-svelte-email/components": "^2.1.1",
-    "@better-svelte-email/server": "^2.1.1",
     "@cloudflare/workers-types": "^4.20260619.1",
     "@convex-dev/aggregate": "^0.2.1",
     "@eslint/compat": "^1.4.1",

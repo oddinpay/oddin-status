@@ -6,10 +6,6 @@ import path from "path";
 export default defineConfig({
   plugins: [tailwindcss(), sveltekit()],
 
-  ssr: {
-    noExternal: ["@better-svelte-email/preview"],
-  },
-
   build: {
     rollupOptions: {
       external: ["cloudflare:workers"],
