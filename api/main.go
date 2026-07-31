@@ -377,12 +377,10 @@ func slaId() string {
 	return slaId.String()
 }
 
-func sendToEndpoint(endpointURL string, name string, state string, timestamp string, date string) {
+func sendToEndpoint(endpointURL string, name string, state string) {
 	payload := map[string]string{
-		"name":      name,
-		"state":     state,
-		"timestamp": timestamp,
-		"date":      date,
+		"name":  name,
+		"state": state,
 	}
 
 	jsonData, err := json.Marshal(payload)
@@ -415,7 +413,7 @@ func sendToEndpoint(endpointURL string, name string, state string, timestamp str
 	}()
 }
 
-func handleEndpointAlertState(alertKV jetstream.KeyValue, workerEndpointURL string, probeName string, currentState string, timestamp string, date string) {
+func handleEndpointAlertState(alertKV jetstream.KeyValue, workerEndpointURL string, probeName string, currentState string) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
@@ -437,7 +435,7 @@ func handleEndpointAlertState(alertKV jetstream.KeyValue, workerEndpointURL stri
 	}
 
 	if currentState == hr.Down {
-		sendToEndpoint(workerEndpointURL, probeName, hr.Down, timestamp, date)
+		sendToEndpoint(workerEndpointURL, probeName, hr.Down)
 	}
 }
 
@@ -475,7 +473,7 @@ func probeHTTP(re HttpRequest) ProbeResult {
 				continue
 			}
 
-			handleEndpointAlertState(alertKV, workerEndpointURL, re.Name, hr.Down, timestamp, getRecentDates()[0])
+			handleEndpointAlertState(alertKV, workerEndpointURL, re.Name, hr.Down)
 
 			return ProbeResult{
 				Id:          re.ID,
@@ -493,7 +491,7 @@ func probeHTTP(re HttpRequest) ProbeResult {
 
 		if resp.StatusCode >= StatusOK && resp.StatusCode < StatusBadRequest {
 
-			handleEndpointAlertState(alertKV, workerEndpointURL, re.Name, hr.Up, timestamp, getRecentDates()[0])
+			handleEndpointAlertState(alertKV, workerEndpointURL, re.Name, hr.Up)
 
 			return ProbeResult{
 				Id:          re.ID,
@@ -511,7 +509,7 @@ func probeHTTP(re HttpRequest) ProbeResult {
 			continue
 		}
 
-		handleEndpointAlertState(alertKV, workerEndpointURL, re.Name, hr.Down, timestamp, getRecentDates()[0])
+		handleEndpointAlertState(alertKV, workerEndpointURL, re.Name, hr.Down)
 
 		return ProbeResult{
 			Id:          re.ID,

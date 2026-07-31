@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "@tanstack/table-core": "^8.21.3",
+    "better-svelte-email": "^2.1.1",
     "drizzle-orm": "^0.45.2",
     "resend": "^6.16.0"
   },

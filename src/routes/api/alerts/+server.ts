@@ -1,15 +1,20 @@
 import { json } from "@sveltejs/kit";
 import type { RequestEvent } from "@sveltejs/kit";
+import { drizzle } from "drizzle-orm/d1";
+import { subscribers } from "$lib/schema";
+import { asc, gt } from "drizzle-orm";
+import { Renderer } from "@better-svelte-email/server";
+import Status from "$lib/emails/status.svelte";
 
-export async function POST({ request }: RequestEvent) {
+const { render } = new Renderer();
+
+export async function POST({ request, platform }: RequestEvent) {
   try {
     const body = (await request.json()) as {
       name?: string;
       state?: string;
-      timestamp?: string;
-      date?: string;
     };
-    const { name, state, timestamp, date } = body;
+    const { name, state } = body;
 
     if (!name || !state) {
       return json(
@@ -18,11 +23,77 @@ export async function POST({ request }: RequestEvent) {
       );
     }
 
-    console.log(
-      `[Alert Received] Probe: ${name} is ${state} at ${timestamp} on ${date}`,
-    );
+    console.log(`[Alert Received] Probe: ${name} is ${state}`);
 
-    if (state === "DOWN") {
+    if (state == "DOWN" || state === "WARN") {
+      const emailQueue = platform?.env?.SEND_ALERTS_QUEUE;
+
+      const subject =
+        state === "DOWN"
+          ? `${name} is DOWN!`
+          : `${name} is experiencing issues!`;
+
+      const activeShards = [
+        platform?.env?.ohstatus,
+        // platform?.env?.DB_SHARD_2,
+      ].filter(Boolean);
+
+      if (emailQueue && activeShards.length > 0) {
+        const { waitUntil } = await import("cloudflare:workers");
+
+        const html = await render(Status, { props: { name } });
+
+        const backgroundTask = async () => {
+          const batchSize = 1000;
+
+          for (const shardBinding of activeShards) {
+            const db = drizzle(shardBinding!);
+            let lastEmail: string | undefined = undefined;
+            let hasMore = true;
+
+            while (hasMore) {
+              let query = db
+                .select({ email: subscribers.email })
+                .from(subscribers)
+                .orderBy(asc(subscribers.email))
+                .limit(batchSize);
+
+              if (lastEmail) {
+                query = query.where(
+                  gt(subscribers.email, lastEmail),
+                ) as typeof query;
+              }
+
+              const results = await query.all();
+
+              if (!results || results.length === 0) {
+                break;
+              }
+
+              const messages = results.map((row) => ({
+                body: {
+                  from: "Oddinpay Status <status@oddinpay.com>",
+                  email: row.email,
+                  subject: subject,
+                  template: html,
+                },
+              }));
+
+              for (let i = 0; i < messages.length; i += 100) {
+                await emailQueue.sendBatch(messages.slice(i, i + 100));
+              }
+
+              lastEmail = results[results.length - 1].email;
+
+              if (results.length < batchSize) {
+                hasMore = false;
+              }
+            }
+          }
+        };
+
+        waitUntil(backgroundTask());
+      }
     }
 
     return json(

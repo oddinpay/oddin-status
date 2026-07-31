@@ -8,6 +8,7 @@ declare global {
       env: {
         ohstatus: D1Database;
         SUBSCRIBERS_QUEUE: Queue;
+        SEND_ALERTS_QUEUE: Queue;
       };
     }
     // interface Error {}

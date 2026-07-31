@@ -28,10 +28,13 @@ database_name = "ohstatus"
 database_id = "f888f235-8e3f-458a-8ac1-9c5e5fae925d"
 migrations_dir = "drizzle"
 
-
 [[queues.producers]]
 binding = "SUBSCRIBERS_QUEUE"
 queue = "sync-subscribers"
+
+[[queues.producers]]
+binding = "SEND_ALERTS_QUEUE"
+queue = "send-alerts"
 
 [vars]
 PUBLIC_SSE_HOST = "beep.oddinpay.com"
