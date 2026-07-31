@@ -1,7 +1,6 @@
 <script lang="ts">
   import {
     Body,
-    Column,
     Container,
     Head,
     Hr,
@@ -10,7 +9,6 @@
     Link,
     Preview,
     Heading,
-    Row,
     Section,
     Text,
   } from "better-svelte-email";

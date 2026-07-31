@@ -33,6 +33,8 @@ export async function POST({ request, platform }: RequestEvent) {
           ? `${name} is DOWN!`
           : `${name} is experiencing issues!`;
 
+      const html = await render(Down, { props: { name } });
+
       const activeShards = [
         platform?.env?.ohstatus,
         // platform?.env?.DB_SHARD_2,
@@ -40,8 +42,6 @@ export async function POST({ request, platform }: RequestEvent) {
 
       if (emailQueue && activeShards.length > 0) {
         const { waitUntil } = await import("cloudflare:workers");
-
-        const html = await render(Down, { props: { name } });
 
         const backgroundTask = async () => {
           const batchSize = 1000;
