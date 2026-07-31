@@ -6,7 +6,7 @@
 
 - No configuration needed.
 - Clean and simple UI – easy to navigate and user-friendly.
-- Supports `HTTPS`, `HTTP`, `TCP`, `DNS` and `API` checks.
+- Supports `HTTPS`, `HTTP`, `TCP`, and `DNS` checks.
 - Incident management – from **detection to resolution**, all in one place.
 - Create **Schedules**
 - Alerts **Email**.
