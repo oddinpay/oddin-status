@@ -34,7 +34,9 @@ export async function POST({ request, platform }: RequestEvent) {
           ? `${name} is DOWN!`
           : `${name} is experiencing issues!`;
 
-      const html = await render(state === "down" ? Down : Warn, {
+      const Component = state === "down" ? Down : Warn;
+
+      const html = await render(Component, {
         props: { name },
       });
 
