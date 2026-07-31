@@ -22,7 +22,7 @@
   let { name }: Props = $props();
 
   // svelte-ignore state_referenced_locally
-  const previewText = `Oh no! ${name} is down. We are working to fix this as soon as possible.`;
+  const previewText = `Oh no! ${name} is down.`;
 </script>
 
 <Html>
