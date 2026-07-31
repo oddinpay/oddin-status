@@ -32,7 +32,7 @@ export async function POST({ request, platform }: RequestEvent) {
       const subject =
         state === "down"
           ? `${name} is DOWN!`
-          : `${name} is experiencing issues!`;
+          : `${name} is EXPERIENCING ISSUES!`;
 
       const html = await render(state === "down" ? Down : Warn, {
         props: { name },
