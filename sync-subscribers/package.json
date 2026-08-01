@@ -1,0 +1,19 @@
+{
+  "name": "sync-subscribers",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy --minify",
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings"
+  },
+  "dependencies": {
+    "hono": "^4.12.2"
+  },
+  "devDependencies": {
+    "@convex-dev/aggregate": "^0.2.2",
+    "@types/node": "^26.0.1",
+    "convex": "^1.42.0",
+    "resend": "^6.16.0",
+    "wrangler": "^4.4.0"
+  }
+}
