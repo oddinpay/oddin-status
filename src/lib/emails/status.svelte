@@ -17,7 +17,7 @@
     username?: string;
   }
 
-  let { username = "Guest" }: Props = $props();
+  let { username = "there" }: Props = $props();
 
   // svelte-ignore state_referenced_locally
   const previewText = `Hello ${username}, you have successfully subscribed to oddin status updates!`;
