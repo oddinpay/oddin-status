@@ -70,7 +70,7 @@
 
         <Text class="py-2 text-[12px] leading-relaxed font-medium text-black">
           You will receive email notifications whenever <Link
-            class="text-green-500 hover:text-green-600"
+            class="text-[#469062] hover:text-green-600"
             href="https://oddinpay.com">Oddinpay</Link
           > creates, updates, or resolves an incident.
         </Text>
