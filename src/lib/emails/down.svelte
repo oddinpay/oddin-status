@@ -48,7 +48,7 @@
           class="inline-block border-none rounded-lg overflow-hidden no-underline"
         >
           <Img
-            src="https://cdn.oddinpay.com/oddinpay-dark.png"
+            src="https://cdn.oddinpay.com/oddinpay-status.png"
             alt="Oddinpay"
             width="60"
             height="60"
