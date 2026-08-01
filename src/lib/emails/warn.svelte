@@ -25,8 +25,15 @@
 
 <Html>
   <Head>
-    <meta name="color-scheme" content="light only" />
-    <meta name="supported-color-schemes" content="light only" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="supported-color-schemes" content="light dark" />
+
+    <style>
+      :root {
+        color-scheme: light dark;
+        supported-color-schemes: light dark;
+      }
+    </style>
   </Head>
 
   <Body
@@ -80,7 +87,7 @@
           Partial degradation has been identified with {name}. We are working to
           fix this as soon as possible. Please visit our
           <Link
-            class="text-blue-500 hover:text-blue-600"
+            class="text-red-500 hover:text-red-600"
             href="https://status.oddinpay.com">status</Link
           > page for live updates. Thank you for your patience and understanding.
         </Text>

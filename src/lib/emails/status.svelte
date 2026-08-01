@@ -25,8 +25,15 @@
 
 <Html>
   <Head>
-    <meta name="color-scheme" content="light only" />
-    <meta name="supported-color-schemes" content="light only" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="supported-color-schemes" content="light dark" />
+
+    <style>
+      :root {
+        color-scheme: light dark;
+        supported-color-schemes: light dark;
+      }
+    </style>
   </Head>
 
   <Body
@@ -63,7 +70,7 @@
 
         <Text class="py-2 text-md leading-relaxed font-medium text-black">
           You will receive email notifications whenever <Link
-            class="text-blue-500 hover:text-blue-600"
+            class="text-green-500 hover:text-green-600"
             href="https://oddinpay.com">Oddinpay</Link
           > creates, updates, or resolves an incident.
         </Text>
