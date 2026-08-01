@@ -83,11 +83,11 @@
           />
         </Section>
 
-        <Text class="py-2 text-[12px] leading-relaxed font-medium text-black">
+        <Text class="py-2 text-[14px] leading-relaxed font-medium text-black">
           Severe degradation has been identified with {name}. We are working to
           fix this as soon as possible. Please visit our
           <Link
-            class="text-red-500 hover:text-red-600"
+            class="text-red-500 font-semibold hover:text-red-600"
             href="https://status.oddinpay.com">status</Link
           > page for live updates. Thank you for your patience and understanding.
         </Text>
