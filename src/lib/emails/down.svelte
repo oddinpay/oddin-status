@@ -87,7 +87,7 @@
           Severe degradation has been identified with {name}. We are working to
           fix this as soon as possible. Please visit our
           <Link
-            class="text-red-500 font-semibold hover:text-red-600"
+            class="text-[#2a8213] font-semibold hover:text-green-600"
             href="https://status.oddinpay.com">status</Link
           > page for live updates. Thank you for your patience and understanding.
         </Text>
