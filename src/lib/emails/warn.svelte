@@ -76,7 +76,7 @@
           />
         </Section>
 
-        <Text class="py-2 text-[17px] leading-relaxed font-medium text-black">
+        <Text class="py-2 text-md leading-relaxed font-medium text-black">
           Partial degradation has been identified with {name}. We are working to
           fix this as soon as possible. Please visit our
           <Link

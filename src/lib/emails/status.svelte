@@ -61,7 +61,7 @@
           />
         </Section>
 
-        <Text class="py-2 text-[17px] leading-relaxed font-medium text-black">
+        <Text class="py-2 text-md leading-relaxed font-medium text-black">
           You will receive email notifications whenever <Link
             class="text-blue-500 hover:text-blue-600"
             href="https://oddinpay.com">Oddinpay</Link
