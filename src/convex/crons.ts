@@ -1,21 +1,18 @@
 import { cronJobs } from "convex/server";
-import { api } from "./_generated/api";
+import { internal } from "./_generated/api";
 
 const crons = cronJobs();
 
-crons.daily("clear_old_schedules", { hourUTC: 0, minuteUTC: 0 }, api.schedules.cleanup);
+crons.daily(
+  "clear_old_schedules",
+  { hourUTC: 0, minuteUTC: 0 },
+  internal.schedules.cleanup,
+);
+
+crons.daily(
+  "clear_old_incidents",
+  { hourUTC: 0, minuteUTC: 0 },
+  internal.incidents.cleanup,
+);
 
 export default crons;
-
-// import { cronJobs } from "convex/server";
-// import { api } from "./_generated/api";
-
-// const crons = cronJobs();
-
-// crons.interval(
-//     "clear_old_schedules_every_minute",
-//     { minutes: 1 },
-//     api.schedules.cleanup
-// );
-
-// export default crons;

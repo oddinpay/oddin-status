@@ -1,4 +1,4 @@
-import { query, mutation } from "./_generated/server";
+import { query, mutation, internalMutation } from "./_generated/server";
 import { v } from "convex/values";
 import { components } from "./_generated/api";
 import type { DataModel } from "./_generated/dataModel";
@@ -161,7 +161,7 @@ export const backfill = mutation({
   },
 });
 
-export const cleanup = mutation({
+export const cleanup = internalMutation({
   handler: async (ctx) => {
     const ninetyDaysAgo = Date.now() - 90 * 24 * 60 * 60 * 1000;
 

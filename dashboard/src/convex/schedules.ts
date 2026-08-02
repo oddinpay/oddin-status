@@ -1,9 +1,8 @@
-import { query, mutation } from "./_generated/server";
+import { query, mutation, internalMutation } from "./_generated/server";
 import { v } from "convex/values";
 import { components } from "./_generated/api";
 import type { DataModel } from "./_generated/dataModel";
 import { TableAggregate } from "@convex-dev/aggregate";
-
 
 export const scheduleAggregate = new TableAggregate<{
   Key: string;
@@ -12,7 +11,6 @@ export const scheduleAggregate = new TableAggregate<{
 }>(components.scheduleCount, {
   sortKey: (doc) => doc.status,
 });
-
 
 export const get = query({
   handler: async (ctx) => {
@@ -54,7 +52,6 @@ export const post = mutation({
   },
 });
 
-
 export const count = query({
   handler: async (ctx) => {
     return await scheduleAggregate.count(ctx);
@@ -63,26 +60,24 @@ export const count = query({
 
 export const getStatusCounts = query({
   handler: async (ctx) => {
-
     const all = await ctx.db.query("schedules").collect();
     const groups = new Map<string, string[]>();
 
-    all.forEach(s => {
+    all.forEach((s) => {
       const existing = groups.get(s.parentId) || [];
       groups.set(s.parentId, [...existing, s.status]);
     });
 
     const groupValues = Array.from(groups.values());
 
-    const scheduledCount = groupValues.filter(statuses =>
-      statuses.includes("Scheduled") && statuses.length === 1
+    const scheduledCount = groupValues.filter(
+      (statuses) => statuses.includes("Scheduled") && statuses.length === 1,
     ).length;
 
-
-    const inprogressCount = groupValues.filter(statuses => {
+    const inprogressCount = groupValues.filter((statuses) => {
       const hasInprogress = statuses.includes("Inprogress");
-      const onlyAllowedStatuses = statuses.every(s =>
-        s === "Inprogress" || s === "Scheduled"
+      const onlyAllowedStatuses = statuses.every(
+        (s) => s === "Inprogress" || s === "Scheduled",
       );
       return hasInprogress && onlyAllowedStatuses;
     }).length;
@@ -90,9 +85,9 @@ export const getStatusCounts = query({
     return {
       inprogress: inprogressCount,
       scheduled: scheduledCount,
-      total: all.length
+      total: all.length,
     };
-  }
+  },
 });
 
 export const update = mutation({
@@ -140,7 +135,6 @@ export const deleteById = mutation({
   },
 });
 
-
 export const deleteBulk = mutation({
   args: { id: v.array(v.id("schedules")), apiKey: v.string() },
   handler: async (ctx, args) => {
@@ -172,9 +166,9 @@ export const backfill = mutation({
   },
 });
 
-export const cleanup = mutation({
+export const cleanup = internalMutation({
   handler: async (ctx) => {
-    const ninetyDaysAgo = Date.now() - (90 * 24 * 60 * 60 * 1000);
+    const ninetyDaysAgo = Date.now() - 90 * 24 * 60 * 60 * 1000;
 
     const oldItems = await ctx.db
       .query("schedules")
