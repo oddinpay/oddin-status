@@ -19,8 +19,7 @@
 
   let { name = "" }: Props = $props();
 
-  // svelte-ignore state_referenced_locally
-  const previewText = `Oh no! ${name} is down.`;
+  const previewText = $derived(`Oh no! ${name} is down.`);
 </script>
 
 <Html>

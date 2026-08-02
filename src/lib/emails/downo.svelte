@@ -19,7 +19,7 @@
 
   let { name = "" }: Props = $props();
 
-  const previewText = $derived(`Oh no! ${name} is experiencing issues!`);
+  const previewText = $derived(`Oh no! ${name} is down.`);
 </script>
 
 <Html>
@@ -36,7 +36,7 @@
   </Head>
 
   <Body
-    class="bg-yellow-50 mx-auto my-auto px-2 font-[Arial,Inter_Variable,Roboto,-apple-system] antialiased leading-relaxed font-medium"
+    class="bg-red-50 mx-auto my-auto px-2 font-[Arial,Inter_Variable,Roboto,-apple-system] antialiased leading-relaxed font-medium"
   >
     <Preview preview={previewText} />
     <Container class="mx-auto max-w-116.25 p-4 my-10">
@@ -67,14 +67,14 @@
                     ? mainPart.toUpperCase()
                     : mainPart.charAt(0).toUpperCase() + mainPart.slice(1);
 
-                return `${formattedName} is DEGRADED!`;
+                return `${formattedName} is DOWN!`;
               })()
-            : `${name} is DEGRADED!`}
+            : `${name} is DOWN!`}
         </Heading>
 
         <Section class="py-2 text-center">
           <img
-            src="https://cdn.oddinpay.com/warn.png"
+            src="https://cdn.oddinpay.com/down.png"
             alt="Status"
             width="100"
             height="100"
@@ -83,66 +83,21 @@
         </Section>
 
         <Text class="py-2 text-[15px] leading-relaxed font-medium text-black">
-          Partial degradation has been identified with {name}. We are working to
-          fix this as soon as possible. Please visit our
-          <Link
-            class="text-[#2a8213] font-semibold hover:text-green-600"
-            href="https://status.oddinpay.com">status</Link
-          > page for live updates. Thank you for your patience and understanding.
+          Severe degradation has been identified with {name}. We are working to
+          fix this as soon as possible. Thank you for your patience and
+          understanding.
         </Text>
 
         <Hr class="mx-0 my-5 border-slate-300" />
-        <Text class="m-0 mt-4 text-xs leading-5 text-slate-600">
-          If you have any questions, we're here to help
-          <Link
-            href="mailto:support@oddinpay.com"
-            class="text-xs text-slate-700 font-semibold underline"
-          >
-            support@oddinpay.com
-          </Link>
-        </Text>
       </Section>
 
       <Section class="py-2">
-        <Text class="m-0 text-base text-gray-600">
+        <Text class="m-0 text-base text-slate-600">
           Thanks,<br />
-          <span class="font-semibold">The Oddinpay Team</span>
         </Text>
       </Section>
 
-      <Section class="mt-0 py-2 space-x-2">
-        <Link
-          href="https://www.linkedin.com/company/oddinpay"
-          aria-label="Oddinpay on LinkedIn"
-        >
-          <Img
-            src="https://cdn.oddinpay.com/linkedin.png"
-            width="18"
-            height="18"
-            alt="oddinpay icon linkedin"
-            class="inline-block"
-          />
-        </Link>
-
-        <Link
-          href="https://github.com/oddinpay"
-          aria-label="Oddinpay on GitHub"
-        >
-          <Img
-            src="https://cdn.oddinpay.com/github.png"
-            width="18"
-            height="18"
-            alt="oddinpay icon github"
-            class="inline-block"
-          />
-        </Link>
-      </Section>
-
       <Section class="py-2">
-        <Text class="m-0 text-xs text-slate-500 leading-loose"
-          >Sent with care from</Text
-        >
-
         <Text class="m-0 text-xs text-slate-500">
           &copy; {new Date().getFullYear()} Oddinpay LLC.
         </Text>

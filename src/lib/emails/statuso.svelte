@@ -20,7 +20,7 @@
   let { username = "there" }: Props = $props();
 
   const previewText = $derived(
-    `Hello ${username}, you have successfully subscribed to oddin status updates!`,
+    `Hello ${username}, you have successfully subscribed to the updates!`,
   );
 </script>
 
@@ -70,68 +70,20 @@
         </Section>
 
         <Text class="py-2 text-[16px] leading-relaxed font-medium text-black">
-          You will receive email notifications whenever <Link
-            class="text-[#2a8213] font-semibold hover:text-green-600"
-            href="https://status.oddinpay.com">status</Link
-          > creates, updates, or resolves an incident.
+          You will receive email notifications whenever creates, updates, or
+          resolves an incident.
         </Text>
-
-        <!-- <Text class="mx-0 text-[17px] leading-relaxed font-medium text-black">
-          Keep an eye on your inbox for updates from us.
-        </Text> -->
 
         <Hr class="mx-0 my-5" />
-        <Text class="m-0 mt-4 text-xs leading-5 text-slate-600">
-          If you have any questions, we're here to help
-          <Link
-            href="mailto:support@oddinpay.com"
-            class="text-xs text-slate-700 font-semibold underline"
-          >
-            support@oddinpay.com
-          </Link>
-        </Text>
       </Section>
 
       <Section class="py-2">
         <Text class="m-0 text-base text-slate-600">
           Thanks,<br />
-          <span class="font-semibold">The Oddinpay Team</span>
         </Text>
       </Section>
 
-      <Section class="mt-0 py-2 space-x-2">
-        <Link
-          href="https://www.linkedin.com/company/oddinpay"
-          aria-label="Oddinpay on LinkedIn"
-        >
-          <Img
-            src="https://cdn.oddinpay.com/linkedin.png"
-            width="18"
-            height="18"
-            alt="oddinpay icon linkedin"
-            class="inline-block"
-          />
-        </Link>
-
-        <Link
-          href="https://github.com/oddinpay"
-          aria-label="Oddinpay on GitHub"
-        >
-          <Img
-            src="https://cdn.oddinpay.com/github.png"
-            width="18"
-            height="18"
-            alt="oddinpay icon github"
-            class="inline-block"
-          />
-        </Link>
-      </Section>
-
       <Section class="py-2">
-        <Text class="m-0 text-xs text-slate-500 leading-loose"
-          >Sent with care from</Text
-        >
-
         <Text class="m-0 text-xs text-slate-500">
           &copy; {new Date().getFullYear()} Oddinpay LLC.
         </Text>
