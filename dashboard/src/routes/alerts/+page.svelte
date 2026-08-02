@@ -26,15 +26,28 @@
 
   let requestID: number;
   let timer: ReturnType<typeof setTimeout>;
-  let totalCount = $state(0);
-  const subscriberCount = useQuery(api.subscribers.count, {});
 
-  
+  let totalCount = $state(0);
+  let recentCountValue = $state(0);
+
+  const subscriberCount = useQuery(api.subscribers.count, {});
+  const recentCount = useQuery(api.subscribers.recentCount, {
+    status: "subscribed",
+  });
+
   $effect(() => {
     if (subscriberCount.data !== undefined) {
       totalCount = subscriberCount.data;
     } else {
       totalCount = 0;
+    }
+  });
+
+  $effect(() => {
+    if (recentCount.data !== undefined) {
+      recentCountValue = recentCount.data;
+    } else {
+      recentCountValue = 0;
     }
   });
 
@@ -247,7 +260,7 @@
               class="text-white"
               show_value
               size="lg"
-              value={0}
+              value={recentCountValue}
             />
           </TabsContent>
         </div>
