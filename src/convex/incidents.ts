@@ -158,7 +158,9 @@ export const cleanup = internalMutation({
 
     const oldItems = await ctx.db
       .query("incidents")
-      .filter((q) => q.lt(q.field("_creationTime"), ninetyDaysAgo))
+      .withIndex("by_status", (q) =>
+        q.eq("status", "Resolved").lt("_creationTime", ninetyDaysAgo),
+      )
       .collect();
 
     for (const item of oldItems) {

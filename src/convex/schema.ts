@@ -24,7 +24,7 @@ export default defineSchema({
     status: v.string(),
     service: v.string(),
     note: v.string(),
-  }),
+  }).index("by_status", ["status"]),
 
   schedules: defineTable({
     parentId: v.string(),
@@ -34,5 +34,5 @@ export default defineSchema({
     time: v.string(),
     status: v.string(),
     note: v.string(),
-  }),
+  }).index("by_status", ["status"]),
 });
