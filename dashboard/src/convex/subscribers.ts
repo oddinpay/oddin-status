@@ -108,6 +108,23 @@ export const getSubscriberByEmail = query({
   },
 });
 
+// Recent
+export const recentCount = query({
+  args: { status: v.string() },
+  handler: async (ctx, args) => {
+    const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+
+    const recentSubscribers = await ctx.db
+      .query("subscribers")
+      .withIndex("by_status", (q) =>
+        q.eq("status", args.status).gte("_creationTime", sevenDaysAgo),
+      )
+      .collect();
+
+    return recentSubscribers.length;
+  },
+});
+
 // Sync
 export const backfill = mutation({
   handler: async (ctx) => {
