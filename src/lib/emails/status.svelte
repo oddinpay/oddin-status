@@ -80,7 +80,7 @@
           Keep an eye on your inbox for updates from us.
         </Text> -->
 
-        <Hr class="mx-0 my-5" />
+        <Hr class="mx-0 my-5 border-slate-300" />
         <Text class="m-0 mt-4 text-xs leading-5 text-slate-600">
           If you have any questions, we're here to help
           <Link

@@ -74,7 +74,7 @@
           resolves an incident.
         </Text>
 
-        <Hr class="mx-0 my-5" />
+        <Hr class="mx-0 my-5 border-slate-300" />
       </Section>
 
       <Section class="py-2">
