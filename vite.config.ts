@@ -6,6 +6,12 @@ import path from "path";
 export default defineConfig({
   plugins: [tailwindcss(), sveltekit()],
 
+  build: {
+    rollupOptions: {
+      external: ["cloudflare:workers"],
+    },
+  },
+
   resolve: {
     alias: {
       $lib: path.resolve("./src/lib"),
