@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@aejkatappaja/phantom-ui": "^0.10.1",
-    "@auth/core": "^0.37.4",
+    "@auth/core": "^0.41.3",
     "@convex-dev/aggregate": "^0.2.2",
     "@convex-dev/auth": "^0.0.87",
     "@fontsource-variable/inter": "^5.2.8",
