@@ -35,6 +35,3 @@ queue = "sync-subscribers"
 [[queues.producers]]
 binding = "SEND_ALERTS_QUEUE"
 queue = "send-alerts"
-
-[vars]
-PUBLIC_SSE_HOST = "beep.oddinpay.com"
