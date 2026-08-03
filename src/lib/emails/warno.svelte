@@ -92,6 +92,12 @@
       </Section>
 
       <Section class="py-2">
+        <Text class="m-0 text-base text-slate-600">
+          Thanks <br />
+        </Text>
+      </Section>
+
+      <Section class="py-2">
         <Text class="m-0 text-xs text-slate-500">
           &copy; {new Date().getFullYear()} Oddinpay LLC.
         </Text>

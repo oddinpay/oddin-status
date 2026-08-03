@@ -79,7 +79,7 @@
 
       <Section class="py-2">
         <Text class="m-0 text-base text-slate-600">
-          Thanks,<br />
+          Thanks <br />
         </Text>
       </Section>
 
