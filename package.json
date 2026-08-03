@@ -4,6 +4,9 @@
   "keywords": [
     "svelte"
   ],
+  "resolutions": {
+    "cookie": "0.7.2"
+  },
   "license": "MIT",
   "files": [
     "dist",
