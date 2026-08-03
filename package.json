@@ -76,7 +76,6 @@
     "globals": "^16.5.0",
     "idb-keyval": "^6.2.2",
     "lodash-es": "^4.18.1",
-    "lucide-svelte": "^0.544.0",
     "mdsvex": "^0.12.7",
     "prettier": "^3.8.1",
     "prettier-plugin-svelte": "^3.5.1",
