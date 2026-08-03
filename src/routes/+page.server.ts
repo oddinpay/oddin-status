@@ -43,11 +43,11 @@ export const actions: Actions = {
       if (emailQueue) {
         const { waitUntil } = await import("cloudflare:workers");
 
-        const username = email.split("@")[0];
-
         const domain = e.platform?.env?.DOMAIN || "oddinpay.com";
 
         const emailTemplate = domain === "oddinpay.com" ? Status : Statuso;
+
+        const username = email.split("@")[0];
 
         const html = await render(emailTemplate, { props: { username } });
 

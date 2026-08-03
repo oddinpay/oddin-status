@@ -7,6 +7,9 @@ import { Renderer } from "@better-svelte-email/server";
 import Down from "$lib/emails/down.svelte";
 import Warn from "$lib/emails/warn.svelte";
 
+import Downo from "$lib/emails/downo.svelte";
+import Warno from "$lib/emails/warno.svelte";
+
 const { render } = new Renderer();
 
 export async function POST({ request, platform }: RequestEvent) {
@@ -26,6 +29,8 @@ export async function POST({ request, platform }: RequestEvent) {
 
     console.log(`[Alert Received] Probe: ${name} is ${state}`);
 
+    const domain = platform?.env?.DOMAIN || "oddinpay.com";
+
     if (state == "down" || state === "warn") {
       const emailQueue = platform?.env?.SEND_ALERTS_QUEUE;
 
@@ -34,7 +39,16 @@ export async function POST({ request, platform }: RequestEvent) {
           ? `${name} is DOWN!`
           : `${name} is EXPERIENCING ISSUES!`;
 
-      const html = await render(state === "down" ? Down : Warn, {
+      const emailTemplate =
+        domain === "oddinpay.com"
+          ? state === "down"
+            ? Down
+            : Warn
+          : state === "down"
+            ? Downo
+            : Warno;
+
+      const html = await render(emailTemplate, {
         props: { name },
       });
 
@@ -72,8 +86,6 @@ export async function POST({ request, platform }: RequestEvent) {
               if (!results || results.length === 0) {
                 break;
               }
-
-              const domain = platform?.env?.DOMAIN || "oddinpay.com";
 
               const messages = results.map((row) => ({
                 body: {
