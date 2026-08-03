@@ -10,8 +10,8 @@ type Bindings = {
 };
 
 export interface EmailTask {
-  email: string;
   from: string;
+  email: string;
   subject: string;
   template: string;
 }

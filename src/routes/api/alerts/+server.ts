@@ -73,9 +73,11 @@ export async function POST({ request, platform }: RequestEvent) {
                 break;
               }
 
+              const domain = platform?.env?.DOMAIN || "oddinpay.com";
+
               const messages = results.map((row) => ({
                 body: {
-                  from: "Oddinpay Status <status@oddinpay.com>",
+                  from: `Oddinpay Status <status@${domain}>`,
                   email: row.email,
                   subject: subject,
                   template: html,

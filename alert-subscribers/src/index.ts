@@ -3,9 +3,11 @@ import { Resend } from "resend";
 
 type Bindings = {
   RESEND_API_KEY: string;
+  DOMAIN: string;
 };
 
 export interface EmailTask {
+  from: string;
   email: string;
   subject: string;
   template: string;
@@ -21,7 +23,6 @@ const app = new Hono<{ Bindings: Bindings }>();
 
 export default {
   async queue(batch: MessageBatch<EmailTask>, env: Bindings): Promise<void> {
- 
     const resend = new Resend(env.RESEND_API_KEY);
     const messages = batch.messages;
 
@@ -29,7 +30,7 @@ export default {
       const chunk = messages.slice(i, i + 100);
 
       const emailPayloads = chunk.map((m: { body: EmailTask }) => ({
-        from: "Oddinpay Status <status@oddinpay.com>",
+        from: m.body.from,
         to: [m.body.email],
         subject: m.body.subject,
         html: m.body.template,
