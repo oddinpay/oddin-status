@@ -4,9 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-overrides:
-  cookie: 0.7.2
-
 importers:
 
   .:
@@ -87,9 +84,6 @@ importers:
       convex-svelte:
         specifier: ^0.0.12
         version: 0.0.12(convex@1.33.1)(svelte@5.55.7(@typescript-eslint/types@8.57.1))
-      cookie:
-        specifier: 0.7.2
-        version: 0.7.2
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
@@ -2542,9 +2536,13 @@ packages:
       react:
         optional: true
 
-  cookie@0.7.2:
-    resolution: {integrity: sha512-yki5XnKuf750l50uGTllt6kKILY4nQ1eNIQatoXEByZ5dWgnKqbnqmTrBE5B4N7lrMJKQ2ytWMiTO2o0v6Ew/w==}
+  cookie@0.6.0:
+    resolution: {integrity: sha512-U71cyTamuh1CRNCfpGY6to28lxvNwPG4Guz/EVjgf3Jmzv0vlDp1atT9eS5dDjMYHucpHbWns6Lwf3BKz6svdw==}
     engines: {node: '>= 0.6'}
+
+  cookie@1.1.1:
+    resolution: {integrity: sha512-ei8Aos7ja0weRpFzJnEA9UHJ/7XQmqglbRwnf2ATjcB9Wq874VKH9kfjjirM6UhU2/E5fFYadylyhFldcqSidQ==}
+    engines: {node: '>=18'}
 
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
@@ -5348,7 +5346,7 @@ snapshots:
       '@sveltejs/vite-plugin-svelte': 7.0.0(svelte@5.55.7(@typescript-eslint/types@8.57.1))(vite@8.2.0(@types/node@22.19.15)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.3))
       '@types/cookie': 0.6.0
       acorn: 8.18.0
-      cookie: 0.7.2
+      cookie: 0.6.0
       devalue: 5.9.0
       esm-env: 1.2.2
       kleur: 4.1.5
@@ -5800,7 +5798,9 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  cookie@0.7.2: {}
+  cookie@0.6.0: {}
+
+  cookie@1.1.1: {}
 
   cross-spawn@7.0.6:
     dependencies:
@@ -7425,7 +7425,7 @@ snapshots:
       '@poppinss/colors': 4.1.6
       '@poppinss/dumper': 0.6.5
       '@speed-highlight/core': 1.2.15
-      cookie: 0.7.2
+      cookie: 1.1.1
       youch-core: 0.3.3
 
   yup@1.7.1:
