@@ -124,7 +124,7 @@
     ),
   );
 
-  function coerceStatus(s?: StatusType): StatusType {
+  function coerceStatus(s: string): StatusType {
     return s === "up" || s === "down" || s === "warn" ? s : "warn";
   }
 
@@ -148,10 +148,10 @@
     if (arr.length) {
       const idx = Math.max(0, Math.min(dayIndex, arr.length - 1));
       const candidate = arr[idx]?.status as StatusType | undefined;
-      return coerceStatus(candidate);
+      return coerceStatus(candidate ?? "default");
     }
 
-    return coerceStatus(x.status);
+    return coerceStatus(x.status ?? "default");
   }
 
   function monitorStatus(x: any): StatusType {
@@ -212,7 +212,7 @@
 
   // Classify the status based on downtime string
 
-  function getChipStatus(downtime?: string): StatusType {
+  function getChipStatus(downtime: string): StatusType {
     if (!downtime || downtime === "0s") return "up";
 
     const totalSeconds = parseDowntimeToSeconds(downtime);
