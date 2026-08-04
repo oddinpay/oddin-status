@@ -166,7 +166,7 @@
               class="w-full flex items-center justify-center bg-black text-white transition-[background-color,transform,opacity] duration-200 ease-out hover:bg-zinc-700 hover:text-white active:scale-[0.98] disabled:pointer-events-auto disabled:cursor-not-allowed cursor-pointer"
               type="submit"
               variant="outline"
-              onclick={() => trigger([{ duration: 10, intensity: 0.8 }])}
+              onclick={() => trigger([{ duration: 3, intensity: 0.5 }])}
               disabled={$submitting}
               >{#if $submitting}
                 <Loader2 class="size-4 animate-spin" />
@@ -191,7 +191,7 @@
     }
 
     .m3-dialog[data-state="closed"] {
-      animation: m3-exit 0.5s cubic-bezier(0.2, 0, 0, 1) forwards !important;
+      animation: m3-exit 0.15s cubic-bezier(0.3, 0, 1, 1) forwards !important;
       backface-visibility: hidden;
       transform-style: preserve-3d;
       will-change: transform, opacity;
