@@ -196,22 +196,22 @@
     @keyframes m3-enter {
       from {
         opacity: 0;
-        transform: translate(-50%, -50%) scale(0.9);
+        transform: scale(0.9);
       }
       to {
         opacity: 1;
-        transform: translate(-50%, -50%) scale(1);
+        transform: scale(1);
       }
     }
 
     @keyframes m3-exit {
       from {
         opacity: 1;
-        transform: translate(-50%, -50%) scale(1);
+        transform: scale(1);
       }
       to {
         opacity: 0;
-        transform: translate(-50%, -50%) scale(0.95);
+        transform: scale(0.95);
       }
     }
 
