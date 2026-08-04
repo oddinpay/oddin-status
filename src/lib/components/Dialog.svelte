@@ -168,8 +168,8 @@
               variant="outline"
               onclick={() =>
                 trigger([
-                  { duration: 12, intensity: 0.6 },
-                  { delay: 3, duration: 12, intensity: 0.6 },
+                  { duration: 6, intensity: 0.4 },
+                  { delay: 4, duration: 12, intensity: 0.8 },
                 ])}
               disabled={$submitting}
               >{#if $submitting}
