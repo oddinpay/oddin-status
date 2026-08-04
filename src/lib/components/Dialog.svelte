@@ -169,14 +169,10 @@
               type="submit"
               variant="outline"
               onclick={() =>
-                trigger(
-                  [
-                    { duration: 10 },
-                    { duration: 30, intensity: 0 },
-                    { duration: 10 },
-                  ],
-                  { intensity: 0.9 },
-                )}
+                trigger([
+                  { duration: 10, intensity: 0.4 },
+                  { delay: 80, duration: 15, intensity: 0.9 },
+                ])}
               disabled={$submitting}
               >{#if $submitting}
                 <Loader2 class="size-4 animate-spin" />
