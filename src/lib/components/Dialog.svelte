@@ -80,7 +80,7 @@
   </Dialog.Trigger>
 
   {#if sucess}
-    <Dialog.Content class="sm:max-w-100">
+    <Dialog.Content class="sm:max-w-100 m3-dialog">
       <Dialog.Header>
         <Dialog.Title>Subscribed!</Dialog.Title>
         <Dialog.Description class="mt-2 text-gray-500">
@@ -134,7 +134,7 @@
       </div>
     </Dialog.Content>
   {:else}
-    <Dialog.Content class="sm:max-w-100">
+    <Dialog.Content class="sm:max-w-100 m3-dialog">
       <Dialog.Header>
         <Dialog.Title>Subscribe to alerts</Dialog.Title>
         <Dialog.Description class="mt-2 text-gray-500">
@@ -185,6 +185,36 @@
 
 <svelte:head>
   <style>
+    .m3-dialog[data-state="open"] {
+      animation: m3-enter 0.5s cubic-bezier(0.2, 0, 0, 1) forwards !important;
+    }
+
+    .m3-dialog[data-state="closed"] {
+      animation: m3-exit 0.15s cubic-bezier(0.3, 0, 0.8, 0.15) forwards !important;
+    }
+
+    @keyframes m3-enter {
+      from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+
+    @keyframes m3-exit {
+      from {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+      to {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.95);
+      }
+    }
+
     .checkmark2 {
       border-radius: 50%;
       display: block;
