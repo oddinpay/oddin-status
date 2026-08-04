@@ -168,7 +168,11 @@
               class="w-full flex items-center justify-center bg-black text-white transition-[background-color,transform,opacity] duration-200 ease-out hover:bg-zinc-700 hover:text-white active:scale-[0.98] disabled:pointer-events-auto disabled:cursor-not-allowed cursor-pointer"
               type="submit"
               variant="outline"
-              onclick={() => trigger([{ duration: 12, intensity: 0.7 }])}
+              onclick={() =>
+                trigger([
+                  { duration: 6 },
+                  { delay: 3, duration: 6, intensity: 0.6 },
+                ])}
               disabled={$submitting}
               >{#if $submitting}
                 <Loader2 class="size-4 animate-spin" />
