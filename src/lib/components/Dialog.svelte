@@ -194,7 +194,7 @@
     }
 
     .m3-dialog[data-state="closed"] {
-      animation: m3-exit 0.5s cubic-bezier(0.3, 0, 0.8, 0.15) forwards !important;
+      animation: m3-exit 0.15s cubic-bezier(0.3, 0, 0.8, 0.15) forwards !important;
     }
 
     @keyframes m3-enter {
