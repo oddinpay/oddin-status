@@ -192,7 +192,7 @@
     }
 
     .m3-dialog[data-state="closed"] {
-      animation: m3-exit 0.15s cubic-bezier(0.3, 0, 0.8, 0.15) forwards !important;
+      animation: m3-exit 0.25s cubic-bezier(0.3, 0, 0.8, 0.25) forwards !important;
       backface-visibility: hidden;
       transform-style: preserve-3d;
       will-change: transform, opacity;
