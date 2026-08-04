@@ -38,6 +38,7 @@
       } else {
         sucess = false;
       }
+      showCompletionDialog = true;
     },
   });
 
@@ -56,7 +57,6 @@
     class="sm:max-w-100 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-75 data-[state=open]:duration-300 data-[state=open]:ease-[cubic-bezier(0.05,0.7,0.1,1.0)] data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-75 data-[state=closed]:duration-150 data-[state=closed]:ease-[cubic-bezier(0.3,0,0.8,0.15)]"
   >
     {#if sucess}
-      <!-- Success State -->
       <div in:fade={{ duration: 200 }}>
         <Dialog.Header>
           <Dialog.Title>Subscribed!</Dialog.Title>
