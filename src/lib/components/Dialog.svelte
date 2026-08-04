@@ -196,6 +196,9 @@
 
     .m3-dialog[data-state="closed"] {
       animation: m3-exit 0.15s cubic-bezier(0.3, 0, 0.8, 0.15) forwards !important;
+      backface-visibility: hidden;
+      transform-style: preserve-3d;
+      will-change: transform, opacity;
     }
 
     @keyframes m3-enter {
