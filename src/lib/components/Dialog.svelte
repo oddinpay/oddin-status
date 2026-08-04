@@ -79,8 +79,8 @@
     <Bell />
   </Dialog.Trigger>
 
-  {#if sucess}
-    <Dialog.Content class="sm:max-w-100 m3-dialog">
+  <Dialog.Content class="sm:max-w-100 m3-dialog">
+    {#if sucess}
       <Dialog.Header>
         <Dialog.Title>Subscribed!</Dialog.Title>
         <Dialog.Description class="mt-2 text-gray-500">
@@ -132,9 +132,7 @@
           </Form.Button>
         </Dialog.Footer>
       </div>
-    </Dialog.Content>
-  {:else}
-    <Dialog.Content class="sm:max-w-100 m3-dialog">
+    {:else}
       <Dialog.Header>
         <Dialog.Title>Subscribe to alerts</Dialog.Title>
         <Dialog.Description class="mt-2 text-gray-500">
@@ -183,14 +181,17 @@
           </Dialog.Footer>
         </div>
       </form>
-    </Dialog.Content>
-  {/if}
+    {/if}
+  </Dialog.Content>
 </Dialog.Root>
 
 <svelte:head>
   <style>
     .m3-dialog[data-state="open"] {
       animation: m3-enter 0.5s cubic-bezier(0.2, 0, 0, 1) forwards !important;
+      backface-visibility: hidden;
+      transform-style: preserve-3d;
+      will-change: transform, opacity;
     }
 
     .m3-dialog[data-state="closed"] {
