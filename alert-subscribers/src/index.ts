@@ -26,8 +26,13 @@ export default {
     const resend = new Resend(env.RESEND_API_KEY);
     const messages = batch.messages;
 
+    const totalMessages = messages.length;
+    let totalSuccessfullySent = 0;
+
     for (let i = 0; i < messages.length; i += 100) {
       const chunk = messages.slice(i, i + 100);
+      const chunkNumber = Math.floor(i / 100) + 1;
+      const totalChunks = Math.ceil(messages.length / 100);
 
       const emailPayloads = chunk.map((m: { body: EmailTask }) => ({
         from: m.body.from,
@@ -35,6 +40,10 @@ export default {
         subject: m.body.subject,
         html: m.body.template,
       }));
+
+      console.log(
+        `Currently processing chunk ${chunkNumber}/${totalChunks} (${chunk.length} emails)`,
+      );
 
       try {
         const { error } = await resend.batch.send(emailPayloads);
@@ -51,6 +60,8 @@ export default {
           }
           continue;
         }
+
+        totalSuccessfullySent += chunk.length;
 
         console.log(
           `[Queue] Email sent successfully to ${chunk
@@ -89,6 +100,10 @@ export default {
         }
       }
     }
+
+    console.log(
+      `Total emails sent successfully: ${totalSuccessfullySent}/${totalMessages}`,
+    );
   },
 
   fetch: app.fetch,

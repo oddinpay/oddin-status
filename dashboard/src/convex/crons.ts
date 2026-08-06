@@ -15,4 +15,10 @@ crons.daily(
   internal.incidents.cleanup,
 );
 
+crons.daily(
+  "clear_old_notifications",
+  { hourUTC: 0, minuteUTC: 0 },
+  internal.notifications.cleanup,
+);
+
 export default crons;

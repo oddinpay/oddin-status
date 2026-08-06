@@ -44,4 +44,10 @@ export default defineSchema({
   })
     .index("by_email", ["email"])
     .index("by_status", ["status"]),
+
+  notifications: defineTable({
+    status: v.string(),
+    note: v.string(),
+    seen: v.boolean(),
+  }).index("by_status", ["status"]),
 });
