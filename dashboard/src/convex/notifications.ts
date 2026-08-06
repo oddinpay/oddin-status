@@ -1,3 +1,4 @@
+import { th } from "zod/v4/locales/index.js";
 import { query, mutation, internalMutation } from "./_generated/server";
 import { v } from "convex/values";
 
@@ -91,12 +92,12 @@ export const markAllAsRead = mutation({
 
 export const cleanup = internalMutation({
   handler: async (ctx) => {
-    const ninetyDaysAgo = Date.now() - 90 * 24 * 60 * 60 * 1000;
+    const thirtyDaysAgo = Date.now() - 30 * 24 * 60 * 60 * 1000;
 
     const oldItems = await ctx.db
       .query("notifications")
       .withIndex("by_status", (q) =>
-        q.eq("status", "succeeded").lt("_creationTime", ninetyDaysAgo),
+        q.eq("status", "succeeded").lt("_creationTime", thirtyDaysAgo),
       )
       .collect();
 
