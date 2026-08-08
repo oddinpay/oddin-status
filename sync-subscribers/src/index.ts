@@ -40,6 +40,24 @@ export default {
     const resend = new Resend(env.RESEND_API_KEY);
 
     for (const message of batch.messages) {
+      const { email } = message.body;
+
+      const existingSubscriber = await client.query(
+        api.subscribers.getSubscriberByEmail,
+        {
+          apiKey: env.API_KEY,
+          email: email,
+        },
+      );
+
+      if (existingSubscriber) {
+        console.log(
+          `[Queue] Subscriber ${email} already exists. Skipping addition to Convex.`,
+        );
+        message.ack();
+        continue;
+      }
+
       try {
         const { email, from, subject, template } = message.body;
 
@@ -72,24 +90,6 @@ export default {
         const error = err as Error;
 
         console.error(`[Queue] Failed message ${message.id}: ${error.message}`);
-
-        const { email } = message.body;
-
-        const existingSubscriber = await client.query(
-          api.subscribers.getSubscriberByEmail,
-          {
-            apiKey: env.API_KEY,
-            email: email,
-          },
-        );
-
-        if (existingSubscriber) {
-          console.log(
-            `[Queue] Subscriber ${email} already exists. Skipping addition to Convex.`,
-          );
-          message.ack();
-          continue;
-        }
 
         if (message.attempts < 20) {
           const delay = calculateBackoff(message.attempts, 30);
