@@ -51,7 +51,7 @@ export default {
       const chunkNumber = Math.floor(i / 100) + 1;
       const totalChunks = Math.ceil(messages.length / 100);
 
-      const emailPayloads = chunk.map((m: { body: EmailTask }) => ({
+      const emailPayloads = chunk.map((m) => ({
         from: m.body.from,
         to: [m.body.email],
         subject: m.body.subject,
@@ -59,30 +59,26 @@ export default {
       }));
 
       console.log(
-        `Currently processing chunk ${chunkNumber}/${totalChunks} (${chunk.length} emails)`,
+        `[Queue] Processing chunk ${chunkNumber}/${totalChunks} (${chunk.length} emails)`,
       );
 
-      ctx.waitUntil(
-        client
-          .mutation(api.notifications.post, {
-            apiKey: env.API_KEY,
-            status: "pending",
-            note: `Processing chunk ${chunkNumber}/${totalChunks} (${chunk.length} emails)`,
-          })
-          .catch((err) => console.error("[Convex Log Error]:", err)),
-      );
+      try {
+        await client.mutation(api.notifications.post, {
+          apiKey: env.API_KEY,
+          status: "pending",
+          note: `Processing ${chunkNumber}/${totalChunks} (${chunk.length} emails)`,
+        });
+      } catch (err) {
+        console.error("[Convex Log Error]:", err);
+      }
 
       try {
         const { error } = await resend.batch.send(emailPayloads);
 
         if (error) {
-          console.error("Resend batch error:", error);
+          console.error("[Queue] Resend batch error:", error);
           for (const message of chunk) {
             const delay = calculateBackoff(message.attempts, 30);
-            console.log(
-              `[Queue] Retrying ${message.id} in ${delay} seconds...`,
-            );
-
             message.retry({ delaySeconds: delay });
           }
           continue;
@@ -90,38 +86,19 @@ export default {
 
         totalSuccessfullySent += chunk.length;
 
-        console.log(
-          `[Queue] Email sent successfully to ${chunk
-            .map((m) => m.body.email)
-            .join(", ")}`,
-        );
-
         for (const message of chunk) {
-          console.log(
-            `[Queue] Successfully processed: ${message.id} to ${message.body.email}`,
-          );
-
           message.ack();
         }
       } catch (err) {
         const error = err as Error;
-
-        console.error(
-          `[Queue] Failed processing chunk [${chunk.map((m) => m.id).join(", ")}]: ${error.message}`,
-        );
+        console.error(`[Queue] Failed processing chunk: ${error.message}`);
 
         for (const message of chunk) {
           if (message.attempts < 20) {
             const delay = calculateBackoff(message.attempts, 30);
-            console.log(
-              `[Queue] Retrying ${message.id} in ${delay} seconds...`,
-            );
-
             message.retry({ delaySeconds: delay });
           } else {
-            console.error(
-              `[Queue] Max retries reached for ${message.id}. Dropping message.`,
-            );
+            console.error(`[Queue] Max retries reached for ${message.id}.`);
             message.ack();
           }
         }
@@ -129,18 +106,18 @@ export default {
     }
 
     console.log(
-      `Total emails sent successfully: ${totalSuccessfullySent}/${totalMessages}`,
+      `[Queue] Total emails sent: ${totalSuccessfullySent}/${totalMessages}`,
     );
 
-    ctx.waitUntil(
-      client
-        .mutation(api.notifications.update, {
-          apiKey: env.API_KEY,
-          status: "completed",
-          note: `Successfully sent ${totalSuccessfullySent}/${totalMessages} emails.`,
-        })
-        .catch((err) => console.error("[Convex Final Log Error]:", err)),
-    );
+    try {
+      await client.mutation(api.notifications.update, {
+        apiKey: env.API_KEY,
+        status: "completed",
+        note: `Successfully sent ${totalSuccessfullySent}/${totalMessages} emails.`,
+      });
+    } catch (err) {
+      console.error("[Convex Final Log Error]:", err);
+    }
   },
 
   fetch: app.fetch,
