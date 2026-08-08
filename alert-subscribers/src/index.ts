@@ -34,11 +34,7 @@ const getConvex = (env: Bindings) => {
 };
 
 export default {
-  async queue(
-    batch: MessageBatch<EmailTask>,
-    env: Bindings,
-    ctx: ExecutionContext,
-  ): Promise<void> {
+  async queue(batch: MessageBatch<EmailTask>, env: Bindings): Promise<void> {
     const client = getConvex(env);
     const resend = new Resend(env.RESEND_API_KEY);
     const messages = batch.messages;
@@ -73,10 +69,10 @@ export default {
       }
 
       try {
-        const { error } = await resend.batch.send(emailPayloads);
+        const { data, error } = await resend.batch.send(emailPayloads);
 
         if (error) {
-          console.error("[Queue] Resend batch error:", error);
+          console.error("[Queue] Resend batch top-level error:", error);
           for (const message of chunk) {
             const delay = calculateBackoff(message.attempts, 30);
             message.retry({ delaySeconds: delay });
@@ -84,10 +80,29 @@ export default {
           continue;
         }
 
-        totalSuccessfullySent += chunk.length;
+        const results = (Array.isArray(data) ? data : data?.data) || [];
 
-        for (const message of chunk) {
-          message.ack();
+        for (let j = 0; j < chunk.length; j++) {
+          const message = chunk[j];
+          const result = results[j];
+
+          if (result && result.error) {
+            console.error(
+              `[Queue] Failed to send email to ${emailPayloads[j].to}:`,
+              result.error,
+            );
+
+            if (message.attempts < 20) {
+              const delay = calculateBackoff(message.attempts, 30);
+              message.retry({ delaySeconds: delay });
+            } else {
+              console.error(`[Queue] Max retries reached for ${message.id}.`);
+              message.ack();
+            }
+          } else {
+            message.ack();
+            totalSuccessfullySent++;
+          }
         }
       } catch (err) {
         const error = err as Error;
