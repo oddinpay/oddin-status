@@ -57,7 +57,7 @@
         </Link>
       </Section>
       <Section class="py-2">
-        <Heading as="h1" class="text-3xl font-semibold">Subscribed!</Heading>
+        <Heading as="h1" class="text-3xl font-semibold text-black">Subscribed!</Heading>
 
         <Section class="py-2 text-center">
           <img

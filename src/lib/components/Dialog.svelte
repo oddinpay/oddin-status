@@ -82,7 +82,7 @@
   <Dialog.Content class="sm:max-w-100 m3-dialog">
     {#if sucess}
       <Dialog.Header>
-        <Dialog.Title>Subscribed!</Dialog.Title>
+        <Dialog.Title class="mt-2 text-black">Subscribed!</Dialog.Title>
         <Dialog.Description class="mt-2 text-gray-500">
           You will receive email notifications whenever creates, updates, or
           resolves an incident.
