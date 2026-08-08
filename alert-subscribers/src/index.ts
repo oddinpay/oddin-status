@@ -6,7 +6,6 @@ import { api } from "../convex/_generated/api";
 type Bindings = {
   RESEND_API_KEY: string;
   API_KEY: string;
-  DOMAIN: string;
   PUBLIC_SYNC_CONVEX_URL: string;
 };
 
