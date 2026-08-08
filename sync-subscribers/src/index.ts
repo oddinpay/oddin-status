@@ -36,12 +36,12 @@ const getConvex = (env: Bindings) => {
 export default {
   async queue(batch: MessageBatch<EmailTask>, env: Bindings): Promise<void> {
     const client = getConvex(env);
-
     const resend = new Resend(env.RESEND_API_KEY);
 
     for (const message of batch.messages) {
       try {
         const { email, from, subject, template } = message.body;
+        console.log(`[Queue] Processing: ${message.id} to ${email}`);
 
         const existingSubscriber = await client.query(
           api.subscribers.getSubscriberByEmail,
@@ -51,25 +51,19 @@ export default {
           },
         );
 
-        if (existingSubscriber) {
-          console.log(
-            `[Queue] Subscriber ${email} already exists. Skipping addition to Convex.`,
-          );
+        if (existingSubscriber && message.attempts === 1) {
+          console.log(`[Queue] Subscriber ${email} already exists. Skipping.`);
           message.ack();
           continue;
         }
 
-        console.log(`[Queue] Processing: ${message.id} to ${email}`);
-
-        await client.mutation(api.subscribers.addSubscriber, {
-          apiKey: env.API_KEY,
-          email,
-          status: "subscribed",
-        });
-
-        console.log(
-          `[Queue] Successfully processed: ${message.id} to ${email}`,
-        );
+        if (!existingSubscriber) {
+          await client.mutation(api.subscribers.addSubscriber, {
+            apiKey: env.API_KEY,
+            email,
+            status: "subscribed",
+          });
+        }
 
         const { error } = await resend.emails.send({
           from: from,
@@ -82,7 +76,7 @@ export default {
           throw new Error(`Resend API Error: ${error.message}`);
         }
 
-        console.log(`[Queue] Email sent successfully to ${email}`);
+        console.log(`[Queue] Successfully processed and sent to ${email}`);
         message.ack();
       } catch (err) {
         const error = err as Error;
@@ -90,14 +84,13 @@ export default {
 
         if (message.attempts < 20) {
           const delay = calculateBackoff(message.attempts, 30);
-
           console.log(`[Queue] Retrying ${message.id} in ${delay} seconds...`);
           message.retry({ delaySeconds: delay });
         } else {
           console.error(
-            `[Queue] Max retries reached for ${message.id}. Moving to DLQ or dropping.`,
+            `[Queue] Max retries (20) reached for ${message.id}. Routing to DLQ.`,
           );
-          message.ack();
+          message.retry();
         }
       }
     }
