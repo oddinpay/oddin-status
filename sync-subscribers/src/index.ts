@@ -52,6 +52,8 @@ export default {
           console.log(`[Queue] Convex subscriber added successfully: ${email}`);
         } catch (convexError) {
           console.log(`[Queue] Convex subscriber already exists): ${email}`);
+          message.ack();
+          continue;
         }
 
         const { error } = await resend.emails.send({
