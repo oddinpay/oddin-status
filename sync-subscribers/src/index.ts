@@ -19,7 +19,7 @@ export interface EmailTask {
 
 function calculateBackoff(attempts: number, baseDelay: number): number {
   const delay = Math.pow(2, attempts - 1) * baseDelay;
-  const maxDelay = 43200;
+  const maxDelay = 43200; // 12 hours in seconds;
   return Math.min(delay, maxDelay);
 }
 
