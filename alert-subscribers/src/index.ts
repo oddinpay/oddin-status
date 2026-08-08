@@ -19,7 +19,7 @@ export interface EmailTask {
 
 function calculateBackoff(attempts: number, baseDelay: number): number {
   const delay = Math.pow(2, attempts - 1) * baseDelay;
-  const maxDelay = 43200;
+  const maxDelay = 43200; // 12 hours
   return Math.min(delay, maxDelay);
 }
 
@@ -35,7 +35,11 @@ const getConvex = (env: Bindings) => {
 };
 
 export default {
-  async queue(batch: MessageBatch<EmailTask>, env: Bindings): Promise<void> {
+  async queue(
+    batch: MessageBatch<EmailTask>,
+    env: Bindings,
+    ctx: ExecutionContext,
+  ): Promise<void> {
     const client = getConvex(env);
     const resend = new Resend(env.RESEND_API_KEY);
     const messages = batch.messages;
@@ -59,11 +63,15 @@ export default {
         `Currently processing chunk ${chunkNumber}/${totalChunks} (${chunk.length} emails)`,
       );
 
-      await client.mutation(api.notifications.post, {
-        apiKey: env.API_KEY,
-        status: "pending",
-        note: `Processing chunk ${chunkNumber}/${totalChunks} (${chunk.length} emails)`,
-      });
+      ctx.waitUntil(
+        client
+          .mutation(api.notifications.post, {
+            apiKey: env.API_KEY,
+            status: "pending",
+            note: `Processing chunk ${chunkNumber}/${totalChunks} (${chunk.length} emails)`,
+          })
+          .catch((err) => console.error("[Convex Log Error]:", err)),
+      );
 
       try {
         const { error } = await resend.batch.send(emailPayloads);
@@ -111,11 +119,11 @@ export default {
             );
 
             message.retry({ delaySeconds: delay });
-            throw error;
           } else {
             console.error(
-              `[Queue] Max retries reached for ${message.id}. Moving to DLQ or dropping.`,
+              `[Queue] Max retries reached for ${message.id}. Dropping message.`,
             );
+            message.ack();
           }
         }
       }
@@ -125,11 +133,15 @@ export default {
       `Total emails sent successfully: ${totalSuccessfullySent}/${totalMessages}`,
     );
 
-    await client.mutation(api.notifications.update, {
-      apiKey: env.API_KEY,
-      status: "completed",
-      note: `Successfully sent ${totalSuccessfullySent}/${totalMessages} emails.`,
-    });
+    ctx.waitUntil(
+      client
+        .mutation(api.notifications.update, {
+          apiKey: env.API_KEY,
+          status: "completed",
+          note: `Successfully sent ${totalSuccessfullySent}/${totalMessages} emails.`,
+        })
+        .catch((err) => console.error("[Convex Final Log Error]:", err)),
+    );
   },
 
   fetch: app.fetch,
