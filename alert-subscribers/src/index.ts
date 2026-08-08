@@ -1,9 +1,13 @@
 import { Hono } from "hono";
 import { Resend } from "resend";
+import { ConvexHttpClient } from "convex/browser";
+import { api } from "../convex/_generated/api";
 
 type Bindings = {
   RESEND_API_KEY: string;
+  API_KEY: string;
   DOMAIN: string;
+  PUBLIC_SYNC_CONVEX_URL: string;
 };
 
 export interface EmailTask {
@@ -21,8 +25,18 @@ function calculateBackoff(attempts: number, baseDelay: number): number {
 
 const app = new Hono<{ Bindings: Bindings }>();
 
+let convex: ConvexHttpClient;
+
+const getConvex = (env: Bindings) => {
+  if (!convex) {
+    convex = new ConvexHttpClient(env.PUBLIC_SYNC_CONVEX_URL);
+  }
+  return convex;
+};
+
 export default {
   async queue(batch: MessageBatch<EmailTask>, env: Bindings): Promise<void> {
+    const client = getConvex(env);
     const resend = new Resend(env.RESEND_API_KEY);
     const messages = batch.messages;
 
@@ -44,6 +58,12 @@ export default {
       console.log(
         `Currently processing chunk ${chunkNumber}/${totalChunks} (${chunk.length} emails)`,
       );
+
+      await client.mutation(api.notifications.post, {
+        apiKey: env.API_KEY,
+        status: "pending",
+        note: `Processing chunk ${chunkNumber}/${totalChunks} (${chunk.length} emails)`,
+      });
 
       try {
         const { error } = await resend.batch.send(emailPayloads);
@@ -104,6 +124,12 @@ export default {
     console.log(
       `Total emails sent successfully: ${totalSuccessfullySent}/${totalMessages}`,
     );
+
+    await client.mutation(api.notifications.update, {
+      apiKey: env.API_KEY,
+      status: "completed",
+      note: `Successfully sent ${totalSuccessfullySent}/${totalMessages} emails.`,
+    });
   },
 
   fetch: app.fetch,
