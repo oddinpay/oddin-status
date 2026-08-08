@@ -12,6 +12,8 @@
   },
   "devDependencies": {
     "resend": "^6.18.1",
-    "wrangler": "^4.110.0"
+    "wrangler": "^4.110.0",
+    "@types/node": "^26.0.1",
+    "convex": "^1.42.0"
   }
 }
