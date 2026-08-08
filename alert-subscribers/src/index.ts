@@ -41,6 +41,7 @@ export default {
 
     const totalMessages = messages.length;
     let totalSuccessfullySent = 0;
+    let notificationId = null;
 
     for (let i = 0; i < messages.length; i += 100) {
       const chunk = messages.slice(i, i + 100);
@@ -59,7 +60,7 @@ export default {
       );
 
       try {
-        await client.mutation(api.notifications.post, {
+        notificationId = await client.mutation(api.notifications.post, {
           apiKey: env.API_KEY,
           status: "pending",
           note: `Processing ${chunkNumber}/${totalChunks} (${chunk.length} emails)`,
@@ -124,14 +125,17 @@ export default {
       `[Queue] Total emails sent: ${totalSuccessfullySent}/${totalMessages}`,
     );
 
-    try {
-      await client.mutation(api.notifications.update, {
-        apiKey: env.API_KEY,
-        status: "completed",
-        note: `Successfully sent ${totalSuccessfullySent}/${totalMessages} emails.`,
-      });
-    } catch (err) {
-      console.error("[Convex Final Log Error]:", err);
+    if (notificationId) {
+      try {
+        await client.mutation(api.notifications.update, {
+          apiKey: env.API_KEY,
+          id: notificationId,
+          status: "completed",
+          note: `Successfully sent ${totalSuccessfullySent}/${totalMessages} emails.`,
+        });
+      } catch (err) {
+        console.error("[Convex Final Log Error]:", err);
+      }
     }
   },
 

@@ -31,6 +31,7 @@ export const post = mutation({
 export const update = mutation({
   args: {
     apiKey: v.string(),
+    id: v.id("notifications"),
     status: v.string(),
     note: v.string(),
   },
@@ -39,13 +40,12 @@ export const update = mutation({
       throw new Error("Unauthorized");
     }
 
-    const id = await ctx.db.insert("notifications", {
+    await ctx.db.patch(args.id, {
       status: args.status,
       note: args.note,
-      seen: false,
     });
 
-    return id;
+    return args.id;
   },
 });
 
