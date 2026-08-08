@@ -49,11 +49,9 @@ export default {
             email,
             status: "subscribed",
           });
-          console.log(`[Queue] Added/Updated subscriber: ${email}`);
+          console.log(`[Queue] Convex subscriber added successfully: ${email}`);
         } catch (convexError) {
-          console.log(
-            `[Queue] Convex addSubscriber bypassed (likely already exists): ${email}`,
-          );
+          console.log(`[Queue] Convex subscriber already exists): ${email}`);
         }
 
         const { error } = await resend.emails.send({
