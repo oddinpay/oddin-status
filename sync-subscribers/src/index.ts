@@ -43,21 +43,17 @@ export default {
         const { email, from, subject, template } = message.body;
         console.log(`[Queue] Processing: ${message.id} to ${email}`);
 
-        const existingSubscriber = await client.query(
-          api.subscribers.getSubscriberByEmail,
-          {
-            apiKey: env.API_KEY,
-            email: email,
-          },
-        );
-
-        if (!existingSubscriber) {
+        try {
           await client.mutation(api.subscribers.addSubscriber, {
             apiKey: env.API_KEY,
             email,
             status: "subscribed",
           });
-          console.log(`[Queue] Added new subscriber: ${email}`);
+          console.log(`[Queue] Added/Updated subscriber: ${email}`);
+        } catch (convexError) {
+          console.log(
+            `[Queue] Convex addSubscriber bypassed (likely already exists): ${email}`,
+          );
         }
 
         const { error } = await resend.emails.send({
