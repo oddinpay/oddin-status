@@ -36,7 +36,6 @@ const getConvex = (env: Bindings) => {
 export default {
   async queue(batch: MessageBatch<EmailTask>, env: Bindings): Promise<void> {
     const client = getConvex(env);
-
     const resend = new Resend(env.RESEND_API_KEY);
 
     for (const message of batch.messages) {
