@@ -43,6 +43,16 @@ export default {
     let totalSuccessfullySent = 0;
     let notificationId = null;
 
+    try {
+      notificationId = await client.mutation(api.notifications.post, {
+        apiKey: env.API_KEY,
+        status: "pending",
+        note: `Processing queue batch of ${totalMessages} emails`,
+      });
+    } catch (err) {
+      console.error("[Convex Log Error]:", err);
+    }
+
     for (let i = 0; i < messages.length; i += 100) {
       const chunk = messages.slice(i, i + 100);
       const chunkNumber = Math.floor(i / 100) + 1;
@@ -60,23 +70,20 @@ export default {
       );
 
       try {
-        notificationId = await client.mutation(api.notifications.post, {
-          apiKey: env.API_KEY,
-          status: "pending",
-          note: `Processing ${chunkNumber}/${totalChunks} (${chunk.length} emails)`,
-        });
-      } catch (err) {
-        console.error("[Convex Log Error]:", err);
-      }
-
-      try {
         const { data, error } = await resend.batch.send(emailPayloads);
 
         if (error) {
           console.error("[Queue] Resend batch top-level error:", error);
           for (const message of chunk) {
-            const delay = calculateBackoff(message.attempts, 30);
-            message.retry({ delaySeconds: delay });
+            if (message.attempts < 20) {
+              const delay = calculateBackoff(message.attempts, 30);
+              message.retry({ delaySeconds: delay });
+            } else {
+              console.error(
+                `[Queue] Max retries reached for ${message.id}. Routing to DLQ.`,
+              );
+              message.retry();
+            }
           }
           continue;
         }
@@ -97,8 +104,10 @@ export default {
               const delay = calculateBackoff(message.attempts, 30);
               message.retry({ delaySeconds: delay });
             } else {
-              console.error(`[Queue] Max retries reached for ${message.id}.`);
-              message.ack();
+              console.error(
+                `[Queue] Max retries reached for ${message.id}. Routing to DLQ.`,
+              );
+              message.retry();
             }
           } else {
             message.ack();
@@ -114,8 +123,10 @@ export default {
             const delay = calculateBackoff(message.attempts, 30);
             message.retry({ delaySeconds: delay });
           } else {
-            console.error(`[Queue] Max retries reached for ${message.id}.`);
-            message.ack();
+            console.error(
+              `[Queue] Max retries reached for ${message.id}. Routing to DLQ.`,
+            );
+            message.retry();
           }
         }
       }
