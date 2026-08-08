@@ -36,24 +36,36 @@ const getConvex = (env: Bindings) => {
 export default {
   async queue(batch: MessageBatch<EmailTask>, env: Bindings): Promise<void> {
     const client = getConvex(env);
-
     const resend = new Resend(env.RESEND_API_KEY);
 
     for (const message of batch.messages) {
       try {
         const { email, from, subject, template } = message.body;
-
         console.log(`[Queue] Processing: ${message.id} to ${email}`);
 
-        await client.mutation(api.subscribers.addSubscriber, {
-          apiKey: env.API_KEY,
-          email,
-          status: "subscribed",
-        });
-
-        console.log(
-          `[Queue] Successfully processed: ${message.id} to ${email}`,
+        const existingSubscriber = await client.query(
+          api.subscribers.getSubscriberByEmail,
+          {
+            apiKey: env.API_KEY,
+            email: email,
+          },
         );
+
+        if (!existingSubscriber) {
+          await client.mutation(api.subscribers.addSubscriber, {
+            apiKey: env.API_KEY,
+            email,
+            status: "subscribed",
+          });
+          console.log(`[Queue] Added new subscriber to Convex: ${email}`);
+        } else {
+          console.log(
+            `[Queue] Subscriber ${email} exists. Skipping Convex insert.`,
+          );
+
+          message.ack();
+          continue;
+        }
 
         const { error } = await resend.emails.send({
           from: from,
@@ -66,44 +78,26 @@ export default {
           throw new Error(`Resend API Error: ${error.message}`);
         }
 
-        console.log(`[Queue] Email sent successfully to ${email}`);
+        console.log(
+          `[Queue] Successfully processed: ${message.id} to ${email}`,
+        );
         message.ack();
       } catch (err) {
         const error = err as Error;
-
         console.error(`[Queue] Failed message ${message.id}: ${error.message}`);
-
-        const { email } = message.body;
-
-        const existingSubscriber = await client.query(
-          api.subscribers.getSubscriberByEmail,
-          {
-            apiKey: env.API_KEY,
-            email: email,
-          },
-        );
-
-        if (existingSubscriber) {
-          console.log(
-            `[Queue] Subscriber ${email} already exists. Skipping addition to Convex.`,
-          );
-          message.ack();
-        }
 
         if (message.attempts < 20) {
           const delay = calculateBackoff(message.attempts, 30);
           console.log(`[Queue] Retrying ${message.id} in ${delay} seconds...`);
-
           message.retry({ delaySeconds: delay });
-          throw error;
         } else {
           console.error(
-            `[Queue] Max retries reached for ${message.id}. Moving to DLQ or dropping.`,
+            `[Queue] Max retries reached for ${message.id}. Dropping.`,
           );
+          message.ack();
         }
       }
     }
   },
-
   fetch: app.fetch,
 };
