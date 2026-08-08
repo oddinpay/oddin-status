@@ -8,6 +8,7 @@ type Bindings = {
   PUBLIC_SYNC_CONVEX_URL: string;
   API_KEY: string;
   RESEND_API_KEY: string;
+  DOMAIN: string;
 };
 
 export interface EmailTask {
