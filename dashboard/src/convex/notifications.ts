@@ -91,7 +91,7 @@ export const markAllAsRead = mutation({
 
 export const cleanup = internalMutation({
   handler: async (ctx) => {
-    const thirtyDaysAgo = Date.now() - 35 * 24 * 60 * 60 * 1000;
+    const thirtyDaysAgo = Date.now() - 30 * 24 * 60 * 60 * 1000;
 
     const oldItems = await ctx.db
       .query("notifications")
