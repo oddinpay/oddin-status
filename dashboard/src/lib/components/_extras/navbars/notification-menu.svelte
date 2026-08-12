@@ -30,7 +30,7 @@
     const seconds = Math.floor((Date.now() - timestamp) / 1000);
 
     // Less than 10 seconds
-    if (seconds < 10) return "just now";
+    if (seconds < 10) return "Just now";
 
     // Less than 1 minute
     if (seconds < 60) return `${seconds}s ago`;
