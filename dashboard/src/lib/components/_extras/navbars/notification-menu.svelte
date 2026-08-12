@@ -78,7 +78,7 @@
 
     try {
       await client.mutation(api.notifications.markAllAsRead, {
-        apiKey: API_KEY ?? "",
+        apiKey: API_KEY,
       });
     } catch (error) {
       console.error(error);
@@ -92,7 +92,7 @@
 
     try {
       await client.mutation(api.notifications.markAsRead, {
-        apiKey: API_KEY ?? "",
+        apiKey: API_KEY,
         id: notificationId as any,
       });
     } catch (error) {
