@@ -71,13 +71,13 @@
   });
 
   function handleMarkAllAsRead() {
-    notifications.forEach((n) => (n.unread = false));
+    notifications.forEach((n) => (n.unread = true));
   }
 
   function handleNotificationClick(notificationId: number | string) {
     const target = notifications.find((n) => n.id === notificationId);
     if (target) {
-      target.unread = false;
+      target.unread = true;
     }
   }
 </script>
