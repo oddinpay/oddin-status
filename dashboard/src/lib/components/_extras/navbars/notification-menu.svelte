@@ -13,7 +13,7 @@
   const query = useQuery(api.notifications.get);
 
   const initialNotifications: Array<{
-    id: number | string;
+    id: string;
     action: string;
     timestamp: string;
     unread: boolean;
@@ -63,7 +63,7 @@
         action: n.note,
         target: n.status,
         timestamp: formatTimeAgo(n._creationTime),
-        unread: !n.seen,
+        unread: n.seen,
       }));
 
       notifications = [...convexData, ...initialNotifications];
