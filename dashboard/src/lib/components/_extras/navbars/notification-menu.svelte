@@ -20,7 +20,6 @@
   }> = [];
 
   let notifications = $state([...initialNotifications]);
-
   const unreadCount = $derived(notifications.filter((n) => n.unread).length);
 
   function formatTimeAgo(timestamp: number): string {
@@ -74,11 +73,13 @@
     notifications.forEach((n) => (n.unread = false));
   }
 
-  function handleNotificationClick(notificationId: number | string) {
-    const target = notifications.find((n) => n.id === notificationId);
-    if (target) {
-      target.unread = false;
-    }
+  function handleNotificationClick(notificationId: string) {
+    notifications.map((n) => {
+      if (n.id === notificationId) {
+        n.unread = false;
+      }
+      return n;
+    });
   }
 </script>
 
