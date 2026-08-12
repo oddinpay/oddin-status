@@ -24,7 +24,6 @@
   import Skeleton from "$lib/components/ui/skeleton/skeleton.svelte";
   import { useAuth } from "@mmailaender/convex-auth-svelte/sveltekit";
   import LoginForm from "$lib/components/login-form.svelte";
-  import GalleryVerticalEndIcon from "@lucide/svelte/icons/gallery-vertical-end";
   import { SyncLoader } from "svelte-loading-spinners";
 
   let baseUrl = env.PUBLIC_PAGE_URL
