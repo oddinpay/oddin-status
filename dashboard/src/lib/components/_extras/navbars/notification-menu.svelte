@@ -8,9 +8,13 @@
     PopoverTrigger,
   } from "$lib/components/ui/popover";
   import { api } from "../../../../convex/_generated/api";
-  import { useQuery } from "convex-svelte";
+  import { env } from "$env/dynamic/public";
+  import { useQuery, useConvexClient } from "convex-svelte";
 
   const query = useQuery(api.notifications.get);
+
+  const client = useConvexClient();
+  const API_KEY = env.PUBLIC_API_KEY;
 
   const initialNotifications: Array<{
     id: string;
@@ -69,17 +73,31 @@
     }
   });
 
-  function handleMarkAllAsRead() {
+  async function handleMarkAllAsRead() {
     notifications.forEach((n) => (n.unread = false));
+
+    try {
+      await client.mutation(api.notifications.markAllAsRead, {
+        apiKey: API_KEY ?? "",
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
-  function handleNotificationClick(notificationId: string) {
-    notifications.map((n) => {
-      if (n.id === notificationId) {
-        n.unread = false;
-      }
-      return n;
+  async function handleNotificationClick(notificationId: string) {
+    notifications.forEach((n) => {
+      if (n.id === notificationId) n.unread = false;
     });
+
+    try {
+      await client.mutation(api.notifications.markAsRead, {
+        apiKey: API_KEY ?? "",
+        id: notificationId as any,
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }
 </script>
 
