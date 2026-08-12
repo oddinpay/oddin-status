@@ -34,7 +34,7 @@
 {#if loading}
   <Avatar>
     <Skeleton
-      class="bg-zinc-700  flex size-full items-center justify-center rounded-[inherit]"
+      class="bg-zinc-700 flex size-full items-center justify-center rounded-[inherit]"
     ></Skeleton>
   </Avatar>
 {:else}
