@@ -61,7 +61,11 @@
 
   $effect(() => {
     if (query.data) {
-      const convexData = query.data.map((n) => ({
+      const sortedData = [...query.data].sort(
+        (a, b) => b._creationTime - a._creationTime,
+      );
+
+      const convexData = sortedData.map((n) => ({
         id: n._id,
         action: n.note,
         target: n.status,
