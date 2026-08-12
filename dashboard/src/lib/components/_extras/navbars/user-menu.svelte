@@ -18,20 +18,26 @@
     DropdownMenuTrigger,
   } from "$lib/components/ui/dropdowns";
 
+  import { Skeleton } from "$lib/components/ui/skeleton/index.js";
   import { useQuery } from "convex-svelte";
   import { api } from "../../../../convex/_generated/api";
-  import "@aejkatappaja/phantom-ui";
 
   const user = useQuery(api.users.get, {});
   const { signOut } = useAuth();
-  const loading = $derived(!user.data);
+  let loading = $derived(user.isLoading || !user.data);
 
   function handleClick() {
     window.open("https://github.com/oddinpay/ohstatus", "_blank", "noreferrer");
   }
 </script>
 
-<phantom-ui {loading}>
+{#if loading}
+  <Avatar>
+    <Skeleton
+      class="bg-zinc-700  flex size-full items-center justify-center rounded-[inherit]"
+    ></Skeleton>
+  </Avatar>
+{:else}
   <DropdownMenu>
     <DropdownMenuTrigger>
       {#snippet child({ props })}
@@ -79,4 +85,4 @@
       </DropdownMenuItem>
     </DropdownMenuContent>
   </DropdownMenu>
-</phantom-ui>
+{/if}

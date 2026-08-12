@@ -1,5 +1,4 @@
 <script lang="ts">
-  import "@aejkatappaja/phantom-ui/ssr.css";
   import "../app.css";
   import "@fontsource-variable/inter";
   import { PUBLIC_CONVEX_URL } from "$env/static/public";
