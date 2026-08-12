@@ -2,7 +2,7 @@ import { drizzle } from "drizzle-orm/sqlite-proxy";
 import { env } from "$env/dynamic/private";
 
 const getEnv = (key: string) => {
-  return env[key] ?? process.env[key];
+  return env[key];
 };
 
 const accountId = getEnv("CLOUDFLARE_ACCOUNT_ID");
