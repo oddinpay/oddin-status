@@ -63,7 +63,7 @@
         action: n.note,
         target: n.status,
         timestamp: formatTimeAgo(n._creationTime),
-        unread: n.seen,
+        unread: !n.seen,
       }));
 
       notifications = [...convexData, ...initialNotifications];
