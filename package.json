@@ -39,7 +39,9 @@
     "@better-svelte-email/server": "^2.1.1",
     "@tanstack/table-core": "^8.21.3",
     "drizzle-orm": "^0.45.2",
-    "resend": "^6.16.0"
+    "postprocessing": "^6.39.4",
+    "resend": "^6.16.0",
+    "three": "^0.185.1"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20260619.1",
