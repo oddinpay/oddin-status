@@ -1123,8 +1123,8 @@
                                     </Tooltip.Trigger>
 
                                     <Tooltip.Content
-                                      style="box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;"
-                                      class="bg-black rounded-md text-white p-2"
+                                      style="box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;"
+                                      class="bg-[#0F172A] rounded-md text-white p-2"
                                     >
                                       <div
                                         class="flex flex-col items-center justify-center p-2 text-sm"
@@ -1277,7 +1277,7 @@
 
                         <div class="right">
                           <h2>Recent incidents</h2>
-                          {#if incidents.every( (incident) => incident.entries.some((entry) => entry.status === Indicators.Resolved), )}
+                          {#if incidents.every( (incident) => incident.entries.some((entry) => entry.status === Indicators.Resolved) )}
                             No incidents reported.
                           {:else}
                             {#each incidents as incident}
@@ -1363,7 +1363,7 @@
                                   />
                                 </circle>
                               </svg>
-                            {:else if maintenances.length === 0 || maintenances.every( (incident) => incident.entries.some((entry) => entry.status === Indicators.Completed || entry.status === Indicators.Cancelled), )}
+                            {:else if maintenances.length === 0 || maintenances.every( (incident) => incident.entries.some((entry) => entry.status === Indicators.Completed || entry.status === Indicators.Cancelled) )}
                               No maintenance scheduled.
                             {:else if schedulesQuery.data}
                               {#each maintenances as maintenance}
@@ -1444,7 +1444,7 @@
                             </circle>
                           </svg>
                         </div>
-                      {:else if (incidents.length === 0 && maintenances.length === 0) || (!incidents.some( (i) => i.entries.some((e) => e.status === Indicators.Resolved), ) && !maintenances.some( (m) => m.entries.some((e) => e.status === Indicators.Completed || e.status === Indicators.Cancelled), ))}
+                      {:else if (incidents.length === 0 && maintenances.length === 0) || (!incidents.some( (i) => i.entries.some((e) => e.status === Indicators.Resolved) ) && !maintenances.some( (m) => m.entries.some((e) => e.status === Indicators.Completed || e.status === Indicators.Cancelled) ))}
                         <p
                           class="p-10 text-black text-center"
                           style="font-size: 16px"
