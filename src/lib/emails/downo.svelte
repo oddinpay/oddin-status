@@ -74,7 +74,7 @@
         </Heading>
 
         <Section class="py-2 text-center">
-          <img
+          <Img
             src="https://cdn.oddinpay.com/down.png"
             alt="Status"
             width="100"

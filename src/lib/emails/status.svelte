@@ -61,7 +61,7 @@
         <Heading as="h1" class="text-3xl font-semibold text-black">Subscribed!</Heading>
 
         <Section class="py-2 text-center">
-          <img
+          <Img
             src="https://cdn.oddinpay.com/success.png"
             alt="Status"
             width="100"
