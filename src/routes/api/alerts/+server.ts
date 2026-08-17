@@ -10,6 +10,8 @@ import Warn from "$lib/emails/warn.svelte";
 import Downo from "$lib/emails/downo.svelte";
 import Warno from "$lib/emails/warno.svelte";
 
+import { EncryptJWT, base64url } from "jose";
+
 const { render } = new Renderer();
 
 export async function POST({ request, platform }: RequestEvent) {
@@ -30,8 +32,9 @@ export async function POST({ request, platform }: RequestEvent) {
     console.log(`[Alert Received] Probe: ${name} is ${state}`);
 
     const domain = platform?.env?.DOMAIN || "oddinpay.com";
+    const unsubscribeSecret = platform?.env?.UNSUBSCRIBE_SECRET;
 
-    if (state == "down" || state === "warn") {
+    if (state === "down" || state === "warn") {
       const emailQueue = platform?.env?.SEND_ALERTS_QUEUE;
 
       const subject =
@@ -48,20 +51,22 @@ export async function POST({ request, platform }: RequestEvent) {
             ? Downo
             : Warno;
 
-      const html = await render(emailTemplate, {
-        props: { name },
-      });
-
       const activeShards = [
         platform?.env?.ohstatus,
         // platform?.env?.DB_SHARD_2,
       ].filter(Boolean);
 
-      if (emailQueue && activeShards.length > 0) {
+      if (emailQueue && activeShards.length > 0 && unsubscribeSecret) {
         const { waitUntil } = await import("cloudflare:workers");
 
         const backgroundTask = async () => {
-          const batchSize = 1000;
+          const dbBatchSize = 1000;
+          const queueBatchSize = 100;
+
+          const issuer = `https://status.${domain}`;
+          const audience = `${issuer}/unsubscribe`;
+          const fromHeader = `Oddinpay Status <status@${domain}>`;
+          const secret = base64url.decode(unsubscribeSecret);
 
           for (const shardBinding of activeShards) {
             const db = drizzle(shardBinding!);
@@ -73,7 +78,7 @@ export async function POST({ request, platform }: RequestEvent) {
                 .select({ email: subscribers.email })
                 .from(subscribers)
                 .orderBy(asc(subscribers.email))
-                .limit(batchSize);
+                .limit(dbBatchSize);
 
               if (lastEmail) {
                 query = query.where(
@@ -87,29 +92,54 @@ export async function POST({ request, platform }: RequestEvent) {
                 break;
               }
 
-              const messages = results.map((row) => ({
-                body: {
-                  from: `Oddinpay Status <status@${domain}>`,
-                  email: row.email,
-                  subject: subject,
-                  template: html,
-                },
-              }));
+              for (let i = 0; i < results.length; i += queueBatchSize) {
+                const chunk = results.slice(i, i + queueBatchSize);
 
-              for (let i = 0; i < messages.length; i += 100) {
-                await emailQueue.sendBatch(messages.slice(i, i + 100));
+                const messages = await Promise.all(
+                  chunk.map(async (row) => {
+                    const token = await new EncryptJWT()
+                      .setProtectedHeader({ alg: "dir", enc: "A128CBC-HS256" })
+                      .setSubject(row.email)
+                      .setIssuer(issuer)
+                      .setAudience(audience)
+                      .setIssuedAt()
+                      .setExpirationTime("30d")
+                      .encrypt(secret);
+
+                    const unsubscribeLink = `${audience}?token=${token}`;
+
+                    const html = await render(emailTemplate, {
+                      props: { name, unsubscribeLink },
+                    });
+
+                    return {
+                      body: {
+                        from: fromHeader,
+                        email: row.email,
+                        subject: subject,
+                        template: html,
+                      },
+                    };
+                  }),
+                );
+
+                await emailQueue.sendBatch(messages);
               }
 
               lastEmail = results[results.length - 1].email;
 
-              if (results.length < batchSize) {
+              if (results.length < dbBatchSize) {
                 hasMore = false;
               }
             }
           }
         };
 
-        waitUntil(backgroundTask());
+        waitUntil(
+          backgroundTask().catch((err) =>
+            console.error("Error in alert queue background task:", err),
+          ),
+        );
       }
     }
 

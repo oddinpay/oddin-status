@@ -15,9 +15,10 @@
 
   interface Props {
     name?: string;
+    unsubscribeLink?: string;
   }
 
-  let { name = "" }: Props = $props();
+  let { name = "", unsubscribeLink = "" }: Props = $props();
 
   const previewText = $derived(`Oh no! ${name} is down.`);
 </script>

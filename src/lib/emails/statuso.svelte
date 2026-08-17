@@ -15,9 +15,10 @@
 
   interface Props {
     username?: string;
+    unsubscribeLink?: string;
   }
 
-  let { username = "there" }: Props = $props();
+  let { username = "there", unsubscribeLink = "" }: Props = $props();
 
   const previewText = $derived(
     `Hello ${username}, you have successfully subscribed to the updates!`,
