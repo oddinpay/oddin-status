@@ -148,6 +148,14 @@
           &copy; {new Date().getFullYear()} Oddinpay LLC.
         </Text>
       </Section>
+
+      <Section class="mt-0 py-2 space-x-2">
+        <Link href={unsubscribeLink} aria-label="Unsubscribe">
+          <Text class="m-0 text-xs underline text-slate-500 leading-loose"
+            >Unsubscribe</Text
+          >
+        </Link>
+      </Section>
     </Container>
   </Body>
 </Html>
