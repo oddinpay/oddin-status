@@ -14,6 +14,7 @@ export interface EmailTask {
   email: string;
   subject: string;
   template: string;
+  headers: Record<string, string>;
 }
 
 function calculateBackoff(attempts: number, baseDelay: number): number {
@@ -63,6 +64,7 @@ export default {
         to: [m.body.email],
         subject: m.body.subject,
         html: m.body.template,
+        ...(m.body.headers && { headers: m.body.headers }),
       }));
 
       console.log(

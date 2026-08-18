@@ -118,6 +118,10 @@ export async function POST({ request, platform }: RequestEvent) {
                         email: row.email,
                         subject: subject,
                         template: html,
+                        headers: {
+                          "List-Unsubscribe": `<${unsubscribeLink}>`,
+                          "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+                        },
                       },
                     };
                   }),
