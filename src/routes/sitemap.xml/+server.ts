@@ -9,6 +9,6 @@ export const GET: RequestHandler = async () => {
 
   return await response({
     origin,
-    excludeRoutePatterns: [/^\/unsubscribe(?:$|\/)/],
+    excludeRoutePatterns: ["^/unsubscribe.*"],
   });
 };
