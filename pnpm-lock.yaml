@@ -144,6 +144,9 @@ importers:
       publint:
         specifier: ^0.3.18
         version: 0.3.22
+      super-sitemap:
+        specifier: ^2.0.6
+        version: 2.0.6
       svelte:
         specifier: ^5.54.0
         version: 5.56.8(@typescript-eslint/types@8.65.0)
@@ -3321,6 +3324,9 @@ packages:
   style-to-object@1.0.14:
     resolution: {integrity: sha512-LIN7rULI0jBscWQYaSswptyderlarFkjQ+t79nzty8tcIAceVomEVlLzH5VP4Cmsv6MtKhs7qaAiwlcp+Mgaxw==}
 
+  super-sitemap@2.0.6:
+    resolution: {integrity: sha512-SnwRkm5X9+Jq2HDPbFemZwxGya1+r4nJQw30UTu/2jdW1J6HfEz5hrXhy2ktbW/esmv+wOr5xN7s/kojYtAXkg==}
+
   superstruct@2.0.2:
     resolution: {integrity: sha512-uV+TFRZdXsqXTL2pRvujROjdZQ4RAlBUS5BTh9IGm+jTqQntYThciG/qu57Gs69yjnVUSqdxF9YLmSnpupBW9A==}
     engines: {node: '>=14.0.0'}
@@ -6192,6 +6198,8 @@ snapshots:
   style-to-object@1.0.14:
     dependencies:
       inline-style-parser: 0.2.7
+
+  super-sitemap@2.0.6: {}
 
   superstruct@2.0.2:
     optional: true
