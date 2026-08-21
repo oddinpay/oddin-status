@@ -10,10 +10,6 @@ import { api } from "../../convex/_generated/api";
 
 type PlatformEnv = NonNullable<RequestEvent["platform"]>["env"];
 
-interface UnsubscribeRequestBody {
-  token?: string;
-}
-
 async function getEmailFromToken(
   token: string | null,
   env?: PlatformEnv,
@@ -73,37 +69,4 @@ export const load: PageServerLoad = async ({ url, platform }) => {
   }
 
   return { success: true };
-};
-
-export const POST: RequestHandler = async ({ url, request, platform }) => {
-  let token = url.searchParams.get("token");
-
-  if (!token) {
-    const contentType = request.headers.get("content-type") || "";
-    if (contentType.includes("application/x-www-form-urlencoded")) {
-      const formData = await request.formData();
-      token = formData.get("token") as string | null;
-    } else if (contentType.includes("application/json")) {
-      const json = (await request
-        .json()
-        .catch(() => ({}))) as UnsubscribeRequestBody;
-      token = json.token || null;
-    }
-  }
-
-  const email = await getEmailFromToken(token, platform?.env);
-
-  if (!email) {
-    return new Response(null, { status: 400 });
-  }
-
-  const ctx = (platform as unknown as { ctx?: ExecutionContext })?.ctx;
-
-  if (ctx?.waitUntil) {
-    ctx.waitUntil(deleteSubscriber(email, platform).catch(console.error));
-  } else {
-    deleteSubscriber(email, platform).catch(console.error);
-  }
-
-  return new Response(null, { status: 202 });
 };
