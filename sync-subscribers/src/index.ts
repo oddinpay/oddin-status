@@ -4,7 +4,7 @@ import { api } from "../convex/_generated/api";
 import { Resend } from "resend";
 
 type Bindings = {
-  PUBLIC_SYNC_CONVEX_URL: string;
+  PUBLIC_CONVEX_CLOUD_URL: string;
   API_KEY: string;
   RESEND_API_KEY: string;
 };
@@ -28,7 +28,7 @@ const app = new Hono<{ Bindings: Bindings }>();
 
 const getConvex = (env: Bindings) => {
   if (!convex) {
-    convex = new ConvexHttpClient(env.PUBLIC_SYNC_CONVEX_URL);
+    convex = new ConvexHttpClient(env.PUBLIC_CONVEX_CLOUD_URL);
   }
   return convex;
 };

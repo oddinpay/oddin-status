@@ -3,7 +3,7 @@
 // Runtime types generated with workerd@1.20260625.1 2026-02-25 
 interface __BaseEnv_Env {
 	CONVEX_DEPLOYMENT: string;
-	PUBLIC_SYNC_CONVEX_URL: string;
+	PUBLIC_CONVEX_CLOUD_URL: string;
 	CONVEX_SYNC_CLOUD_URL: string;
 	CONVEX_SYNC_SITE_URL: string;
 	API_KEY: string;
