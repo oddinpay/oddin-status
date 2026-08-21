@@ -23,7 +23,7 @@
       <p>You'll no longer receive status updates.</p>
     {:else}
       <h1>Invalid</h1>
-      <p>The unsubscribe link is invalid.</p>
+      <p>The request can't be processed.</p>
     {/if}
     <a href="/">Back to Home</a>
   </div>

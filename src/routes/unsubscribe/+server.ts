@@ -80,10 +80,7 @@ export const POST: RequestHandler = async ({ url, platform }) => {
   const email = await getEmailFromToken(token, platform?.env);
 
   if (!email) {
-    return json(
-      { error: "Invalid, missing, or expired unsubscribe token" },
-      { status: 400 },
-    );
+    return json({ error: "The request can't be processed" }, { status: 400 });
   }
 
   const exists = await isSubscribed(email, platform);
