@@ -55,25 +55,11 @@ async function deleteSubscriber(
   }
 }
 
-export const POST: RequestHandler = async ({ url, request, platform }) => {
+export const POST: RequestHandler = async ({ url, platform }) => {
   let token = url.searchParams.get("token");
 
   if (!token) {
-    const contentType = request.headers.get("content-type") || "";
-
-    if (
-      contentType.includes("application/x-www-form-urlencoded") ||
-      contentType.includes("multipart/form-data")
-    ) {
-      const formData = await request.formData().catch(() => null);
-      const tokenEntry = formData?.get("token");
-      token = typeof tokenEntry === "string" ? tokenEntry : null;
-    } else if (contentType.includes("application/json")) {
-      const body = (await request
-        .json()
-        .catch(() => ({}))) as UnsubscribeRequestBody;
-      token = body.token || null;
-    }
+    return json({ error: "Missing token" }, { status: 400 });
   }
 
   const email = await getEmailFromToken(token, platform?.env);
