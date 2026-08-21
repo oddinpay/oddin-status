@@ -51,11 +51,36 @@ async function deleteSubscriber(
   }
 }
 
+async function isSubscribed(
+  email: string,
+  platform?: RequestEvent["platform"],
+): Promise<boolean> {
+  if (platform?.env?.CONVEX_CLOUD_URL && platform?.env?.API_KEY) {
+    const convex = new ConvexHttpClient(platform.env.CONVEX_CLOUD_URL);
+
+    const existing = await convex.query(api.subscribers.getSubscriberByEmail, {
+      apiKey: platform.env.API_KEY,
+      email,
+      status: "subscribed",
+    });
+
+    if (existing) return true;
+  }
+
+  return false;
+}
+
 export const load: PageServerLoad = async ({ url, platform }) => {
   const token = url.searchParams.get("token");
   const email = await getEmailFromToken(token, platform?.env);
 
   if (!email) {
+    return { success: false };
+  }
+
+  const exists = await isSubscribed(email, platform);
+
+  if (!exists) {
     return { success: false };
   }
 
