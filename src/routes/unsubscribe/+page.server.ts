@@ -55,16 +55,16 @@ async function isSubscribed(
   email: string,
   platform?: RequestEvent["platform"],
 ): Promise<boolean> {
-  if (platform?.env?.CONVEX_CLOUD_URL && platform?.env?.API_KEY) {
-    const convex = new ConvexHttpClient(platform.env.CONVEX_CLOUD_URL);
+  if (platform?.env?.ohstatus) {
+    const db = drizzle(platform.env.ohstatus);
 
-    const existing = await convex.query(api.subscribers.getSubscriberByEmail, {
-      apiKey: platform.env.API_KEY,
-      email,
-      status: "subscribed",
-    });
+    const existing = await db
+      .select({ email: subscribers.email })
+      .from(subscribers)
+      .where(eq(subscribers.email, email))
+      .get();
 
-    if (existing) return true;
+    return !!existing;
   }
 
   return false;
