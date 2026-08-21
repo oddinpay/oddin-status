@@ -19,7 +19,7 @@ export async function POST({ request, platform }: RequestEvent) {
   const expectedKey = platform?.env?.X_API_KEY;
 
   if (!apiKey || !expectedKey || apiKey !== expectedKey) {
-    return json({ error: "Unauthorized" }, { status: 401 });
+    return json({ error: "Invalid Request" }, { status: 401 });
   }
 
   try {
