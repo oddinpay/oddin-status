@@ -13,6 +13,7 @@ declare global {
         CONVEX_CLOUD_URL: string;
         DOMAIN: string;
         API_KEY: string;
+        X_API_KEY: string;
       };
 
       ctx?: ExecutionContext;

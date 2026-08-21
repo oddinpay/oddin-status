@@ -15,6 +15,13 @@ import { EncryptJWT, base64url } from "jose";
 const { render } = new Renderer();
 
 export async function POST({ request, platform }: RequestEvent) {
+  const apiKey = request.headers.get("X-API-Key");
+  const expectedKey = platform?.env?.X_API_KEY;
+
+  if (!apiKey || !expectedKey || apiKey !== expectedKey) {
+    return json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
     const body = (await request.json()) as {
       name?: string;
