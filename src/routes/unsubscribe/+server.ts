@@ -51,6 +51,25 @@ async function deleteSubscriber(
   }
 }
 
+async function isSubscribed(
+  email: string,
+  platform?: RequestEvent["platform"],
+): Promise<boolean> {
+  if (platform?.env?.ohstatus) {
+    const db = drizzle(platform.env.ohstatus);
+
+    const existing = await db
+      .select({ email: subscribers.email })
+      .from(subscribers)
+      .where(eq(subscribers.email, email))
+      .get();
+
+    return !!existing;
+  }
+
+  return false;
+}
+
 export const POST: RequestHandler = async ({ url, platform }) => {
   let token = url.searchParams.get("token");
 
@@ -65,6 +84,12 @@ export const POST: RequestHandler = async ({ url, platform }) => {
       { error: "Invalid, missing, or expired unsubscribe token" },
       { status: 400 },
     );
+  }
+
+  const exists = await isSubscribed(email, platform);
+
+  if (!exists) {
+    return json({ error: "Invalid token" }, { status: 400 });
   }
 
   if (platform?.ctx?.waitUntil) {
