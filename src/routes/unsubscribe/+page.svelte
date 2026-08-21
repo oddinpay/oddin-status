@@ -12,7 +12,7 @@
   <div class="prism-bg">
     <PixelBlast
       variant="square"
-      color={data.success ? "#cee6c8" : "#f87171"}
+      color={data.success ? "#cee6c8" : "#e0cece"}
       pixelSize={3}
     />
   </div>
