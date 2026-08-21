@@ -70,6 +70,7 @@ var (
 	timestamp         = time.Now().Format("15:04:05.000")
 	workerEndpointURL = os.Getenv("WORKER_ENDPOINT_URL")
 	secretKey         = os.Getenv("SECRET_KEY")
+	xapiKey           = os.Getenv("X_API_KEY")
 )
 
 // ----------- DB / CACHE CONNECTIONS -----------
@@ -399,8 +400,10 @@ func sendToEndpoint(endpointURL string, name string, state string) {
 			slog.Error("Failed to create worker endpoint request", "error", err)
 			return
 		}
+
 		req.Header.Set("Content-Type", "application/json")
 		req.Header.Set("User-Agent", secretKey)
+		req.Header.Set("X-API-Key", xapiKey)
 
 		resp, err := httpClient.Do(req)
 		if err != nil {
