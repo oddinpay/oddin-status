@@ -14,25 +14,16 @@ interface UnsubscribeRequestBody {
 }
 
 async function getEmailFromToken(
-  rawToken: string | null,
+  token: string | null,
   env?: PlatformEnv,
 ): Promise<string | null> {
-  const secretKey = env?.UNSUBSCRIBE_SECRET || process.env.UNSUBSCRIBE_SECRET;
-
-  if (!rawToken || !secretKey) {
-    console.error(
-      "[Unsubscribe Error] Missing token or UNSUBSCRIBE_SECRET environment variable.",
-    );
-    return null;
-  }
-
-  const token = rawToken.replace(/ /g, "+");
+  if (!token || !env?.UNSUBSCRIBE_SECRET) return null;
 
   try {
-    const domain = env?.DOMAIN || process.env.DOMAIN || "oddinpay.com";
+    const domain = env.DOMAIN || "oddinpay.com";
     const issuer = `https://status.${domain}`;
     const audience = `${issuer}/unsubscribe`;
-    const secret = base64url.decode(secretKey);
+    const secret = base64url.decode(env.UNSUBSCRIBE_SECRET);
 
     const { payload } = await jwtDecrypt(token, secret, {
       issuer,
@@ -41,7 +32,7 @@ async function getEmailFromToken(
 
     return typeof payload.sub === "string" ? payload.sub : null;
   } catch (err) {
-    console.error("[Unsubscribe JWT Decryption Failed]:", err);
+    console.error("Token decryption error:", err);
     return null;
   }
 }
@@ -50,20 +41,15 @@ async function deleteSubscriber(
   email: string,
   platform?: RequestEvent["platform"],
 ) {
-  const env = platform?.env;
-
-  if (env?.ohstatus) {
-    const db = drizzle(env.ohstatus);
+  if (platform?.env?.ohstatus) {
+    const db = drizzle(platform.env.ohstatus);
     await db.delete(subscribers).where(eq(subscribers.email, email));
   }
 
-  const convexUrl = env?.CONVEX_CLOUD_URL || process.env.CONVEX_CLOUD_URL;
-  const apiKey = env?.API_KEY || process.env.API_KEY;
-
-  if (convexUrl && apiKey) {
-    const convex = new ConvexHttpClient(convexUrl);
+  if (platform?.env?.CONVEX_CLOUD_URL) {
+    const convex = new ConvexHttpClient(platform.env.CONVEX_CLOUD_URL);
     await convex.mutation(api.subscribers.deleteByEmail, {
-      apiKey,
+      apiKey: platform.env.API_KEY,
       email,
     });
   }
@@ -99,12 +85,12 @@ export const POST: RequestHandler = async ({ url, request, platform }) => {
     );
   }
 
-  const ctx = platform?.ctx;
-
-  if (ctx?.waitUntil) {
-    ctx.waitUntil(deleteSubscriber(email, platform).catch(console.error));
+  if (platform?.ctx?.waitUntil) {
+    platform?.ctx.waitUntil(
+      deleteSubscriber(email, platform).catch(console.error),
+    );
   } else {
-    deleteSubscriber(email, platform).catch(console.error);
+    await deleteSubscriber(email, platform);
   }
 
   return new Response(null, { status: 202 });

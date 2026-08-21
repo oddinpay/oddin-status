@@ -60,10 +60,9 @@ export const load: PageServerLoad = async ({ url, platform }) => {
     return { success: false };
   }
 
-  const ctx = (platform as unknown as { ctx?: ExecutionContext })?.ctx;
 
-  if (ctx?.waitUntil) {
-    ctx.waitUntil(deleteSubscriber(email, platform).catch(console.error));
+  if (platform?.ctx?.waitUntil) {
+    platform?.ctx.waitUntil(deleteSubscriber(email, platform).catch(console.error));
   } else {
     await deleteSubscriber(email, platform);
   }
