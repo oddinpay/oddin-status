@@ -373,6 +373,10 @@
 }
 
 @layer base {
+  * {
+    box-sizing: border-box;
+  }
+
   *,
   ::after,
   ::before,
