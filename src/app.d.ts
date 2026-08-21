@@ -10,8 +10,12 @@ declare global {
         SUBSCRIBERS_QUEUE: Queue;
         SEND_ALERTS_QUEUE: Queue;
         UNSUBSCRIBE_SECRET: string;
+        CONVEX_CLOUD_URL: string;
         DOMAIN: string;
+        API_KEY: string;
       };
+
+      ctx?: ExecutionContext;
     }
     // interface Error {}
     // interface Locals {}

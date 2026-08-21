@@ -99,6 +99,23 @@ export const getSubscriberByEmail = query({
   },
 });
 
+export const deleteByEmail = mutation({
+  args: { apiKey: v.string(), email: v.string() },
+  handler: async (ctx, args) => {
+    if (args.apiKey !== process.env.API_KEY) {
+      throw new Error("Unauthorized");
+    }
+    const record = await ctx.db
+      .query("subscribers")
+      .withIndex("by_email", (q) => q.eq("email", args.email))
+      .first();
+
+    if (record) {
+      await ctx.db.delete(record._id);
+    }
+  },
+});
+
 // Recent
 export const recentCount = query({
   args: { status: v.string() },

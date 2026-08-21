@@ -1,5 +1,6 @@
 <script lang="ts">
-import PixelBlast from "$lib/components/Pixel.svelte";
+  import PixelBlast from "$lib/components/Pixel.svelte";
+  let { data } = $props();
 </script>
 
 <svelte:head>
@@ -9,12 +10,21 @@ import PixelBlast from "$lib/components/Pixel.svelte";
 
 <div id="main">
   <div class="prism-bg">
-    <PixelBlast variant="square" color="#cee6c8" pixelSize={3} />
+    <PixelBlast
+      variant="square"
+      color={data.success ? "#cee6c8" : "#f87171"}
+      pixelSize={3}
+    />
   </div>
 
   <div class="fof">
-    <h1>Bye</h1>
-    <p>You'll no longer receive status updates.</p>
+    {#if data.success}
+      <h1>Bye</h1>
+      <p>You'll no longer receive status updates.</p>
+    {:else}
+      <h1>Invalid</h1>
+      <p>The unsubscribe link is invalid.</p>
+    {/if}
     <a href="/">Back to Home</a>
   </div>
 </div>
