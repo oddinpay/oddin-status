@@ -9,10 +9,6 @@ import { api } from "../../convex/_generated/api";
 
 type PlatformEnv = NonNullable<RequestEvent["platform"]>["env"];
 
-interface UnsubscribeRequestBody {
-  token?: string;
-}
-
 async function getEmailFromToken(
   token: string | null,
   env?: PlatformEnv,
