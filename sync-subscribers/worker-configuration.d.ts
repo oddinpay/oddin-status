@@ -4,8 +4,6 @@
 interface __BaseEnv_Env {
 	CONVEX_DEPLOYMENT: string;
 	PUBLIC_CONVEX_CLOUD_URL: string;
-	CONVEX_SYNC_CLOUD_URL: string;
-	CONVEX_SYNC_SITE_URL: string;
 	API_KEY: string;
 	CONVEX_URL: string;
 	CONVEX_SITE_URL: string;
