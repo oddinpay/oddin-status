@@ -1,5 +1,6 @@
-import type { RequestEvent } from "@sveltejs/kit";
+import type { RequestEvent, RequestHandler } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
+import type { ExecutionContext } from "@cloudflare/workers-types";
 import { jwtDecrypt, base64url } from "jose";
 import { drizzle } from "drizzle-orm/d1";
 import { subscribers } from "$lib/schema";
@@ -7,9 +8,15 @@ import { eq } from "drizzle-orm";
 import { ConvexHttpClient } from "convex/browser";
 import { api } from "../../convex/_generated/api";
 
+type PlatformEnv = NonNullable<RequestEvent["platform"]>["env"];
+
+interface UnsubscribeRequestBody {
+  token?: string;
+}
+
 async function getEmailFromToken(
   token: string | null,
-  env?: Record<string, any>,
+  env?: PlatformEnv,
 ): Promise<string | null> {
   if (!token || !env?.UNSUBSCRIBE_SECRET) return null;
 
@@ -24,7 +31,7 @@ async function getEmailFromToken(
       audience,
     });
 
-    return (payload.sub as string) || null;
+    return typeof payload.sub === "string" ? payload.sub : null;
   } catch (err) {
     console.error("Token decryption error:", err);
     return null;
@@ -57,13 +64,46 @@ export const load: PageServerLoad = async ({ url, platform }) => {
     return { success: false };
   }
 
-  if (platform?.ctx?.waitUntil) {
-    platform.ctx.waitUntil(
-      deleteSubscriber(email, platform).catch(console.error),
-    );
+  const ctx = (platform as unknown as { ctx?: ExecutionContext })?.ctx;
+
+  if (ctx?.waitUntil) {
+    ctx.waitUntil(deleteSubscriber(email, platform).catch(console.error));
   } else {
     await deleteSubscriber(email, platform);
   }
 
   return { success: true };
+};
+
+export const POST: RequestHandler = async ({ url, request, platform }) => {
+  let token = url.searchParams.get("token");
+
+  if (!token) {
+    const contentType = request.headers.get("content-type") || "";
+    if (contentType.includes("application/x-www-form-urlencoded")) {
+      const formData = await request.formData();
+      token = formData.get("token") as string | null;
+    } else if (contentType.includes("application/json")) {
+      const json = (await request
+        .json()
+        .catch(() => ({}))) as UnsubscribeRequestBody;
+      token = json.token || null;
+    }
+  }
+
+  const email = await getEmailFromToken(token, platform?.env);
+
+  if (!email) {
+    return new Response(null, { status: 400 });
+  }
+
+  const ctx = (platform as unknown as { ctx?: ExecutionContext })?.ctx;
+
+  if (ctx?.waitUntil) {
+    ctx.waitUntil(deleteSubscriber(email, platform).catch(console.error));
+  } else {
+    deleteSubscriber(email, platform).catch(console.error);
+  }
+
+  return new Response(null, { status: 202 });
 };
