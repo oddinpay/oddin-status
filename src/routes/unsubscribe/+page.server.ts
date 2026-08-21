@@ -1,6 +1,5 @@
-import type { RequestEvent, RequestHandler } from "@sveltejs/kit";
+import type { RequestEvent } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
-import type { ExecutionContext } from "@cloudflare/workers-types";
 import { jwtDecrypt, base64url } from "jose";
 import { drizzle } from "drizzle-orm/d1";
 import { subscribers } from "$lib/schema";
@@ -60,9 +59,10 @@ export const load: PageServerLoad = async ({ url, platform }) => {
     return { success: false };
   }
 
-
   if (platform?.ctx?.waitUntil) {
-    platform?.ctx.waitUntil(deleteSubscriber(email, platform).catch(console.error));
+    platform?.ctx.waitUntil(
+      deleteSubscriber(email, platform).catch(console.error),
+    );
   } else {
     await deleteSubscriber(email, platform);
   }
