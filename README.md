@@ -3,7 +3,7 @@
 
 <h1 align="center"> ohstatus </h1>
 
-<img width="250" height="250" alt="hifi tidal" src="https://cdn.oddinpay.com/ohstatus.png" />
+<img width="150" height="150" alt="hifi tidal" src="https://cdn.oddinpay.com/ohstatus.png" />
 
 </div>
 
