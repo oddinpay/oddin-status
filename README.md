@@ -8,7 +8,6 @@
 </div>
 
 <br>
-<br>
 
 <a href="https://oddinpay.com">![](https://cdn.oddinpay.com/ohstatus-cover.png)</a>
 
