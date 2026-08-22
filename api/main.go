@@ -403,7 +403,7 @@ func sendToEndpoint(endpointURL string, name string, state string) {
 
 		req.Header.Set("Content-Type", "application/json")
 		req.Header.Set("User-Agent", secretKey)
-		req.Header.Set("X-API-Key", xapiKey)
+		req.Header.Set("X-API-KEY", xapiKey)
 
 		resp, err := httpClient.Do(req)
 		if err != nil {
