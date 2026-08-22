@@ -15,7 +15,7 @@ import { EncryptJWT, base64url } from "jose";
 const { render } = new Renderer();
 
 export async function POST({ request, platform }: RequestEvent) {
-  const apiKey = request.headers.get("X-API-Key");
+  const apiKey = request.headers.get("X-API-KEY");
   const expectedKey = platform?.env?.X_API_KEY;
 
   if (!apiKey || !expectedKey || apiKey !== expectedKey) {
