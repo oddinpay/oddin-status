@@ -1,4 +1,16 @@
-# ohstatus
+
+<div align="center">
+
+<h1 align="center"> ohstatus </h1>
+
+<img width="250" height="250" alt="hifi tidal" src="https://cdn.oddinpay.com/ohstatus.png" />
+
+</div>
+
+<br>
+<br>
+
+<a href="https://oddinpay.com">![](https://cdn.oddinpay.com/ohstatus-cover.png)</a>
 
 🚨 Beautiful status page & uptime monitor. Ready for production out of the box. Easily deploy to Cloudflare in just one click.
 
