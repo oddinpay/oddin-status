@@ -112,15 +112,15 @@
 
   @media (max-width: 600px) {
     .fof h1 {
-      font-size: clamp(40px, 10vw, 60px);
+      font-size: 60px;
     }
 
     .fof p {
-      font-size: clamp(16px, 4vw, 18px);
+      font-size: 18px;
     }
 
     .fof a {
-      font-size: clamp(16px, 4vw, 18px);
+      font-size: 16px;
       padding: 10px 20px;
     }
   }
