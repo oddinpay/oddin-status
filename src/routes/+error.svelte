@@ -91,7 +91,7 @@
     display: inline-block;
     margin-top: 20px;
     padding: 14px 32px;
-    font-size: 18px;
+    font-size: clamp(18px, 4vw, 20px);
     white-space: nowrap;
     text-decoration: none;
     color: #fff;
@@ -113,7 +113,6 @@
 
   @media (max-width: 600px) {
     .fof a {
-      font-size: 16px;
       padding: 10px 20px;
     }
   }
