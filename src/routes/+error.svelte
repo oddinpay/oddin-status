@@ -92,6 +92,7 @@
     margin-top: 20px;
     padding: 14px 32px;
     font-size: 18px;
+    white-space: nowrap;
     text-decoration: none;
     color: #fff;
     background-color: #000;
