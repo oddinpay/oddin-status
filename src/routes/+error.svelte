@@ -83,7 +83,7 @@
 
   .fof p {
     font-size: clamp(18px, 4vw, 24px);
-    margin: 20px 0;
+    margin: 10px 0;
     color: #222;
   }
 
