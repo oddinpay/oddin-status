@@ -59,7 +59,8 @@
   }
 
   .fof h1 {
-    font-size: 80px;
+    font-size: clamp(60px, 10vw, 80px);
+    margin: 0;
     font-weight: 700;
     display: inline-block;
     position: relative;
@@ -111,15 +112,15 @@
 
   @media (max-width: 600px) {
     .fof h1 {
-      font-size: 60px;
+      font-size: clamp(40px, 10vw, 60px);
     }
 
     .fof p {
-      font-size: 18px;
+      font-size: clamp(16px, 4vw, 18px);
     }
 
     .fof a {
-      font-size: 16px;
+      font-size: clamp(16px, 4vw, 18px);
       padding: 10px 20px;
     }
   }
