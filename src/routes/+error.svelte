@@ -82,7 +82,7 @@
   }
 
   .fof p {
-    font-size: 24px;
+    font-size: clamp(18px, 4vw, 24px);
     margin: 20px 0;
     color: #222;
   }
@@ -112,14 +112,6 @@
   }
 
   @media (max-width: 600px) {
-    .fof h1 {
-      font-size: 60px;
-    }
-
-    .fof p {
-      font-size: 18px;
-    }
-
     .fof a {
       font-size: 16px;
       padding: 10px 20px;
