@@ -1229,3 +1229,21 @@ input[type="number"] {
   line-height: 1;
   text-transform: uppercase;
 }
+
+button:not(:has(#banner)):focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+  border-radius: 99px;
+}
+
+span:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+a:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
