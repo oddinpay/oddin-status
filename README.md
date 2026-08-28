@@ -50,7 +50,7 @@ We have three components: `API`, `status page`, and the `dashboard`. The status 
 
 <br>
 
-[![DeploytoKoyeb](https://www.koyeb.com/static/images/deploy/button.svg)](https://app.koyeb.com/deploy?name=ohstatus&type=git&repository=oddinpay/ohstatus&branch=main&workdir=/api&privileged=true&instance_type=eco-nano&regions=fra&env[API_KEY]=&env[CONVEX_DB_URL]=&env[HOST]=&env[NATS_JWT]=&env[NATS_SEED]&env[NATS_URL]=tls://connect.ngs.global&env[SECRET_KEY]=&env[WORKER_ENDPOINT_URL]=&env[X_API_KEY]=&ports=8976;http;/&hc_protocol[8976]=tcp&hc_grace_period[8976]=5&hc_interval[8976]=30&hc_restart_limit[8976]=3&hc_timeout[8976]=5&hc_path[8976]=/&hc_method[8976]=get)
+[![DeploytoKoyeb](https://www.koyeb.com/static/images/deploy/button.svg)](https://app.koyeb.com/deploy?name=ohstatus&type=git&repository=oddinpay/ohstatus&branch=main&workdir=/api&privileged=true&instance_type=eco-nano&regions=fra&env[API_KEY]=&env[CONVEX_CLOUD_URL]=&env[HOST]=&env[NATS_JWT]=&env[NATS_SEED]&env[NATS_URL]=tls://connect.ngs.global&env[SECRET_KEY]=&env[WORKER_ENDPOINT_URL]=&env[X_API_KEY]=&ports=8976;http;/&hc_protocol[8976]=tcp&hc_grace_period[8976]=5&hc_interval[8976]=30&hc_restart_limit[8976]=3&hc_timeout[8976]=5&hc_path[8976]=/&hc_method[8976]=get)
 
 <br>
 
@@ -60,7 +60,7 @@ We have three components: `API`, `status page`, and the `dashboard`. The status 
 
 ```sh
 API_KEY=
-CONVEX_DB_URL=
+CONVEX_CLOUD_URL=
 HOST=
 NATS_JWT=
 NATS_SEED=
