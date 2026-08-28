@@ -1147,15 +1147,11 @@
                                             {parseFloat(api.uptime90)}% uptime
                                           </span>
                                         {:else if s.status === "warn"}
-                                          <span
-                                            class="text-yellow-400 text-sm mt-1 font-semibold"
-                                          >
+                                          <span class="text-yellow-400 text-sm">
                                             {parseFloat(api.uptime30)}% uptime
                                           </span>
                                         {:else if s.status === "down"}
-                                          <span
-                                            class="text-red-400 text-sm mt-1 font-semibold"
-                                          >
+                                          <span class="text-red-400 text-sm">
                                             Down for {s.downtime}
                                           </span>
                                         {:else}
