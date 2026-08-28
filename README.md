@@ -35,7 +35,8 @@ The ohstatus dashboard runs locally, decoupled from the serverless environment. 
 >
 > This project is currently under active development.
 
-We have three components: `API`, `status page`, and the `dashboard`. The status page must run on Cloudflare (it doesn't work anywhere else), but the API and dashboard can run anywhere.
+> [!NOTE]
+> We have three components: `API`, `status page`, and the `dashboard`. The status page must run on Cloudflare (it doesn't work anywhere else), but the API and dashboard can run anywhere.
 
 ### API Deployment & Installation
 
