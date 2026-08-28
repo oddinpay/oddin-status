@@ -1148,11 +1148,11 @@
                                           </span>
                                         {:else if s.status === "warn"}
                                           <span class="text-yellow-400 text-sm">
-                                            Outage for {s.downtime}
+                                            Outage {s.downtime}
                                           </span>
                                         {:else if s.status === "down"}
                                           <span class="text-red-400 text-sm">
-                                            Down for {s.downtime}
+                                            Down {s.downtime}
                                           </span>
                                         {:else}
                                           <span
