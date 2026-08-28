@@ -52,6 +52,13 @@ We have three components: `API`, `status page`, and the `dashboard`. The status 
 
 <br>
 
+> [!TIP]
+> Generate a unique key for `API_KEY`, `SECRET_KEY`, and `X_API_KEY` using the command below. Run it three separate times to ensure each key is distinct:
+
+```sh
+ node -e "console.log(require('crypto').randomBytes(32).toString('base64url'))"
+```
+
 <br>
 
 > [!NOTE]
