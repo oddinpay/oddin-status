@@ -8,6 +8,7 @@ module.exports = {
       env: {
         NODE_ENV: "production",
         PORT: 5174,
+        ORIGIN: "http://localhost:5174",
       },
     },
   ],
