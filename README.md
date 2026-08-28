@@ -1,7 +1,6 @@
-
 <div align="center">
 
- # ohstatus
+# ohstatus
 
 </div>
 
@@ -28,7 +27,6 @@ Built for serverless platforms like Cloudflare and Koyeb, ohstatus ensures high 
 
 The ohstatus dashboard runs locally, decoupled from the serverless environment. By communicating securely through Convex, your admin interface remains completely private and is never exposed to the public internet.
 
-
 ## Installation
 
 > [!WARNING]
@@ -50,23 +48,23 @@ We have three components: `API`, `status page`, and the `dashboard`. The status 
 
 <br>
 
-[![DeploytoKoyeb](https://www.koyeb.com/static/images/deploy/button.svg)](https://app.koyeb.com/deploy?name=ohstatus&type=git&repository=oddinpay/ohstatus&branch=main&workdir=/api&privileged=true&instance_type=eco-nano&regions=fra&env[API_KEY]=&env[CONVEX_CLOUD_URL]=&env[SSE_API_HOST]=&env[NATS_JWT]=&env[NATS_SEED]&env[NATS_URL]=tls://connect.ngs.global&env[SECRET_KEY]=&env[WORKER_ENDPOINT_URL]=&env[X_API_KEY]=&ports=8976;http;/&hc_protocol[8976]=tcp&hc_grace_period[8976]=5&hc_interval[8976]=30&hc_restart_limit[8976]=3&hc_timeout[8976]=5&hc_path[8976]=/&hc_method[8976]=get)
+[![DeploytoKoyeb](https://www.koyeb.com/static/images/deploy/button.svg)](https://app.koyeb.com/deploy?name=ohstatus&type=git&repository=oddinpay/ohstatus&branch=main&workdir=/api&privileged=true&instance_type=eco-nano&regions=fra&env[API_KEY]=&env[CONVEX_CLOUD_URL]=&env[NATS_JWT]=&env[NATS_SEED]&env[NATS_URL]=tls://connect.ngs.global&env[SECRET_KEY]=&env[SSE_API_HOST]=&env[WORKER_ENDPOINT_URL]=&env[X_API_KEY]=&ports=8976;http;/&hc_protocol[8976]=tcp&hc_grace_period[8976]=5&hc_interval[8976]=30&hc_restart_limit[8976]=3&hc_timeout[8976]=5&hc_path[8976]=/&hc_method[8976]=get)
+
+<br>
 
 <br>
 
 > [!NOTE]
 > While the deployment above is fully automated with a single click, you must configure the environment variables below to make the deployment live.
-> 
 
 ```sh
 API_KEY=
 CONVEX_CLOUD_URL=
-SSE_API_HOST=
 NATS_JWT=
 NATS_SEED=
 NATS_URL=tls://connect.ngs.global
 SECRET_KEY=
+SSE_API_HOST=
 WORKER_ENDPOINT_URL=
 X_API_KEY=
 ```
-
