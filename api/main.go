@@ -1512,7 +1512,7 @@ func main() {
 
 	originPolicy := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		host, _, _ := strings.Cut(r.Host, ":")
-		if host != os.Getenv("HOST") {
+		if host != os.Getenv("SSE_API_HOST") {
 			w.WriteHeader(http.StatusForbidden)
 			w.Write([]byte("403 prohibited"))
 			return
