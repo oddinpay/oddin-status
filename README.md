@@ -63,7 +63,7 @@ The ohstatus dashboard runs locally, decoupled from the serverless environment. 
 <br>
 
 > [!NOTE]
-> While the deployment above is fully automated with a single click, you must configure the environment variables below to make the deployment live. `SSE_API_HOST` is your API domain or subdomain. Using a subdomain is highly recommended. You will also need a `WORKER_ENDPOINT_URL`, which is included with your status page setup. We will walk through how to get this below.
+> While the deployment above is fully automated with a single click, you must configure the environment variables below to make the deployment live. `SSE_API_HOST` is your API domain or subdomain. using a subdomain is highly recommended. You will also need a `WORKER_ENDPOINT_URL`, which is included with your status page setup. we will walk through how to get this below.
 
 ```sh
 API_KEY=
