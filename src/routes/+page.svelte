@@ -1144,11 +1144,11 @@
                                               ? 'text-lime-400'
                                               : 'text-slate-300'} text-sm"
                                           >
-                                            {parseFloat(api.uptime90)}% uptime
+                                            Operational
                                           </span>
                                         {:else if s.status === "warn"}
                                           <span class="text-yellow-400 text-sm">
-                                            {parseFloat(api.uptime30)}% uptime
+                                            Outage for {s.downtime}
                                           </span>
                                         {:else if s.status === "down"}
                                           <span class="text-red-400 text-sm">
