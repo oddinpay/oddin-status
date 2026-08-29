@@ -83,7 +83,7 @@ var (
 	convexClient     = convex.NewClient(os.Getenv("CONVEX_CLOUD_URL"), nil)
 	monitorStartTime = time.Now().UTC().Truncate(24 * time.Hour)
 	probeManagerOnce sync.Once
-	hr               = HealthResponse{Down: "down", Up: "up", Warn: "warn"}
+	hr               = HealthResponse{Down: "down", Up: "up", Warn: "warn", Default: "default"}
 	nc               *nats.Conn
 	wg               sync.WaitGroup
 	js               jetstream.JetStream
@@ -197,9 +197,10 @@ type HttpRequest struct {
 }
 
 type HealthResponse struct {
-	Down string `json:"down"`
-	Up   string `json:"up"`
-	Warn string `json:"warn"`
+	Down    string `json:"down"`
+	Up      string `json:"up"`
+	Warn    string `json:"warn"`
+	Default string `json:"default"`
 }
 
 type ProbeResult struct {
@@ -623,7 +624,7 @@ func probeDNS(re HttpRequest) ProbeResult {
 			Description: "Input is already an IP, DNS lookup skipped",
 			Timestamp:   time.Now().Format("15:04:05.000"),
 			Date:        getRecentDates(),
-			State:       []string{hr.Warn},
+			State:       []string{hr.Default},
 		}
 	}
 
