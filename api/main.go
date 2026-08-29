@@ -508,7 +508,7 @@ func probeHTTP(re HttpRequest) ProbeResult {
 
 		// 4xx status is degraded/misconfigured -> WARN
 		finalState := hr.Down
-		if resp.StatusCode < 500 {
+		if resp.StatusCode >= 400 && resp.StatusCode < 500 {
 			finalState = hr.Warn
 		}
 
