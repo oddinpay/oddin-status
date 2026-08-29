@@ -217,7 +217,7 @@
 
     const totalSeconds = parseDowntimeToSeconds(downtime);
 
-    if (totalSeconds <= 120) {
+    if (totalSeconds <= 300) {
       return "warn";
     } else {
       return "down";
