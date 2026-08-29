@@ -446,9 +446,7 @@ func handleEndpointAlertState(alertKV jetstream.KeyValue, workerEndpointURL stri
 
 // -------------------- PROBES --------------------
 func probeHTTP(re HttpRequest) ProbeResult {
-
 	url := fmt.Sprintf("%s://%s", re.Protocol, re.Host)
-
 	maxRetries := 5
 
 	if userAgent == "" {
@@ -456,7 +454,6 @@ func probeHTTP(re HttpRequest) ProbeResult {
 	}
 
 	for attempt := 1; attempt <= maxRetries; attempt++ {
-
 		ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 
 		req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
@@ -465,21 +462,18 @@ func probeHTTP(re HttpRequest) ProbeResult {
 			slog.Error("Failed to create HTTP request", "error", err)
 			continue
 		}
-
 		req.Header.Set("User-Agent", userAgent)
 
 		resp, err := httpClient.Do(req)
-
 		if err != nil {
 			cancel()
-
 			if attempt < maxRetries {
 				time.Sleep(200 * time.Millisecond)
 				continue
 			}
 
+			// Transport/Network failed completely -> DOWN
 			handleEndpointAlertState(alertKV, workerEndpointURL, re.Name, hr.Down)
-
 			return ProbeResult{
 				Id:          re.ID,
 				Name:        re.Name,
@@ -495,7 +489,6 @@ func probeHTTP(re HttpRequest) ProbeResult {
 		cancel()
 
 		if resp.StatusCode >= StatusOK && resp.StatusCode < StatusBadRequest {
-
 			return ProbeResult{
 				Id:          re.ID,
 				Name:        re.Name,
@@ -512,8 +505,13 @@ func probeHTTP(re HttpRequest) ProbeResult {
 			continue
 		}
 
-		handleEndpointAlertState(alertKV, workerEndpointURL, re.Name, hr.Down)
+		// 4xx status is degraded/misconfigured -> WARN
+		finalState := hr.Down
+		if resp.StatusCode < 500 {
+			finalState = hr.Warn
+		}
 
+		handleEndpointAlertState(alertKV, workerEndpointURL, re.Name, finalState)
 		return ProbeResult{
 			Id:          re.ID,
 			Name:        re.Name,
@@ -521,7 +519,7 @@ func probeHTTP(re HttpRequest) ProbeResult {
 			Description: fmt.Sprintf("%s - %d", re.Host, resp.StatusCode),
 			Timestamp:   time.Now().Format("15:04:05.000"),
 			Date:        getRecentDates(),
-			State:       []string{hr.Down},
+			State:       []string{finalState},
 		}
 	}
 
@@ -532,7 +530,6 @@ func probeTCP(re HttpRequest) ProbeResult {
 	maxRetries := 5
 
 	for attempt := 1; attempt <= maxRetries; attempt++ {
-
 		host := re.Host
 		if !strings.Contains(host, ":") {
 			host = net.JoinHostPort(host, "80")
@@ -545,8 +542,8 @@ func probeTCP(re HttpRequest) ProbeResult {
 				continue
 			}
 
+			// Port unreachable -> DOWN
 			handleEndpointAlertState(alertKV, workerEndpointURL, re.Name, hr.Down)
-
 			return ProbeResult{
 				Id:          re.ID,
 				Name:        re.Name,
@@ -567,7 +564,6 @@ func probeTCP(re HttpRequest) ProbeResult {
 			}
 
 			handleEndpointAlertState(alertKV, workerEndpointURL, re.Name, hr.Down)
-
 			return ProbeResult{
 				Id:          re.ID,
 				Name:        re.Name,
@@ -590,6 +586,7 @@ func probeTCP(re HttpRequest) ProbeResult {
 				continue
 			}
 
+			// Port open, but no application response -> UP
 			return ProbeResult{
 				Id:          re.ID,
 				Name:        re.Name,
@@ -620,7 +617,6 @@ func probeDNS(re HttpRequest) ProbeResult {
 
 	if net.ParseIP(re.Host) != nil {
 		return ProbeResult{
-
 			Id:          re.ID,
 			Name:        re.Name,
 			Protocol:    strings.ToUpper(re.Protocol),
@@ -642,8 +638,8 @@ func probeDNS(re HttpRequest) ProbeResult {
 				continue
 			}
 
-			handleEndpointAlertState(alertKV, workerEndpointURL, re.Name, hr.Up)
-
+			// DNS lookup failed -> DOWN
+			handleEndpointAlertState(alertKV, workerEndpointURL, re.Name, hr.Down)
 			return ProbeResult{
 				Id:          re.ID,
 				Name:        re.Name,
