@@ -93,7 +93,7 @@ X_API_KEY=
 ```sh
 API_KEY=add_generated_key_from_above_here
 CONVEX_CLOUD_URL=add_backend_api_convex_cloud_url_here
-PUBLIC_CONVEX_URL=again_add_backend_api_convex_cloud_url_here
+PUBLIC_CONVEX_URL=add_backend_api_convex_cloud_url_here
 PUBLIC_SSE_HOST=api_hostname_only_e.g._ohstatus.my.domain
 UNSUBSCRIBE_SECRET=
 X_API_KEY=add_generated_key_from_above_here
