@@ -88,15 +88,12 @@ X_API_KEY=
 > Be sure to provide the value for `WORKER_ENDPOINT_URL` using your worker URL/Domain (for example: [https://my.domain/api/alerts](https://worker.hostname/api/alerts)).
 
 ```sh
-API_KEY=
-CONVEX_CLOUD_URL=
-NATS_JWT=
-NATS_SEED=
-NATS_URL=tls://connect.ngs.global
-SECRET_KEY=
-SSE_API_HOST=
-WORKER_ENDPOINT_URL=
-X_API_KEY=
+API_KEY=add_generated_key_from_above_here
+CONVEX_CLOUD_URL=add_backend_convex_cloud_url_here
+PUBLIC_CONVEX_URL=
+PUBLIC_SSE_HOST=api_hostname_only_e.g._ohstatus.my.domain
+UNSUBSCRIBE_SECRET=
+X_API_KEY=add_generated_key_from_above_here
 ```
 
 [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/oddinpay/ohstatus)
