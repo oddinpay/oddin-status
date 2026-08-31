@@ -114,6 +114,8 @@ UNSUBSCRIBE_SECRET=
 X_API_KEY=add_generated_key_from_above_here
 ```
 
+<br>
+
 > [!TIP]
 > Generate a unique key for `UNSUBSCRIBE_SECRET` using the command below. Run it three separate times to ensure each key is distinct:
 
