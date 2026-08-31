@@ -88,6 +88,7 @@ X_API_KEY=
 
 #### Prerequisites
 
+- Wrangler (optional, unless creating D1 and Queues manually)
 - NATS (Synadia Cloud account)
 - Convex account
 - Cloudflare account (workers)
