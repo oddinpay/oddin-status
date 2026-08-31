@@ -123,6 +123,8 @@ X_API_KEY=add_generated_key_from_above_here
  node -e "console.log(require('crypto').randomBytes(32).toString('base64url'))"
 ```
 
+<br>
+
 ### Set up queues
 
 > [!NOTE]
