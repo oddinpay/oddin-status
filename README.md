@@ -127,12 +127,12 @@ X_API_KEY=add_generated_key_from_above_here
 
 ### Set up queues
 
+> [!NOTE]
+> To get the status page working properly, set up two queues: one for fire-and-forget alert delivery (one-in, one-out), and another to sync subscribers with Convex so data appears on your dashboard.
+
+<br>
+
 #### Prerequisites
 
 - Convex account
 - Cloudflare account (workers)
-
-<br>
-
-> [!NOTE]
-> To get the status page working properly, set up two queues: one for fire-and-forget alert delivery (one-in, one-out), and another to sync subscribers with Convex so data appears on your dashboard.
