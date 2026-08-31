@@ -86,6 +86,12 @@ X_API_KEY=
 
 ### Status Page Deployment
 
+#### Prerequisites
+
+- NATS (Synadia Cloud account)
+- Convex account
+- Cloudflare account (workers)
+
 [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/oddinpay/ohstatus)
 
 <br>
