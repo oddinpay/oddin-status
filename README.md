@@ -76,3 +76,7 @@ SSE_API_HOST=
 WORKER_ENDPOINT_URL=
 X_API_KEY=
 ```
+
+### Status Page Deployment
+
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/oddinpay/ohstatus&env=API_KEY,CONVEX_CLOUD_URL,PUBLIC_CONVEX_URL)
