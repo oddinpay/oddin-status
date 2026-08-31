@@ -105,13 +105,6 @@ X_API_KEY=
 > [!TIP]
 > Be sure to provide the value for `WORKER_ENDPOINT_URL` using your worker URL/Domain (for example: [https://my.domain/api/alerts](https://worker.hostname/api/alerts)).
 
-> [!TIP]
-> Generate a unique key for `UNSUBSCRIBE_SECRET` using the command below. Run it three separate times to ensure each key is distinct:
-
-```sh
- node -e "console.log(require('crypto').randomBytes(32).toString('base64url'))"
-```
-
 ```sh
 API_KEY=add_generated_key_from_above_here
 CONVEX_CLOUD_URL=add_backend_api_convex_cloud_url_here
@@ -119,4 +112,11 @@ PUBLIC_CONVEX_URL=add_backend_api_convex_cloud_url_here
 PUBLIC_SSE_HOST=api_hostname_only_e.g._ohstatus.my.domain
 UNSUBSCRIBE_SECRET=
 X_API_KEY=add_generated_key_from_above_here
+```
+
+> [!TIP]
+> Generate a unique key for `UNSUBSCRIBE_SECRET` using the command below. Run it three separate times to ensure each key is distinct:
+
+```sh
+ node -e "console.log(require('crypto').randomBytes(32).toString('base64url'))"
 ```
