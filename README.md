@@ -86,6 +86,8 @@ X_API_KEY=
 
 ### Status Page Deployment
 
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/oddinpay/ohstatus)
+
 <br>
 
 > [!NOTE]
@@ -102,5 +104,3 @@ PUBLIC_SSE_HOST=api_hostname_only_e.g._ohstatus.my.domain
 UNSUBSCRIBE_SECRET=
 X_API_KEY=add_generated_key_from_above_here
 ```
-
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/oddinpay/ohstatus)
