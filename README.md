@@ -85,6 +85,6 @@ X_API_KEY=
 > Click the button below to deploy the status page. D1 databases and queues will be provisioned automatically. During deployment on Cloudflare, only enter the values for the required `environment variables`.
 
 > [!TIP]
-> Be sure to provide the value for `WORKER_ENDPOINT_URL` using your Worker endpoint URL (for example: [https://my.domain/api/alerts](https://worker.hostname/api/alerts)).
+> Be sure to provide the value for `WORKER_ENDPOINT_URL` using your worker URL/Domain (for example: [https://my.domain/api/alerts](https://worker.hostname/api/alerts)).
 
 [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/oddinpay/ohstatus)
