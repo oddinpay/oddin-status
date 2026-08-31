@@ -99,6 +99,15 @@ X_API_KEY=
 
 <br>
 
+> [!TIP]
+> Generate a unique key for `UNSUBSCRIBE_SECRET` using the command below. Run it three separate times to ensure each key is distinct:
+
+```sh
+ node -e "console.log(require('crypto').randomBytes(32).toString('base64url'))"
+```
+
+<br>
+
 > [!NOTE]
 > Click the button below to deploy the status page. D1 databases and queues will be provisioned automatically. During deployment on Cloudflare, only enter the values for the required `environment variables`.
 
@@ -112,15 +121,6 @@ PUBLIC_CONVEX_URL=add_backend_api_convex_cloud_url_here
 PUBLIC_SSE_HOST=api_hostname_only_e.g._ohstatus.my.domain
 UNSUBSCRIBE_SECRET=
 X_API_KEY=add_generated_key_from_above_here
-```
-
-<br>
-
-> [!TIP]
-> Generate a unique key for `UNSUBSCRIBE_SECRET` using the command below. Run it three separate times to ensure each key is distinct:
-
-```sh
- node -e "console.log(require('crypto').randomBytes(32).toString('base64url'))"
 ```
 
 <br>
