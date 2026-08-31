@@ -103,7 +103,7 @@ X_API_KEY=
 > Click the button below to deploy the status page. D1 databases and queues will be provisioned automatically. During deployment on Cloudflare, only enter the values for the required `environment variables`.
 
 > [!TIP]
-> Be sure to provide the value for `WORKER_ENDPOINT_URL` using your worker URL/Domain (for example: [https://my.domain/api/alerts](https://worker.hostname/api/alerts)).
+> Be sure to provide the value for `WORKER_ENDPOINT_URL` using your worker URL/Domain (for example: [https://my.domain/api/alerts](https://worker.hostname/api/alerts)). `/api/alerts`
 
 ```sh
 API_KEY=add_generated_key_from_above_here
