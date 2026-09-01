@@ -134,3 +134,6 @@ X_API_KEY=add_generated_key_from_above_here
 
 - Convex account
 - Cloudflare account (workers)
+
+- [alert-subscribers](https://github.com/oddinpay/ohstatus/tree/main/alert-subscribers)
+- [sync-subscribers](https://github.com/oddinpay/ohstatus/tree/main/sync-subscribers)
