@@ -137,7 +137,7 @@ X_API_KEY=add_generated_key_from_above_here
 
 ### Queues
 > [!NOTE]
-> 
+> Cloudflare does not support monorepos, so the direct deploy button will not work. You will need to fork this repository and set the `root directory` to the specific queue path, as shown in the screenshot below.
 
 <br>
 
@@ -147,4 +147,3 @@ X_API_KEY=add_generated_key_from_above_here
 <img width="1078" height="570" alt="chrome_hYCcw03xiX" src="https://github.com/user-attachments/assets/c440d608-3c95-4b1c-ad65-275612e6e3ac" />
 
 - [sync-subscribers](https://github.com/oddinpay/ohstatus/tree/main/sync-subscribers)
-
