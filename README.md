@@ -147,7 +147,7 @@ X_API_KEY=add_generated_key_from_above_here
 <img width="1078" height="457" alt="chrome_RldYy26tqR" src="https://github.com/user-attachments/assets/b435f603-d198-4a1c-a241-a104c62dd6fc" />
 <img width="1078" height="541" alt="chrome_GrmTr730Jo" src="https://github.com/user-attachments/assets/f05228b9-ece6-4840-b92f-12574b62eba8" />
 
-
+<br>
 <br>
 
 - [sync-subscribers](https://github.com/oddinpay/ohstatus/tree/main/sync-subscribers)
