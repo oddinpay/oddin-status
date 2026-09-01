@@ -91,7 +91,7 @@ function setupPM2() {
     runCommand("pm2 save");
 
     console.log(
-      "\n✅ Deployment complete! App is live and configured to reboot on startup.",
+      "\n✅ Deployment complete! App is live at http://localhost:5174 and configured to reboot on startup.",
     );
     process.exit(0);
   } catch (error) {

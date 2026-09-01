@@ -64,7 +64,7 @@ function setupPM2() {
     runCommand("pm2 save");
 
     console.log(
-      "\n✅ App is running in the background! (Note: It will not start automatically if the server reboots).",
+      "\n✅ App is running in the background at http://localhost:5174   (Note: It will not start automatically if the server reboots).",
     );
     process.exit(0);
   } catch (error) {
