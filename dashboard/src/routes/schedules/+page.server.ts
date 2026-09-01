@@ -7,7 +7,6 @@ import { ConvexHttpClient } from "convex/browser";
 import { api } from "../../convex/_generated/api";
 import { env } from "$env/dynamic/private";
 import { typeid } from "typeid-js";
-import { getAuthUserId } from "@convex-dev/auth/server";
 
 export const load: PageServerLoad = async (event) => {
   const form = await superValidate(event, zod4(scheduleCreate));
