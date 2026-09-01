@@ -32,12 +32,6 @@ export const actions: Actions = {
       const convex = getConvexClient();
       const apiKey = env.API_KEY;
 
-      const session = await e.locals.auth();
-
-      if (!session?.user) {
-        return setError(form, "", "Unauthorized: You must be logged in.");
-      }
-
       if (!apiKey) {
         return setError(form, "", "API_KEY environment variable is not set");
       }
@@ -69,12 +63,6 @@ export const actions: Actions = {
     try {
       const convex = getConvexClient();
       const apiKey = env.API_KEY;
-
-      const session = await e.locals.auth();
-
-      if (!session?.user) {
-        return setError(form, "", "Unauthorized: You must be logged in.");
-      }
 
       if (!apiKey) {
         return setError(form, "", "API_KEY environment variable is not set");
@@ -108,16 +96,6 @@ export const actions: Actions = {
       const convex = getConvexClient();
       const apiKey = env.API_KEY;
 
-      const session = await e.locals.auth();
-
-      if (!session?.user) {
-        return setError(
-          formData as any,
-          "",
-          "Unauthorized: You must be logged in.",
-        );
-      }
-
       if (!apiKey) {
         return setError(
           formData as any,
@@ -149,15 +127,6 @@ export const actions: Actions = {
     try {
       const convex = getConvexClient();
       const apiKey = env.API_KEY;
-
-      const session = await e.locals.auth();
-
-      if (!session?.user) {
-        return {
-          status: 500,
-          body: "Unauthorized: You must be logged in.",
-        };
-      }
 
       if (!apiKey) {
         return { status: 500, body: "API_KEY not set" };
