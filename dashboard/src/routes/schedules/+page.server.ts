@@ -7,6 +7,7 @@ import { ConvexHttpClient } from "convex/browser";
 import { api } from "../../convex/_generated/api";
 import { env } from "$env/dynamic/private";
 import { typeid } from "typeid-js";
+import { getAuthUserId } from "@convex-dev/auth/server";
 
 export const load: PageServerLoad = async (event) => {
   const form = await superValidate(event, zod4(scheduleCreate));
@@ -34,6 +35,12 @@ export const actions: Actions = {
 
       if (!apiKey) {
         return setError(form, "", "API_KEY environment variable is not set");
+      }
+
+      const session = await e.locals.auth();
+
+      if (!session?.user) {
+        return setError(form, "", "Unauthorized: You must be logged in.");
       }
 
       await convex.mutation(api.schedules.post, {
@@ -68,6 +75,12 @@ export const actions: Actions = {
         return setError(form, "", "API_KEY environment variable is not set");
       }
 
+      const session = await e.locals.auth();
+
+      if (!session?.user) {
+        return setError(form, "", "Unauthorized: You must be logged in.");
+      }
+
       await convex.mutation(api.schedules.update, {
         apiKey,
         parentId: form.data.parentId,
@@ -85,8 +98,8 @@ export const actions: Actions = {
     return { form };
   },
 
-  delete: async ({ request }) => {
-    const formData = await request.formData();
+  delete: async (e) => {
+    const formData = await e.request.formData();
     const id = formData.get("_id");
     if (!id) {
       return { status: 400, body: "Missing ID" };
@@ -104,6 +117,16 @@ export const actions: Actions = {
         );
       }
 
+      const session = await e.locals.auth();
+
+      if (!session?.user) {
+        return setError(
+          formData as any,
+          "",
+          "Unauthorized: You must be logged in.",
+        );
+      }
+
       await convex.mutation(api.schedules.deleteById, {
         apiKey,
         id: formData.get("_id") as any,
@@ -116,8 +139,8 @@ export const actions: Actions = {
     }
   },
 
-  deleteBulk: async ({ request }) => {
-    const formData = await request.formData();
+  deleteBulk: async (e) => {
+    const formData = await e.request.formData();
     const rawIdData = formData.get("_id");
 
     if (!rawIdData) {
@@ -130,6 +153,15 @@ export const actions: Actions = {
 
       if (!apiKey) {
         return { status: 500, body: "API_KEY not set" };
+      }
+
+      const session = await e.locals.auth();
+
+      if (!session?.user) {
+        return {
+          status: 500,
+          body: "Unauthorized: You must be logged in.",
+        };
       }
 
       const ids = JSON.parse(rawIdData as string);

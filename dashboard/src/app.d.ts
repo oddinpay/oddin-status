@@ -2,8 +2,11 @@
 // for information about these interfaces
 declare global {
   namespace App {
+    interface Locals {
+      auth(): Promise<Session | null>;
+    }
+
     // interface Error {}
-    // interface Locals {}
     // interface PageData {}
     // interface PageState {}
     // interface Platform {}

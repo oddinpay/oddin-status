@@ -5,14 +5,13 @@ export const get = query({
   handler: async (ctx) => {
     const userId = await getAuthUserId(ctx);
 
-    if (userId === null) {
-      throw new Error("Unauthorized");
+    if (!userId) {
+      return null;
     }
 
     const currentUser = await ctx.db.get(userId);
-
-    if (currentUser === null) {
-      throw new Error("User record not found");
+    if (!currentUser) {
+      return null;
     }
 
     return {
