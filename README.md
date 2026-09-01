@@ -137,7 +137,7 @@ X_API_KEY=add_generated_key_from_above_here
 
 ### Queues
 > [!NOTE]
-> Cloudflare does not support monorepos, so the direct deploy button will not work. You will need to fork this repository and set the `root directory` to the specific queue path, as shown in the screenshot below.
+> Cloudflare doesn't support monorepos, so the deploy button won't work directly. Please `fork` this repo, create the deployment manually in the Cloudflare dashboard, and configure the `root path` to the specific queue directory as shown below.
 
 <br>
 
