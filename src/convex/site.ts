@@ -20,6 +20,12 @@ export const post = mutation({
     slug: v.string(),
   },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new Error("Unauthorized: Invalid or missing auth token");
+    }
+
     if (args.apiKey !== process.env.API_KEY) {
       throw new Error("Unauthorized");
     }
@@ -55,6 +61,12 @@ export const patch = mutation({
     slug: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new Error("Unauthorized: Invalid or missing auth token");
+    }
+
     if (args.apiKey !== process.env.API_KEY) {
       throw new Error("Unauthorized");
     }
@@ -67,6 +79,12 @@ export const patch = mutation({
 export const deleteById = mutation({
   args: { id: v.id("site"), apiKey: v.string() },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new Error("Unauthorized: Invalid or missing auth token");
+    }
+
     if (args.apiKey !== process.env.API_KEY) {
       throw new Error("Unauthorized");
     }
