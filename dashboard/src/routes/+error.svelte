@@ -10,7 +10,7 @@
 
 <div id="main">
   <div class="prism-bg">
-    <PixelBlast variant="square" color="#cccfe8" pixelSize={3} />
+    <PixelBlast variant="square" color="#cfcfd1" pixelSize={3} />
   </div>
 
   <div class="fof">

@@ -31,24 +31,11 @@ const handleDevTools: Handle = async ({ event, resolve }) => {
   return resolve(event);
 };
 
-export const protectRoutes: Handle = async ({ event, resolve }) => {
+const protectRoutes: Handle = async ({ event, resolve }) => {
   const pathname = event.url.pathname;
 
   if (isProtectedRoute(pathname)) {
-    let isAuthed = false;
-
-    try {
-      const timeout = new Promise<never>((_, reject) => {
-        setTimeout(() => reject(new Error("TIMEOUT")), 5000);
-      });
-
-      isAuthed = await Promise.race([isAuthenticated(event), timeout]);
-    } catch (err) {
-      throw error(
-        503,
-        "Network connection too slow to verify session. Please refresh.",
-      );
-    }
+    const isAuthed = await isAuthenticated(event);
 
     if (!isAuthed) {
       throw redirect(303, `/`);
