@@ -94,6 +94,8 @@ X_API_KEY=
 This directory contains the backend API service. 
 
 ```bash
+git clone https://github.com/oddinpay/ohstatus
+cd ohstatus
 cd api
 ```
 
