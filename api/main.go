@@ -1498,7 +1498,7 @@ func main() {
 	startProbeManager(ctx, &wg)
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("GET /v1/sse", Sse)
+	mux.HandleFunc("/v1/sse", Sse)
 	mux.HandleFunc("/", RootHandler)
 
 	// mux.HandleFunc("GET /v1/status/history", HistoryHandler)
