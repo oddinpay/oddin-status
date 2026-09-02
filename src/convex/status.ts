@@ -29,12 +29,6 @@ export const post = mutation({
     protocol: v.string(),
   },
   handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity();
-
-    if (!identity) {
-      throw new Error("Unauthorized: Invalid or missing auth token");
-    }
-
     if (args.apiKey !== process.env.API_KEY) {
       throw new Error("Unauthorized");
     }
@@ -71,12 +65,6 @@ export const patch = mutation({
     protocol: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity();
-
-    if (!identity) {
-      throw new Error("Unauthorized: Invalid or missing auth token");
-    }
-
     if (args.apiKey !== process.env.API_KEY) {
       throw new Error("Unauthorized");
     }
@@ -88,12 +76,6 @@ export const patch = mutation({
 export const deleteById = mutation({
   args: { id: v.id("status"), apiKey: v.string() },
   handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity();
-
-    if (!identity) {
-      throw new Error("Unauthorized: Invalid or missing auth token");
-    }
-
     if (args.apiKey !== process.env.API_KEY) {
       throw new Error("Unauthorized");
     }
@@ -108,12 +90,6 @@ export const deleteById = mutation({
 export const deleteBulk = mutation({
   args: { id: v.array(v.id("status")), apiKey: v.string() },
   handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity();
-
-    if (!identity) {
-      throw new Error("Unauthorized: Invalid or missing auth token");
-    }
-
     if (args.apiKey !== process.env.API_KEY) {
       throw new Error("Unauthorized");
     }
