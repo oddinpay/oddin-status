@@ -65,26 +65,26 @@
     display: inline-block;
     position: relative;
     padding-right: 16px;
-    color: #222;
+    color: white;
     animation: type-blink 1.5s ease-in-out infinite;
   }
 
   @keyframes type-blink {
     0% {
-      box-shadow: inset -4px 0px 0px #222;
+      box-shadow: inset -4px 0px 0px white;
     }
     50% {
       box-shadow: inset -4px 0px 0px transparent;
     }
     100% {
-      box-shadow: inset -4px 0px 0px #222;
+      box-shadow: inset -4px 0px 0px white;
     }
   }
 
   .fof p {
     font-size: clamp(18px, 4vw, 24px);
     margin: 10px 0;
-    color: #222;
+    color: white;
   }
 
   .fof a {
@@ -94,8 +94,8 @@
     font-size: clamp(18px, 4vw, 20px);
     white-space: nowrap;
     text-decoration: none;
-    color: #fff;
-    background-color: #000;
+    color: black;
+    background-color: white;
     border-radius: 32px;
     transition:
       background-color 0.3s ease,
@@ -103,12 +103,12 @@
   }
 
   .fof a:active {
-    background-color: #282828;
+    background-color: #555;
     transform: scale(0.98);
   }
 
   .fof a:hover {
-    background-color: #333;
+    background-color: #eee;
   }
 
   @media (max-width: 600px) {
