@@ -2,7 +2,7 @@ import { zod4 } from "sveltekit-superforms/adapters";
 import { subscriberCreate } from "$lib/types/form";
 import { fail, type Actions } from "@sveltejs/kit";
 import { setError, superValidate } from "sveltekit-superforms";
-import type { PageServerLoad } from "./$types";
+import type { PageServerLoad } from "./[...catchall]/$types";
 import { subscribers } from "$lib/schema";
 import { drizzle } from "drizzle-orm/d1";
 import { eq } from "drizzle-orm";
