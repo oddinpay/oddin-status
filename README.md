@@ -51,6 +51,7 @@ The ohstatus dashboard runs locally, decoupled from the serverless environment. 
 
 [![DeploytoKoyeb](https://www.koyeb.com/static/images/deploy/button.svg)](https://app.koyeb.com/deploy?name=ohstatus&type=git&repository=oddinpay/ohstatus&branch=main&workdir=/api&privileged=true&instance_type=eco-nano&regions=fra&env[API_KEY]=&env[CONVEX_CLOUD_URL]=&env[NATS_JWT]=&env[NATS_SEED]&env[NATS_URL]=tls://connect.ngs.global&env[SECRET_KEY]=&env[SSE_API_HOST]=&env[WORKER_ENDPOINT_URL]=&env[X_API_KEY]=&ports=8976;http;/&hc_protocol[8976]=tcp&hc_grace_period[8976]=5&hc_interval[8976]=30&hc_restart_limit[8976]=3&hc_timeout[8976]=5&hc_path[8976]=/&hc_method[8976]=get)
 
+
 <br>
 
 > [!TIP]
@@ -83,6 +84,56 @@ SSE_API_HOST=
 WORKER_ENDPOINT_URL=
 X_API_KEY=
 ```
+
+<br>
+
+### Deploy Everywhere
+
+#### Go SSE API
+
+This directory contains the backend API service. 
+
+```bash
+cd api
+```
+
+### 1. Install Dependencies
+
+Download and clean up the required Go modules:
+
+```bash
+go mod tidy
+
+```
+
+### 2. Run Locally (Development)
+
+To spin up the API for local development without compiling a binary:
+
+```bash
+go run main.go
+
+```
+
+*(Note: If your application uses multiple files in the `main` package, use `go run .` instead).*
+
+### 3. Build for Production
+
+To compile the application into a standalone, executable binary:
+
+```bash
+go build -o bin/api-server main.go
+
+```
+
+Once built, you can run the compiled binary directly:
+
+```bash
+./bin/api-server
+
+```
+
+<br>
 
 ### Status Page Deployment
 
