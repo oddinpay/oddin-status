@@ -3,7 +3,6 @@ import { monitorCreate, monitorUpdate } from "$lib/types/form";
 import { fail, type Actions } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 import { setError, superValidate } from "sveltekit-superforms";
-import { ConvexHttpClient } from "convex/browser";
 import { api } from "../../convex/_generated/api";
 import { env } from "$env/dynamic/private";
 import { createConvexAuthHandlers } from "@mmailaender/convex-auth-svelte/sveltekit/server";
@@ -13,14 +12,6 @@ export const load: PageServerLoad = async (event) => {
   return {
     form,
   };
-};
-
-const getConvexClient = () => {
-  const url = env.CONVEX_CLOUD_URL;
-  if (!url) {
-    throw new Error("CONVEX_CLOUD_URL environment variable is not set");
-  }
-  return new ConvexHttpClient(url);
 };
 
 export const actions: Actions = {
