@@ -1,20 +1,13 @@
 import { type Actions } from "@sveltejs/kit";
 import { setError } from "sveltekit-superforms";
-import { ConvexHttpClient } from "convex/browser";
 import { api } from "../../convex/_generated/api";
 import { env } from "$env/dynamic/private";
 import { removeSubscriber, removeSubscribersBulk } from "$lib/server/schema";
-
-const getConvexClient = () => {
-  const url = env.CONVEX_CLOUD_URL;
-  if (!url) {
-    throw new Error("CONVEX_CLOUD_URL environment variable is not set");
-  }
-  return new ConvexHttpClient(url);
-};
+import { createConvexAuthHandlers } from "@mmailaender/convex-auth-svelte/sveltekit/server";
 
 export const actions: Actions = {
-  delete: async ({ request }) => {
+  delete: async (event) => {
+    const { request } = event;
     const formData = await request.formData();
     const email = formData.get("email") as string;
     const id = formData.get("_id");
@@ -30,7 +23,19 @@ export const actions: Actions = {
     try {
       await removeSubscriber(email);
 
-      const convex = getConvexClient();
+      const { createConvexHttpClient, isAuthenticated } =
+        createConvexAuthHandlers();
+
+      if (!(await isAuthenticated(event))) {
+        return setError(
+          formData as any,
+          "",
+          "Unauthorized: You must be logged in.",
+        );
+      }
+
+      const convex = await createConvexHttpClient(event);
+
       const apiKey = env.API_KEY;
 
       if (!apiKey) {
@@ -53,7 +58,8 @@ export const actions: Actions = {
     }
   },
 
-  deleteBulk: async ({ request }) => {
+  deleteBulk: async (event) => {
+    const { request } = event;
     const formData = await request.formData();
     const rawIdData = formData.get("_id");
     const rawEmailData = formData.get("email");
@@ -70,7 +76,18 @@ export const actions: Actions = {
       const emails = JSON.parse(rawEmailData as string);
       await removeSubscribersBulk(emails);
 
-      const convex = getConvexClient();
+      const { createConvexHttpClient, isAuthenticated } =
+        createConvexAuthHandlers();
+
+      if (!(await isAuthenticated(event))) {
+        return setError(
+          formData as any,
+          "",
+          "Unauthorized: You must be logged in.",
+        );
+      }
+
+      const convex = await createConvexHttpClient(event);
       const apiKey = env.API_KEY;
 
       if (!apiKey) {
