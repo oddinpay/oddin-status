@@ -153,7 +153,6 @@ export const actions: Actions = {
       }
 
       const convex = await createConvexHttpClient(event);
-
       const apiKey = env.API_KEY;
 
       if (!apiKey) {
