@@ -129,17 +129,17 @@ go build -o bin/api-server main.go
 
 Once built, you can run the compiled binary directly:
 
+```bash
+./bin/api-server
+
+```
+
 > [!TIP]
 > If you're on **Windows**, rename `api-server` to `api-server.exe`
 
 ```bash
 
 mv api-server api-server.exe
-
-```
-
-```bash
-./bin/api-server
 
 ```
 
