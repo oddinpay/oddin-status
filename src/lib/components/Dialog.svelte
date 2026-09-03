@@ -183,14 +183,6 @@
 
 <svelte:head>
   <style>
-    .m3-dialog {
-      transform: translateZ(0.01px);
-      backface-visibility: hidden;
-      will-change: transform, opacity;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
     .m3-dialog[data-state="open"],
     .m3-dialog[data-state="closed"] {
       position: fixed !important;
@@ -198,6 +190,8 @@
       left: 50% !important;
       margin: 0 !important;
       transform-origin: center !important;
+
+      transform: translate(-50%, -50%) translateZ(0.01px) !important;
 
       backface-visibility: hidden;
       transform-style: preserve-3d;
@@ -217,22 +211,22 @@
     @keyframes m3-enter {
       from {
         opacity: 0;
-        transform: scale(0.95) translateZ(0.01px);
+        transform: translate(-50%, -50%) scale(0.95) translateZ(0.01px);
       }
       to {
         opacity: 1;
-        transform: scale(1) translateZ(0.01px);
+        transform: translate(-50%, -50%) scale(1) translateZ(0.01px);
       }
     }
 
     @keyframes m3-exit {
       from {
         opacity: 1;
-        transform: scale(1) translateZ(0.01px);
+        transform: translate(-50%, -50%) scale(1) translateZ(0.01px);
       }
       to {
         opacity: 0;
-        transform: scale(0.95) translateZ(0.01px);
+        transform: translate(-50%, -50%) scale(0.95) translateZ(0.01px);
       }
     }
 
