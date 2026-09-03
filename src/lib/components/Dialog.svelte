@@ -188,18 +188,15 @@
     .m3-dialog[data-state="open"],
     .m3-dialog[data-state="closed"] {
       position: fixed !important;
-      top: 50% !important;
-      left: 50% !important;
-      margin: 0 !important;
+      inset: 0 !important;
+      margin: auto !important;
+      width: max-content;
+      height: max-content;
+
       transform-origin: center !important;
-
-      transform: translate(-50%, -50%);
-
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-
       backface-visibility: hidden;
-      transform-style: preserve-3d;
       will-change: transform, opacity;
     }
 
@@ -214,22 +211,22 @@
     @keyframes m3-enter {
       from {
         opacity: 0;
-        transform: translate(-50%, -50%) scale3d(0.98, 0.98, 1);
+        transform: scale3d(0.98, 0.98, 1);
       }
       to {
         opacity: 1;
-        transform: translate(-50%, -50%) scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1);
       }
     }
 
     @keyframes m3-exit {
       from {
         opacity: 1;
-        transform: translate(-50%, -50%) scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1);
       }
       to {
         opacity: 0;
-        transform: translate(-50%, -50%) scale3d(0.98, 0.98, 1);
+        transform: scale3d(0.98, 0.98, 1);
       }
     }
 
