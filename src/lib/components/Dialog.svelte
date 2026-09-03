@@ -109,6 +109,8 @@
           />
         </svg>
 
+        <!-- Filled cirucle with a checkmark inside. -->
+
         <!-- <svg
           class="w-20 h-20 mx-auto"
           xmlns="http://www.w3.org/2000/svg"
