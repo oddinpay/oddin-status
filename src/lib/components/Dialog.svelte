@@ -210,22 +210,22 @@
     @keyframes m3-enter {
       from {
         opacity: 0;
-        transform: scale3d(0.98, 0.98, 1) translateZ(0);
+        transform: scale(0.98) translateZ(0);
       }
       to {
         opacity: 1;
-        transform: scale3d(1, 1, 1) translateZ(0);
+        transform: scale(1) translateZ(0);
       }
     }
 
     @keyframes m3-exit {
       from {
         opacity: 1;
-        transform: scale3d(1, 1, 1) translateZ(0);
+        transform: scale(1) translateZ(0);
       }
       to {
         opacity: 0;
-        transform: scale3d(0.98, 0.98, 1) translateZ(0);
+        transform: scale(0.98) translateZ(0);
       }
     }
 
