@@ -183,6 +183,14 @@
 
 <svelte:head>
   <style>
+    .m3-dialog {
+      transform: translateZ(0.01px);
+      backface-visibility: hidden;
+      will-change: transform, opacity;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
     .m3-dialog[data-state="open"],
     .m3-dialog[data-state="closed"] {
       position: fixed !important;
@@ -209,22 +217,22 @@
     @keyframes m3-enter {
       from {
         opacity: 0;
-        transform: scale(0.95) translateZ(0);
+        transform: scale(0.95) translateZ(0.01px);
       }
       to {
         opacity: 1;
-        transform: scale(1) translateZ(0);
+        transform: scale(1) translateZ(0.01px);
       }
     }
 
     @keyframes m3-exit {
       from {
         opacity: 1;
-        transform: scale(1) translateZ(0);
+        transform: scale(1) translateZ(0.01px);
       }
       to {
         opacity: 0;
-        transform: scale(0.95) translateZ(0);
+        transform: scale(0.95) translateZ(0.01px);
       }
     }
 
