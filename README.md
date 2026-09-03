@@ -123,23 +123,23 @@ _(Note: If your application uses multiple files in the `main` package, use `go r
 To compile the application into a standalone, executable binary:
 
 ```bash
-go build -o bin/api-server main.go
+go build -o bin/ohstatus-server main.go
 
 ```
 
 Once built, you can run the compiled binary directly:
 
 ```bash
-./bin/api-server
+./bin/ohstatus-server
 
 ```
 
 > [!TIP]
-> If you're on **Windows**, rename `api-server` to `api-server.exe`
+> If you're on **Windows**, rename `ohstatus-server` to `ohstatus-server.exe`
 
 ```bash
 
-mv api-server api-server.exe
+mv ohstatus-server ohstatus-server.exe
 
 ```
 
