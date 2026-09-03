@@ -189,10 +189,10 @@
       top: 50% !important;
       left: 50% !important;
       margin: 0 !important;
+
+      transform: translate(-50%, -50%);
       transform-origin: center !important;
 
-      backface-visibility: hidden;
-      transform-style: preserve-3d;
       will-change: transform, opacity;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
@@ -209,22 +209,22 @@
     @keyframes m3-enter {
       from {
         opacity: 0;
-        transform: scale(0.98) translateZ(0);
+        transform: translate(-50%, -50%) scale(0.95);
       }
       to {
         opacity: 1;
-        transform: scale(1) translateZ(0);
+        transform: translate(-50%, -50%) scale(1);
       }
     }
 
     @keyframes m3-exit {
       from {
         opacity: 1;
-        transform: scale(1) translateZ(0);
+        transform: translate(-50%, -50%) scale(1);
       }
       to {
         opacity: 0;
-        transform: scale(0.98) translateZ(0);
+        transform: translate(-50%, -50%) scale(0.95);
       }
     }
 
