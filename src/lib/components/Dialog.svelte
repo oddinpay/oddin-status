@@ -193,10 +193,14 @@
       margin: 0 !important;
       transform-origin: center !important;
 
+      transform: translate(-50%, -50%);
+
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+
       backface-visibility: hidden;
       transform-style: preserve-3d;
       will-change: transform, opacity;
-      -webkit-transform: translate3d(0, 0, 0);
     }
 
     .m3-dialog[data-state="open"] {
@@ -210,22 +214,22 @@
     @keyframes m3-enter {
       from {
         opacity: 0;
-        transform: scale3d(0.98, 0.98, 1) translateZ(0);
+        transform: translate(-50%, -50%) scale3d(0.98, 0.98, 1);
       }
       to {
         opacity: 1;
-        transform: scale3d(1, 1, 1) translateZ(0);
+        transform: translate(-50%, -50%) scale3d(1, 1, 1);
       }
     }
 
     @keyframes m3-exit {
       from {
         opacity: 1;
-        transform: scale3d(1, 1, 1) translateZ(0);
+        transform: translate(-50%, -50%) scale3d(1, 1, 1);
       }
       to {
         opacity: 0;
-        transform: scale3d(0.98, 0.98, 1) translateZ(0);
+        transform: translate(-50%, -50%) scale3d(0.98, 0.98, 1);
       }
     }
 
