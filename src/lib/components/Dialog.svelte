@@ -194,6 +194,7 @@
       backface-visibility: hidden;
       transform-style: preserve-3d;
       will-change: transform, opacity;
+      -webkit-transform: translate3d(0, 0, 0);
     }
 
     .m3-dialog[data-state="open"] {
