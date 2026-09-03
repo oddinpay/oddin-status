@@ -22,11 +22,9 @@ head_sampling_rate = 1
 enabled = true
 head_sampling_rate = 1
 
-
 [[d1_databases]]
 binding = "ohstatus"
 database_name = "ohstatus"
-database_id = "f888f235-8e3f-458a-8ac1-9c5e5fae925d"
 migrations_dir = "drizzle"
 
 [[queues.producers]]
