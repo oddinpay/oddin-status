@@ -205,22 +205,22 @@
     @keyframes m3-enter {
       from {
         opacity: 0;
-        transform: translate(-50%, -50%) scale(0.95) translateZ(0);
+        transform: scale(0.95) translateZ(0);
       }
       to {
         opacity: 1;
-        transform: translate(-50%, -50%) scale(1) translateZ(0);
+        transform: scale(1) translateZ(0);
       }
     }
 
     @keyframes m3-exit {
       from {
         opacity: 1;
-        transform: translate(-50%, -50%) scale(1) translateZ(0);
+        transform: scale(1) translateZ(0);
       }
       to {
         opacity: 0;
-        transform: translate(-50%, -50%) scale(0.95) translateZ(0);
+        transform: scale(0.95) translateZ(0);
       }
     }
 
