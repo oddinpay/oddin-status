@@ -1,13 +1,13 @@
+// /src/routes/sitemap.xml/+server.ts
 import { env } from "$env/dynamic/private";
+import * as sitemap from "super-sitemap";
 import type { RequestHandler } from "@sveltejs/kit";
-import { response } from "super-sitemap/sveltekit";
 
 export const GET: RequestHandler = async () => {
   const domain = env.DOMAIN || "oddinpay.com";
 
-  const origin = `https://status.${domain}`;
-
-  return await response({
-    origin,
+  return await sitemap.response({
+    origin: "https://www." + domain,
+    excludeRoutePatterns: ["^/unsubscribe.*"],
   });
 };
