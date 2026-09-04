@@ -185,48 +185,39 @@
 
 <svelte:head>
   <style>
-    .m3-dialog[data-state="open"],
-    .m3-dialog[data-state="closed"] {
-      position: fixed !important;
-      inset: 0 !important;
-      margin: auto !important;
-      width: max-content;
-      height: max-content;
-
-      transform-origin: center !important;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      backface-visibility: hidden;
-      will-change: transform, opacity;
-    }
-
     .m3-dialog[data-state="open"] {
       animation: m3-enter 0.5s cubic-bezier(0.2, 0, 0, 1) forwards !important;
+      backface-visibility: hidden;
+      transform-style: preserve-3d;
+      will-change: transform, opacity;
     }
 
     .m3-dialog[data-state="closed"] {
       animation: m3-exit 0.15s cubic-bezier(0.3, 0, 1, 1) forwards !important;
+      backface-visibility: hidden;
+      transform-style: preserve-3d;
+      will-change: transform, opacity;
     }
 
     @keyframes m3-enter {
       from {
         opacity: 0;
-        transform: scale3d(0.98, 0.98, 1);
+        transform: scale(0.95) translateZ(0);
       }
       to {
         opacity: 1;
-        transform: scale3d(1, 1, 1);
+        transform: scale(1) translateZ(0);
       }
     }
 
     @keyframes m3-exit {
       from {
         opacity: 1;
-        transform: scale3d(1, 1, 1);
+        transform: scale(1) translateZ(0);
       }
       to {
         opacity: 0;
-        transform: scale3d(0.98, 0.98, 1);
+        transform: scale(0.95) translateZ(0);
       }
     }
 
