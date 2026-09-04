@@ -26,6 +26,9 @@ importers:
       resend:
         specifier: ^6.16.0
         version: 6.18.1
+      super-sitemap:
+        specifier: ^2.0.6
+        version: 2.0.6
       three:
         specifier: ^0.185.1
         version: 0.185.1
@@ -144,9 +147,6 @@ importers:
       publint:
         specifier: ^0.3.18
         version: 0.3.22
-      super-sitemap:
-        specifier: ^2.0.6
-        version: 2.0.6
       svelte:
         specifier: ^5.54.0
         version: 5.56.8(@typescript-eslint/types@8.65.0)

@@ -41,6 +41,7 @@
     "drizzle-orm": "^0.45.2",
     "postprocessing": "^6.39.4",
     "resend": "^6.16.0",
+    "super-sitemap": "^2.0.6",
     "three": "^0.185.1"
   },
   "devDependencies": {
@@ -82,7 +83,6 @@
     "prettier-plugin-svelte": "^3.5.1",
     "prettier-plugin-tailwindcss": "^0.6.14",
     "publint": "^0.3.18",
-    "super-sitemap": "^2.0.6",
     "svelte": "^5.54.0",
     "svelte-check": "^4.4.5",
     "svelte-infinite": "^0.5.2",
