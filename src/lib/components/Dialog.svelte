@@ -202,7 +202,7 @@
     @keyframes m3-enter {
       from {
         opacity: 0;
-        transform: scale(0.99) translateZ(0);
+        transform: scale(0.95) translateZ(0);
       }
       to {
         opacity: 1;
@@ -217,7 +217,7 @@
       }
       to {
         opacity: 0;
-        transform: scale(0.99) translateZ(0);
+        transform: scale(0.95) translateZ(0);
       }
     }
 
