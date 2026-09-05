@@ -161,14 +161,11 @@ mv ohstatus-server ohstatus-server.exe
 
 <br>
 
-
 > [!TIP]
 > Be sure to provide the value for `WORKER_ENDPOINT_URL` using your worker URL/Domain (for example: [https://my.domain/api/alerts](https://worker.hostname/api/alerts)). `/api/alerts` endpoint is required.
 
 <br>
 
-> [!TIP]
-> Generate a unique key for `UNSUBSCRIBE_SECRET` using the command below.
 
 ```sh
  node -e "console.log(require('crypto').randomBytes(32).toString('base64url'))"
@@ -183,6 +180,11 @@ During deployment on Cloudflare, only enter the values for the required `environ
 
 You may have to manually `bind` D1 and the Queue in the dashboard if they are not automatically applied during deployment.
 
+
+> [!TIP]
+> Generate a unique key for `UNSUBSCRIBE_SECRET` using the command below.
+
+<br>
 
 ```sh
 API_KEY=add_generated_key_from_above_here
