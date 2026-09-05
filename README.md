@@ -162,7 +162,7 @@ mv ohstatus-server ohstatus-server.exe
 <br>
 
 > [!TIP]
-> Be sure to provide the value for `WORKER_ENDPOINT_URL` using your worker URL/Domain (for example: [https://my.domain/api/alerts](https://worker.hostname/api/alerts)). `/api/alerts` endpoint is required.
+> Be sure to provide the value for `WORKER_ENDPOINT_URL` using your worker URL/Domain (for example: [https://status.example.com/api/alerts](https://worker.hostname/api/alerts)). `/api/alerts` endpoint is required.
 
 <br>
 
@@ -180,17 +180,17 @@ During deployment on Cloudflare, only enter the values for the required `environ
 
 You may have to manually `bind` D1 and the Queue in the dashboard if they are not automatically applied during deployment.
 
+<br>
 
 > [!TIP]
 > Generate a unique key for `UNSUBSCRIBE_SECRET` using the command below.
 
-<br>
 
 ```sh
 API_KEY=add_generated_key_from_above_here
 CONVEX_CLOUD_URL=add_backend_api_convex_cloud_url_here
 PUBLIC_CONVEX_URL=add_backend_api_convex_cloud_url_here
-PUBLIC_SSE_HOST=api_hostname_only_e.g._ohstatus.my.domain
+PUBLIC_SSE_HOST=api_hostname_only_e.g._ohstatus.example.com
 UNSUBSCRIBE_SECRET=
 X_API_KEY=add_generated_key_from_above_here
 ```
@@ -220,7 +220,6 @@ X_API_KEY=add_generated_key_from_above_here
 <img width="1078" height="457" alt="chrome_RldYy26tqR" src="https://github.com/user-attachments/assets/b435f603-d198-4a1c-a241-a104c62dd6fc" />
 <img width="1078" height="541" alt="chrome_GrmTr730Jo" src="https://github.com/user-attachments/assets/f05228b9-ece6-4840-b92f-12574b62eba8" />
 
-<br>
 <br>
 
 - [sync-subscribers](https://github.com/oddinpay/ohstatus/tree/main/sync-subscribers)
