@@ -14,7 +14,7 @@ Beautiful status page & uptime monitor. Ready for production out of the box. Eas
 
 - No configuration needed.
 - Clean and simple UI – easy to navigate and user-friendly.
-- Supports `HTTPS`, `HTTP`, `TCP`, and `DNS` checks.
+- Supports `HTTPS`, `HTTP`, `TCP`, `DNS` checks.
 - Incident management – from **detection to resolution**, all in one place.
 - Create **Schedules**
 - Alerts **Email**.
@@ -166,13 +166,6 @@ mv ohstatus-server ohstatus-server.exe
 
 <br>
 
-
-```sh
- node -e "console.log(require('crypto').randomBytes(32).toString('base64url'))"
-```
-
-<br>
-
 > [!NOTE]
 > Click the button below to deploy the status page. D1 databases and queues will be provisioned automatically.
 
@@ -185,6 +178,9 @@ You may have to manually `bind` D1 and the Queue in the dashboard if they are no
 > [!TIP]
 > Generate a unique key for `UNSUBSCRIBE_SECRET` using the command below.
 
+```sh
+ node -e "console.log(require('crypto').randomBytes(32).toString('base64url'))"
+```
 
 ```sh
 API_KEY=add_generated_key_from_above_here
