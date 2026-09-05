@@ -161,7 +161,7 @@ mv ohstatus-server ohstatus-server.exe
 <br>
 
 > [!TIP]
-> Generate a unique key for `UNSUBSCRIBE_SECRET` using the command below. Run it three separate times to ensure each key is distinct:
+> Generate a unique key for `UNSUBSCRIBE_SECRET` using the command below.
 
 ```sh
  node -e "console.log(require('crypto').randomBytes(32).toString('base64url'))"
