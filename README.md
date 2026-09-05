@@ -153,6 +153,7 @@ mv ohstatus-server ohstatus-server.exe
 - NATS (Synadia Cloud account)
 - Convex account
 - Cloudflare account (workers)
+- Node.js installed
 
 <br>
 
@@ -197,6 +198,7 @@ X_API_KEY=add_generated_key_from_above_here
 
 - Convex account
 - Cloudflare account (workers)
+- Node.js installed
 
 ### Queues
 
