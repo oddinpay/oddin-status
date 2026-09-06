@@ -140,6 +140,9 @@ Once built, you can run the compiled binary directly:
 mv ohstatus-server ohstatus-server.exe
 
 ```
+
+<br>
+
 ### Convex Setup
 
 #### Prerequisites
