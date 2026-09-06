@@ -142,6 +142,33 @@ Once built, you can run the compiled binary directly:
 mv ohstatus-server ohstatus-server.exe
 
 ```
+### Convex Setup
+
+#### Prerequisites
+
+- Convex account
+- PNPM
+
+Ohstatus uses [Convex](https://docs.convex.dev/) as its database.
+
+#### 1. Install
+
+```sh
+pnpm add -g convex
+
+```
+
+#### 2. Initialize Convex
+
+Run the Convex development server. If this is your first time, it will prompt you to log in, create a project, and automatically configure your environment variables.
+
+```sh
+git clone https://github.com/oddinpay/ohstatus
+cd ohstatus
+cd dashboard
+convex dev
+
+```
 
 <br>
 
