@@ -87,9 +87,9 @@ X_API_KEY=
 
 #### Prerequisites
 
+- Command terminal
 - Golang installed
 - Node.js installed
-- Command terminal
 - NATS (Synadia Cloud account)
 - Convex account
 - Cloudflare account
