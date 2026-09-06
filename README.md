@@ -1,5 +1,3 @@
-<div align="center">
-
 # ohstatus
 
 </div>
@@ -167,6 +165,12 @@ git clone https://github.com/oddinpay/ohstatus
 cd ohstatus
 cd dashboard
 convex dev
+
+```
+#### 3. Deploy
+
+```sh
+convex deploy
 
 ```
 
