@@ -279,6 +279,7 @@ wrangler d1 migrations apply <DATABASE_NAME> --remote
 - Convex account
 - Cloudflare account (workers)
 - Node.js installed
+- Resend API key (Email)
 
 > [!NOTE]
 > Cloudflare doesn't support monorepos, so the deploy button won't work directly. Please `fork` this repo, create the deployment manually in the Cloudflare dashboard, and configure the `root path` to the specific queue directory as shown below.
