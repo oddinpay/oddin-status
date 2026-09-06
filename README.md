@@ -277,7 +277,7 @@ wrangler d1 migrations apply <DATABASE_NAME> --remote
 #### Prerequisites
 
 - Convex account
-- Cloudflare account (workers)
+- Cloudflare account
 - Node.js installed
 - Resend API key (Email)
 
