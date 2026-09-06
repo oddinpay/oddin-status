@@ -86,7 +86,7 @@ X_API_KEY=
 
 ### Deploy Everywhere
 
-#### Go SSE API
+#### API
 
 This directory contains the backend API service.
 
@@ -143,7 +143,7 @@ mv ohstatus-server ohstatus-server.exe
 
 <br>
 
-### Convex Setup
+### Convex
 
 #### Prerequisites
 
@@ -179,7 +179,7 @@ convex deploy
 
 <br>
 
-### Status Page Deployment
+### Status Page
 
 #### Prerequisites
 
@@ -228,7 +228,46 @@ DOMAIN=worker_domain_e.g._example.com
 
 <br>
 
-### Set up queues
+### D1
+> [!NOTE]
+> You need to set up D1 database; it's the way to save subscribers to your list.
+
+#### Prerequisites
+
+- Cloudflare account
+- Wrangler
+- Git
+- PNPM
+
+#### 1. Initialize Convex
+
+```sh
+pnpm add -g wrangler@latest
+git clone https://github.com/oddinpay/ohstatus
+cd ohstatus
+```
+
+Next, open `wrangler.toml` and enter your database ID (found on the Cloudflare dashboard or `wrangler d1 list`). Make sure the database name is `ohstatus`.
+
+
+```toml
+
+[[d1_databases]]
+binding = "ohstatus"
+database_name = "ohstatus"
+database_id = "your-d1-database-id-here"
+migrations_dir = "drizzle"
+
+```
+
+#### 2. Deploy
+
+```sh
+wrangler d1 migrations apply <DATABASE_NAME> --remote
+
+```
+
+### Queues
 
 > [!NOTE]
 > To get the status page working properly, set up two queues: one for alert delivery (one-in, one-out), and another to sync subscribers with Convex so data appears on your dashboard.
