@@ -170,6 +170,7 @@ cd dashboard
 convex dev
 
 ```
+
 #### 3. Deploy
 
 ```sh
@@ -229,6 +230,7 @@ DOMAIN=worker_domain_e.g._example.com
 <br>
 
 ### D1
+
 > [!NOTE]
 > You need to set up D1 database; it's the way to save subscribers to your list.
 
@@ -249,7 +251,6 @@ cd ohstatus
 
 Next, open `wrangler.toml` and enter your database ID (found on the Cloudflare dashboard or `wrangler d1 list`). Make sure the database name is `ohstatus`.
 
-
 ```toml
 
 [[d1_databases]]
@@ -266,6 +267,8 @@ migrations_dir = "drizzle"
 wrangler d1 migrations apply <DATABASE_NAME> --remote
 
 ```
+
+<br>
 
 ### Queues
 
