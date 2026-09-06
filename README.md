@@ -11,7 +11,7 @@ Beautiful status page & uptime monitor. Ready for production out of the box. Eas
 ## ✨ Key Features
 
 - No configuration needed.
-- Clean and simple UI – easy to navigate and user-friendly.
+- Clean and simple UI.
 - Supports `HTTPS`, `HTTP`, `TCP`, `DNS` checks.
 - Incident management – from **detection to resolution**, all in one place.
 - Create **Schedules**
