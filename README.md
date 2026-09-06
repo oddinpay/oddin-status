@@ -85,6 +85,15 @@ X_API_KEY=
 
 ### Deploy Everywhere
 
+#### Prerequisites
+
+- Golang installed
+- Node.js installed
+- Command terminal
+- NATS (Synadia Cloud account)
+- Convex account
+- Cloudflare account
+
 #### API
 
 This directory contains the backend API service.
