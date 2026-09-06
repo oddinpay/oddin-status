@@ -42,7 +42,7 @@ The ohstatus dashboard runs locally, decoupled from the serverless environment. 
 - Node.js installed
 - NATS (Synadia Cloud account)
 - Convex account
-- Cloudflare account (workers)
+- Cloudflare account
 
 <br>
 
