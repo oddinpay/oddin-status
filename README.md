@@ -240,7 +240,7 @@ DOMAIN=worker_domain_e.g._example.com
 - Git
 - PNPM
 
-#### 1. Initialize Convex
+#### 1. Initialize D1
 
 ```sh
 pnpm add -g wrangler@latest
