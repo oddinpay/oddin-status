@@ -350,6 +350,9 @@ pnpm add @convex-dev/auth @auth/core @mmailaender/convex-auth-svelte
 
 #### 2. Run the initialization command
 
+> [!TIP]
+> Generate your Google OAuth credentials at https://console.cloud.google.com/auth/clients
+
 ```sh
 pnpm dlx @convex-dev/auth
 ```
