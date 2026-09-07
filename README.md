@@ -160,6 +160,8 @@ mv ohstatus-server ohstatus-server.exe
 
 Ohstatus uses [Convex](https://docs.convex.dev/) as its database.
 
+#### Envieremnt variable
+
 #### 1. Install
 
 ```sh
@@ -226,12 +228,12 @@ You may have to manually `bind` D1 and the Queue in the dashboard if they are no
 ```
 
 ```sh
-API_KEY=add_generated_key_from_above_here
+API_KEY=add_generated_API_KEY_from_above_here
 CONVEX_CLOUD_URL=add_backend_api_convex_cloud_url_here
 PUBLIC_CONVEX_URL=add_backend_api_convex_cloud_url_here
 PUBLIC_SSE_HOST=api_hostname_only_e.g._ohstatus.example.com
 UNSUBSCRIBE_SECRET=
-X_API_KEY=same_backend_x_api_key
+X_API_KEY=add_generated_X_API_KEY_from_above_here
 DOMAIN=worker_domain_e.g._example.com
 ```
 
