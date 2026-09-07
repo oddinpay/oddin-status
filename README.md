@@ -158,6 +158,14 @@ mv ohstatus-server ohstatus-server.exe
 - Convex account
 - PNPM
 
+#### Environment Variables
+
+Go to **Settings** > **Environment Variables** on the Convex dashboard and add the following values:
+
+* `API_KEY`: `add_generated_API_KEY_from_above_here`
+* `AUTH_GOOGLE_ID`: `generate_credential_here` (Generate your credentials at https://console.cloud.google.com/auth/clients)
+* `AUTH_GOOGLE_SECRET`: `generate_credential_here` (Generate your credentials at https://console.cloud.google.com/auth/clients)
+
 Ohstatus uses [Convex](https://docs.convex.dev/) as its database.
 
 #### Envieremnt variable
