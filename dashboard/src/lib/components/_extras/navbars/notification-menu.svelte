@@ -49,10 +49,10 @@
 
     // Weeks
     const weeks = Math.floor(days / 7);
-    if (weeks < 4) return `${weeks} ${weeks === 1 ? "week" : "weeks"} ago`;
+    if (days < 30) return `${weeks} ${weeks === 1 ? "week" : "weeks"} ago`;
 
     // Months
-    const months = Math.max(1, Math.floor(days / 30));
+    const months = Math.floor(days / 30);
     if (months < 12)
       return months === 1 ? "a month ago" : `${months} months ago`;
 
