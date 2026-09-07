@@ -161,10 +161,14 @@ mv ohstatus-server ohstatus-server.exe
 #### Environment Variables
 
 Go to **Settings** > **Environment Variables** on the Convex dashboard and add the following values:
+Generate your credentials at https://console.cloud.google.com/auth/clients
 
-* `API_KEY`: `add_generated_API_KEY_from_above_here`
-* `AUTH_GOOGLE_ID`: `generate_credential_here` (Generate your credentials at https://console.cloud.google.com/auth/clients)
-* `AUTH_GOOGLE_SECRET`: `generate_credential_here` (Generate your credentials at https://console.cloud.google.com/auth/clients)
+```sh
+API_KEY=add_generated_API_KEY_from_above_here
+AUTH_GOOGLE_ID=generate_credential_here 
+AUTH_GOOGLE_SECRET=generate_credential_here
+
+```
 
 Ohstatus uses [Convex](https://docs.convex.dev/) as its database.
 
