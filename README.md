@@ -334,9 +334,27 @@ API_KEY=add_generated_API_KEY_from_above_here
 
 - Node.js installed
 - Convex account
+- Cloudflare account
 - PNPM
 
 #### Setup convex auth
+
+#### Environment Variables
+
+You must add environment variables to the queues below via the Cloudflare dashboard.
+
+```sh
+PUBLIC_CONVEX_URL=add_backend_api_convex_cloud_url_here
+CONVEX_CLOUD_URL=add_backend_api_convex_cloud_url_here
+CONVEX_SITE_URL=add_backend_api_convex_site_url_here
+PUBLIC_API_KEY=
+DOMAIN=primary_domain_e.g._example.com
+API_KEY=add_generated_API_KEY_from_above_here
+CLOUDFLARE_ACCOUNT_ID=
+CLOUDFLARE_DATABASE_ID=
+CLOUDFLARE_D1_TOKEN=
+
+```
 
 #### 1. Install Dependencies
 
