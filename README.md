@@ -167,7 +167,6 @@ Go to **Settings** > **Environment Variables** on the Convex dashboard and add t
 ```sh
 API_KEY=add_generated_API_KEY_from_above_here
 
-
 ```
 
 #### 1. Install
