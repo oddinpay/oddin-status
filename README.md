@@ -160,6 +160,8 @@ Ohstatus uses [Convex](https://docs.convex.dev/) as its database.
 - Convex account
 - PNPM
 
+<br>
+
 #### Environment Variables
 
 Go to **Settings** > **Environment Variables** on the Convex dashboard and add the following values:
@@ -171,6 +173,8 @@ AUTH_GOOGLE_ID=generate_credential_here
 AUTH_GOOGLE_SECRET=generate_credential_here
 
 ```
+
+<br>
 
 #### 1. Install
 
