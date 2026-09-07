@@ -375,3 +375,20 @@ pnpm add @convex-dev/auth @auth/core @mmailaender/convex-auth-svelte
 ```sh
 pnpm dlx @convex-dev/auth
 ```
+
+#### 3. Install Dashboard
+
+> [!NOTE]
+> If you want to install without a startup service, you can just run `node ./run.js` in the `dashboard` directory.
+
+```sh
+node ./install.js
+
+```
+
+#### 4. Uninstall Dashboard
+
+```sh
+node ./uninstall.js
+
+```
