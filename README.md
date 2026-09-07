@@ -335,3 +335,21 @@ API_KEY=add_generated_API_KEY_from_above_here
 - Node.js installed
 - Convex account
 - PNPM
+
+#### Setup convex auth
+
+#### 1. Install Dependencies
+
+```sh
+git clone https://github.com/oddinpay/ohstatus
+cd ohstatus
+cd dashboard
+pnpm i
+pnpm add @convex-dev/auth @auth/core @mmailaender/convex-auth-svelte
+```
+
+#### 2. Run the initialization command
+
+```sh
+pnpm dlx @convex-dev/auth
+```
