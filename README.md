@@ -306,6 +306,16 @@ wrangler d1 migrations apply <DATABASE_NAME> --remote
 > [!NOTE]
 > Cloudflare doesn't support monorepos, so the deploy button won't work directly. Please `fork` this repo, create the deployment manually in the Cloudflare dashboard, and configure the `root path` to the specific queue directory as shown below.
 
+#### Environment Variables
+
+You have to add both environment variables to your queue on the Cloudflare dashboard.
+
+```sh
+PUBLIC_SYNC_CONVEX_URL=add_production_convex_site_url_here_e.g._https://example.convex.site
+RESEND_API_KEY=
+API_KEY=add_generated_API_KEY_from_above_here
+```
+
 <br>
 
 - [alert-subscribers](https://github.com/oddinpay/ohstatus/tree/main/alert-subscribers)
