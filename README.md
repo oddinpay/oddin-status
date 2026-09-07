@@ -173,8 +173,6 @@ AUTH_GOOGLE_SECRET=generate_credential_here
 
 ```
 
-<br>
-
 #### 1. Install
 
 ```sh
