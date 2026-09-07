@@ -164,12 +164,9 @@ Ohstatus uses [Convex](https://docs.convex.dev/) as its database.
 
 Go to **Settings** > **Environment Variables** on the Convex dashboard and add the following values:
 
-> Generate your google auth credentials at https://console.cloud.google.com/auth/clients
-
 ```sh
 API_KEY=add_generated_API_KEY_from_above_here
-AUTH_GOOGLE_ID=generate_credential_here
-AUTH_GOOGLE_SECRET=generate_credential_here
+
 
 ```
 
@@ -329,7 +326,6 @@ API_KEY=add_generated_API_KEY_from_above_here
 
 <img width="1078" height="475" alt="chrome_Au2uvu9gpu" src="https://github.com/user-attachments/assets/b61e11f4-2ce5-40e2-a830-595d00b6bf28" />
 <img width="1078" height="570" alt="chrome_hYCcw03xiX" src="https://github.com/user-attachments/assets/c440d608-3c95-4b1c-ad65-275612e6e3ac" />
-
 
 <br>
 
