@@ -347,7 +347,7 @@ You must add environment variables to the queues below via the Cloudflare dashbo
 PUBLIC_CONVEX_URL=add_backend_api_convex_cloud_url_here
 CONVEX_CLOUD_URL=add_backend_api_convex_cloud_url_here
 CONVEX_SITE_URL=add_backend_api_convex_site_url_here
-PUBLIC_API_KEY=
+PUBLIC_API_KEY=add_generated_API_KEY_from_above_here
 DOMAIN=primary_domain_e.g._example.com
 API_KEY=add_generated_API_KEY_from_above_here
 CLOUDFLARE_ACCOUNT_ID=
