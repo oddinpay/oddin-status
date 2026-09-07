@@ -329,3 +329,9 @@ API_KEY=add_generated_API_KEY_from_above_here
 <br>
 
 ### Dashboard
+
+#### Prerequisites
+
+- Node.js installed
+- Convex account
+- PNPM
