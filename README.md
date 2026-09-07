@@ -153,6 +153,8 @@ mv ohstatus-server ohstatus-server.exe
 
 ### Convex
 
+Ohstatus uses [Convex](https://docs.convex.dev/) as its database.
+
 #### Prerequisites
 
 - Convex account
@@ -165,14 +167,10 @@ Generate your credentials at https://console.cloud.google.com/auth/clients
 
 ```sh
 API_KEY=add_generated_API_KEY_from_above_here
-AUTH_GOOGLE_ID=generate_credential_here 
+AUTH_GOOGLE_ID=generate_credential_here
 AUTH_GOOGLE_SECRET=generate_credential_here
 
 ```
-
-Ohstatus uses [Convex](https://docs.convex.dev/) as its database.
-
-#### Envieremnt variable
 
 #### 1. Install
 
