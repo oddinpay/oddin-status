@@ -234,7 +234,7 @@ PUBLIC_CONVEX_URL=add_backend_api_convex_cloud_url_here
 PUBLIC_SSE_HOST=api_hostname_only_e.g._ohstatus.example.com
 UNSUBSCRIBE_SECRET=
 X_API_KEY=add_generated_X_API_KEY_from_above_here
-DOMAIN=worker_domain_e.g._example.com
+DOMAIN=primary_domain_e.g._example.com
 ```
 
 <br>
