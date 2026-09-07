@@ -370,6 +370,7 @@ pnpm add @convex-dev/auth @auth/core @mmailaender/convex-auth-svelte
 
 > [!TIP]
 > Generate your Google OAuth credentials at https://console.cloud.google.com/auth/clients
+> Example: Authorized redirect URIs For use with requests from a web server `https://example.convex.site/api/auth/callback/google` and Authorized JavaScript origins `http://localhost:5174`
 
 ```sh
 pnpm dlx @convex-dev/auth
