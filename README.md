@@ -308,7 +308,7 @@ wrangler d1 migrations apply <DATABASE_NAME> --remote
 
 #### Environment Variables
 
-You have to add both environment variables to your queue on the Cloudflare dashboard.
+You must add environment variables to the queues below via the Cloudflare dashboard.
 
 ```sh
 PUBLIC_SYNC_CONVEX_URL=add_production_convex_site_url_here_e.g._https://example.convex.site
