@@ -396,3 +396,8 @@ node ./uninstall.js
 ## Support
 
 If you have any questions, encounter a bug, or have a feature request, please [open an issue](https://github.com/oddinpay/ohstatus/issues).
+
+
+## Roadmap: 
+
+- [ ] AWS SES Integration for Smart Email Routing
