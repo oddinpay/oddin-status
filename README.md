@@ -26,11 +26,8 @@ The ohstatus dashboard runs locally, decoupled from the serverless environment. 
 
 ## Installation
 
-> [!WARNING]
->
-> ## 🚧 Work in Progress
->
-> This project is currently under active development.
+> [!NOTE]
+> Use [Infisical](https://infisical.com), an open-source tool, to manage environment variables instead of .env files.
 
 > [!NOTE]
 > We have three components: `API`, `status page`, and the `dashboard`. The status page must run on Cloudflare (it doesn't work anywhere else), but the API and dashboard can run anywhere.
@@ -396,7 +393,6 @@ node ./uninstall.js
 ## Support
 
 If you have any questions, encounter a bug, or have a feature request, please [open an issue](https://github.com/oddinpay/ohstatus/issues).
-
 
 ### Roadmap
 
