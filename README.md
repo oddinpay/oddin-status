@@ -6,7 +6,7 @@
 
 <a href="https://oddinpay.com">![](https://cdn.oddinpay.com/ohstatus-cover.png)</a>
 
-Beautiful status page & uptime monitor. Easily deploy to Cloudflare in just one click.
+Ohstatus is an easy-to-use, production-ready monitoring tool.   
 
 ## ✨ Key Features
 
